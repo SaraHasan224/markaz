@@ -1,0 +1,223 @@
+@extends('layouts.header')
+
+@section('content')
+<!-- END: Left Aside -->
+<div class="m-grid__item m-grid__item--fluid m-wrapper">
+
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">-</li>
+                    <li class="m-nav__item">
+                        <a href="{{url('/')}}" class="m-nav__link">
+                            <span class="m-nav__link-text">Home</span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">-</li>
+                    <li class="m-nav__item">
+                        <a href="{{url('users')}}" class="m-nav__link">
+                            <span class="m-nav__link-text">{{$title}}</span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">-</li>
+                    <li class="m-nav__item">
+                        <a href="JavaScript:void(0);" class="m-nav__link">
+                            <span class="m-nav__link-text">{{$sub_title}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- END: Subheader -->
+    <div class="m-content">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <!--begin::Portlet-->
+                <div class="m-portlet">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <span class="m-portlet__head-icon m--hide">
+                                    <i class="la la-gear"></i>
+                                </span>
+                                <h3 class="m-portlet__head-text">
+                                    {{$sub_title}}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--begin::Form-->
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="{{$table_id}}" method="POST">
+                        <div class="m-portlet__body">
+                        <div id="result" style="padding: 10px;"></div>
+                            <div class="form-group m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Username:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" name="name" class="form-control m-input" placeholder="Enter username" value="{{ ($user) ? $user->name : '' }}">
+                                    </div>
+                                    <span class="m-form__help">Enter user name</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Email Address:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="email" name="email" class="form-control m-input" value="{{ ($user) ? $user->email : '' }}"
+                                            placeholder="Enter email-address">
+                                    </div>
+                                        <span class="m-form__help">Enter email-address</span>
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Password:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="password" name="password" class="form-control m-input"
+                                            placeholder="Enter password">
+                                    </div>
+                                    <span class="m-form__help">Enter password</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Contact Number:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" name="phone_number" class="form-control m-input" value="{{ ($user) ? $user->phone_number : '' }}"
+                                            placeholder="Enter contact number">
+                                    </div>
+                                    <span class="m-form__help">Enter contact number</span>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                            <div class="m-form__actions m-form__actions--solid">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <a href="{{ url('users') }}" class="btn btn-secondary">Cancel</a>
+                                    </div>
+                                    <div class="col-lg-6 m--align-right">
+                                        <button type="submit" class="btn btn-primary {{$table_id}}">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!--end::Form-->
+                </div>
+
+                <!--end::Portlet-->
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+@section('scripts') 
+<script>
+    var base_url = "<?php url() ?>";
+    console.log(base_url+'/user/signinweb');
+    $('.create_user').click(function(event){	
+        event.preventDefault();
+    	console.log(JSON.stringify($("#create_user").serialize()));	
+
+				var a = $(this),
+                    l = $(this).closest("form");
+                l.validate({
+                    rules: {
+                        email: {
+                            required: !0,
+                            email: !0
+                        },
+                        password: {
+                            required: !0,
+                        },
+                        name: {
+                            required: !0,
+                        },
+                        phone_number: {
+                            required: !0,
+                        }
+                    }
+                }), l.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0),
+                $.ajax({
+					type: "POST",
+					headers: 
+					{
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+					},
+                    url: base_url+'/user/signupweb',
+    		        data: $("#create_user").serialize(),
+					success: function (response) {
+                        console.log(response);
+						if(response.code == 200)
+						{
+							$('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>User Created Successfully.</div>')
+						}
+					},
+					error: function (response) {
+                        console.log(response.responseJSON.messages);
+                        response.responseJSON.messages.forEach(function (msg) {
+                            $('#result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
+							});
+					}
+				}));
+   	});
+
+    $('.edit_user').click(function(event){	
+        event.preventDefault();
+    	console.log(JSON.stringify($("#edit_user").serialize()));	
+
+				var a = $(this),
+                    l = $(this).closest("form");
+                l.validate({
+                    rules: {
+                        email: {
+                            required: !0,
+                            email: !0
+                        },
+                        password: {
+                            required: !0,
+                        },
+                        name: {
+                            required: !0,
+                        },
+                        phone_number: {
+                            required: !0,
+                        }
+                    }
+                }), l.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0),
+                $.ajax({
+					type: "POST",
+					headers: 
+					{
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+					},
+                    url: base_url+'/user/signupweb',
+    		        data: $("#edit_user").serialize(),
+					success: function (response) {
+                        console.log(response);
+						if(response.code == 200)
+						{
+							$('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>User Created Successfully.</div>')
+						}
+					},
+					error: function (response) {
+                        console.log(response.responseJSON.messages);
+                        response.responseJSON.messages.forEach(function (msg) {
+                            $('#result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
+							});
+					}
+				}));
+   	});
+
+</script>
+@endsection
