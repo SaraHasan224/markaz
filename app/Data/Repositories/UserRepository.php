@@ -64,6 +64,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         $input['email']         = $data['email'];
         $input['phone_number']  = $data['phone_number'];
         $input['name']        = $data['name'];
+        $input['position']        = $data['position'] != '' ? $data['position'] : '';
         $input['password']      = bcrypt($data['password']);
         $input['access_token']  = $data['access_token'];
        

@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    /* Created by Sara to use this relation inorder to print data into datatable*/
+    public function hasstore()
+    {
+        return $this->hasOne(Store::class, 'user_id');
+    }
 }

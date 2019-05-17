@@ -107,7 +107,7 @@ class DatatablesController extends Controller
     }
     public function getusers()
     {
-        $getusers = User::select('id','email','name','phone_number','profile_pic','created_at');
+        $getusers = User::select('id','email','name','phone_number','profile_pic','position','created_at');
         return Datatables::of($getusers)
         ->editColumn('actions', function ($users) {
             $actions = ' 

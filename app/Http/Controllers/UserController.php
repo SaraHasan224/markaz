@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use App\User;
+use App\User,
+    App\Store,
+    App\StoreSocialMedia;
 use App\TraitsFolder\CommonTrait;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -129,7 +131,7 @@ class UserController extends Controller
         return response()->json($output, $code);
     }
     public function signUpWeb(Request $request){
-        $input = $request->only('email', 'password','name', 'phone_number');
+        $input = $request->only('email', 'password','name', 'phone_number','position');
         $rules = [
             'email' => 'required|unique:users,email',
             'password' => 'required',
@@ -197,6 +199,12 @@ class UserController extends Controller
     /* SignIn, SignUp and logout for web panel ends here  */
 
     /* Web Panel User CRUD */
+
+    //      Manage User CRUD Starts Here    //
+    public function getusers(){
+        $data['title'] = "Manage Users";
+        return view('users.view-all',$data);
+    }
     public function createUsers(Request $request)
     {
         $data['title'] = "User";
@@ -222,6 +230,7 @@ class UserController extends Controller
             $user['email'] = $findUser->email;
             $user['name'] = $findUser->name;
             $user['phone_number'] = $findUser->phone_number;
+            $user['position'] = $findUser->position;
             $user['profile_pic'] = $findUser->profile_pic;
             $output = ['success'=>['code' => $code,'message' => $user]];
             return response()->json($output, $code);
@@ -231,18 +240,19 @@ class UserController extends Controller
     {
         if($request->isMethod('post'))
         {
-            $input = $request->only('email','name','phone_number','id');
+            $input = $request->only('email','name','phone_number','id','position');
             $rules = [
                 'id' => 'required',
                 'email' => 'required',
                 'name' => 'required',
+                'position' => 'required',
                 'phone_number' => 'required|number',
                ];
             $validator = Validator::make($input, $rules);
-
             User::where('id',$request->id)->update([
                 "name" => $request->name,
                 "email" => $request->email,
+                "position" => $request->position,
                 "phone_number" => $request->phone_number,
             ]);
             $code = 200;
@@ -267,16 +277,56 @@ class UserController extends Controller
         } 
     }
 
+    //      Manage User CRUD Ends Here      //
 
 
+    //      Manage User Profile Starts Here    //
+    public function getUserProfile(Request $request)
+    {
+        $user_id = $request->session()->get('user_id');
+        $user = User::where('id',$user_id)->first();
+        $store = Store::where('user_id',$user_id)->first();
+        if($store != '')
+        {
+            $data['social'] = StoreSocialMedia::where('store_id',$store->id)->get();
+        }else{
+            $data['social'] = '';
+        }
+        $data['user'] = $user;
+        $data['store'] = $store;
+        if($request->isMethod('post'))
+        {
+            $input = $request->all();
+            User::where('id',$user_id)->update([
+                'name' => $request->name,
+                'position' => $request->position
+            ]);
+            $store = Store::updateOrCreate([
+                'name' => $request->company,
+                'address' => $request->company_address,
+                'telephone' => $request->company_telephone,
+                'websitelink' => $request->company_website, 
+                'emailaddress' => $request->company_email,
+                'desciption' => $request->company_info, 
+                'user_id' => $user_id
+            ]); 
 
-    /* Users funtion starts here  */ 
-    public function getusers(){
-        $data['title'] = "View All Users";
-        return view('users.view-all',$data);
+            StoreSocialMedia::updateOrCreate([
+                'store_id' => $store->id,
+                'facebook_link' => $request->fb_link,
+                'twitter_link' => $request->tw_link,
+                'insta_link' => $request->insta_link
+            ]);
+            
+        }
+        return view('user.client_profile',$data);
     }
+   
+    //      Manage User Profile Ends Here    //
 
-    /* Support funtion starts here  */  
+
+
+    //      Manage Support Starts Here    //
     public function support(Request $request){
         if($request->isMethod("post"))
         {
@@ -301,9 +351,11 @@ class UserController extends Controller
         $data['title'] = "Customer Support";
         return view('home.support',$data); 
     }
-    /* Support funtion ends here  */ 
+    //      Manage Support Ends Here    //
 
-    /* Follower funtion starts here  */  
+    
+    //      Manage Follower Starts Here    //
+
     public function getfollowers($id = null){
         $data['title'] = "Followers";
         $data['id'] = $id;
@@ -316,6 +368,7 @@ class UserController extends Controller
         $data['table_id'] = 'blocked_stores';
         return view('home.followers',$data);
     }
-    /* Follower funtion ends here  */ 
+    //      Manage Follower Ends Here    //
+    
     /* Sara's work ends here */
 }

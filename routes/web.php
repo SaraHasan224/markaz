@@ -73,18 +73,25 @@ Route::group(['middleware' => ['web']], function () {
         /* User routes ends here*/
 
         /* Follower routes starts here*/
+        
         Route::get('get-followers', 'DatatablesController@getfollowers');
         Route::get('followers/{user_id}', 'UserController@getfollowers');
         Route::get('get-unfollowers', 'DatatablesController@getunfollowers');
         Route::get('unfollowers/{user_id}', 'UserController@getunfollowers');
+        
         /* Follower routes ends here*/
 
         /* Support routes starts here*/    
+        
         Route::match(['get','post'],'support', 'UserController@support');
         Route::get('get-support', 'DatatablesController@getsupport');
+        
         /* Support routes ends here*/
 
+        /*  Profile routes starts here  */
 
+        Route::match(['get','post'],'profile','UserController@getUserProfile');
+        /*  Profile routes ends here  */
         Route::get('create-faq', function () {
             return view('faq.faq');
         });
@@ -100,12 +107,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('events', function () {
             return view('home.events');
         });
-        Route::get('profile', function () {
-            return view('user.client_profile');
-        });
-        Route::get('edit-user-info', function () {
-            return view('user.edit_userinfo');
-        });
+        
+        
         Route::get('activity', function () {
             return view('user.activity');
         });

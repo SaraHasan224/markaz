@@ -17,6 +17,10 @@ class CreateStoresTable extends Migration
             $table->increments('id');
 			$table->string('name');
 			$table->string('address');
+			$table->string('telephone');
+			$table->string('websitelink');
+			$table->string('emailaddress');
+			$table->string('desciption');
 			$table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 10, 8)->nullable();
             $table->bigInteger('user_id')->unsigned()->index('stores_user_id_foreign');

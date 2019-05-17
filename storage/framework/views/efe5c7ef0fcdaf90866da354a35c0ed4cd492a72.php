@@ -68,6 +68,7 @@
                     <!--begin::Form-->
                     <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="stores" method="POST">
                         <div class="m-portlet__body">
+                            <div id="delete_result" style="padding: 10px;"></div>
                             <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
@@ -144,8 +145,11 @@
     		url: base_url+'/poststore',
     		data: $("#stores").serialize(),
     		success: function (response) {
-    			console.log(response);
-
+                $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
+                setTimeout(function() {
+                    window.location.reload();
+				}, 2e3);
     		}
     	});
     })

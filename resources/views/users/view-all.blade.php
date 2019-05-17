@@ -116,6 +116,7 @@
                                         <th>UserID</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Position</th>
                                         <th>Phone Number</th>
                                         <th>Profile Picture</th>
                                         <th>Created At</th>
@@ -171,6 +172,12 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
+                            <label>Phone Number:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="text" name="position" id="edit_position" class="form-control m-input" placeholder="Enter position" >
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
                             <label>Profile Picture:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="file" name="profile_picture" class="form-control m-input" >
@@ -202,6 +209,7 @@
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
                     { data: 'email' },
+                    { data: 'position' },
                     { data: 'phone_number' },
                     { data: 'profile_pic' },
                     { data: 'created_at' },
@@ -232,6 +240,7 @@
                             $('#edit_name').val(response.success.message.name);
                             $('#edit_email').val(response.success.message.email);
                             $('#edit_phonenumber').val(response.success.message.phone_number);
+                            $('#edit_position').val(response.success.message.position);
                             $('#edit_image').attr('src',response.success.message.profile_pic);
                             // console.log(response.success.message);
                             $('#view_user').modal('show'); 

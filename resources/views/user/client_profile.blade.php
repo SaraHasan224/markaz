@@ -1,7 +1,7 @@
 @extends('user.profile')
 
 @section('profile')
-<div class="col-xl-9 col-lg-8">
+            <div class="col-xl-9 col-lg-8">
                 <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-tools">
@@ -24,11 +24,10 @@
                                 </li>
                             </ul>
                         </div>
-                   
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane active" id="m_user_profile_tab_1">
-                            <form class="m-form m-form--fit m-form--label-align-right">
+                            <form class="m-form m-form--fit m-form--label-align-right" id="profile" method="POST">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group m--margin-top-10 m--hide">
                                         <div class="alert m-alert m-alert--default" role="alert">
@@ -37,26 +36,57 @@
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-10 ml-auto">
-                                            <h3 class="m-form__section">1. Personal Details</h3>
+                                            <h3 class="m-form__section">1. Company Information</h3>
                                         </div>
+                                        <div id="result"></div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="Mark Andre">
+                                            <input class="form-control m-input" type="text" name="name" value="{{$user->name}}">
+                                            <input class="form-control m-input" type="hidden" name="user_id" value="{{$user->id}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">Occupation</label>
+                                        <label for="example-text-input" class="col-2 col-form-label">Position</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="CTO">
+                                            <input class="form-control m-input" type="text" name="position" value="{{$user->position}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="Keenthemes">
-                                            <span class="m-form__help">If you want your invoices addressed to a company. Leave blank to use your full name.</span>
+                                            <input class="form-control m-input" type="text" name="company" value="<?php $store != '' ? $store->name : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Company Address</label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" type="text" name="company_address" value="<?php $store != '' ? $store->address : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Company Telephone</label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" type="text" name="company_telephone" value="<?php $store != '' ? $store->telephone : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Company Website</label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" type="text" name="company_website" value="<?php $store != '' ? $store->websitelink     : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Company Contact Email Address</label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input" type="text" name="company_email" value="<?php $store != '' ? $store->emailaddress : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Company Information</label>
+                                        <div class="col-7">
+                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6"><?php $store != '' ? $store->desciption : '' ?></textarea>
                                         </div>
                                     </div>
                                     
@@ -67,27 +97,21 @@
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">Linkedin</label>
-                                        <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="www.linkedin.com/Mark.Andre">
-                                        </div>
-                                    </div>
-                                    <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Facebook</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="www.facebook.com/Mark.Andre">
+                                            <input class="form-control m-input" type="text" name="fb_link" value="<?php $social != '' ? $social->facebook_link : '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Twitter</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="www.twitter.com/Mark.Andre">
+                                            <input class="form-control m-input" type="text" name="tw_link" value="<?php $social != '' ? $social->twitter_link : '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Instagram</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" value="www.instagram.com/Mark.Andre">
+                                            <input class="form-control m-input" type="text"  name="insta_link" value="<?php $social != '' ? $social->insta_link : '' ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +121,7 @@
                                             <div class="col-2">
                                             </div>
                                             <div class="col-7">
-                                                <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">Save changes</button>&nbsp;&nbsp;
+                                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Save changes</button>&nbsp;&nbsp;
                                                 <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
                                             </div>
                                         </div>
@@ -106,9 +130,7 @@
                             </form>
                         </div>
                         <div class="tab-pane " id="m_user_profile_tab_2">
-                            <div class="col-lg-12">
-                                <button type="button" class="btn btn-outline-info btn-sm m-btn m-btn--custom" style="float:right; margin:0 20px" onclick="window.location='{{url('/edit-user-info')}}';">Edit Profile</button>
-							</div>
+                          
                             <div style="margin-top:100px;">
                             </div>
                                             
@@ -132,14 +154,11 @@
 										</div>
 									</div>
 									<div class="m-portlet__body">
-										Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled. Lorem Ipsum is simply dummy text of the
-										printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.
+										<?php $store != '' ? $store->desciption : ''?>
                                         <br/>
                                         <br/>
-                                        <b><h5>Location: </h5></b>LAHORE:SAPPHIRE GULBERG:9-C/K College Rd, Gulberg 2, Lahore.PH # 042-35754306-8,Timings: Mon - Sat 11 am - 11 pm,Sun 2 pm - 11 pm
-                                            location_on
-                                            KARACHI:SAPPHIRE LUCKY ONE:Shop No. G33/F22-23, LuckyOne Mall, LA-2/B, Block 21, Opp. UBL Sports Complex, Rashid Minhas Rd.PH # 021-37181029-30
-                                        
+                                        <b><h5>Location: </h5></b>
+										    <?php $store != '' ? $store->address : ''?>
                                        
 									</div>
 								</div>
@@ -160,26 +179,18 @@
 									</div>
 									<div class="m-portlet__body">
 										 <!--end::Portlet-->
-                                         <br/>
-                                        <br/>
-                                        <b><h5>Address: </h5></b>Plot#501، National Highway, Karachi, Sindh.
-                                        <!--end::Portlet-->
-                                        <br/>
-                                        <br/>
                                         <b><h5>Tel: </h5></b>
-                                        +92 311 1163163
-                                        +9 555 5255
+                                        <?php $store != '' ? $store->telephone : ''?>
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Website: </h5></b>
-                                        orient-textile.com/
+                                        <?php $store != '' ? $store->websitelink : ''?>
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Email Address: </h5></b>
-                                        mail@withinpixels.com
-                                        mail@creapond.com
+                                        <?php $store != '' ? $store->emailaddress : ''?>
                                         <!--end::Portlet-->
 									</div>
 								</div>
@@ -316,4 +327,28 @@
                     </div>
                 </div>
             </div>
+@endsection 
+@section('scripts') 
+<script>
+    var base_url = "<?php url() ?>";
+    $('#profile').submit(function(event){	
+        event.preventDefault();
+    	$.ajax({
+    		type: "POST",
+    		headers: 
+    		{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    		},
+    		url: base_url+'/profile',
+    		data: $("#profile").serialize(),
+    		success: function (response) {
+                $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
+                // setTimeout(function() {
+                //     window.location.reload();
+				// }, 2e3);
+    		}
+    	});
+    })
+</script>
 @endsection

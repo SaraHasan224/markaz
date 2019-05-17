@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Store;
+use App\Store,
+    App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
@@ -75,7 +76,7 @@ class StoreController extends Controller
     }
     public function poststore(Request $request){
         $input = $request->only('name', 'address','user_id','latitude', 'longitude','contact_number');
-        $rules = [ 
+        $rules = [  
             'name' => 'required|unique:stores,name',
             'address' => 'required',
             'user_id' => 'required',
@@ -86,11 +87,12 @@ class StoreController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-            Store::create([
-                'name' => $request->name,
-                'address' => $request->address,
-                'user_id' => $request->user_id,
-            ]);
+            // dd($request->all());
+            $store = new Store;
+            $store->name = $request->name;
+            $store->address = $request->address;
+            $store->user_id = $request->user_id;
+            $store->save();
             User::whereId($request->user_id)->update([
                 'phone_number' => $request->contact_number,
             ]);
@@ -99,12 +101,6 @@ class StoreController extends Controller
          }
          return response()->json($output, $code);
     }
-    public function getspecificstore(){
-        $data['title'] = "Stores";
-        return view('store.view-all',$data);
-    }
-
-   // Store CRUD funtion starts here   
     public function editstore(Request $request,$id){
         $data['store'] = Store::where('id',$id)->first();
         $data['title'] = "Edit Store - ".$data['store']->name;
@@ -138,7 +134,12 @@ class StoreController extends Controller
         }
         return view('store.edit-store',$data);
     }
-    /* Create Store funtion ends here  */    
+    public function getspecificstore(){
+        $data['title'] = "Stores";
+        return view('store.view-all',$data);
+    }
+
+    // Manage stores ends here 
 
     /* Sara's work ends here */
 }

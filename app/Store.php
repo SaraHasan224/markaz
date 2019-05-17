@@ -13,4 +13,8 @@ class Store extends Model
     {
         return $this->hasMany(Support::class, 'id');
     }
+    public function hasuser()
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
 }

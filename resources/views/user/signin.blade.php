@@ -130,7 +130,7 @@
 								</div>
 								
 								<div class="m-login__form-action">
-									<button id="m_login__signup_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn">Sign s Up</button>&nbsp;&nbsp;
+									<button id="m_login__signup_submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn">Sign Up</button>&nbsp;&nbsp;
 									<button id="m_login__signup_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom m-login__btn">Cancel</button>
 								</div>
 							</form>
@@ -219,8 +219,6 @@
 					headers: 
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-						// "Content-Type": "application/json",
-						// "X-Requested-With": "XMLHttpRequest"
 					},
 					url: base_url+'/user/signinweb',
 					data: $("#signin_form").serialize(),
@@ -238,7 +236,7 @@
 						}
 					},
 					error: function (response) {
-						// console.log(response.responseJSON);
+						console.log(response);
 						if(response.responseJSON.error != '')
 						{
 							setTimeout(function() {

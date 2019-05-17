@@ -97,6 +97,16 @@
                                     <span class="m-form__help">Enter contact number</span>
                                 </div>
                             </div> 
+                            <div class="form-group{{ $errors->has('position') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Designation:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" name="position" class="form-control m-input"
+                                            placeholder="Enter designation">
+                                    </div>
+                                    <span class="m-form__help">Enter designation</span>
+                                </div>
+                            </div> 
                         </div>
                         <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                             <div class="m-form__actions m-form__actions--solid">
@@ -127,8 +137,6 @@
     console.log(base_url+'/user/signinweb');
     $('.create_user').click(function(event){	
         event.preventDefault();
-    	console.log(JSON.stringify($("#create_user").serialize()));	
-
 				var a = $(this),
                     l = $(this).closest("form");
                 l.validate({
@@ -143,6 +151,9 @@
                         name: {
                             required: !0,
                         },
+                        position: {
+                            required: !0,
+                        },
                         phone_number: {
                             required: !0,
                         }
@@ -154,13 +165,14 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/user/signupweb',
+                    url: base_url+'/user/signupweb', 
     		        data: $("#create_user").serialize(),
 					success: function (response) {
                         console.log(response);
 						if(response.code == 200)
 						{
                             a.removeClass("m-loader m-loader--right m-loader--light");
+                            $("#create_user").reset();
                             $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>User Created Successfully.</div>')
                             setTimeout(function() {
                                 window.location.reload();
@@ -196,6 +208,9 @@
                             required: !0,
                         },
                         name: {
+                            required: !0,
+                        },
+                        position: {
                             required: !0,
                         },
                         phone_number: {
