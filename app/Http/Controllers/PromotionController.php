@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Promotion;
+use App\Promotion,
+    App\PromotionCategories,
+    App\PromotionTags;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
@@ -81,13 +83,152 @@ class PromotionController extends Controller
     
     /* Sara's work starts here */
         
-    /* View All Promotions funtion starts here  */ 
+    //      Promotion Categories Starts
+
+    public function getCategories(){
+        $data['title'] = "Promotion Categories";
+        $data['user'] = PromotionCategories::get();
+        return view('promotions.promotion-categories',$data);
+    }
+    public function addCategories(Request $request){
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('category');
+            $rules = [ 
+                'category' => 'required',
+            ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 406;
+                $output = $validator->messages()->all();
+            }else{
+                $category = new PromotionCategories;
+                $category->title = $request->category;
+                $category->status = 1;
+                $category->save();
+                $code = 200;
+                $output = 'Category Added Successfully';
+            }
+            return response()->json($output, $code);
+        }
+    }
+    public function editCategories(Request $request){
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('category','id');
+            $rules = [ 
+                'category' => 'required',
+            ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 406;
+                $output = ['code' => $code, 'error' => $validator->messages()->all()];
+            }else{
+                PromotionCategories::where('id',$request->id)->update([
+                    'title' => $request->category,
+                ]);
+                $code = 200;
+                $output = ['code' => $code, 'success' => 'Category Edited Successfully'];
+            }
+            return response()->json($output, $code);
+        }
+    }
+    public function deleteCategories(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('id');
+            $rules = [
+                'id' => 'required',
+               ];
+            $validator = Validator::make($input, $rules);
+
+            PromotionCategories::where('id',$request->id)->delete();
+            $code = 200;
+            $output = ['success'=>['code' => $code,'message' => 'Promotion Categories Deleted Successfully.']];
+            return response()->json($output, $code);
+        } 
+    }
+
+    //      Promotion Categories Ends
+
+    
+        
+    //      Promotion Tags Starts
+
+    public function getTags(){
+        $data['title'] = "Promotion Tags";
+        $data['user'] = PromotionTags::get();
+        return view('promotions.promotion-tags',$data);
+    }
+    public function addTags(Request $request){
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('tag');
+            $rules = [ 
+                'tag' => 'required',
+            ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 406;
+                $output = $validator->messages()->all();
+            }else{
+                $tag = new PromotionTags;
+                $tag->title = $request->tag;
+                $tag->status = 1;
+                $tag->save();
+                $code = 200;
+                $output = 'Tags Added Successfully';
+            }
+            return response()->json($output, $code);
+        }
+    }
+    public function editTags(Request $request){
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('tag','id');
+            $rules = [ 
+                'tag' => 'required',
+            ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 406;
+                $output = ['code' => $code, 'error' => $validator->messages()->all()];
+            }else{
+                PromotionTags::where('id',$request->id)->update([
+                    'title' => $request->tag,
+                ]);
+                $code = 200;
+                $output = ['code' => $code, 'success' => 'Tags Edited Successfully'];
+            }
+            return response()->json($output, $code);
+        }
+    }
+    public function deleteTags(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('id');
+            $rules = [
+                'id' => 'required',
+               ];
+            $validator = Validator::make($input, $rules);
+
+            PromotionTags::where('id',$request->id)->delete();
+            $code = 200;
+            $output = ['success'=>['code' => $code,'message' => 'Promotion Tags Deleted Successfully.']];
+            return response()->json($output, $code);
+        } 
+    }
+
+    //      Promotion Tags Ends
+
+    //  Promotion Starts 
     public function getpromotions(){
-        $data['title'] = "View All Promotions";
+        $data['title'] = "Promotions";
         return view('promotions.view-all',$data);
     }
-    /* View All Promotions funtion ends here  */
-    /* Create Promotions funtion starts here  */ 
+
     public function createpromotion(Request $request){ 
         $data['title'] = "Create Promotion";
         if($request->isMethod('post'))
@@ -119,13 +260,11 @@ class PromotionController extends Controller
         }
         return view('promotions.create-promotion',$data);
     }
-    /* Create Promotions funtion ends here  */
-    /* View Single Promotion funtion starts here  */ 
+
     public function viewpromotions(){
         $data['title'] = "Edit Promotions";
         return view('promotions.view-promotion',$data);
     }
-    /* View Single Promotion funtion ends here  */
 
     
     /* Sara's work ends here */

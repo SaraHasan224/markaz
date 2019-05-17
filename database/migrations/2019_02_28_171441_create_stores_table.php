@@ -20,6 +20,7 @@ class CreateStoresTable extends Migration
 			$table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 10, 8)->nullable();
             $table->bigInteger('user_id')->unsigned()->index('stores_user_id_foreign');
+            $table->tinyInteger('status')->default(1);
 			$table->timestamps();
             $table->softDeletes();
         });

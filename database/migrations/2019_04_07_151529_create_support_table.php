@@ -17,8 +17,12 @@ class CreateSupportTable extends Migration
             $table->increments('id');
 			$table->string('first_name');
 			$table->string('last_name');
-			$table->string('subject');
-			$table->string('description');
+            $table->integer('store_id')->unsigned(); 
+            $table->foreign('store_id')->references('id')->on('stores');
+			$table->string('subject',255);
+			$table->string('email',70);
+			$table->text('description');
+			$table->text('response');
 			$table->tinyInteger('status')->default(1);
 			$table->timestamps();
             $table->softDeletes();

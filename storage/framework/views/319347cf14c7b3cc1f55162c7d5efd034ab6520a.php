@@ -1,6 +1,4 @@
-@extends('layouts.header')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
 <!-- END: Left Aside -->
@@ -32,7 +30,7 @@
                 </ul>
             </div>
             <div style="float:right">
-                <button type="button" class="btn btn-outline-info" onclick="window.location = '{{url('edit-faq')}}';">Edit FAQs</button>
+                <button type="button" class="btn btn-outline-info" onclick="window.location = '<?php echo e(url('edit-faq')); ?>';">Edit FAQs</button>
             </div>
         </div>
     </div>
@@ -546,4 +544,5 @@
 </div>
 
 <!-- end:: Body -->
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

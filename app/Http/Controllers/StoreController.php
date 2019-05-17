@@ -25,14 +25,11 @@ class StoreController extends Controller
             'user_id' => 'required',
 
         ];
-
         $validator = Validator::make($input, $rules);
-
         if ($validator->fails()) {
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-         
            $repsonse = $this->_repository->createStore($input);
             if($repsonse){
                 $code = 200;
@@ -41,52 +38,39 @@ class StoreController extends Controller
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['An error occurred while creating store.']]];
             }
-            
          }
         return response()->json($output, $code);
-       
     }
 
 
 
     public function all(Request $request) {
-
         $input = $request->only('pagination','keyword','limit','user_id');
-
            $pagination = false;
             if($input['pagination']) {
                 $pagination = true;
             }
-
-           
             $limit = 10;
             if(!empty($input['limit'])){
               $limit = $input['limit'];
             }
             $code = 200;
         	$output = $this->_repository->findByAll($pagination, $limit, $input,false,true,true);
-        
-
         // all good so return the token
         return response()->json($output, $code);
     }
 
     /* Sara's work starts here */
-    // View All Stores funtion starts here 
-    public function getstore(){
-        $data['title'] = "View All Stores";
-        return view('store.view-all',$data);
-    }
-    public function getspecificstore(){
-        $data['title'] = "Stores";
-        return view('store.view-all',$data);
-    }
+    
+    // Manage stores starts here 
 
-   // Store CRUD funtion starts here   
-    public function createstore(){
+    public function getstore(){
+        $data['title'] = "Manage Stores";
+        return view('store.view-all',$data);
+    }
+    public function createstore(Request $request){
         $data['title'] = "Create Store";
-        $data['user'] = '';
-        // $data['user'] = Auth::user();
+        $data['user_id'] = $request->session()->get('user_id');
         return view('store.create-store',$data);
     }
     public function poststore(Request $request){
@@ -115,6 +99,12 @@ class StoreController extends Controller
          }
          return response()->json($output, $code);
     }
+    public function getspecificstore(){
+        $data['title'] = "Stores";
+        return view('store.view-all',$data);
+    }
+
+   // Store CRUD funtion starts here   
     public function editstore(Request $request,$id){
         $data['store'] = Store::where('id',$id)->first();
         $data['title'] = "Edit Store - ".$data['store']->name;

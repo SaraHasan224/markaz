@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>Markaz - Get Notify</title>
     <meta name="description" content="Latest updates and statistic charts">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!--begin::Web font -->
@@ -355,60 +355,6 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <!-- <li class="m-nav__item m-topbar__quick-actions m-dropdown m-dropdown--skin-light m-dropdown--large m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push m-dropdown--mobile-full-width m-dropdown--skin-light"
-                                        m-dropdown-toggle="click">
-                                        <a href="#" class="m-nav__link m-dropdown__toggle">
-                                            <span class="m-nav__link-icon">
-                                                <span class="m-nav__link-icon-wrapper"><i
-                                                        class="flaticon-share"></i></span>
-                                                <span class="m-nav__link-badge m-badge m-badge--accent">5</span>
-                                            </span>
-                                        </a>
-                                        <div class="m-dropdown__wrapper">
-                                            <span
-                                                class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-                                            <div class="m-dropdown__inner">
-                                                <div class="m-dropdown__header m--align-center">
-                                                    <span class="m-dropdown__header-title">Quick Actions</span>
-                                                    <span class="m-dropdown__header-subtitle">Shortcuts</span>
-                                                </div>
-                                                <div class="m-dropdown__body m-dropdown__body--paddingless">
-                                                    <div class="m-dropdown__content">
-                                                        <div class="m-scrollable" data-scrollable="false"
-                                                            data-height="380" data-mobile-height="200">
-                                                            <div class="m-nav-grid m-nav-grid--skin-light">
-                                                                <div class="m-nav-grid__row">
-                                                                    <a href="#" class="m-nav-grid__item">
-                                                                        <i class="m-nav-grid__icon flaticon-file"></i>
-                                                                        <span class="m-nav-grid__text">Generate
-                                                                            Report</span>
-                                                                    </a>
-                                                                    <a href="#" class="m-nav-grid__item">
-                                                                        <i class="m-nav-grid__icon flaticon-time"></i>
-                                                                        <span class="m-nav-grid__text">Add New
-                                                                            Event</span>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="m-nav-grid__row">
-                                                                    <a href="#" class="m-nav-grid__item">
-                                                                        <i class="m-nav-grid__icon flaticon-folder"></i>
-                                                                        <span class="m-nav-grid__text">Create New
-                                                                            Task</span>
-                                                                    </a>
-                                                                    <a href="#" class="m-nav-grid__item">
-                                                                        <i
-                                                                            class="m-nav-grid__icon flaticon-clipboard"></i>
-                                                                        <span class="m-nav-grid__text">Completed
-                                                                            Tasks</span>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li> -->
                                     <li class="m-nav__item m-topbar__user-profile  m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
                                         m-dropdown-toggle="click">
                                         <a href="#" class="m-nav__link m-dropdown__toggle">
@@ -508,32 +454,22 @@
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
                         <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{url('/')}}"
-                                class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Dashboard</span></a>
                         </li>
-
-                        <!-- <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{{url('events')}}" class="m-menu__link "><span class="m-menu__item-here"></span><i
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
-                                    class="m-menu__link-text">Events</span></a></li> -->
-
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                href="{{url('support')}}" class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-suitcase"></i><span
-                                    class="m-menu__link-text">Support</span></a></li>
-
-                      
-
-                      
-                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
-                            m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
-                                class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-text">Support</span></a>
+                        </li>
+                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Users</span>
-                                        <span class="m-menu__link-badge"><span
-                                                class="m-badge m-badge--accent">3</span></span> </span></span><i
-                                    class="m-menu__ver-arrow la la-angle-right"></i></a>
+                                        <span class="m-menu__link-badge"><span class="m-badge m-badge--accent">3</span>
+                                        </span> </span></span><i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
                                 <ul class="m-menu__subnav">
                                     <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"
@@ -602,6 +538,14 @@
                                             href="{{url('promotions')}}" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">View All Promotions</span></a></li>
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="{{url('promotion-categories')}}" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">Manage Promotion Categories</span></a></li>
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="{{url('promotion-tags')}}" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">Manage Promotion Tags</span></a></li>
                                 </ul>
                             </div>
                         </li>
@@ -651,7 +595,7 @@
     <!-- end:: Page -->
 
     <!-- begin::Quick Sidebar -->
-    <div id="m_quick_sidebar" class="m-quick-sidebar m-quick-sidebar--tabbed m-quick-sidebar--skin-light">
+    <!-- <div id="m_quick_sidebar" class="m-quick-sidebar m-quick-sidebar--tabbed m-quick-sidebar--skin-light">
         <div class="m-quick-sidebar__content m--hide">
             <span id="m_quick_sidebar_close" class="m-quick-sidebar__close"><i class="la la-close"></i></span>
             <ul id="m_quick_sidebar_tabs" class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
@@ -1114,7 +1058,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- end::Quick Sidebar -->
     <!-- begin::Scroll Top -->
     <div id="m_scroll_top" class="m-scroll-top">
@@ -1151,7 +1095,7 @@
     <script src="{{asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-daterangepicker.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/demo/default/custom/components/maps/google-maps.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/custom/gmaps/gmaps.js')}}" type="text/javascript"></script>
-	<script src="//maps.google.com/maps/api/js?key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc" type="text/javascript"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANBXiJs5W1bQUKxU-ivM69Tu4ye7Fok9I" type="text/javascript"></script>
 	<script src="{{asset('assets/demo/default/custom/components/base/sweetalert2.js')}}" type="text/javascript"></script>
         @yield('scripts')
 </body>

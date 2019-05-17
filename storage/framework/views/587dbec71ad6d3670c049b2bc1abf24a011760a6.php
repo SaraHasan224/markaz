@@ -4,44 +4,44 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/dataTables.bootstrap.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/jquery.dataTables.css')); ?>">
     <style>
-     .dataTables_paginate a {
-        padding: 6px 9px !important;
-        background: #f7f7f7 !important;
-        border-color: #2196F3 !important;
-    }
-    div.dataTables_wrapper div.dataTables_paginate ul.pagination{
-        /* margin: 2px 0px 2px 550px!important; */
-        margin: 2px 0px 2px 500px!important;
-        white-space: nowrap !important;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button{
-        color: #bfb5b5 !important;
-        box-sizing: border-box;
-        display: inline-block;
-        min-width: 1.5em;
-        /* padding: 0.5em 1em; */
-        padding: 0em !important;
-        /* margin-left: 2px; */
-        margin-left:0px !important;
-        text-align: center;
-        text-decoration: none !important;
-        cursor: pointer;
-        *: ;
-        cursor: hand;
-        /* color: #333 !important; */
-        border: 1px solid transparent;
-        border-radius: 2px;
-    }
-    .dataTables_filter {
-        text-align: right;
-        margin-left: 220px !important;
-    }
-    .dataTables_length label {
-        font-weight: normal;
-        text-align: left;
-        margin-right: 311px !important;
-        white-space: nowrap;
-    }
+        .dataTables_paginate a {
+            padding: 6px 9px !important;
+            background: #f7f7f7 !important;
+            border-color: #2196F3 !important;
+        }
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination{
+            /* margin: 2px 0px 2px 550px!important; */
+            margin: 2px 0px 2px 500px!important;
+            white-space: nowrap !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            color: #bfb5b5 !important;
+            box-sizing: border-box;
+            display: inline-block;
+            min-width: 1.5em;
+            /* padding: 0.5em 1em; */
+            padding: 0em !important;
+            /* margin-left: 2px; */
+            margin-left:0px !important;
+            text-align: center;
+            text-decoration: none !important;
+            cursor: pointer;
+            *: ;
+            cursor: hand;
+            /* color: #333 !important; */
+            border: 1px solid transparent;
+            border-radius: 2px;
+        }
+        .dataTables_filter {
+            text-align: right;
+            margin-left: 220px !important;
+        }
+        .dataTables_length label {
+            font-weight: normal;
+            text-align: left;
+            margin-right: 311px !important;
+            white-space: nowrap;
+        }
     </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
@@ -122,19 +122,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <tr>
-                                        <td>1</td>
-                                        <td>Orient Textile Mills</td>
-                                        <td>Hyderi</td>
-                                        <td>5.00</td>
-                                        <td>6.45</td>
-                                        <td>Karachi,Pakistan</td>
-                                        <td>Kashaf Nazir</td>
-                                        <td>2/12/2018</td>
-                                        <td nowrap>
-                                            
-                                        </td>
-                                    </tr> -->
 
                                 </tbody>
                             </table>
@@ -224,7 +211,7 @@
     </script>
     
     <script>
-    var base_url = '<?php url('/') ?>';
+        var base_url = '<?php url('/') ?>';
         $(document).ready(function (e) {
             // Get User
             $(document).on("click", '#view', function (e) {
@@ -280,10 +267,10 @@
     </script>
     <script>
         $(document).ready(function (e) {
+            // Delete User
             $(document).on("click", '#delete', function (e) {
                 var id = $(this).data('id');
-                                e.preventDefault();
-                // $("#m_sweetalert_demo_9").click(function(e) {
+                    e.preventDefault();
                     swal({
                         title: "Are you sure?",
                         text: "You won't be able to revert this!",
@@ -317,7 +304,6 @@
                                 });
                         }
                     })
-                // })
             });
         });
     </script>

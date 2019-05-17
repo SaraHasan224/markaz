@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class PromotionTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $faker = Faker\Factory::create();
+        $limit = 30;
+        for ($i = 0; $i < $limit; $i++) {
+            DB::table('promotions')->insert([ 
+                'title' => $faker->title,
+                'description' => $faker->text,
+                'store_id' => 1,
+                'created_at' => $faker->date,
+                'updated_at' => $faker->date,
+                'deleted_at' => NULL,
+            ]);
+        }
+    }
+}

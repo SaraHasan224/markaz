@@ -7,33 +7,48 @@ use DB;
 use App\Store,
     App\Support,
     App\Promotion,
+    App\PromotionCategories,
+    App\PromotionTags,
     App\User;
 use yajra\Datatables\Datatables;
 class DatatablesController extends Controller
 {
     public function getstore()
     {
-        $getStore = Store::select('id','name','address','latitude','longitude','user_id','created_at');
+        $getStore = Store::select('id','name','address','latitude','longitude','user_id','status','created_at');
         return Datatables::of($getStore)
-        ->editColumn('actions', function ($store) {
-            $actions = '<span class="dropdown">
+        ->editColumn('status', function ($store) {
+            if($store->status == 1)
+            {
+                $status = '<button type="button" class="btn m-btn--pill btn-accent response" data-toggle="modal" data-target="#m_status_6" data-id="'.$store->id.'">Enable</button>';
+            }
+            else{
+                $status = '<button type="button" class="btn m-btn--pill btn-focus response"  data-toggle="modal" data-target="#m_status_6" data-id="'.$store->id.'">Disable</button>';
+            }
+            return($status);
+        })->editColumn('actions', function ($store) {
+            $actions = '
+        <a id="view_store" data-toggle="modal" data-target="#view_store" data-id="'.$store->id.'"
+            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+            title="View Store" ><i class="la la-eye"></i></a>
+            <a id="edit_store" data-toggle="modal" data-target="#edit_store" data-id="'.$store->id.'"
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                title="Edit Store" ><i class="la la-edit"></i></a>
+        <a  id="delete" data-id="'.$store->id.'" 
+            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+            <i class="la la-trash" style="color:#ef2626;"></i>
+        </a>
+        <span class="dropdown">
             <a href="#"
                 class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                 data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="'.url("followers/".$store->user_id).'"><i class="la la-edit"></i> Following</a>
-                <a class="dropdown-item" href="'.url("unfollowers/".$store->user_id).'"><i class="la la-edit"></i> Blocked</a>
-                <a class="dropdown-item" href="'.url("edit-store/".$store->id).'"><i class="la la-edit"></i> Edit Details</a>
-                <a class="dropdown-item" href="#" data-toggle="modal" id="m_status_6"
-                    data-target="#m_status_6" data-id="'.$store->id.'"><i class="la la-leaf"></i> Update Status</a>
+                <a class="dropdown-item" href="'.url("followers/".$store->user_id).'"><i class="la la-edit"></i> Manage Following</a>
+                <a class="dropdown-item" href="'.url("unfollowers/".$store->user_id).'"><i class="la la-edit"></i> Manage Blocked</a>
             </div>
-        </span>
-        <a href="#" id="m_view_6"
-            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-            title="View Store"  data-toggle="modal"
-                    data-target="#m_view_6" data-id="'.$store->id.'"><i class="la la-edit"></i></a>';
+        </span>';
             return($actions);
-        })->rawColumns(['actions'])->make();
+        })->rawColumns(['actions','status'])->make();
     }
     public function getpromotions()
     {
@@ -53,6 +68,40 @@ class DatatablesController extends Controller
         <a href="'.url("view-promotions").'" id="m_view_6"
             class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
             title="View"><i class="la la-edit"></i></a>';
+            return($actions);
+        })->rawColumns(['actions'])->make();
+    }
+    public function getCategories()
+    {
+        $getCategories = PromotionCategories::select('id','title','status','created_at');
+        return Datatables::of($getCategories)
+        ->editColumn('actions', function ($categories) {
+            $actions = ' 
+            <a  id="delete" data-id="'.$categories->id.'" 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                <i class="la la-trash" style="color:#ef2626;"></i>
+            </a>
+            <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'" 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                <i class="la la-edit"></i>
+            </a>';
+            return($actions);
+        })->rawColumns(['actions'])->make();
+    }
+    public function getTags()
+    {
+        $getTags = PromotionTags::select('id','title','status','created_at');
+        return Datatables::of($getTags)
+        ->editColumn('actions', function ($tags) {
+            $actions = ' 
+            <a  id="delete" data-id="'.$tags->id.'" 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                <i class="la la-trash" style="color:#ef2626;"></i>
+            </a>
+            <a  id="edit_tags" data-id="'.$tags->id.'" data-tag="'.$tags->title.'" 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                <i class="la la-edit"></i>
+            </a>';
             return($actions);
         })->rawColumns(['actions'])->make();
     }
@@ -77,7 +126,7 @@ class DatatablesController extends Controller
     {
         $getusers = Support::with('getstore')->select('id','store_id','first_name','last_name','email','subject','description','response','status','created_at');
         return Datatables::of($getusers)
-        ->editColumn('store_id', function ($users) {
+        ->editColumn('store_id', function ($users) { 
             return($users->getstore->name);
         })->filterColumn('store_id', function($query, $keyword) {
             $sql = "(stores.name)  like ?";

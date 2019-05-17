@@ -159,14 +159,22 @@
                         console.log(response);
 						if(response.code == 200)
 						{
-							$('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>User Created Successfully.</div>')
-						}
+                            a.removeClass("m-loader m-loader--right m-loader--light");
+                            $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>User Created Successfully.</div>')
+                            setTimeout(function() {
+                                window.location.reload();
+							}, 2e3);
+							}
 					},
 					error: function (response) {
-                        console.log(response.responseJSON.messages);
+                        // console.log(response.responseJSON.messages);
+                        a.removeClass("m-loader m-loader--right m-loader--light");
                         response.responseJSON.messages.forEach(function (msg) {
                             $('#result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
 							});
+                            setTimeout(function() {
+                                window.location.reload();
+							}, 2e3);
 					}
 				}));
    	});

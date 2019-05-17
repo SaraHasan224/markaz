@@ -1,21 +1,17 @@
 <?php $__env->startSection('styles'); ?>
-<script type="text/javascript">
-    function showPosition(){
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(function(position){
-                var positionInfo = "Your current position is (" + "Latitude: " + position.coords.latitude + ", " + "Longitude: " + position.coords.longitude + ")";
-                document.getElementById("demo").innerHTML = positionInfo;
-            });
-        } else{
-            alert("Sorry, your browser does not support HTML5 geolocation.");
-        }
-    }
-</script>
+<style>
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+</style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
-
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
@@ -54,7 +50,6 @@
     <div class="m-content">
         <div class="row">
             <div class="col-lg-12">
-
                 <!--begin::Portlet-->
                 <div class="m-portlet">
                     <div class="m-portlet__head">
@@ -70,9 +65,8 @@
                             </div>
                         </div>
                     </div>
-
                     <!--begin::Form-->
-                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="stores">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="stores" method="POST">
                         <div class="m-portlet__body">
                             <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
@@ -104,15 +98,12 @@
                                 <div class="col-lg-6">
                                     <label class="">Store Location:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <button type="button"
-                                            class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air"
-                                            onclick="showPosition();">
+                                        <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                             <span><i class="la la-location-arrow"></i><span>Location</span></span>
                                         </button>
                                     </div>
                                     <span class="m-form__help" id="demo"></span>
-                                    <input type="hidden" name="user_id" value="1"/>
-                                    <!-- <input type="hidden" name="user_id" value="$user"/> -->
+                                    <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -141,40 +132,14 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?> 
 <script>
-    var x = document.getElementById("demo");
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-    }
-
-    function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
-    }
-</script>
-<script>
+    var base_url = "<?php url() ?>";
     $('#stores').submit(function(event){	
-    	console.log(JSON.stringify($("#stores").serialize()));	
-    	event.preventDefault();
-            var name = $("input[name=name]").val();
-            var contact_number = $("input[name=contact_number]").val();
-            var address = $("input[name=address]").val();
-            var user_id = $("input[name=user_id]").val();
-            var base_url = "<?php url() ?>";
-            console.log(base_url);
-    	// console.log(name,contact_number,address,user_id);	
+            event.preventDefault();
     	$.ajax({
     		type: "POST",
     		headers: 
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    			// "Content-Type": "application/json",
-                // "X-Requested-With": "XMLHttpRequest",
-                // "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC9hcGkvdXNlci9zaWduaW4iLCJpYXQiOjE1NTQ2Mzg5MDQsImV4cCI6MTU1NDY0MjUwNCwibmJmIjoxNTU0NjM4OTA0LCJqdGkiOiJTUzdsbGN5RklJVXRRTzhrIn0.ukIIC8Rc69DZk6YrIOznr-nLXQznm750hZqhebboIag"
     		},
     		url: base_url+'/poststore',
     		data: $("#stores").serialize(),

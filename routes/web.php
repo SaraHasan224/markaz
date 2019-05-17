@@ -20,32 +20,56 @@ Route::group(['middleware' => ['web']], function () {
 });
     Route::group(['middleware' => ['customauth']], function () {
         Route::match(['get','post'],'dashboard', 'UserController@loggedIn');
+        
         /* Promotion routes starts here*/
+
         Route::get('get-promotions', 'DatatablesController@getpromotions');
         Route::get('promotions', 'PromotionController@getpromotions');
         Route::get('view-promotions', 'PromotionController@viewpromotions');
         Route::get('create-promotions', 'PromotionController@createpromotion');
         Route::post('create-promotions', 'PromotionController@createpromotion');
         // Route::get('edit-promotions', 'PromotionController@editpromotions');
+
+            /* Promotion Categories routes starts here*/
+            Route::get('get-categories', 'DatatablesController@getCategories');
+            Route::get('promotion-categories', 'PromotionController@getCategories');
+            Route::post('promotion-categories', 'PromotionController@addCategories');
+            Route::post('promotion-categories-edit', 'PromotionController@editCategories');
+            Route::post('promotion-categories-delete', 'PromotionController@deleteCategories');
+            /* Promotion Categories routes ends here*/
+
+            /* Promotion Tags routes starts here*/
+            Route::get('get-tags', 'DatatablesController@getTags');
+            Route::get('promotion-tags', 'PromotionController@getTags');
+            Route::post('promotion-tags', 'PromotionController@addTags');
+            Route::post('promotion-tags-edit', 'PromotionController@editTags');
+            Route::post('promotion-tags-delete', 'PromotionController@deleteTags');
+            /* Promotion Tags routes ends here*/
+
         /* Promotion routes ends here*/
         
         /* Store routes starts here*/
+
         Route::get('get-store', 'DatatablesController@getstore');
-        Route::get('store/{id}', 'StoreController@getspecificstore');
         Route::get('store', 'StoreController@getstore');
         Route::post('poststore', 'StoreController@poststore');
         Route::get('create-store', 'StoreController@createstore');
         Route::get('edit-store/{id}', 'StoreController@editstore');
         Route::post('edit-store/{id}', 'StoreController@editstore');
+
+        Route::get('store/{id}', 'StoreController@getspecificstore');
+        
         /* Store routes ends here*/
         
         /* User routes starts here*/
+
         Route::get('get-users', 'DatatablesController@getusers'); 
         Route::get('create-users', 'UserController@createUsers');
         Route::get('users', 'UserController@getusers');
         Route::post('view-user', 'UserController@viewUsers');
         Route::post('edit-users', 'UserController@editusers');
         Route::post('delete-users', 'UserController@deleteUsers');
+        
         /* User routes ends here*/
 
         /* Follower routes starts here*/

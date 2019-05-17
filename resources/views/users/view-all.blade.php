@@ -6,44 +6,44 @@
     <link rel="stylesheet" href="{{ asset('assets/admin/css/dataTables.bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.css') }}">
     <style>
-     .dataTables_paginate a {
-        padding: 6px 9px !important;
-        background: #f7f7f7 !important;
-        border-color: #2196F3 !important;
-    }
-    div.dataTables_wrapper div.dataTables_paginate ul.pagination{
-        /* margin: 2px 0px 2px 550px!important; */
-        margin: 2px 0px 2px 500px!important;
-        white-space: nowrap !important;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button{
-        color: #bfb5b5 !important;
-        box-sizing: border-box;
-        display: inline-block;
-        min-width: 1.5em;
-        /* padding: 0.5em 1em; */
-        padding: 0em !important;
-        /* margin-left: 2px; */
-        margin-left:0px !important;
-        text-align: center;
-        text-decoration: none !important;
-        cursor: pointer;
-        *: ;
-        cursor: hand;
-        /* color: #333 !important; */
-        border: 1px solid transparent;
-        border-radius: 2px;
-    }
-    .dataTables_filter {
-        text-align: right;
-        margin-left: 220px !important;
-    }
-    .dataTables_length label {
-        font-weight: normal;
-        text-align: left;
-        margin-right: 311px !important;
-        white-space: nowrap;
-    }
+        .dataTables_paginate a {
+            padding: 6px 9px !important;
+            background: #f7f7f7 !important;
+            border-color: #2196F3 !important;
+        }
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination{
+            /* margin: 2px 0px 2px 550px!important; */
+            margin: 2px 0px 2px 500px!important;
+            white-space: nowrap !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            color: #bfb5b5 !important;
+            box-sizing: border-box;
+            display: inline-block;
+            min-width: 1.5em;
+            /* padding: 0.5em 1em; */
+            padding: 0em !important;
+            /* margin-left: 2px; */
+            margin-left:0px !important;
+            text-align: center;
+            text-decoration: none !important;
+            cursor: pointer;
+            *: ;
+            cursor: hand;
+            /* color: #333 !important; */
+            border: 1px solid transparent;
+            border-radius: 2px;
+        }
+        .dataTables_filter {
+            text-align: right;
+            margin-left: 220px !important;
+        }
+        .dataTables_length label {
+            font-weight: normal;
+            text-align: left;
+            margin-right: 311px !important;
+            white-space: nowrap;
+        }
     </style>
 @endsection
 @section('content')

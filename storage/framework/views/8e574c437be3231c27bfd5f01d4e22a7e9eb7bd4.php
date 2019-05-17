@@ -1,6 +1,6 @@
 <?php $__env->startSection('styles'); ?>
 
-<link href="<?php echo e(asset('assets/admin/css/bootstrap-toggle.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(asset('assets/admin/css/bootstrap-toggle.min.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/dataTables.bootstrap.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/dataTables.bootstrap.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/jquery.dataTables.css')); ?>">
@@ -117,23 +117,11 @@
                             <th>Store Latitude</th>
                             <th>Created By</th>
                             <th>Created At</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <tr>
-                            <td>1</td>
-                            <td>Orient Textile Mills</td>
-                            <td>Hyderi</td>
-                            <td>5.00</td>
-                            <td>6.45</td>
-                            <td>Karachi,Pakistan</td>
-                            <td>Kashaf Nazir</td>
-                            <td>2/12/2018</td>
-                            <td nowrap>
-                                
-                            </td>
-                        </tr> -->
 
                     </tbody>
                 </table>
@@ -209,6 +197,9 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax"      : '<?php echo e(url("get-store")); ?>',
+                columnDefs: [    
+                    { "width": "150px", "targets": [7] }
+                ],
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
@@ -217,6 +208,7 @@
                     { data: 'latitude' },
                     { data: 'longitude' },
                     { data: 'user_id' },
+                    { data: 'status' },
                     { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
                 ]
