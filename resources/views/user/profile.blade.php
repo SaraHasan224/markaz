@@ -68,12 +68,12 @@
                             </div>
                             <div class="m-card-profile__pic">
                                 <div class="m-card-profile__pic-wrapper">
-                                    <img src="{{ asset('assets/app/media/img/users/') }}/{{$user->profile_pic}}" alt="" />
+                                    <img src="{{ asset('assets/app/media/img/users/') }}/{{$logged_user->profile_pic}}" alt="" />
                                 </div>
                             </div>
                             <div class="m-card-profile__details">
-                                <span class="m-card-profile__name">{{$user->name}}</span>
-                                <a href="" class="m-card-profile__email m-link">{{$user->name}}</a>
+                                <span class="m-card-profile__name">{{$logged_user->name}}</span>
+                                <a href="" class="m-card-profile__email m-link">{{$logged_user->name}}</a>
                             </div>
                         </div>
                         <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">

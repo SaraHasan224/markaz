@@ -105,7 +105,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="m-portlet__body">
+            <div class="m-portlet__body table-responsive">
 
                 <!--begin: Datatable -->
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="view_stores">
@@ -114,6 +114,10 @@
                             <th>StoreID</th>
                             <th>Store Name</th>
                             <th>Store Address</th>
+                            <th>Store Telephone</th>
+                            <th>Store Website Link</th>
+                            <th>Store Website Email Address</th>
+                            <th>Store Description</th>
                             <th>Store Longitude</th>
                             <th>Store Latitude</th>
                             <th>Created By</th>
@@ -135,7 +139,7 @@
 
 
 <!-- Modal for Update status-->
-<div class="modal fade" id="m_status_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="edit_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -162,7 +166,7 @@
     </div>
 </div>
 <!-- Modal for View  Store-->
-<div class="modal fade" id="m_view_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="view_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -205,8 +209,11 @@
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
                     { data: 'address' },
-                    // { data: 'contact_number' },
-                    { data: 'latitude' },
+                    { data: 'telephone' },
+                    { data: 'websitelink' },
+                    { data: 'emailaddress' },
+                    { data: 'desciption' },
+                    { data: 'latitude' }, 
                     { data: 'longitude' },
                     { data: 'user_id' },
                     { data: 'status' },
@@ -219,18 +226,17 @@
     
     <script>
         $(document).ready(function (e) {
-            $(document).on("click", '#m_view_6', function (e) {
+            $(document).on("click", '#view_store', function (e) {
                 var id = $(this).data('id');
-                alert(id);
+                $('#view_store_modal').modal('show');
             });
         });
     </script>
     <script>
         $(document).ready(function (e) {
-            $(document).on("click", '#m_status_6', function (e) {
+            $(document).on("click", '#edit_store', function (e) {
                 var id = $(this).data('id');
-                alert(id);
-                // $("#status_id1").val(id);
+                $('#edit_store_modal').modal('show');
             });
         });
     </script>

@@ -41,14 +41,14 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="name" value="<?php echo e($user->name); ?>">
-                                            <input class="form-control m-input" type="hidden" name="user_id" value="<?php echo e($user->id); ?>">
+                                            <input class="form-control m-input" type="text" name="name" value="<?php echo e($logged_user->name); ?>">
+                                            <input class="form-control m-input" type="hidden" name="user_id" value="<?php echo e($logged_user->id); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Position</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="position" value="<?php echo e($user->position); ?>">
+                                            <input class="form-control m-input" type="text" name="position" value="<?php echo e($logged_user->position); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">

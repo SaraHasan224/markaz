@@ -99,7 +99,7 @@
                     <table class="table table-striped- table-bordered table-hover table-checkable" id="view_stores" >
                         <thead>
                             <tr>
-                                <th style="width:30px !important;">SupportID</th>
+                                <th>SupportID</th>
                                 <th>Store Name</th>
                                 <th>Customer Name</th>
                                 <th>Email</th>

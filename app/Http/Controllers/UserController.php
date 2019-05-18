@@ -22,6 +22,9 @@ class UserController extends Controller
     use CommonTrait;
     public function __construct(UserRepository $user) {
         $this->_repository = $user;
+        
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
     }
 
     public function signUp(Request $request){
@@ -100,7 +103,10 @@ class UserController extends Controller
             return view('user.signin');
     } 
     public function loggedIn(Request $request){
-            return view('index');
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        return view('index',$data);
     } 
     public function signInWeb(Request $request){
         $input = $request->only('email', 'password','language','login_time', 'udid');
@@ -203,6 +209,9 @@ class UserController extends Controller
     //      Manage User CRUD Starts Here    //
     public function getusers(){
         $data['title'] = "Manage Users";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('users.view-all',$data);
     }
     public function createUsers(Request $request)
@@ -211,6 +220,9 @@ class UserController extends Controller
         $data['table_id'] = "create_user";
         $data['sub_title'] = "Create User";
         $data['user'] = '';
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('users.create-users',$data);
     }
     public function viewUsers(Request $request)
@@ -284,7 +296,7 @@ class UserController extends Controller
     public function getUserProfile(Request $request)
     {
         $user_id = $request->session()->get('user_id');
-        $user = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->first();
         $store = Store::where('user_id',$user_id)->first();
         if($store != '')
         {
@@ -292,7 +304,7 @@ class UserController extends Controller
         }else{
             $data['social'] = '';
         }
-        $data['user'] = $user;
+        $data['logged_user'] = $getuser;
         $data['store'] = $store;
         if($request->isMethod('post'))
         {
@@ -349,6 +361,9 @@ class UserController extends Controller
             }
         }
         $data['title'] = "Customer Support";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('home.support',$data); 
     }
     //      Manage Support Ends Here    //
@@ -360,12 +375,18 @@ class UserController extends Controller
         $data['title'] = "Followers";
         $data['id'] = $id;
         $data['table_id'] = 'followed_stores';
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('home.followers',$data);
     }
     public function getunfollowers($id = null){
         $data['title'] = "Unfollowers";
         $data['id'] = $id;
         $data['table_id'] = 'blocked_stores';
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('home.followers',$data);
     }
     //      Manage Follower Ends Here    //

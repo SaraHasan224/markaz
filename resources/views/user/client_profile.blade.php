@@ -43,14 +43,14 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="name" value="{{$user->name}}">
-                                            <input class="form-control m-input" type="hidden" name="user_id" value="{{$user->id}}">
+                                            <input class="form-control m-input" type="text" name="name" value="{{$logged_user->name}}">
+                                            <input class="form-control m-input" type="hidden" name="user_id" value="{{$logged_user->id}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Position</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="position" value="{{$user->position}}">
+                                            <input class="form-control m-input" type="text" name="position" value="{{$logged_user->position}}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">

@@ -15,7 +15,7 @@ class DatatablesController extends Controller
 {
     public function getstore()
     {
-        $getStore = Store::select('id','name','address','latitude','longitude','user_id','status','created_at');
+        $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','user_id','status','created_at');
         return Datatables::of($getStore)
         ->editColumn('status', function ($store) {
             if($store->status == 1)
@@ -28,10 +28,10 @@ class DatatablesController extends Controller
             return($status);
         })->editColumn('actions', function ($store) {
             $actions = '
-        <a id="view_store" data-toggle="modal" data-target="#view_store" data-id="'.$store->id.'"
+        <a id="view_store" data-id="'.$store->id.'"
             class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
             title="View Store" ><i class="la la-eye"></i></a>
-            <a id="edit_store" data-toggle="modal" data-target="#edit_store" data-id="'.$store->id.'"
+            <a id="edit_store" data-id="'.$store->id.'"
                 class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                 title="Edit Store" ><i class="la la-edit"></i></a>
         <a  id="delete" data-id="'.$store->id.'" 

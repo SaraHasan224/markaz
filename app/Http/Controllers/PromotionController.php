@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Promotion,
     App\PromotionCategories,
-    App\PromotionTags;
+    App\PromotionTags,
+    App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
@@ -88,6 +89,9 @@ class PromotionController extends Controller
     public function getCategories(){
         $data['title'] = "Promotion Categories";
         $data['user'] = PromotionCategories::get();
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('promotions.promotion-categories',$data);
     }
     public function addCategories(Request $request){
@@ -159,6 +163,9 @@ class PromotionController extends Controller
     public function getTags(){
         $data['title'] = "Promotion Tags";
         $data['user'] = PromotionTags::get();
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('promotions.promotion-tags',$data);
     }
     public function addTags(Request $request){
@@ -226,11 +233,17 @@ class PromotionController extends Controller
     //  Promotion Starts 
     public function getpromotions(){
         $data['title'] = "Promotions";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('promotions.view-all',$data);
     }
 
     public function createpromotion(Request $request){ 
         $data['title'] = "Create Promotion";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         if($request->isMethod('post'))
         { 
             $input = $request->only('name', 'address','user_id','latitude', 'longitude','contact_number');
@@ -263,6 +276,9 @@ class PromotionController extends Controller
 
     public function viewpromotions(){
         $data['title'] = "Edit Promotions";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('promotions.view-promotion',$data);
     }
 

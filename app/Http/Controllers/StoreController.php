@@ -67,19 +67,29 @@ class StoreController extends Controller
 
     public function getstore(){
         $data['title'] = "Manage Stores";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('store.view-all',$data);
     }
     public function createstore(Request $request){
         $data['title'] = "Create Store";
         $data['user_id'] = $request->session()->get('user_id');
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('store.create-store',$data);
     }
     public function poststore(Request $request){
-        $input = $request->only('name', 'address','user_id','latitude', 'longitude','contact_number');
+        $input = $request->only('name', 'address','user_id','website','contact_email','description','latitude', 'longitude','contact_number');
         $rules = [  
             'name' => 'required|unique:stores,name',
             'address' => 'required',
-            'user_id' => 'required',
+            'user_id' => 'required', 
+            'website' => 'required',
+            'contact_email' => 'required',
+            'description' => 'required',
+            'address' => 'required',
             'contact_number' => 'required'
         ];
         $validator = Validator::make($input, $rules);
@@ -87,15 +97,15 @@ class StoreController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-            // dd($request->all());
             $store = new Store;
             $store->name = $request->name;
             $store->address = $request->address;
             $store->user_id = $request->user_id;
+            $store->websitelink = $request->website;
+            $store->emailaddress = $request->contact_email;
+            $store->desciption = $request->description;
+            $store->telephone = $request->contact_number;
             $store->save();
-            User::whereId($request->user_id)->update([
-                'phone_number' => $request->contact_number,
-            ]);
             $output = "Store created successfully";
             $code = 200;
          }

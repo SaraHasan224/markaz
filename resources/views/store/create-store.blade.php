@@ -82,7 +82,25 @@
                                     <span class="m-form__help">Enter your store contact number</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Store Website Link:</label>
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
+                                    <span class="m-form__help">Enter your website</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="">Store Contact Email:</label>
+                                    <input type="text" name="contact_email" class="form-control m-input"
+                                        placeholder="Enter store contact email">
+                                    <span class="m-form__help">Enter your store contact email</span>
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Store Description:</label>
+                                    <input type="text" name="description" class="form-control m-input" placeholder="Enter description">
+                                    <span class="m-form__help">Enter your store description</span>
+                                </div>
                                 <div class="col-lg-6">
                                     <label>Store Adress:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -96,6 +114,8 @@
                                     </div>
                                     <span class="m-form__help">Enter your store address</span>
                                 </div>
+                            </div>
+                            <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Location:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -145,12 +165,19 @@
     		url: base_url+'/poststore',
     		data: $("#stores").serialize(),
     		success: function (response) {
+                console.log(response);
                 $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
                 setTimeout(function() {
                     window.location.reload();
 				}, 2e3);
-    		}
+            },
+            error: function (response){
+                response.responseJSON.messages.forEach(function (msg) {
+                console.log(msg);
+                    $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
+				});
+            }
     	});
     })
 </script>
