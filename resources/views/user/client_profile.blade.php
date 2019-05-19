@@ -30,7 +30,7 @@
                             <form class="m-form m-form--fit m-form--label-align-right" id="profile" method="POST">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group m--margin-top-10 m--hide">
-                                        <div class="alert m-alert m-alert--default" role="alert">
+                                        <div class="alert m-alert m-alert--default result" role="alert">
                                             
                                         </div>
                                     </div>
@@ -38,7 +38,7 @@
                                         <div class="col-10 ml-auto">
                                             <h3 class="m-form__section">1. Company Information</h3>
                                         </div>
-                                        <div id="result"></div>
+                                        {{-- <div id="result"></div> --}}
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>

@@ -107,14 +107,13 @@ class StoreController extends Controller
             $store->desciption = $request->description;
             $store->telephone = $request->contact_number;
             $store->save();
-
             $social = new StoreSocialMedia;
             $social->store_id = $store->id;
             $social->facebook_link = $request->fb_link;
             $social->twitter_link = $request->tw_link;
             $social->insta_link = $request->insta_link;
             $social->save();
-
+            
             $output = "Store created successfully";
             $code = 200;
          }

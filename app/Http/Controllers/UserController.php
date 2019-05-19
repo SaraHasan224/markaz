@@ -309,27 +309,27 @@ class UserController extends Controller
         if($request->isMethod('post'))
         {
             $input = $request->all();
-            dd($input);
-            User::where('id',$user_id)->update([
+            User::where('id',$request->user_id)->update([
                 'name' => $request->name,
                 'position' => $request->position
             ]);
-            $store_updated = Store::updateOrCreate([
+            $store_updated = Store::where('user_id',$request->user_id)->update([
                 'name' => $request->company,
                 'address' => $request->company_address,
                 'telephone' => $request->company_telephone,
                 'websitelink' => $request->company_website, 
                 'emailaddress' => $request->company_email,
                 'desciption' => $request->company_info, 
-                'user_id' => $user_id
             ]); 
-
-            StoreSocialMedia::updateOrCreate([
+            StoreSocialMedia::update([
                 'store_id' => $store_updated->id,
                 'facebook_link' => $request->fb_link,
                 'twitter_link' => $request->tw_link,
                 'insta_link' => $request->insta_link
             ]);
+            $code = 200;
+            $output = ['success'=>['code' => $code,'message' => 'Profile Updated Successfully.']];
+            return response()->json($output, $code);
         }
     }
    

@@ -246,8 +246,6 @@
 						
 					},
 					error: function (response) {
-						// console.log(response);
-						console.log(response.responseJSON.error.code);
 						if(response.responseJSON.error.code == '406')
 						{
 							console.log(response.responseJSON.error.messages);

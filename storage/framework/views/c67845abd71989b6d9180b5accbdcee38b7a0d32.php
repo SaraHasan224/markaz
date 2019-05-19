@@ -110,7 +110,6 @@
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?>
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
     var base_url = "<?php url(); ?>";
     
@@ -125,7 +124,7 @@
                 url: base_url+'/user_profile',
                 data: $("#profile").serialize(),
                 success: function (response) {
-                    $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                    $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
                 },
             });

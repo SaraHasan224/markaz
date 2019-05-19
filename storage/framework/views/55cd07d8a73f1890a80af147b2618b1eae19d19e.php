@@ -185,9 +185,9 @@
                 console.log(response);
                 $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
-                setTimeout(function() {
-                    window.location.reload();
-				}, 2e3);
+                // setTimeout(function() {
+                //     window.location.reload();
+				// }, 2e3);
             },
             error: function (response){
                 response.responseJSON.messages.forEach(function (msg) {
