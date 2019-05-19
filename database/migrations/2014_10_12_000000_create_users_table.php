@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
 			$table->string('name', 150);
 			$table->string('position', 150)->nullable();
 			$table->string('phone_number', 150)->nullable();
-			$table->string('profile_pic',80)->nullable();
+			$table->string('profile_pic',80)->default('user_default.png');
             $table->string('remember_token', 100)->nullable();
             $table->text('access_token')->nullable();
 		     $table->timestamps();

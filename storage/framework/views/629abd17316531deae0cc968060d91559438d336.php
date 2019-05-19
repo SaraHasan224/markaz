@@ -7,7 +7,7 @@
 		<title>Markaz -Get Notify</title>
 		<meta name="description" content="Latest updates and statistic charts">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-		<meta name="csrf-token" content="{{ csrf_token() }}">
+		<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 		<!--begin::Web font -->
 		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 		<script>
@@ -33,15 +33,15 @@
 		<!--end::Web font -->
 
 		<!--begin::Base Styles -->
-		<link href="{{asset('assets/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
+		<link href="<?php echo e(asset('assets/vendors/base/vendors.bundle.css')); ?>" rel="stylesheet" type="text/css" />
 
 		<!--RTL version:<link href="../../../assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
-		<link href="{{asset('assets/demo/default/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+		<link href="<?php echo e(asset('assets/demo/default/base/style.bundle.css')); ?>" rel="stylesheet" type="text/css" />
 
 		<!--RTL version:<link href="../../../assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
 		<!--end::Base Styles -->
-		<link rel="shortcut icon" href="{{asset('assets/demo/default/media/img/logo/favicon.ico')}}" />
+		<link rel="shortcut icon" href="<?php echo e(asset('assets/demo/default/media/img/logo/favicon.ico')); ?>" />
 	</head>
 
 	<!-- end::Head -->
@@ -92,37 +92,37 @@
 								<div class="m-login__desc">Enter your details to create your account:</div>
 							</div>
 							<form class="m-login__form m-form" id="signup_form" method="POST">
-								<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group">
-									<input class="form-control m-input" type="text" placeholder="Enter your name" name="signup_name" value="{{ old('name') }}" autofocus>
-									@if ($errors->has('name'))
+								<div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group">
+									<input class="form-control m-input" type="text" placeholder="Enter your name" name="signup_name" value="<?php echo e(old('name')); ?>" autofocus>
+									<?php if($errors->has('name')): ?>
 										<span class="help-block">
-											<strong>{{ $errors->first('name') }}</strong>
+											<strong><?php echo e($errors->first('name')); ?></strong>
 										</span>
-                                	@endif
+                                	<?php endif; ?>
 								</div>
-								<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} m-form__group">
-									<input class="form-control m-input" type="email" placeholder="Enter your email address" name="signup_email" autocomplete="off" value="{{ old('email') }}">
-									@if ($errors->has('email'))
+								<div class="form-group<?php echo e($errors->has('email') ? ' has-error' : ''); ?> m-form__group">
+									<input class="form-control m-input" type="email" placeholder="Enter your email address" name="signup_email" autocomplete="off" value="<?php echo e(old('email')); ?>">
+									<?php if($errors->has('email')): ?>
 										<span class="help-block">
-											<strong>{{ $errors->first('email') }}</strong>
+											<strong><?php echo e($errors->first('email')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
-								<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} m-form__group">
+								<div class="form-group<?php echo e($errors->has('password') ? ' has-error' : ''); ?> m-form__group">
 									<input class="form-control m-input" type="password" placeholder="Enter your password" name="signup_password">
-									@if ($errors->has('password'))
+									<?php if($errors->has('password')): ?>
 										<span class="help-block">
-											<strong>{{ $errors->first('password') }}</strong>
+											<strong><?php echo e($errors->first('password')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
-								<div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }} m-form__group">
+								<div class="form-group<?php echo e($errors->has('phone_number') ? ' has-error' : ''); ?> m-form__group">
 									<input class="form-control m-input signup_phone_number" type="number" placeholder="Enter your phone number" name="signup_phone_number">
-									@if ($errors->has('phone_number'))
+									<?php if($errors->has('phone_number')): ?>
 										<span class="help-block">
-											<strong>{{ $errors->first('phone_number') }}</strong>
+											<strong><?php echo e($errors->first('phone_number')); ?></strong>
 										</span>
-									@endif
+									<?php endif; ?>
 								</div>
 								<!-- <div class="form-group m-form__group">
 									<input class="form-control m-input m-login__form-input--last" type="password" placeholder="Confirm Password" name="rpassword">
@@ -150,13 +150,13 @@
 									<div class="m-login__desc">Enter your email to reset your password:</div>
 								</div>
 								<form class="m-login__form m-form" method="POST">
-									<div class="form-group{{ $errors->has('reset_email') ? ' has-error' : '' }} m-form__group">
-										<input class="form-control m-input" type="email" placeholder="Email" name="reset_email" id="m_email" value="{{ old('reset_email') }}" autofocus>
-										@if ($errors->has('email'))
+									<div class="form-group<?php echo e($errors->has('reset_email') ? ' has-error' : ''); ?> m-form__group">
+										<input class="form-control m-input" type="email" placeholder="Email" name="reset_email" id="m_email" value="<?php echo e(old('reset_email')); ?>" autofocus>
+										<?php if($errors->has('email')): ?>
 											<span class="help-block">
-												<strong>{{ $errors->first('email') }}</strong>
+												<strong><?php echo e($errors->first('email')); ?></strong>
 											</span>
-										@endif
+										<?php endif; ?>
 									</div>
 									<div class="m-login__form-action">
 										<button id="forgot_pwd" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Request</button>&nbsp;&nbsp;
@@ -177,10 +177,10 @@
 		<!-- end:: Page -->
 
 		<!--begin::Base Scripts -->
-		<script src="{{asset('assets/vendors/base/vendors.bundle.js')}}" type="text/javascript"></script>
-		<script src="{{asset('assets/demo/default/base/scripts.bundle.js')}}" type="text/javascript"></script>
+		<script src="<?php echo e(asset('assets/vendors/base/vendors.bundle.js')); ?>" type="text/javascript"></script>
+		<script src="<?php echo e(asset('assets/demo/default/base/scripts.bundle.js')); ?>" type="text/javascript"></script>
 
-		<script src="{{asset('assets/snippets/custom/pages/user/login.js')}}" type="text/javascript"></script>
+		<script src="<?php echo e(asset('assets/snippets/custom/pages/user/login.js')); ?>" type="text/javascript"></script>
 		<!--end::Base Scripts -->
 
 		<!--begin::Page Snippets -->
@@ -246,6 +246,8 @@
 						
 					},
 					error: function (response) {
+						// console.log(response);
+						console.log(response.responseJSON.error.code);
 						if(response.responseJSON.error.code == '406')
 						{
 							console.log(response.responseJSON.error.messages);

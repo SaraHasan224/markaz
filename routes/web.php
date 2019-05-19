@@ -54,9 +54,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('store', 'StoreController@getstore');
         Route::post('poststore', 'StoreController@poststore');
         Route::get('create-store', 'StoreController@createstore');
-        Route::get('edit-store/{id}', 'StoreController@editstore');
-        Route::post('edit-store/{id}', 'StoreController@editstore');
-
+        Route::match(['get','post'],'edit-store/{id}', 'StoreController@editstore');
+        //Get Specific Store
         Route::get('store/{id}', 'StoreController@getspecificstore');
         
         /* Store routes ends here*/
@@ -90,8 +89,12 @@ Route::group(['middleware' => ['web']], function () {
 
         /*  Profile routes starts here  */
 
-        Route::match(['get','post'],'profile','UserController@getUserProfile');
+        Route::get('profile','UserController@getUserProfile');
+        Route::post('user_profile','UserController@postUserProfile');        
         /*  Profile routes ends here  */
+
+        /*  Frequently Asked Questions routes starts here  */
+
         Route::get('create-faq', function () {
             return view('faq.faq');
         });
@@ -101,6 +104,9 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('edit-faq', function () {
             return view('home.edit-faqs');
         });
+        
+        /*  Frequently Asked Questions routes starts here  */
+        
         Route::get('invoice', function () {
             return view('home.invoice');
         });
@@ -108,6 +114,7 @@ Route::group(['middleware' => ['web']], function () {
             return view('home.events');
         });
         
+        /*  Frequently Asked Questions routes ends here  */
         
         Route::get('activity', function () {
             return view('user.activity');

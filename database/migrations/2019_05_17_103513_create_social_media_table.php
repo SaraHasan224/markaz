@@ -16,9 +16,9 @@ class CreateSocialMediaTable extends Migration
         Schema::create('social_stores', function (Blueprint $table) {
             $table->increments('id'); 
             $table->integer('store_id');
-            $table->string('facebook_link', 255);
-            $table->string('twitter_link', 255);
-            $table->string('insta_link', 255);
+            $table->string('facebook_link', 255)->nullable();
+            $table->string('twitter_link', 255)->nullable();
+            $table->string('insta_link', 255)->nullable();
 			$table->timestamps();
             $table->softDeletes();
         });

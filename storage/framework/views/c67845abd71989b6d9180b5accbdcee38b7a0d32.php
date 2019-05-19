@@ -1,5 +1,4 @@
-@extends('layouts.header')
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
     .masonry-wrapper {
     padding: 1.5em;
@@ -19,11 +18,11 @@
     vertical-align: top;
     margin-bottom: 10px;
     }
-    @media only screen and (max-width: 1023px) and (min-width: 768px) {  .masonry {
+    @media  only screen and (max-width: 1023px) and (min-width: 768px) {  .masonry {
         columns: 2;
     }
     }
-    @media only screen and (min-width: 1024px) {
+    @media  only screen and (min-width: 1024px) {
     .masonry {
         columns: 3;
     }
@@ -40,8 +39,8 @@
     filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, .3));
     }
 </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -68,12 +67,12 @@
                             </div>
                             <div class="m-card-profile__pic">
                                 <div class="m-card-profile__pic-wrapper">
-                                    <img src="{{ asset('assets/app/media/img/users/') }}/{{$logged_user->profile_pic}}" alt="" />
+                                    <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e($logged_user->profile_pic); ?>" alt="" />
                                 </div>
                             </div>
                             <div class="m-card-profile__details">
-                                <span class="m-card-profile__name">{{$logged_user->name}}</span>
-                                <a href="" class="m-card-profile__email m-link">{{$logged_user->name}}</a>
+                                <span class="m-card-profile__name"><?php echo e($logged_user->name); ?></span>
+                                <a href="" class="m-card-profile__email m-link"><?php echo e($logged_user->name); ?></a>
                             </div>
                         </div>
                         <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
@@ -82,7 +81,7 @@
                                 <span class="m-nav__section-text">Section</span>
                             </li>
                             <li class="m-nav__item">
-                                <a href="{{url('profile')}}" class="m-nav__link">
+                                <a href="<?php echo e(url('profile')); ?>" class="m-nav__link">
                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                     <span class="m-nav__link-title">
                                         <span class="m-nav__link-wrap">
@@ -95,7 +94,7 @@
                                 </a>
                             </li>
                             <li class="m-nav__item">
-                                <a href="{{url('activity')}}" class="m-nav__link">
+                                <a href="<?php echo e(url('activity')); ?>" class="m-nav__link">
                                     <i class="m-nav__link-icon flaticon-share"></i>
                                     <span class="m-nav__link-text">Activity</span>
                                 </a>
@@ -105,12 +104,13 @@
                     </div>
                 </div>
             </div>
-            @yield('profile')
+            <?php echo $__env->yieldContent('profile'); ?>
         </div>
     </div>
 </div>
-@endsection
-@section('scripts')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
     var base_url = "<?php url(); ?>";
     
@@ -131,4 +131,5 @@
             });
         });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -298,22 +298,23 @@ class UserController extends Controller
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $store = Store::where('user_id',$user_id)->first();
-        if($store != '')
-        {
-            $data['social'] = StoreSocialMedia::where('store_id',$store->id)->get();
-        }else{
-            $data['social'] = '';
-        }
+        $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->get() : '';
+        $data['social'] = !empty($social) ? $social : '';
         $data['logged_user'] = $getuser;
         $data['store'] = $store;
+        return view('user.client_profile',$data);
+    }
+    public function postUserProfile(Request $request)
+    {
         if($request->isMethod('post'))
         {
             $input = $request->all();
+            dd($input);
             User::where('id',$user_id)->update([
                 'name' => $request->name,
                 'position' => $request->position
             ]);
-            $store = Store::updateOrCreate([
+            $store_updated = Store::updateOrCreate([
                 'name' => $request->company,
                 'address' => $request->company_address,
                 'telephone' => $request->company_telephone,
@@ -324,14 +325,12 @@ class UserController extends Controller
             ]); 
 
             StoreSocialMedia::updateOrCreate([
-                'store_id' => $store->id,
+                'store_id' => $store_updated->id,
                 'facebook_link' => $request->fb_link,
                 'twitter_link' => $request->tw_link,
                 'insta_link' => $request->insta_link
             ]);
-            
         }
-        return view('user.client_profile',$data);
     }
    
     //      Manage User Profile Ends Here    //

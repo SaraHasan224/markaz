@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Store,
+    App\StoreSocialMedia,
     App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -81,7 +82,7 @@ class StoreController extends Controller
         return view('store.create-store',$data);
     }
     public function poststore(Request $request){
-        $input = $request->only('name', 'address','user_id','website','contact_email','description','latitude', 'longitude','contact_number');
+        $input = $request->only('name', 'address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
         $rules = [  
             'name' => 'required|unique:stores,name',
             'address' => 'required',
@@ -106,6 +107,14 @@ class StoreController extends Controller
             $store->desciption = $request->description;
             $store->telephone = $request->contact_number;
             $store->save();
+
+            $social = new StoreSocialMedia;
+            $social->store_id = $store->id;
+            $social->facebook_link = $request->fb_link;
+            $social->twitter_link = $request->tw_link;
+            $social->insta_link = $request->insta_link;
+            $social->save();
+
             $output = "Store created successfully";
             $code = 200;
          }

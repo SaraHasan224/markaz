@@ -6,7 +6,7 @@
     <title>Markaz - Get Notify</title>
     <meta name="description" content="Latest updates and statistic charts">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=no">
-		<meta name="csrf-token" content="{{ csrf_token() }}">
+		<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
     <!--begin::Web font -->
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
@@ -22,19 +22,19 @@
 
     </script>
      <!--begin::Page Vendors -->
-     <link href="{{asset('assets/vendors/custom/jquery-ui/jquery-ui.bundle.css')}}" rel="stylesheet" type="text/css" />
-    {{-- <link href="{{asset('assets/vendors/custom/fullcalendar/fullcalendar.bundle.css')}}" rel="stylesheet" --}}
+     <link href="<?php echo e(asset('assets/vendors/custom/jquery-ui/jquery-ui.bundle.css')); ?>" rel="stylesheet" type="text/css" />
+    
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
     <!--end::Page Vendors -->
-    <link href="{{asset('assets/vendors/base/vendors.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('assets/vendors/base/vendors.bundle.css')); ?>" rel="stylesheet" type="text/css" />
     <!--RTL version:<link href="assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
-    <link href="{{asset('assets/demo/demo12/base/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('assets/demo/demo12/base/style.bundle.css')); ?>" rel="stylesheet" type="text/css" />
     <!--RTL version:<link href="assets/demo/demo12/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
     <!--end::Base Styles -->
-    <link rel="shortcut icon" href="{{asset('assets/demo/demo12/media/img/logo/markaz.png')}}" />
+    <link rel="shortcut icon" href="<?php echo e(asset('assets/demo/demo12/media/img/logo/markaz.png')); ?>" />
     <!--end::Web font -->
     <!--begin::Base Styles -->
-        @yield('styles')
+        <?php echo $__env->yieldContent('styles'); ?>
    
 </head>
 <!-- end::Head -->
@@ -358,7 +358,7 @@
                                         m-dropdown-toggle="click">
                                         <a href="#" class="m-nav__link m-dropdown__toggle">
                                             <span class="m-topbar__userpic">
-                                                <img src="{{ asset('assets/app/media/img/users/') }}/{{$logged_user->profile_pic}}"
+                                                <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e($logged_user->profile_pic); ?>"
                                                     class="m--img-rounded m--marginless m--img-centered" alt="" />
                                             </span>
                                             <span class="m-nav__link-icon m-topbar__usericon  m--hide">
@@ -374,13 +374,13 @@
                                                 <div class="m-dropdown__header m--align-center">
                                                     <div class="m-card-user m-card-user--skin-light">
                                                         <div class="m-card-user__pic">
-                                                            <img src="{{ asset('assets/app/media/img/users/') }}/{{!empty($logged_user->profile_pic) ? $logged_user->profile_pic : ''}}"
+                                                            <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e(!empty($logged_user->profile_pic) ? $logged_user->profile_pic : ''); ?>"
                                                                 class="m--img-rounded m--marginless" alt="" />
                                                         </div>
                                                         <div class="m-card-user__details">
-                                                            <span class="m-card-user__name m--font-weight-500">{{$logged_user->name}}</span>
+                                                            <span class="m-card-user__name m--font-weight-500"><?php echo e($logged_user->name); ?></span>
                                                             <a href=""
-                                                                class="m-card-user__email m--font-weight-300 m-link">{{$logged_user->email}}</a>
+                                                                class="m-card-user__email m--font-weight-300 m-link"><?php echo e($logged_user->email); ?></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -391,7 +391,7 @@
                                                                 <span class="m-nav__section-text">Section</span>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{url('profile')}}" class="m-nav__link">
+                                                                <a href="<?php echo e(url('profile')); ?>" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                                     <span class="m-nav__link-title">
                                                                         <span class="m-nav__link-wrap">
@@ -404,7 +404,7 @@
                                                                 </a>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{url('faq')}}" class="m-nav__link">
+                                                                <a href="<?php echo e(url('faq')); ?>" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-info"></i>
                                                                     <span class="m-nav__link-text">FAQ</span>
                                                                 </a>
@@ -415,8 +415,9 @@
                                                                 <a class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder" id="logout">Logout</a>
                                                             </li>
                                                         </ul>
-                                                        <form id="logout-form" action="{{ url('logout') }}" method="POST" style="display: none;">
-                                                        {{ csrf_field() }}
+                                                        <form id="logout-form" action="<?php echo e(url('logout')); ?>" method="POST" style="display: none;">
+                                                        <?php echo e(csrf_field()); ?>
+
                                                         </form>
                                                     </div>
                                                 </div>
@@ -451,12 +452,12 @@
                             <h4 class="m-menu__section-text">Departments</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{url('/')}}"
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="<?php echo e(url('/')); ?>"
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Dashboard</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
                                     class="m-menu__link-text">Support</span></a>
@@ -465,7 +466,7 @@
                             <a href="javascript:;" class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Users</span>
-                                        {{-- <span class="m-menu__link-badge"><span class="m-badge m-badge--accent">3</span> --}}
+                                        
                                         </span> </span></span><i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
@@ -474,11 +475,11 @@
                                         m-menu-link-redirect="1"><span class="m-menu__link"><span
                                                 class="m-menu__item-here"></span><span class="m-menu__link-title"> <span
                                                     class="m-menu__link-wrap">  
-                                                    {{-- <span class="m-menu__link-badge"><span class="m-badge m-badge--accent">3</span></span> --}}
+                                                    
                                                 </span></span></span>
                                     </li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('users')}}" class="m-menu__link "><i
+                                            href="<?php echo e(url('users')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">View All Users</span></a></li>
                                 </ul>
@@ -491,13 +492,13 @@
                                 class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Stores</span>
-                                        {{-- <span class="m-menu__link-badge"><span class="m-badge m-badge--accent">3</span></span>  --}}
+                                        
                                     </span></span><i
                                     class="m-menu__ver-arrow la la-angle-right"></i></a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
                                 <ul class="m-menu__subnav">
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('store')}}" class="m-menu__link "><i
+                                            href="<?php echo e(url('store')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">View All Stores</span></a></li>
                                 </ul>
@@ -516,15 +517,15 @@
                                 <ul class="m-menu__subnav">
                                     
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('promotions')}}" class="m-menu__link "><i
+                                            href="<?php echo e(url('promotions')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">View All Promotions</span></a></li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('promotion-categories')}}" class="m-menu__link "><i
+                                            href="<?php echo e(url('promotion-categories')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">Manage Promotion Categories</span></a></li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('promotion-tags')}}" class="m-menu__link "><i
+                                            href="<?php echo e(url('promotion-tags')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">Manage Promotion Tags</span></a></li>
                                 </ul>
@@ -534,17 +535,17 @@
                             <h4 class="m-menu__section-text">Manage Account</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('timeline')}}"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('timeline')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic"></i><span
                                     class="m-menu__link-text">Timeline</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('profile')}}"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('profile')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-network"></i><span
                                     class="m-menu__link-text">Profile</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('faq')}}"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('faq')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-settings"></i><span
                                     class="m-menu__link-text">FAQs</span></a></li>
@@ -553,7 +554,7 @@
                 <!-- END: Aside Menu -->
             </div>
             <!-- END: Left Aside -->
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
             <!-- END: Content -->
         </div>
 
@@ -1047,38 +1048,38 @@
     </div>
     <!-- end::Scroll Top -->
     <!--begin::Base Scripts -->
-    <script src="{{asset('assets/vendors/base/vendors.bundle.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/demo/demo12/base/scripts.bundle.js')}}" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/vendors/base/vendors.bundle.js')); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/demo/demo12/base/scripts.bundle.js')); ?>" type="text/javascript"></script>
     <!--end::Base Scripts -->
 
     <!--begin::Page Vendors -->
-    <!-- <script src="{{asset('assets/vendors/custom/datatables/datatables.bundle.js')}}" type="text/javascript"></script> -->
+    <!-- <script src="<?php echo e(asset('assets/vendors/custom/datatables/datatables.bundle.js')); ?>" type="text/javascript"></script> -->
     <!--end::Page Vendors -->
 
     <!--begin::Page Vendors -->
-    <script src="{{asset('assets/vendors/custom/fullcalendar/fullcalendar.bundle.js')}}" type="text/javascript">
+    <script src="<?php echo e(asset('assets/vendors/custom/fullcalendar/fullcalendar.bundle.js')); ?>" type="text/javascript">
     </script>
     <!--end::Page Vendors -->
 
 
     <!--begin::Page Snippets -->
-    <script src="{{asset('assets/app/js/dashboard.js')}}" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/app/js/dashboard.js')); ?>" type="text/javascript"></script>
     <!--end::Page Snippets -->
 
     <!--begin::Page Snippets -->
-    <!-- <script src="{{asset('assets/snippets/custom/pages/user/login.js')}}" type="text/javascript"></script> -->
+    <!-- <script src="<?php echo e(asset('assets/snippets/custom/pages/user/login.js')); ?>" type="text/javascript"></script> -->
     <!--end::Page Snippets -->
     <!--begin::Page Resources -->
     
-    <script src="{{asset('assets/demo/default/custom/crud/forms/widgets/form-repeater.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/demo/default/custom/crud/forms/widgets/dropzone.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-select.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-daterangepicker.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/demo/default/custom/components/maps/google-maps.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/custom/gmaps/gmaps.js')}}" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/form-repeater.js')); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/dropzone.js')); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-select.js')); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-daterangepicker.js')); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/demo/default/custom/components/maps/google-maps.js')); ?>" type="text/javascript"></script>
+    <script src="<?php echo e(asset('assets/vendors/custom/gmaps/gmaps.js')); ?>" type="text/javascript"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANBXiJs5W1bQUKxU-ivM69Tu4ye7Fok9I" type="text/javascript"></script>
-	<script src="{{asset('assets/demo/default/custom/components/base/sweetalert2.js')}}" type="text/javascript"></script>
-        @yield('scripts')
+	<script src="<?php echo e(asset('assets/demo/default/custom/components/base/sweetalert2.js')); ?>" type="text/javascript"></script>
+        <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 <!-- end::Body -->
 

@@ -1,6 +1,4 @@
-@extends('user.profile')
-
-@section('profile')
+<?php $__env->startSection('profile'); ?>
             <div class="col-xl-9 col-lg-8">
                 <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
                     <div class="m-portlet__head">
@@ -43,14 +41,14 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="name" value="{{$logged_user->name}}">
-                                            <input class="form-control m-input" type="hidden" name="user_id" value="{{$logged_user->id}}">
+                                            <input class="form-control m-input" type="text" name="name" value="<?php echo e($logged_user->name); ?>">
+                                            <input class="form-control m-input" type="hidden" name="user_id" value="<?php echo e($logged_user->id); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Role</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="position" value="{{$logged_user->position}}">
+                                            <input class="form-control m-input" type="text" name="position" value="<?php echo e($logged_user->position); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -327,4 +325,5 @@
                     </div>
                 </div>
             </div>
-@endsection 
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('user.profile', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
