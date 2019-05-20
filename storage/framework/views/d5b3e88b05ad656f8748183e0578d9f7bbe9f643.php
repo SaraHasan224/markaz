@@ -109,5 +109,26 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
-
+<?php $__env->startSection('scripts'); ?>
+<script>
+    var base_url = "<?php url(); ?>";
+    
+    $('#profile').submit(function(event){	
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                headers: 
+                {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/user_profile',
+                data: $("#profile").serialize(),
+                success: function (response) {
+                    $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
+                },
+            });
+        });
+</script>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

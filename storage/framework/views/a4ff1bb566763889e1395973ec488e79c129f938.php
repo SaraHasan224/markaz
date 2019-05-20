@@ -28,15 +28,15 @@
                             <form class="m-form m-form--fit m-form--label-align-right" id="profile" method="POST">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group m--margin-top-10 m--hide">
-                                        <div class="alert m-alert m-alert--default" role="alert">
-                                            The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+                                        <div class="alert m-alert m-alert--default result" role="alert">
+                                            
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-10 ml-auto">
                                             <h3 class="m-form__section">1. Company Information</h3>
                                         </div>
-                                        <div id="result"></div>
+                                        
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">Position</label>
+                                        <label for="example-text-input" class="col-2 col-form-label">Role</label>
                                         <div class="col-7">
                                             <input class="form-control m-input" type="text" name="position" value="<?php echo e($logged_user->position); ?>">
                                         </div>
@@ -54,37 +54,37 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company" value="<?php $store != '' ? $store->name : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company" value="<?php echo e($store->name); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Address</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_address" value="<?php $store != '' ? $store->address : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_address" value="<?php echo e($store->address); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Telephone</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_telephone" value="<?php $store != '' ? $store->telephone : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_telephone" value="<?php echo e($store->telephone); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Website</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_website" value="<?php $store != '' ? $store->websitelink     : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_website" value="<?php echo e($store->websitelink); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Contact Email Address</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_email" value="<?php $store != '' ? $store->emailaddress : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_email" value="<?php echo e($store->emailaddress); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Information</label>
                                         <div class="col-7">
-                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6"><?php $store != '' ? $store->desciption : '' ?></textarea>
+                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6"><?php echo e($store->desciption); ?></textarea>
                                         </div>
                                     </div>
                                     
@@ -97,19 +97,19 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Facebook</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="fb_link" value="<?php $social != '' ? $social->facebook_link : '' ?>">
+                                            <input class="form-control m-input" type="text" name="fb_link" value="<?php echo e($social->facebook_link); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Twitter</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="tw_link" value="<?php $social != '' ? $social->twitter_link : '' ?>">
+                                            <input class="form-control m-input" type="text" name="tw_link" value="<?php echo e($social->twitter_link); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Instagram</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text"  name="insta_link" value="<?php $social != '' ? $social->insta_link : '' ?>">
+                                            <input class="form-control m-input" type="text"  name="insta_link" value="<?php echo e($social->insta_link); ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@
                                             <div class="col-2">
                                             </div>
                                             <div class="col-7">
-                                                <button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Save changes</button>&nbsp;&nbsp;
+                                                <button type="submit" class="btn btn-accent m-btn m-btn--air">Save changes</button>&nbsp;&nbsp;
                                                 <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
                                             </div>
                                         </div>
@@ -152,11 +152,13 @@
 										</div>
 									</div>
 									<div class="m-portlet__body">
-										<?php $store != '' ? $store->desciption : ''?>
+										<?php echo e($store->desciption); ?>
+
                                         <br/>
                                         <br/>
                                         <b><h5>Location: </h5></b>
-										    <?php $store != '' ? $store->address : ''?>
+										<?php echo e($store->address); ?>
+
                                        
 									</div>
 								</div>
@@ -178,17 +180,17 @@
 									<div class="m-portlet__body">
 										 <!--end::Portlet-->
                                         <b><h5>Tel: </h5></b>
-                                        <?php $store != '' ? $store->telephone : ''?>
+                                        <?php $store->telephone ?>
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Website: </h5></b>
-                                        <?php $store != '' ? $store->websitelink : ''?>
+                                        <?php $store->websitelink ?>
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Email Address: </h5></b>
-                                        <?php $store != '' ? $store->emailaddress : ''?>
+                                        {{ $store->emailaddress ?>
                                         <!--end::Portlet-->
 									</div>
 								</div>
@@ -326,28 +328,4 @@
                 </div>
             </div>
 <?php $__env->stopSection(); ?> 
-<?php $__env->startSection('scripts'); ?> 
-<script>
-    var base_url = "<?php url() ?>";
-    $('#profile').submit(function(event){	
-        event.preventDefault();
-    	$.ajax({
-    		type: "POST",
-    		headers: 
-    		{
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    		},
-    		url: base_url+'/profile',
-    		data: $("#profile").serialize(),
-    		success: function (response) {
-                $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
-                // setTimeout(function() {
-                //     window.location.reload();
-				// }, 2e3);
-    		}
-    	});
-    })
-</script>
-<?php $__env->stopSection(); ?>
 <?php echo $__env->make('user.profile', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

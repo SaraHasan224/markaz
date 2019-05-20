@@ -1,5 +1,4 @@
 @extends('user.profile')
-
 @section('profile')
             <div class="col-xl-9 col-lg-8">
                 <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
@@ -56,37 +55,37 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company" value="<?php $store != '' ? $store->name : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company" value="{{ $store->name  }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Address</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_address" value="<?php $store != '' ? $store->address : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_address" value="{{$store->address }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Telephone</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_telephone" value="<?php $store != '' ? $store->telephone : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_telephone" value="{{$store->telephone }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Website</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_website" value="<?php $store != '' ? $store->websitelink     : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_website" value="{{$store->websitelink   }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Contact Email Address</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_email" value="<?php $store != '' ? $store->emailaddress : '' ?>">
+                                            <input class="form-control m-input" type="text" name="company_email" value="{{$store->emailaddress  }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Information</label>
                                         <div class="col-7">
-                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6"><?php $store != '' ? $store->desciption : '' ?></textarea>
+                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6">{{$store->desciption  }}</textarea>
                                         </div>
                                     </div>
                                     
@@ -99,19 +98,19 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Facebook</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="fb_link" value="<?php empty($social) ? 'Enter facebook link' : $social->facebook_link ?>">
+                                            <input class="form-control m-input" type="text" name="fb_link" value="{{ $social->facebook_link }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Twitter</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="tw_link" value="<?php empty($social) ? 'Enter twitter link' : $social->twitter_link ?>">
+                                            <input class="form-control m-input" type="text" name="tw_link" value="{{ $social->twitter_link }}">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Instagram</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text"  name="insta_link" value="<?php empty($social) ? 'Enter instagram link' : $social->insta_link  ?>">
+                                            <input class="form-control m-input" type="text"  name="insta_link" value="{{ $social->insta_link  }}">
                                         </div>
                                     </div>
                                 </div>
@@ -154,11 +153,11 @@
 										</div>
 									</div>
 									<div class="m-portlet__body">
-										<?php $store != '' ? $store->desciption : ''?>
+										{{ $store->desciption }}
                                         <br/>
                                         <br/>
                                         <b><h5>Location: </h5></b>
-										    <?php $store != '' ? $store->address : ''?>
+										{{ $store->address }}
                                        
 									</div>
 								</div>
@@ -180,17 +179,17 @@
 									<div class="m-portlet__body">
 										 <!--end::Portlet-->
                                         <b><h5>Tel: </h5></b>
-                                        <?php $store != '' ? $store->telephone : ''?>
+                                        <?php $store->telephone ?>
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Website: </h5></b>
-                                        <?php $store != '' ? $store->websitelink : ''?>
+                                        <?php $store->websitelink ?>
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Email Address: </h5></b>
-                                        <?php $store != '' ? $store->emailaddress : ''?>
+                                        {{ $store->emailaddress ?>
                                         <!--end::Portlet-->
 									</div>
 								</div>

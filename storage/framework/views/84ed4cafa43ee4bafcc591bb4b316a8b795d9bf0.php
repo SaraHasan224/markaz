@@ -19,8 +19,17 @@
 					sessionStorage.fonts = true;
 				}
 			});
+			
 		</script>
-
+		<style>
+			input[type=number]::-webkit-inner-spin-button, 
+			input[type=number]::-webkit-outer-spin-button { 
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			margin: 0; 
+			}
+		</style>
 		<!--end::Web font -->
 
 		<!--begin::Base Styles -->
@@ -108,7 +117,7 @@
 									<?php endif; ?>
 								</div>
 								<div class="form-group<?php echo e($errors->has('phone_number') ? ' has-error' : ''); ?> m-form__group">
-									<input class="form-control m-input" type="text" placeholder="Enter your phone number" name="signup_phone_number">
+									<input class="form-control m-input signup_phone_number" type="number" placeholder="Enter your phone number" name="signup_phone_number">
 									<?php if($errors->has('phone_number')): ?>
 										<span class="help-block">
 											<strong><?php echo e($errors->first('phone_number')); ?></strong>
@@ -234,25 +243,28 @@
 								window.location.href = base_url+'/dashboard';
 							}, 5000);
 						}
+						
 					},
 					error: function (response) {
-						console.log(response);
-						if(response.responseJSON.error != '')
+						if(response.responseJSON.error.code == '406')
 						{
-							setTimeout(function() {
-                                a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1), 
-                                i(l, "danger", response.responseJSON.error.message)
-                            }, 2e3)
-						}
-						if(response.responseJSON.code == '406')
-						{
+							console.log(response.responseJSON.error.messages);
 							response.responseJSON.error.messages.forEach(function (msg) {
+								console.log(msg);
 								setTimeout(function() {
 									a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1), 
 									i(l, "danger", msg)
 								}, 2e3)
 							})
 						}
+						else if(response.responseJSON.error != '')
+						{
+							setTimeout(function() {
+                                a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1), 
+                                i(l, "danger", response.responseJSON.error.message)
+                            }, 2e3)
+						}
+
 					}
 				}))
 		}),
@@ -316,7 +328,15 @@
 						}
 					},
 					error: function (response) {
-						// console.log(response.responseJSON);
+						console.log(response.responseJSON.error);
+						if(response.responseJSON.error == 406)
+						{
+							console.log(response.responseJSON.error.message);
+							setTimeout(function() {
+                                a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1), 
+                                i(l, "danger", response.responseJSON.error.message)
+                            }, 2e3)
+						}
 						if(response.responseJSON.error != '')
 						{
 							setTimeout(function() {

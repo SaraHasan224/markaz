@@ -8,7 +8,88 @@
         font-weight: 500;
         padding: 6px 12px;
       }
-</style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 500px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
 @endsection
 @section('content')
 <!-- END: Left Aside -->
@@ -122,7 +203,7 @@
                                 <div class="col-lg-6">
                                     <label>Store Adress:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" name="address" class="form-control m-input" placeholder="Enter your address">
+                                        <input type="text" name="address" id="pac-input" class="controls form-control m-input" placeholder="Enter your store address">
                                         <span class="m-input-icon__icon m-input-icon__icon--right">
                                             <span>
                                                 <i class="la la-map-marker"></i>
@@ -133,14 +214,14 @@
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
-                                <div class="col-lg-12">
-                                    <label class="">Store Location:</label>
-                                    <div class="m-input-icon m-input-icon--right">
-                                        <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
-                                            <span><i class="la la-location-arrow"></i><span>Location</span></span>
-                                        </button>
-                                    </div>
-                                    <span class="m-form__help" id="demo"></span>
+                                <div class="col-lg-12" id="map">
+                                        <!-- <label class="">Store Location:</label>
+                                        <div class="m-input-icon m-input-icon--right">
+                                            <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                <span><i class="la la-location-arrow"></i><span>Location</span></span>
+                                            </button>
+                                        </div>
+                                        <span class="m-form__help" id="demo"></span> -->
                                     <input type="hidden" name="user_id" value="{{$user_id}}"/>
                                 </div>
                             </div>
@@ -170,6 +251,86 @@
 @endsection
 @section('scripts') 
 <script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+
+    </script>
+    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4MXWFPJe99KHmkoSQYa7cYK8Rz0lAuh8&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+
+
+<script>
     var base_url = "<?php url() ?>";
     $('#stores').submit(function(event){	
             event.preventDefault();
@@ -182,13 +343,13 @@
     		url: base_url+'/poststore',
     		data: $("#stores").serialize(),
     		success: function (response) {
-                console.log(response);
+                // console.log(response);
                 $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
             },
             error: function (response){
                 response.responseJSON.messages.forEach(function (msg) {
-                console.log(msg);
+                // console.log(msg);
                     $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
 				});
             }

@@ -298,10 +298,11 @@ class UserController extends Controller
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $store = Store::where('user_id',$user_id)->first();
-        $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->get() : '';
+        $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';
         $data['social'] = !empty($social) ? $social : '';
         $data['logged_user'] = $getuser;
         $data['store'] = $store;
+        // dd($data);
         return view('user.client_profile',$data);
     }
     public function postUserProfile(Request $request)
@@ -321,8 +322,7 @@ class UserController extends Controller
                 'emailaddress' => $request->company_email,
                 'desciption' => $request->company_info, 
             ]); 
-            StoreSocialMedia::update([
-                'store_id' => $store_updated->id,
+            StoreSocialMedia::where('store_id',$store_updated)->update([
                 'facebook_link' => $request->fb_link,
                 'twitter_link' => $request->tw_link,
                 'insta_link' => $request->insta_link

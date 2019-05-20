@@ -23,8 +23,7 @@
     </script>
      <!--begin::Page Vendors -->
      <link href="<?php echo e(asset('assets/vendors/custom/jquery-ui/jquery-ui.bundle.css')); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo e(asset('assets/vendors/custom/fullcalendar/fullcalendar.bundle.css')); ?>" rel="stylesheet"
-        type="text/css" />
+    
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
     <!--end::Page Vendors -->
     <link href="<?php echo e(asset('assets/vendors/base/vendors.bundle.css')); ?>" rel="stylesheet" type="text/css" />
@@ -375,7 +374,7 @@
                                                 <div class="m-dropdown__header m--align-center">
                                                     <div class="m-card-user m-card-user--skin-light">
                                                         <div class="m-card-user__pic">
-                                                            <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e($logged_user->profile_pic); ?>"
+                                                            <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e(!empty($logged_user->profile_pic) ? $logged_user->profile_pic : ''); ?>"
                                                                 class="m--img-rounded m--marginless" alt="" />
                                                         </div>
                                                         <div class="m-card-user__details">
@@ -467,7 +466,7 @@
                             <a href="javascript:;" class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Users</span>
-                                        <span class="m-menu__link-badge"><span class="m-badge m-badge--accent">3</span>
+                                        
                                         </span> </span></span><i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
@@ -475,9 +474,8 @@
                                     <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"
                                         m-menu-link-redirect="1"><span class="m-menu__link"><span
                                                 class="m-menu__item-here"></span><span class="m-menu__link-title"> <span
-                                                    class="m-menu__link-wrap">  <span
-                                                        class="m-menu__link-badge"><span
-                                                            class="m-badge m-badge--accent">3</span></span>
+                                                    class="m-menu__link-wrap">  
+                                                    
                                                 </span></span></span>
                                     </li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
@@ -494,19 +492,11 @@
                                 class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Stores</span>
-                                        <span class="m-menu__link-badge"><span
-                                                class="m-badge m-badge--accent">3</span></span> </span></span><i
+                                        
+                                    </span></span><i
                                     class="m-menu__ver-arrow la la-angle-right"></i></a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
                                 <ul class="m-menu__subnav">
-                                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"
-                                        m-menu-link-redirect="1"><span class="m-menu__link"><span
-                                                class="m-menu__item-here"></span><span class="m-menu__link-title"> <span
-                                                    class="m-menu__link-wrap">  <span
-                                                        class="m-menu__link-badge"><span
-                                                            class="m-badge m-badge--accent">3</span></span>
-                                                </span></span></span>
-                                    </li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
                                             href="<?php echo e(url('store')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
@@ -521,19 +511,11 @@
                                 class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Promotions</span>
-                                        <span class="m-menu__link-badge"><span
-                                                class="m-badge m-badge--accent">3</span></span> </span></span><i
+                                        </span></span><i
                                     class="m-menu__ver-arrow la la-angle-right"></i></a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
                                 <ul class="m-menu__subnav">
-                                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"
-                                        m-menu-link-redirect="1"><span class="m-menu__link"><span
-                                                class="m-menu__item-here"></span><span class="m-menu__link-title"> <span
-                                                    class="m-menu__link-wrap">  <span
-                                                        class="m-menu__link-badge"><span
-                                                            class="m-badge m-badge--accent">3</span></span>
-                                                </span></span></span>
-                                    </li>
+                                    
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
                                             href="<?php echo e(url('promotions')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
@@ -1094,8 +1076,8 @@
     <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-select.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-daterangepicker.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/default/custom/components/maps/google-maps.js')); ?>" type="text/javascript"></script>
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4MXWFPJe99KHmkoSQYa7cYK8Rz0lAuh8&libraries=places&callback=initAutocomplete"  async defer type="text/javascript"></script> -->
     <script src="<?php echo e(asset('assets/vendors/custom/gmaps/gmaps.js')); ?>" type="text/javascript"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANBXiJs5W1bQUKxU-ivM69Tu4ye7Fok9I" type="text/javascript"></script>
 	<script src="<?php echo e(asset('assets/demo/default/custom/components/base/sweetalert2.js')); ?>" type="text/javascript"></script>
         <?php echo $__env->yieldContent('scripts'); ?>
 </body>
