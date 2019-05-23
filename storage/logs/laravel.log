@@ -3810,3 +3810,62 @@ Stack trace:
 #51 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(116): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #52 C:\laragon\www\markaz\public\index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #53 {main}  
+[2019-05-23 17:44:22] production.ERROR: RuntimeException: The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths. in C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Encryption\Encrypter.php:43
+Stack trace:
+#0 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Encryption\EncryptionServiceProvider.php(27): Illuminate\Encryption\Encrypter->__construct('', 'AES-256-CBC')
+#1 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(726): Illuminate\Encryption\EncryptionServiceProvider->Illuminate\Encryption\{closure}(Object(Illuminate\Foundation\Application), Array)
+#2 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(608): Illuminate\Container\Container->build(Object(Closure))
+#3 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(575): Illuminate\Container\Container->resolve('encrypter')
+#4 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(728): Illuminate\Container\Container->make('encrypter')
+#5 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(862): Illuminate\Foundation\Application->make('encrypter')
+#6 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(790): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#7 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(757): Illuminate\Container\Container->resolveDependencies(Array)
+#8 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(608): Illuminate\Container\Container->build('App\\Http\\Middle...')
+#9 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(575): Illuminate\Container\Container->resolve('App\\Http\\Middle...')
+#10 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(728): Illuminate\Container\Container->make('App\\Http\\Middle...')
+#11 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(138): Illuminate\Foundation\Application->make('App\\Http\\Middle...')
+#12 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#13 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(102): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#14 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Router.php(574): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#15 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Router.php(533): Illuminate\Routing\Router->runRouteWithinStack(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request))
+#16 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Router.php(511): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#17 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(176): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#18 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Pipeline.php(30): Illuminate\Foundation\Http\Kernel->Illuminate\Foundation\Http\{closure}(Object(Illuminate\Http\Request))
+#19 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(30): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#20 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(148): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#21 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#22 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php(30): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#23 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(148): Illuminate\Foundation\Http\Middleware\TransformsRequest->handle(Object(Illuminate\Http\Request), Object(Closure))
+#24 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#25 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ValidatePostSize.php(27): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#26 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(148): Illuminate\Foundation\Http\Middleware\ValidatePostSize->handle(Object(Illuminate\Http\Request), Object(Closure))
+#27 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#28 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode.php(46): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#29 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(148): Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode->handle(Object(Illuminate\Http\Request), Object(Closure))
+#30 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Routing\Pipeline.php(53): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#31 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php(102): Illuminate\Routing\Pipeline->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
+#32 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(151): Illuminate\Pipeline\Pipeline->then(Object(Closure))
+#33 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(116): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#34 C:\laragon\www\markaz\public\index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#35 {main}  
+[2019-05-23 17:44:22] production.ERROR: RuntimeException: The only supported ciphers are AES-128-CBC and AES-256-CBC with the correct key lengths. in C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Encryption\Encrypter.php:43
+Stack trace:
+#0 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Encryption\EncryptionServiceProvider.php(27): Illuminate\Encryption\Encrypter->__construct('', 'AES-256-CBC')
+#1 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(726): Illuminate\Encryption\EncryptionServiceProvider->Illuminate\Encryption\{closure}(Object(Illuminate\Foundation\Application), Array)
+#2 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(608): Illuminate\Container\Container->build(Object(Closure))
+#3 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(575): Illuminate\Container\Container->resolve('encrypter')
+#4 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(728): Illuminate\Container\Container->make('encrypter')
+#5 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(862): Illuminate\Foundation\Application->make('encrypter')
+#6 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(790): Illuminate\Container\Container->resolveClass(Object(ReflectionParameter))
+#7 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(757): Illuminate\Container\Container->resolveDependencies(Array)
+#8 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(608): Illuminate\Container\Container->build('App\\Http\\Middle...')
+#9 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Container\Container.php(575): Illuminate\Container\Container->resolve('App\\Http\\Middle...')
+#10 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(728): Illuminate\Container\Container->make('App\\Http\\Middle...')
+#11 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(215): Illuminate\Foundation\Application->make('App\\Http\\Middle...')
+#12 C:\laragon\www\markaz\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(189): Illuminate\Foundation\Http\Kernel->terminateMiddleware(Object(Illuminate\Http\Request), Object(Illuminate\Http\Response))
+#13 C:\laragon\www\markaz\public\index.php(58): Illuminate\Foundation\Http\Kernel->terminate(Object(Illuminate\Http\Request), Object(Illuminate\Http\Response))
+#14 {main}  
+[2019-05-23 18:22:14] local.INFO: Broadcasting [created] on channels [] with payload:
+{
+    "user": 1
+}  

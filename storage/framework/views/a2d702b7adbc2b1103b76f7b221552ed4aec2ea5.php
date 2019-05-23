@@ -69,7 +69,7 @@
         font-size: 15px;
         font-weight: 300;
         margin-left: 12px;
-        padding: 0 11px 0 13px;
+        /* padding: 0 11px 0 13px; */
         text-overflow: ellipsis;
         width: 400px;
       }
@@ -199,30 +199,40 @@
                                     <span class="m-form__help">Enter your store description</span>
                                 </div>
                             </div>
+
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
-                                    <label>Store Adress:</label>
+                                    <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" name="address" id="pac-input" class="controls form-control m-input" placeholder="Enter your store address">
+                                        <input type="text" name="address" id="store_address" class="form-control m-input" placeholder="Enter address" disabled/>
                                         <span class="m-input-icon__icon m-input-icon__icon--right">
                                             <span>
                                                 <i class="la la-map-marker"></i>
                                             </span>
                                         </span>
                                     </div>
-                                    <span class="m-form__help">Enter your store address</span>
+                                    <span class="m-form__help">Selected store addresss</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <!-- <label>Store Adress:</label> -->
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="text" id="pac-input" class="controls store_address form-control m-input" placeholder="Enter your store address">
+                                        
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-12" id="map">
-                                        <!-- <label class="">Store Location:</label>
+                                        <label class="">Store Location:</label>
                                         <div class="m-input-icon m-input-icon--right">
                                             <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                                 <span><i class="la la-location-arrow"></i><span>Location</span></span>
                                             </button>
                                         </div>
-                                        <span class="m-form__help" id="demo"></span> -->
+                                        <span class="m-form__help" id="demo"></span>
                                     <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
+                                    <input type="hidden" name="longitude" id="longitude" />
+                                    <input type="hidden" name="latitude" id="latitude" />
                                 </div>
                             </div>
                         </div>
@@ -250,6 +260,7 @@
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?> 
+
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
@@ -281,7 +292,6 @@
         // more details for that place.
         searchBox.addListener('places_changed', function() {
           var places = searchBox.getPlaces();
-
           if (places.length == 0) {
             return;
           }
@@ -295,6 +305,7 @@
           // For each place, get the icon, name and location.
           var bounds = new google.maps.LatLngBounds();
           places.forEach(function(place) {
+            formatted_address = place.formatted_address;
             if (!place.geometry) {
               console.log("Returned place contains no geometry");
               return;
@@ -321,6 +332,11 @@
             } else {
               bounds.extend(place.geometry.location);
             }
+            // console.log("marker = "+place.geometry.viewport);
+            console.log(formatted_address);
+            document.getElementById("store_address").value = formatted_address;
+            $('#longitude').val = bounds.na.l;
+            $('#latitude').val = bounds.ia.l;
           });
           map.fitBounds(bounds);
         });
