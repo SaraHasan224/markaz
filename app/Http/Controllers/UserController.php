@@ -301,7 +301,7 @@ class UserController extends Controller
         $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';
         $data['social'] = !empty($social) ? $social : '';
         $data['logged_user'] = $getuser;
-        $data['store'] = $store;
+        $data['store'] = !empty($store) ? $store : '';
         // dd($data);
         return view('user.client_profile',$data);
     }
@@ -389,6 +389,43 @@ class UserController extends Controller
         return view('home.followers',$data);
     }
     //      Manage Follower Ends Here    //
+    
+
+    // Manage Store Timeline Starts Here //
+
+    public function getTimeline()
+    {
+        $user_id = request()->session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        return view('user.timeline',$data);
+    }
+    
+    
+    // Manage Store Timeline Ends Here //
+    
+
+    // Manage Store Timeline Starts Here //
+
+    public function storeFAQ()
+    {
+        $user_id = request()->session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        return view('home.faq',$data);
+    }
+    
+    public function addStoreFAQ()
+    {
+        $user_id = request()->session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        return view('home.edit-faqs',$data);
+    }
+    
+    
+    // Manage Store Timeline Ends Here //
+    
     
     /* Sara's work ends here */
 }

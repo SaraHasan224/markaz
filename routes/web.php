@@ -95,32 +95,27 @@ Route::group(['middleware' => ['web']], function () {
 
         /*  Frequently Asked Questions routes starts here  */
 
-        Route::get('create-faq', function () {
-            return view('faq.faq');
-        });
-        Route::get('faq', function () {
-            return view('home.faq');
-        });
-        Route::get('edit-faq', function () {
-            return view('home.edit-faqs');
-        });
+        Route::get('faq','UserController@storeFAQ');
+        Route::get('add-faq', 'UserController@addStoreFAQ');
         
         /*  Frequently Asked Questions routes starts here  */
         
+        
+        /*  User Timeline routes starts here  */
+        
+        Route::get('timeline', 'UserController@getTimeline');
+       
+        /*  User Timeline routes ends here  */
+       
+        Route::get('activity', function () {
+            return view('user.activity');
+        });
+       
         Route::get('invoice', function () {
             return view('home.invoice');
         });
         Route::get('events', function () {
             return view('home.events');
-        });
-        
-        /*  Frequently Asked Questions routes ends here  */
-        
-        Route::get('activity', function () {
-            return view('user.activity');
-        });
-        Route::get('timeline', function () {
-            return view('user.timeline');
         });
         Route::get('statistics', function () {
             return view('user.statistics');

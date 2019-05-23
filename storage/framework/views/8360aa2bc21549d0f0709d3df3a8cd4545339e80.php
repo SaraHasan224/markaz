@@ -1,5 +1,4 @@
-@extends('user.profile')
-@section('profile')
+<?php $__env->startSection('profile'); ?>
             <div class="col-xl-9 col-lg-8">
                 <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
                     <div class="m-portlet__head">
@@ -37,55 +36,55 @@
                                         <div class="col-10 ml-auto">
                                             <h3 class="m-form__section">1. Company Information</h3>
                                         </div>
-                                        {{-- <div id="result"></div> --}}
+                                        
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="name" value="{{$logged_user->name}}">
-                                            <input class="form-control m-input" type="hidden" name="user_id" value="{{$logged_user->id}}">
+                                            <input class="form-control m-input" type="text" name="name" value="<?php echo e($logged_user->name); ?>">
+                                            <input class="form-control m-input" type="hidden" name="user_id" value="<?php echo e($logged_user->id); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Role</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="position" value="{{$logged_user->position}}">
+                                            <input class="form-control m-input" type="text" name="position" value="<?php echo e($logged_user->position); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company" value="{{ !empty($store) ? $store->name : '' }}">
+                                            <input class="form-control m-input" type="text" name="company" value="<?php echo e(!empty($store) ? $store->name : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Address</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_address" value="{{!empty($store) ? $store->address : '' }}">
+                                            <input class="form-control m-input" type="text" name="company_address" value="<?php echo e(!empty($store) ? $store->address : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Telephone</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_telephone" value="{{!empty($store) ? $store->telephone : '' }}">
+                                            <input class="form-control m-input" type="text" name="company_telephone" value="<?php echo e(!empty($store) ? $store->telephone : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Website</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_website" value="{{!empty($store) ? $store->websitelink : ''   }}">
+                                            <input class="form-control m-input" type="text" name="company_website" value="<?php echo e(!empty($store) ? $store->websitelink : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Contact Email Address</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="company_email" value="{{!empty($store) ? $store->emailaddress : ''  }}">
+                                            <input class="form-control m-input" type="text" name="company_email" value="<?php echo e(!empty($store) ? $store->emailaddress : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Information</label>
                                         <div class="col-7">
-                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6">{{!empty($store) ? $store->desciption : ''  }}</textarea>
+                                        <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6"><?php echo e(!empty($store) ? $store->desciption : ''); ?></textarea>
                                         </div>
                                     </div>
                                     
@@ -98,19 +97,19 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Facebook</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="fb_link" value="{{ !empty($social) ? $social->facebook_link : '' }}">
+                                            <input class="form-control m-input" type="text" name="fb_link" value="<?php echo e(!empty($social) ? $social->facebook_link : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Twitter</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="tw_link" value="{{  !empty($social) ? $social->twitter_link : ''  }}">
+                                            <input class="form-control m-input" type="text" name="tw_link" value="<?php echo e(!empty($social) ? $social->twitter_link : ''); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Instagram</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text"  name="insta_link" value="{{  !empty($social) ? $social->insta_link : '' }}">
+                                            <input class="form-control m-input" type="text"  name="insta_link" value="<?php echo e(!empty($social) ? $social->insta_link : ''); ?>">
                                         </div>
                                     </div>
                                 </div>
@@ -153,11 +152,13 @@
 										</div>
 									</div>
 									<div class="m-portlet__body">
-										{{ !empty($store) ? $store->desciption : '' }}
+										<?php echo e(!empty($store) ? $store->desciption : ''); ?>
+
                                         <br/>
                                         <br/>
                                         <b><h5>Location: </h5></b>
-										{{ !empty($store) ? $store->address : '' }}
+										<?php echo e(!empty($store) ? $store->address : ''); ?>
+
                                        
 									</div>
 								</div>
@@ -179,17 +180,20 @@
 									<div class="m-portlet__body">
 										 <!--end::Portlet-->
                                         <b><h5>Tel: </h5></b>
-                                        {{ !empty($store) ? $store->telephone : '' }}
+                                        <?php echo e(!empty($store) ? $store->telephone : ''); ?>
+
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Website: </h5></b>
-                                        {{ !empty($store) ? $store->websitelink : '' }}
+                                        <?php echo e(!empty($store) ? $store->websitelink : ''); ?>
+
                                         <!--end::Portlet-->
                                         <br/>
                                         <br/>
                                         <b><h5>Email Address: </h5></b>
-                                        {{ !empty($store) ? $store->emailaddress : '' }}
+                                        <?php echo e(!empty($store) ? $store->emailaddress : ''); ?>
+
                                         <!--end::Portlet-->
 									</div>
 								</div>
@@ -326,4 +330,5 @@
                     </div>
                 </div>
             </div>
-@endsection 
+<?php $__env->stopSection(); ?> 
+<?php echo $__env->make('user.profile', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
