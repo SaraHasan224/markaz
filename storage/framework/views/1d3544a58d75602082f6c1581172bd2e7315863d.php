@@ -1,13 +1,11 @@
-@extends('layouts.header')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -16,14 +14,14 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript::void(0)" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -36,19 +34,25 @@
 
     <!-- END: Subheader -->
     <div class="m-content">
+
         <!--Begin::Main Portlet-->
         <div class="m-portlet m-portlet--full-height">
+
             <!--begin: Portlet Head-->
             <div class="m-portlet__head">
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{$title}}
+                            <?php echo e($title); ?>
+
                         </h3>
                     </div>
                 </div>
+
             </div>
+
             <!--end: Portlet Head-->
+
             <!--begin: Portlet Body-->
             <div class="m-portlet__body m-portlet__body--no-padding">
 
@@ -915,8 +919,10 @@
         <!--End::Main Portlet-->
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-<script src="{{asset('assets/demo/default/custom/crud/wizard/wizard.js')}}" type="text/javascript"></script>
-@endsection
+<?php $__env->startSection('scripts'); ?>
+<script src="<?php echo e(asset('assets/demo/default/custom/crud/wizard/wizard.js')); ?>" type="text/javascript"></script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

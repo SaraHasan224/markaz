@@ -6,7 +6,8 @@ use JWTAuth, Carbon\Carbon;
 use Storage, Image, Zipper,App;
 use Techplanner\Helpers\Helper;
 use Hash, Illuminate\Support\Str;
-use App\Store;
+use App\Store,
+    App\Support;
 use App\Contracts\RepositoryContract;
 
 
@@ -39,8 +40,7 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
 
     public function __construct(Store $store) {
         $this->model = $store;
-     
-}
+    }
 
     public function findById($id, $refresh = false, $details = false, $encode = true, $input = []) {
         $data = parent::findById($id, $refresh, $details);
@@ -74,11 +74,11 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
         $input['user_id']  = $data['user_id'];
        
         if($store = parent::create($input)){
-          
-      return $store;
-  }
-  return false;
+                return $store;
+        }
+        return false;
     }
+  
 
 }
 

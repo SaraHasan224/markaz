@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Store,
     App\StoreSocialMedia,
-    App\User;
+    App\User,
+    App\Support;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
@@ -43,9 +44,6 @@ class StoreController extends Controller
          }
         return response()->json($output, $code);
     }
-
-
-
     public function all(Request $request) {
         $input = $request->only('pagination','keyword','limit','user_id');
            $pagination = false;
@@ -61,7 +59,43 @@ class StoreController extends Controller
         // all good so return the token
         return response()->json($output, $code);
     }
-
+    public function addSupport(Request $request){
+        $input = $request->only('first_name', 'last_name','store_id','subject', 'email','description');
+        $rules = [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'store_id' => 'required|exists:stores,id',
+            'subject' => 'required',
+            'email' => 'required',
+            'description' => 'required',
+           ];
+           
+        
+        $validator = Validator::make($input, $rules);
+        $validator->setAttributeNames([
+            'store_id.exists' => 'Store doesn\'t exists',
+            'store_id.required' => 'Store Id is required',
+        ]);
+        
+        if ($validator->fails()) {
+            $code = 406;
+            $output = ['error' => [ 'code' => $code, 'messages' => $validator->messages()->all() ] ];
+        }else{
+            $support = new Support;
+            $support->first_name = $request->first_name;
+            $support->last_name = $request->last_name;
+            $support->store_id = $request->store_id;
+            $support->subject = $request->subject;
+            $support->email = $request->email;
+            $support->description = $request->description;
+            $support->save();
+        if($support){
+                $code = 200;
+                $output = ['code' => $code,'support'=>$support];
+            }
+        }
+        return response()->json($output, $code);
+    }
     /* Sara's work starts here */
     
     // Manage stores starts here 
@@ -71,6 +105,7 @@ class StoreController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['user_id'] = $user_id;
         return view('store.view-all',$data);
     }
     public function createstore(Request $request){
@@ -105,6 +140,8 @@ class StoreController extends Controller
             $store->websitelink = $request->website;
             $store->emailaddress = $request->contact_email;
             $store->desciption = $request->description;
+            $store->longitude = $request->longitude;
+            $store->latitude = $request->latitude;
             $store->telephone = $request->contact_number;
             $store->save();
             $social = new StoreSocialMedia;

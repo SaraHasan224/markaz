@@ -22,7 +22,7 @@ class CreateSupportTable extends Migration
 			$table->string('subject',255);
 			$table->string('email',70);
 			$table->text('description');
-			$table->text('response');
+			$table->text('response')->nullable(); 
 			$table->tinyInteger('status')->default(1);
 			$table->timestamps();
             $table->softDeletes();

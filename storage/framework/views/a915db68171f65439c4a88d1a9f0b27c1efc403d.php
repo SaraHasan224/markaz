@@ -1,5 +1,4 @@
-@extends('layouts.header')
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
       #title {
         color: #fff;
@@ -90,15 +89,15 @@
         width: 345px;
       }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -107,20 +106,20 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('store')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('store')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Stores</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -141,7 +140,8 @@
                                     <i class="la la-gear"></i>
                                 </span>
                                 <h3 class="m-portlet__head-text">
-                                    {{$title}}
+                                    <?php echo e($title); ?>
+
                                 </h3>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                     <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="stores" method="POST">
                         <div class="m-portlet__body">
                             <div id="delete_result" style="padding: 10px;"></div>
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
                                     <input type="text" name="name" class="form-control m-input" placeholder="Enter store name">
@@ -162,7 +162,7 @@
                                     <span class="m-form__help">Enter your store contact number</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
                                     <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
@@ -174,7 +174,7 @@
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('fb_link') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('fb_link') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
                                     <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
@@ -186,7 +186,7 @@
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('description') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input"
@@ -200,7 +200,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" name="user_id" value="{{$user_id}}"/>
+                            <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
                                     <input type="hidden" name="longitude" id="longitude" />
                                     <input type="hidden" name="latitude" id="latitude" />
                             <div class="form-group m-form__group row">
@@ -258,8 +258,8 @@
         </div>
     </div>
 </div>
-@endsection
-@section('scripts') 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?> 
 
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
@@ -373,4 +373,5 @@
     	});
     })
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

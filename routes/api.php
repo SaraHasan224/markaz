@@ -14,84 +14,84 @@ use Illuminate\Http\Request;
 */
 
 
+    //  User Login  //
 
+    Route::post('/user/signup',[
+      'uses' => 'UserController@signUp'
+    ]);
+    Route::post('/user/signin',[
+    'uses' =>'UserController@signIn'
+    ]);
 
-Route::post('/user/signup',[
+    //  User Profile  //
 
-    'uses' => 'UserController@signUp'
-  ]);
-  
-  Route::post('/user/signin',[
-  
-   'uses' =>'UserController@signIn'
-  ]);
+    Route::get('/user/profile',[
+      'uses' =>'UserController@getProfile',
+      'middleware' => 'auth.jwt'
+    ]);
 
-  Route::get('/user/profile',[
+    //  Device Token  //
 
-    'uses' =>'UserController@getProfile',
-    'middleware' => 'auth.jwt'
-  ]);
+    Route::post('/device/token',[
+      'uses'=>'DeviceController@setUserTokens',
+      'middleware'=>'auth.jwt'
+    ]);
 
-  Route::post('/device/token',[
-     'uses'=>'DeviceController@setUserTokens',
-     'middleware'=>'auth.jwt'
+    //  Manage Store  //
 
-  ]);
+    Route::post('/create-store',[
+      'uses'=>'StoreController@create',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/get-all-store',[
+      'uses'=>'StoreController@all',
+      'middleware'=>'auth.jwt'
+    ]);
 
-  Route::post('/create-store',[
-    'uses'=>'StoreController@create',
-    'middleware'=>'auth.jwt'
+    //  Manage Store Followers  //
 
- ]);
+    Route::post('/become/follower',[
+      'uses'=>'FollowerController@becomeFollower',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/followers-store',[
+      'uses'=>'FollowerController@findFollowerOfStore',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/followers-user',[
+      'uses'=>'FollowerController@findFollowerOfUser',
+      'middleware'=>'auth.jwt'
+    ]);
 
- Route::post('/create-promotion',[
-  'uses'=>'PromotionController@create',
-  'middleware'=>'auth.jwt'
+    //  Store Support  //
 
-]);
+    Route::post('/add-support',[
+      'uses'=>'StoreController@addSupport',
+      'middleware'=>'auth.jwt'
+    ]);
 
-Route::post('/upload-promotion-image',[
+    //  Manage Promotion  //
 
-  'uses'=>'MediaImageController@uploadImage',
-  'middleware'=>'auth.jwt'
-]);
+    Route::post('/create-promotion',[
+      'uses'=>'PromotionController@create',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::post('/upload-promotion-image',[
+      'uses'=>'MediaImageController@uploadImage',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/get-all-promotions',[
+      'uses'=>'PromotionController@all',
+      'middleware'=>'auth.jwt'
+    ]);
 
-Route::get('/get-all-store',[
-  'uses'=>'StoreController@all',
-  'middleware'=>'auth.jwt'
-  
-]);
+    //  Manage Promotion Comments  //
 
-Route::get('/get-all-promotions',[
-
-  'uses'=>'PromotionController@all',
-  'middleware'=>'auth.jwt'
-
-]);
-  
-Route::post('/become/follower',[
-
-  'uses'=>'FollowerController@becomeFollower',
-  'middleware'=>'auth.jwt'
-
-]);
-
-Route::get('/followers-store',[
-  'uses'=>'FollowerController@findFollowerOfStore',
-  'middleware'=>'auth.jwt'
-]);
-
-Route::get('/followers-user',[
-  'uses'=>'FollowerController@findFollowerOfUser',
-  'middleware'=>'auth.jwt'
-]);
-
-Route::post('/add-comment',[
-  'uses'=>'CommentController@addCommentToPromotion',
-  'middleware'=>'auth.jwt'
-]);
-  
-Route::get('/get-comments',[
-  'uses'=>'CommentController@getCommentsByPromotionId',
-  'middleware'=>'auth.jwt'
-]);
+    Route::post('/add-comment',[
+      'uses'=>'CommentController@addCommentToPromotion',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/get-comments',[
+      'uses'=>'CommentController@getCommentsByPromotionId',
+      'middleware'=>'auth.jwt'
+    ]);

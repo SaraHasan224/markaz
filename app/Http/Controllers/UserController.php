@@ -22,7 +22,6 @@ class UserController extends Controller
     use CommonTrait;
     public function __construct(UserRepository $user) {
         $this->_repository = $user;
-        
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
     }
@@ -35,9 +34,7 @@ class UserController extends Controller
             'name' => 'required',
             'phone_number'=>'required'
         ];
-
         $validator = Validator::make($input, $rules);
-
         if ($validator->fails()) {
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
@@ -51,13 +48,8 @@ class UserController extends Controller
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['An error occurred while Registration.']]];
             }
-            
          }
         return response()->json($output, $code);
-        
-       
-      
-       
     }
 
     public function signIn(Request $request){
@@ -67,28 +59,24 @@ class UserController extends Controller
             'password' => 'required',
            ];
         $validator = Validator::make($input, $rules);
-
         if ($validator->fails()) {
             $code = 406;
             $output = ['error' => [ 'code' => $code, 'messages' => $validator->messages()->all() ] ];
         }else{
-
             $user = $this->_repository->login($input);
         if($user){
                 $code = 200;
                 $output = ['code' => $code,'user'=>$user];
                 //event(new UserWasCreated($user->id));
             }else{
+                
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['Invalid email or password']]];
             }
-          
         }
-
         return response()->json($output, $code);
-
-
     }
+    
     public function getProfile(){
         $user = JWTAuth::parseToken()->ToUser();
         return response()->json(['user'=>$user]);

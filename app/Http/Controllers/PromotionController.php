@@ -29,19 +29,14 @@ class PromotionController extends Controller
             'description' => 'required',
             'store_id' => 'required',
             'media_ids' =>'array',
-
         ];
-
         $validator = Validator::make($input, $rules);
-
         if ($validator->fails()) {
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-         
            $repsonse = $this->_repository->createPromotion($input);
             if($repsonse){
-
                 $input['promotion_id'] = $repsonse->id;
                  $this->_promotion_image_repo->assignMedia($input);
                 $code = 200;
@@ -51,40 +46,28 @@ class PromotionController extends Controller
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['An error occurred while creating promotion.']]];
             }
-            
          }
         return response()->json($output, $code);
     }
-
-
-
-      public function all(Request $request) {
-
+    public function all(Request $request) {
             $input = $request->only('pagination','keyword','limit','store_id');
-    
                $pagination = false;
                 if($input['pagination']) {
                     $pagination = true;
                 }
-    
-               
                 $limit = 10;
                 if(!empty($input['limit'])){
                   $limit = $input['limit'];
                 }
                 $code = 200;
                 $output = $this->_repository->findByAll($pagination, $limit, $input,false,true,true);
-            
-    
             // all good so return the token
             return response()->json($output, $code);
     }
-
-
     
     /* Sara's work starts here */
         
-    //      Promotion Categories Starts
+    //      Promotion Categories Starts //
 
     public function getCategories(){
         $data['title'] = "Promotion Categories";
@@ -154,11 +137,9 @@ class PromotionController extends Controller
         } 
     }
 
-    //      Promotion Categories Ends
+    //      Promotion Categories Ends   //
 
-    
-        
-    //      Promotion Tags Starts
+    //      Promotion Tags Starts   //
 
     public function getTags(){
         $data['title'] = "Promotion Tags";
@@ -228,9 +209,9 @@ class PromotionController extends Controller
         } 
     }
 
-    //      Promotion Tags Ends
+    //      Promotion Tags Ends //
 
-    //  Promotion Starts 
+    //  Promotion Starts   //
     public function getpromotions(){
         $data['title'] = "Promotions";
         $user_id = session()->get('user_id');

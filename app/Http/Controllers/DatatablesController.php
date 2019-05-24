@@ -17,7 +17,9 @@ class DatatablesController extends Controller
     {
         $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','user_id','status','created_at');
         return Datatables::of($getStore)
-        ->editColumn('status', function ($store) {
+        ->editColumn('desciption', function ($store) {
+            return(str_limit($store->desciption, 50));
+        })->editColumn('status', function ($store) {
             if($store->status == 1)
             {
                 $status = '<button type="button" class="btn m-btn--pill btn-accent response" data-toggle="modal" data-target="#m_status_6" data-id="'.$store->id.'">Enable</button>';

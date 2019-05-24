@@ -83,14 +83,13 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
     public function login($data){
         $user = $this->findByAttribute('email', $data['email'], false, true, false);
         if($user){
-            if($data['password']==$user->password){
+            if(Hash::check($data['password'], $user->password)){
                 $token = JWTAuth::fromUser($user);
                 return $this->update([
                     'id' => $user->id,
                     'access_token' => $token,
                     
                 ]);
-
             }else{
              return false;
             }
