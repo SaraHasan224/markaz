@@ -77,7 +77,16 @@ class DatatablesController extends Controller
     {
         $getCategories = PromotionCategories::select('id','title','status','created_at');
         return Datatables::of($getCategories)
-        ->editColumn('actions', function ($categories) {
+        ->editColumn('status', function ($store) {
+            if($store->status == 1)
+            {
+                $status = '<button type="button" class="btn m-btn--pill btn-accent" data-id="'.$store->id.'">Enable</button>';
+            }
+            else{
+                $status = '<button type="button" class="btn m-btn--pill btn-focus" data-id="'.$store->id.'">Disable</button>';
+            }
+            return($status);
+        })->editColumn('actions', function ($categories) {
             $actions = ' 
             <a  id="delete" data-id="'.$categories->id.'" 
                 class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
@@ -88,13 +97,22 @@ class DatatablesController extends Controller
                 <i class="la la-edit"></i>
             </a>';
             return($actions);
-        })->rawColumns(['actions'])->make();
+        })->rawColumns(['actions','status'])->make();
     }
     public function getTags()
     {
         $getTags = PromotionTags::select('id','title','status','created_at');
         return Datatables::of($getTags)
-        ->editColumn('actions', function ($tags) {
+        ->editColumn('status', function ($store) {
+            if($store->status == 1)
+            {
+                $status = '<button type="button" class="btn m-btn--pill btn-accent" data-id="'.$store->id.'">Enable</button>';
+            }
+            else{
+                $status = '<button type="button" class="btn m-btn--pill btn-focus" data-id="'.$store->id.'">Disable</button>';
+            }
+            return($status);
+        })->editColumn('actions', function ($tags) {
             $actions = ' 
             <a  id="delete" data-id="'.$tags->id.'" 
                 class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
@@ -105,7 +123,7 @@ class DatatablesController extends Controller
                 <i class="la la-edit"></i>
             </a>';
             return($actions);
-        })->rawColumns(['actions'])->make();
+        })->rawColumns(['actions','status'])->make();
     }
     public function getusers()
     {

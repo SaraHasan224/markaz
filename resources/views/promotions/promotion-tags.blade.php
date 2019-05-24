@@ -115,7 +115,7 @@
                             <div id="delete_result" style="padding: 10px;"></div>
                         </div>
                         <div class="col-md-12" style="margin:0 auto; " id="table">
-                            <table class="table table-striped- table-bordered table-hover table-checkable" id="pro_cat">
+                            <table class="table table-striped- table-bordered table-hover table-checkable" id="pro_tags">
                                 <thead>
                                     <tr>
                                         <th>TagsID</th>
@@ -215,7 +215,7 @@
     <script>
         
         $(function () {
-            $('#pro_cat').DataTable({
+            $('#pro_tags').DataTable({
                 "processing": true,
                 "serverSide": true,
                 scrollX:        true,
@@ -227,7 +227,7 @@
                 { "width": "200px", "targets": [1,2,3] },       
                 { "width": "70px", "targets": [4] }
             ], 
-                "ajax"      : '{{ url("get-tags") }}',
+                "ajax"      : '{{ url("get-tags") }}', 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
@@ -276,7 +276,9 @@
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
                     setTimeout(function() {
                         $('#add_tags_model').modal('hide');
-                        var table = $('#pro_cat').DataTable();
+                        document.getElementById('add_tags_form').reset();
+                        $('#result').empty();
+                        var table = $('#pro_tags').DataTable();
                         table.ajax.reload();
                     }, 2000);
                 }
@@ -301,7 +303,9 @@
                     }
                      setTimeout(function() {
                         $('#edit_tags_model').modal('hide');
-                        var table = $('#pro_cat').DataTable();
+                        document.getElementById('edit_tags_form').reset();
+                        $('#result_edit').empty();
+                        var table = $('#pro_tags').DataTable();
                         table.ajax.reload();
                     }, 2000);
                 },
@@ -344,7 +348,7 @@
                                 swal.close();
                                 $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
-                                var table = $('#pro_cat').DataTable();
+                                var table = $('#pro_tags').DataTable();
                                 table.ajax.reload();
                             }
                         }

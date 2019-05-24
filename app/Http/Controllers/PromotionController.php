@@ -143,7 +143,6 @@ class PromotionController extends Controller
 
     public function getTags(){
         $data['title'] = "Promotion Tags";
-        $data['user'] = PromotionTags::get();
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
@@ -217,6 +216,8 @@ class PromotionController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['pro_cat'] = PromotionCategories::where('status',1)->get();
+        $data['pro_tags'] = PromotionTags::where('status',1)->get();
         return view('promotions.view-all',$data);
     }
 

@@ -1,12 +1,9 @@
-@extends('layouts.header')
+<?php $__env->startSection('styles'); ?>
 
-
-@section('styles')
-
-    <link href="{{ asset('assets/admin/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/dataTables.bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/dataTables.bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.css') }}">
+    <link href="<?php echo e(asset('assets/admin/css/bootstrap-toggle.min.css')); ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/dataTables.bootstrap.min.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/dataTables.bootstrap.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('assets/admin/css/jquery.dataTables.css')); ?>">
     <style>
      .dataTables_paginate a {
         padding: 6px 9px !important;
@@ -49,15 +46,15 @@
         width: 100% !important;
     }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -66,14 +63,14 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/dashboard')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/dashboard')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -91,17 +88,18 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{$title}}
+                            <?php echo e($title); ?>
+
                         </h3>
                     </div>
                 </div>
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
-                            <a id="add_categories" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                            <a id="add_tags" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
-                                    <span>Create Promotion Categories</span>
+                                    <span>Create Promotion Tags</span>
                                 </span>
                             </a>
                         </li>
@@ -115,10 +113,10 @@
                             <div id="delete_result" style="padding: 10px;"></div>
                         </div>
                         <div class="col-md-12" style="margin:0 auto; " id="table">
-                            <table class="table table-striped- table-bordered table-hover table-checkable" id="pro_cat">
+                            <table class="table table-striped- table-bordered table-hover table-checkable" id="pro_tags">
                                 <thead>
                                     <tr>
-                                        <th>CategoryID</th>
+                                        <th>TagsID</th>
                                         <th>Title</th>
                                         <th>Status</th>
                                         <th>Created At</th>
@@ -141,27 +139,27 @@
 </div>
 
 
-<!-- Modal for Add Promotion Categories-->
-<div class="modal fade" id="add_categories_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<!-- Modal for Add Promotion Tags-->
+<div class="modal fade" id="add_tags_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Promotion Categories</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Promotion Tags</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="add_category" method="POST">
+            <form id="add_tags_form" method="POST">
                 <div class="modal-body">
                         <div id="result" style="padding: 10px;"></div>
                     <div class="form-group m-form__group row">
                         <div class="col-lg-12">
-                            <label>Categories:</label>
+                            <label>Tags:</label>
                             <div class="m-input-icon m-input-icon--right">
-                                <input type="text" name="category" class="form-control m-input" placeholder="Enter categories" value="">
+                                <input type="text" name="tag" class="form-control m-input" placeholder="Enter tags" value="">
                             </div>
-                            <span class="m-form__help">Enter category name</span>
+                            <span class="m-form__help">Enter tag</span>
                         </div>
                     </div>
                 </div>
@@ -173,27 +171,27 @@
         </div>
     </div>
 </div>
-<!-- Modal for Add Promotion Categories-->
+<!-- Modal for Add Promotion Tags-->
 
-<!-- Modal for Edit Promotion Categories-->
-<div class="modal fade" id="edit_categories_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<!-- Modal for Edit Promotion Tags-->
+<div class="modal fade" id="edit_tags_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit Promotion Categories</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Promotion Tags</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="edit_category" method="POST">
+            <form id="edit_tags_form" method="POST">
                 <div class="modal-body">
                         <div id="result_edit" style="padding: 10px;"></div>
                     <div class="form-group m-form__group row">
                         <div class="col-lg-12">
-                            <label>Category Name:</label>
+                            <label>Tag:</label>
                             <div class="m-input-icon m-input-icon--right">
-                                <input type="text" name="category" id="category" class="form-control m-input" placeholder="Enter category" >
+                                <input type="text" name="tag" id="tag" class="form-control m-input" placeholder="Enter tag" >
                             </div>
                         </div>
                     </div>
@@ -207,15 +205,15 @@
         </div>
     </div>
 </div>
-<!-- Modal for Edit Promotion Categories-->
-@endsection
-@section('scripts')
-<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
+<!-- Modal for Edit Promotion Tags-->
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script src="<?php echo e(asset('assets/admin/js/jquery.dataTables.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/admin/js/dataTables.bootstrap.min.js')); ?>"></script>
     <script>
         
         $(function () {
-            $('#pro_cat').DataTable({
+            $('#pro_tags').DataTable({
                 "processing": true,
                 "serverSide": true,
                 scrollX:        true,
@@ -227,7 +225,7 @@
                 { "width": "200px", "targets": [1,2,3] },       
                 { "width": "70px", "targets": [4] }
             ], 
-                "ajax"      : '{{ url("get-categories") }}', 
+                "ajax"      : '<?php echo e(url("get-tags")); ?>', 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
@@ -242,26 +240,26 @@
     
     <script>
         $(document).ready(function (e) {
-            $(document).on("click", '#edit_categories', function (e) {
+            $(document).on("click", '#edit_tags', function (e) {
                 var id = $(this).data('id');
-                var category = $(this).data('category');
+                var tag = $(this).data('tag');
                 $('#result_edit').empty();
                 $('#edit_id').val(id);
-                $('#category').val(category);
-                $('#edit_categories_model').modal('show');
+                $('#tag').val(tag);
+                $('#edit_tags_model').modal('show');
             });
         });
     </script>
     <script>
         $(document).ready(function (e) {
-            $(document).on("click", '#add_categories', function (e) {
-                $('#add_categories_model').modal('show');
+            $(document).on("click", '#add_tags', function (e) {
+                $('#add_tags_model').modal('show');
             });
         });
     </script>
     <script>
         var base_url = "<?php url() ?>";
-        $('#add_category').submit(function(event){	
+        $('#add_tags_form').submit(function(event){	
             event.preventDefault();
             $.ajax({
                 type: "POST",
@@ -269,22 +267,22 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-categories',
-                data: $("#add_category").serialize(),
+                url: base_url+'/promotion-tags',
+                data: $("#add_tags_form").serialize(),
                 success: function (response) {
                     $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
                     setTimeout(function() {
-                        $('#add_categories_model').modal('hide');
-                        document.getElementById('add_category').reset();
+                        $('#add_tags_model').modal('hide');
+                        document.getElementById('add_tags_form').reset();
                         $('#result').empty();
-                        var table = $('#pro_cat').DataTable();
+                        var table = $('#pro_tags').DataTable();
                         table.ajax.reload();
                     }, 2000);
                 }
             });
         });
-        $('#edit_category').submit(function(event){	
+        $('#edit_tags_form').submit(function(event){	
             event.preventDefault();
             $.ajax({
                 type: "POST",
@@ -292,8 +290,8 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-categories-edit',
-                data: $("#edit_category").serialize(),
+                url: base_url+'/promotion-tags-edit',
+                data: $("#edit_tags_form").serialize(),
                 success: function (response) {
                     console.log(response);
                     if(response.code == 200)
@@ -302,10 +300,10 @@
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success+'</div>');
                     }
                      setTimeout(function() {
-                        $('#edit_categories_model').modal('hide');
-                        document.getElementById('edit_category').reset();
+                        $('#edit_tags_model').modal('hide');
+                        document.getElementById('edit_tags_form').reset();
                         $('#result_edit').empty();
-                        var table = $('#pro_cat').DataTable();
+                        var table = $('#pro_tags').DataTable();
                         table.ajax.reload();
                     }, 2000);
                 },
@@ -340,7 +338,7 @@
                         {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         },
-                        url: base_url+'/promotion-categories-delete',
+                        url: base_url+'/promotion-tags-delete',
                         data: {id: id},
                         success: function (response) {
                             if(response.success.code == 200)
@@ -348,7 +346,7 @@
                                 swal.close();
                                 $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
                                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
-                                var table = $('#pro_cat').DataTable();
+                                var table = $('#pro_tags').DataTable();
                                 table.ajax.reload();
                             }
                         }
@@ -357,4 +355,5 @@
             })
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

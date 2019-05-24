@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PromotionTags extends Model
 {
     use SoftDeletes;
-    protected $table = "promotion_categories";
+    protected $table = "promotion_tags";
 }

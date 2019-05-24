@@ -56,10 +56,8 @@
                 <div class="m-wizard m-wizard--4 m-wizard--brand" id="m_wizard">
                     <div class="row m-row--no-padding">
                         <div class="col-xl-3 col-lg-12 m--padding-top-20 m--padding-bottom-15">
-
                             <!--begin: Form Wizard Head -->
                             <div class="m-wizard__head">
-
                                 <!--begin: Form Wizard Nav -->
                                 <div class="m-wizard__nav">
                                     <div class="m-wizard__steps">
@@ -126,53 +124,19 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <!--end: Form Wizard Nav -->
                             </div>
-
                             <!--end: Form Wizard Head -->
                         </div>
                         <div class="col-xl-9 col-lg-12">
-
                             <!--begin: Form Wizard Form-->
                             <div class="m-wizard__form">
-
-                                <!--
-							1) Use m-form--label-align-left class to alight the form input lables to the right
-							2) Use m-form--state class to highlight input control borders on form validation
-						-->
                                 <form class="m-form m-form--label-align-left- m-form--state-" id="m_form">
-
                                     <!--begin: Form Body -->
                                     <div class="m-portlet__body m-portlet__body--no-padding">
 
                                         <!--begin: Form Wizard Step 1-->
-                                        <div class="m-wizard__form-step m-wizard__form-step--current"
-                                            id="m_wizard_form_step_1">
-                                            <!-- <div class="m-form__section m-form__section--first">
-                                                <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Client Details</h3>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Name:</label>
-                                                    <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="name" class="form-control m-input"
-                                                            placeholder="" value="Nick Stone">
-                                                        <span class="m-form__help">Please enter your first and last
-                                                            names</span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Email:</label>
-                                                    <div class="col-xl-9 col-lg-9">
-                                                        <input type="email" name="email" class="form-control m-input"
-                                                            placeholder="" value="nick.stone@gmail.com">
-                                                        <span class="m-form__help">We'll never share your email with
-                                                            anyone else</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="m-separator m-separator--dashed m-separator--lg"></div> -->
+                                        <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                                             <div class="m-form__section">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">
@@ -203,9 +167,9 @@
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <select class="form-control m-bootstrap-select m_selectpicker"
                                                             multiple>
-                                                            <option>Mustard</option>
-                                                            <option>Ketchup</option>
-                                                            <option>Relish</option>
+                                                            @foreach($pro_cat as $category)
+                                                                <option>{{$category->title}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -215,9 +179,9 @@
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <select class="form-control m-bootstrap-select m_selectpicker"
                                                             multiple>
-                                                            <option>Mustard</option>
-                                                            <option>Ketchup</option>
-                                                            <option>Relish</option>
+                                                            @foreach($pro_tags as $tags)
+                                                                <option>{{$tags->title}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
