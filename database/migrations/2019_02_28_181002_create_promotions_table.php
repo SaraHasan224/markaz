@@ -17,6 +17,11 @@ class CreatePromotionsTable extends Migration
             $table->increments('id');
 			$table->string('title');
 			$table->string('description');
+			$table->timestamp('time');
+			$table->text('location');
+			$table->float('longitude');
+			$table->float('latitude');
+			$table->tinyInteger('payment_status');
             $table->bigInteger('store_id')->unsigned()->index('promotions_store_id_foreign');
 			$table->timestamps();
             $table->softDeletes();

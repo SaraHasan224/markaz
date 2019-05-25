@@ -54,24 +54,22 @@ class DatatablesController extends Controller
     }
     public function getpromotions()
     {
-        $getPromotions = Promotion::select('id','title','description','store_id','created_at');
+        $getPromotions = Promotion::select('id','title','description','time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
         return Datatables::of($getPromotions)
-        ->editColumn('actions', function ($promotion) {
-            $actions = '<span class="dropdown">
-            <a href="#"
-                class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-                data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="'.url("edit-promotions").'"><i class="la la-edit"></i> Edit Details</a>
-                <a class="dropdown-item" href="#" data-toggle="modal" id="m_status_6"
-                    data-target="#m_status_6" data-id="'.$promotion->id.'"><i class="la la-leaf"></i> Update Status</a>
-            </div>
-        </span>
-        <a href="'.url("view-promotions").'" id="m_view_6"
-            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-            title="View"><i class="la la-edit"></i></a>';
+        ->editColumn('store_id', function ($promotion) {
+            return(empty($promotion->hasstore) ? '' : $promotion->hasstore->name);
+        })->editColumn('location', function ($promotion) {
+            return($promotion->location.' longitude = '.$promotion->longitude.' latitude = '.$promotion->latitude);
+        })->editColumn('actions', function ($promotion) {
+            $actions = ' <a  id="delete" data-id="'.$promotion->id.'" 
+                            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                            <i class="la la-trash" style="color:#ef2626;"></i>
+                        </a>
+                        <a href="'.url("view-promotions").'" id="m_view_6" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                            title="Eit"><i class="la la-edit"></i>
+                        </a>';
             return($actions);
-        })->rawColumns(['actions'])->make();
+        })->rawColumns(['actions','location','store_id'])->make();
     }
     public function getCategories()
     {

@@ -1,6 +1,4 @@
-@extends('layouts.header')
-
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
       #title {
         color: #fff;
@@ -91,15 +89,15 @@
         width: 345px;
       }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -108,14 +106,14 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript::void(0)" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -135,7 +133,8 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{$title}}
+                            <?php echo e($title); ?>
+
                         </h3>
                     </div>
                 </div>
@@ -238,34 +237,34 @@
                                                     <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" ></textarea>
                                                     </div>
                                                 </div>
-                                                @if(!empty($pro_cat))
+                                                <?php if(!empty($pro_cat)): ?>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">* Select/deselect
                                                         Categories</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <select class="form-control m-bootstrap-select m_selectpicker" name="category[]"
                                                             multiple>
-                                                            @foreach($pro_cat as $category)
-                                                                <option>{{$category->title}}</option>
-                                                            @endforeach
+                                                            <?php $__currentLoopData = $pro_cat; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option><?php echo e($category->title); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                @endif
-                                                @if(count($pro_tags) > 0)
+                                                <?php endif; ?>
+                                                <?php if(count($pro_tags) > 0): ?>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">* Select/deselect
                                                         tags</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <select class="form-control m-bootstrap-select m_selectpicker" name="tags[]"
                                                             multiple>
-                                                            @foreach($pro_tags as $tags)
-                                                                <option>{{$tags->title}}</option>
-                                                            @endforeach
+                                                            <?php $__currentLoopData = $pro_tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tags): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option><?php echo e($tags->title); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                @endif
+                                                <?php endif; ?>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">* Start &amp; End
                                                         Time</label>
@@ -337,7 +336,7 @@
                                                                 <input type="text" class="form-control m-input" name="location" id="location" placeholder="">
                                                                 <input type="text" class="form-control m-input" name="longitude" id="longitude" placeholder="">
                                                                 <input type="text" class="form-control m-input" name="latitude" id="latitude" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="store_id" id="store_id" value="{{ $getstore->id }}">
+                                                                <input type="text" class="form-control m-input" name="store_id" id="store_id" value="<?php echo e($getstore->id); ?>">
                                      
                                                             </div>
                                                         </div>
@@ -564,9 +563,9 @@
         <!--End::Main Portlet-->
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
@@ -652,5 +651,7 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
 
-<script src="{{asset('assets/demo/default/custom/crud/wizard/wizard.js')}}" type="text/javascript"></script>
-@endsection
+<script src="<?php echo e(asset('assets/demo/default/custom/crud/wizard/wizard.js')); ?>" type="text/javascript"></script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

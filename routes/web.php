@@ -28,6 +28,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('view-promotions', 'PromotionController@viewpromotions');
         Route::get('create-promotions', 'PromotionController@createPromotion');
         Route::post('post-promotion', 'PromotionController@createPromotion');
+        Route::post('promotion-delete', 'PromotionController@deletePromotion');
         // Route::get('edit-promotions', 'PromotionController@editpromotions');
 
             /* Promotion Categories routes starts here*/

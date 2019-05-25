@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Promotion,
     App\PromotionCategories,
     App\PromotionTags,
+    App\Store,
     App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -215,8 +216,6 @@ class PromotionController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-        $data['pro_cat'] = PromotionCategories::where('status',1)->get();
-        $data['pro_tags'] = PromotionTags::where('status',1)->get();
         return view('promotions.view-all',$data);
     }
 
@@ -224,46 +223,45 @@ class PromotionController extends Controller
         $data['title'] = "Create Promotion";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
+        $data['getstore'] = Store::where('id',1)->first();
         $data['logged_user'] = $getuser;
+        $data['pro_cat'] = PromotionCategories::where('status',1)->get();
+        $data['pro_tags'] = PromotionTags::where('status',1)->get();
         if($request->isMethod('post'))
         { 
-            $input = $request->all();
-            // $rules = [ 
-            //     'title' => 'required',
-            //     'description' => 'required',
-            //     'time' => 'required',
-            //     'address' => 'required',
-            //     'location' => 'required',
-            //     'longitude' => 'required',
-            //     'latitude' => 'required',
-            //     'billing_card_name' => 'required',
-            //     'billing_card_number' => 'required',
-            //     'billing_card_exp_month' => 'required',
-            //     'billing_card_exp_year' => 'required',
-            //     'billing_card_cvv' => 'required',
-            // ];
-            // $validator = Validator::make($input, $rules);
-            // if ($validator->fails()) {
-            //     $code = 406;
-            //     $output = ['code' => $code, 'messages' => $validator->messages()->all()];
-            // }else{
-                $repsonse = $this->_repository->createPromotion($input);
-                if($repsonse){
-                    $input['promotion_id'] = $repsonse->id;
-                    // $this->_promotion_image_repo->assignMedia($input);
-                    $code = 200;
-                    $output = ['code' => $code,'promotion'=>$repsonse];
-                    event(new PromotionWasCreated($repsonse->id));
-                }else{
-                    $code = 400;
-                    $output = ['error'=>['code' => $code,'message' => ['An error occurred while creating promotion.']]];
-                }
-            // }
+            $input = $request->only('title','description','category','tags','time','location','longitude','latitude','billing_card_name','billing_card_number','billing_card_exp_month','billing_card_exp_year','billing_card_cvv','store_id');
+            $repsonse = $this->_repository->createPromotion($input);
+            if($repsonse){
+                $input['promotion_id'] = $repsonse->id;
+                $this->_promotion_image_repo->assignMedia($input);
+                $code = 200;
+                $output = ['code' => $code,'promotion'=>$repsonse];
+                event(new PromotionWasCreated($repsonse->id));
+            }else{
+                $code = 400;
+                $output = ['error'=>['code' => $code,'message' => ['An error occurred while creating promotion.']]];
+            }
             return response()->json($output, $code);
         }
         return view('promotions.create-promotion',$data);
     }
 
+    public function deletePromotion(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('id');
+            $rules = [
+                'id' => 'required',
+               ];
+            $validator = Validator::make($input, $rules);
+
+            Promotion::where('id',$request->id)->delete();
+            $code = 200;
+            $output = ['success'=>['code' => $code,'message' => 'Promotion Deleted Successfully.']];
+            return response()->json($output, $code);
+        } 
+    }
     public function viewpromotions(){
         $data['title'] = "Edit Promotions";
         $user_id = session()->get('user_id');
