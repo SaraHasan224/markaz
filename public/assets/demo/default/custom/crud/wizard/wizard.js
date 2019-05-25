@@ -21,40 +21,13 @@ var WizardDemo=function() {
             ),
             e=i.validate( {
                 ignore:":hidden", rules: {
-                    name: {
+                    title: {
                         required: !0
                     }
-                    , email: {
-                        required: !0, email: !0
-                    }
-                    , phone: {
-                        required: !0, phoneUS: !0
-                    }
-                    , address1: {
+                    , description: {
                         required: !0
                     }
-                    , city: {
-                        required: !0
-                    }
-                    , state: {
-                        required: !0
-                    }
-                    , city: {
-                        required: !0
-                    }
-                    , country: {
-                        required: !0
-                    }
-                    , account_url: {
-                        required: !0, url: !0
-                    }
-                    , account_username: {
-                        required: !0, minlength: 4
-                    }
-                    , account_password: {
-                        required: !0, minlength: 6
-                    }
-                    , account_group: {
+                    , time: {
                         required: !0
                     }
                     , "account_communication[]": {
@@ -75,28 +48,12 @@ var WizardDemo=function() {
                     , billing_card_cvv: {
                         required: !0, minlength: 2, maxlength: 3
                     }
-                    , billing_address_1: {
-                        required: !0
-                    }
-                    , billing_address_2: {}
-                    , billing_city: {
-                        required: !0
-                    }
-                    , billing_state: {
-                        required: !0
-                    }
-                    , billing_zip: {
-                        required: !0, number: !0
-                    }
-                    , billing_delivery: {
-                        required: !0
-                    }
-                    , accept: {
-                        required: !0
-                    }
                 }
                 , messages: {
-                    "account_communication[]": {
+                    "tags[]": {
+                        required: "You must select at least one communication option"
+                    }
+                    , "category[]": {
                         required: "You must select at least one communication option"
                     }
                     , accept: {
@@ -112,18 +69,34 @@ var WizardDemo=function() {
                 , submitHandler:function(e) {}
             }
             ),
-            (n=i.find('[data-wizard-action="submit"]')).on("click", function(r) {
-                r.preventDefault(), e.form()&&(mApp.progress(n), i.ajaxSubmit( {
-                    success:function() {
-                        mApp.unprogress(n), swal( {
-                            title: "", text: "The application has been successfully submitted!", type: "success", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
-                        }
-                        )
+            (n=$('.promotion_submit')).on("click", function(r) {
+                r.preventDefault(), 
+                // e.form()&&(mApp.progress(n), 
+                $.ajax( {
+                    type: "POST",
+                    headers: 
+                    {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '/post-promotion',
+                    data: $("#m_form").serialize(),
+                    success: function (response) {
+                        // console.log(response);
+                        document.getElementById("m_form").reset();
+                        // mApp.unprogress(n), swal( {
+                        //             title: "", text: "The application has been successfully submitted!", type: "success", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                        // })
+                    },
+                    error: function (response){
+                        response.responseJSON.messages.forEach(function (msg) {
+                            console.log(msg);
+                            // mApp.unprogress(n), swal( {
+                            //     title: "", text: "The application is not successfully submitted!", type: "danger", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                            // })
+                        });
                     }
-                }
-                ))
-            }
-            )
+                })
+            })
         }
     }
 }

@@ -225,7 +225,7 @@
                 { "width": "200px", "targets": [1,2,3] },       
                 { "width": "70px", "targets": [4] }
             ], 
-                "ajax"      : '<?php echo e(url("get-categories")); ?>',
+                "ajax"      : '<?php echo e(url("get-categories")); ?>', 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
@@ -274,6 +274,8 @@
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
                     setTimeout(function() {
                         $('#add_categories_model').modal('hide');
+                        document.getElementById('add_category').reset();
+                        $('#result').empty();
                         var table = $('#pro_cat').DataTable();
                         table.ajax.reload();
                     }, 2000);
@@ -299,6 +301,8 @@
                     }
                      setTimeout(function() {
                         $('#edit_categories_model').modal('hide');
+                        document.getElementById('edit_category').reset();
+                        $('#result_edit').empty();
                         var table = $('#pro_cat').DataTable();
                         table.ajax.reload();
                     }, 2000);

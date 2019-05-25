@@ -71,7 +71,6 @@ class PromotionController extends Controller
 
     public function getCategories(){
         $data['title'] = "Promotion Categories";
-        $data['user'] = PromotionCategories::get();
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
@@ -221,36 +220,45 @@ class PromotionController extends Controller
         return view('promotions.view-all',$data);
     }
 
-    public function createpromotion(Request $request){ 
+    public function createPromotion(Request $request){ 
         $data['title'] = "Create Promotion";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
         if($request->isMethod('post'))
         { 
-            $input = $request->only('name', 'address','user_id','latitude', 'longitude','contact_number');
-            $rules = [ 
-                'name' => 'required|unique:stores,name',
-                'address' => 'required',
-                'user_id' => 'required|unique:stores,user_id',
-                'contact_number' => 'required|unique:users,contact_number'
-            ];
-            $validator = Validator::make($input, $rules);
-            if ($validator->fails()) {
-                $code = 406;
-                $output = ['code' => $code, 'messages' => $validator->messages()->all()];
-            }else{
-                Store::create([
-                    'name' => $request->name,
-                    'address' => $request->address,
-                    'user_id' => $request->user_id,
-                ]);
-                User::whereId($request->user_id)->update([
-                    'phone_number' => $request->contact_number,
-                ]);
-                $output = "Store created successfully";
-                $code = 200;
-            }
+            $input = $request->all();
+            // $rules = [ 
+            //     'title' => 'required',
+            //     'description' => 'required',
+            //     'time' => 'required',
+            //     'address' => 'required',
+            //     'location' => 'required',
+            //     'longitude' => 'required',
+            //     'latitude' => 'required',
+            //     'billing_card_name' => 'required',
+            //     'billing_card_number' => 'required',
+            //     'billing_card_exp_month' => 'required',
+            //     'billing_card_exp_year' => 'required',
+            //     'billing_card_cvv' => 'required',
+            // ];
+            // $validator = Validator::make($input, $rules);
+            // if ($validator->fails()) {
+            //     $code = 406;
+            //     $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+            // }else{
+                $repsonse = $this->_repository->createPromotion($input);
+                if($repsonse){
+                    $input['promotion_id'] = $repsonse->id;
+                    // $this->_promotion_image_repo->assignMedia($input);
+                    $code = 200;
+                    $output = ['code' => $code,'promotion'=>$repsonse];
+                    event(new PromotionWasCreated($repsonse->id));
+                }else{
+                    $code = 400;
+                    $output = ['error'=>['code' => $code,'message' => ['An error occurred while creating promotion.']]];
+                }
+            // }
             return response()->json($output, $code);
         }
         return view('promotions.create-promotion',$data);

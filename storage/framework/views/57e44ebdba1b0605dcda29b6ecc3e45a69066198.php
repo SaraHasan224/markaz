@@ -1077,7 +1077,6 @@
     <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-daterangepicker.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/default/custom/components/maps/google-maps.js')); ?>" type="text/javascript"></script>
 	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4MXWFPJe99KHmkoSQYa7cYK8Rz0lAuh8&libraries=places&callback=initAutocomplete"  async defer type="text/javascript"></script> -->
-    <script src="<?php echo e(asset('assets/vendors/custom/gmaps/gmaps.js')); ?>" type="text/javascript"></script>
 	<script src="<?php echo e(asset('assets/demo/default/custom/components/base/sweetalert2.js')); ?>" type="text/javascript"></script>
         <?php echo $__env->yieldContent('scripts'); ?>
 </body>

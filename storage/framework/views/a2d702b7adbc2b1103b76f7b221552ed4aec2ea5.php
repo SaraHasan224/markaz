@@ -200,11 +200,14 @@
                                 </div>
                             </div>
 
+                            <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
+                                    <input type="hidden" name="longitude" id="longitude" />
+                                    <input type="hidden" name="latitude" id="latitude" />
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" name="address" id="store_address" class="form-control m-input" placeholder="Enter address" disabled/>
+                                        <input type="text" id="store_address" class="form-control m-input" placeholder="Enter address" disabled/>
                                         <span class="m-input-icon__icon m-input-icon__icon--right">
                                             <span>
                                                 <i class="la la-map-marker"></i>
@@ -216,7 +219,7 @@
                                 <div class="col-lg-6">
                                     <!-- <label>Store Adress:</label> -->
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="pac-input" class="controls store_address form-control m-input" placeholder="Enter your store address">
+                                        <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
                                         
                                     </div>
                                 </div>
@@ -230,9 +233,6 @@
                                             </button>
                                         </div>
                                         <span class="m-form__help" id="demo"></span>
-                                    <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
-                                    <input type="hidden" name="longitude" id="longitude" />
-                                    <input type="hidden" name="latitude" id="latitude" />
                                 </div>
                             </div>
                         </div>
@@ -333,10 +333,10 @@
               bounds.extend(place.geometry.location);
             }
             // console.log("marker = "+place.geometry.viewport);
-            console.log(formatted_address);
+            console.log(formatted_address,bounds.na.l,bounds.ia.l);
             document.getElementById("store_address").value = formatted_address;
-            $('#longitude').val = bounds.na.l;
-            $('#latitude').val = bounds.ia.l;
+            document.getElementById("longitude").value = bounds.na.l;
+            document.getElementById("latitude").value = bounds.ia.l;
           });
           map.fitBounds(bounds);
         });
@@ -360,12 +360,15 @@
     		data: $("#stores").serialize(),
     		success: function (response) {
                 // console.log(response);
+                document.getElementById("stores").reset();
+                $('#delete_result').empty();
                 $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>'); 
             },
             error: function (response){
                 response.responseJSON.messages.forEach(function (msg) {
                 // console.log(msg);
+                $('#delete_result').empty();
                     $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
 				});
             }

@@ -343,7 +343,7 @@
       }
 
     </script>
-    	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
 
 
 <script>
@@ -361,12 +361,14 @@
     		success: function (response) {
                 // console.log(response);
                 document.getElementById("stores").reset();
+                $('#delete_result').empty();
                 $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>'); 
             },
             error: function (response){
                 response.responseJSON.messages.forEach(function (msg) {
                 // console.log(msg);
+                $('#delete_result').empty();
                     $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
 				});
             }

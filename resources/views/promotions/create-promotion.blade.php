@@ -1,5 +1,97 @@
 @extends('layouts.header')
 
+@section('styles')
+<style>
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 500px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #000s;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        /* padding: 0 11px 0 13px; */
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
+@endsection
 @section('content')
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -107,21 +199,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_4">
-                                            <div class="m-wizard__step-info">
-                                                <a href="#" class="m-wizard__step-number">
-                                                    <span>
-                                                        <span>4</span>
-                                                    </span>
-                                                </a>
-                                                <div class="m-wizard__step-label">
-                                                    Confirmation
-                                                </div>
-                                                <div class="m-wizard__step-icon">
-                                                    <i class="la la-check"></i>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <!--end: Form Wizard Nav -->
@@ -158,14 +235,15 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label">* Promotion
                                                         Description:</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                    <textarea class="form-control m-input m-input--air" id="description" rows="3" ></textarea>
+                                                    <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" ></textarea>
                                                     </div>
                                                 </div>
+                                                @if(!empty($pro_cat))
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">Select/deselect
                                                         Categories</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker"
+                                                        <select class="form-control m-bootstrap-select m_selectpicker" name="category[]"
                                                             multiple>
                                                             @foreach($pro_cat as $category)
                                                                 <option>{{$category->title}}</option>
@@ -173,11 +251,13 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                @endif
+                                                @if(!empty($pro_tags))
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">Select/deselect
                                                         tags</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker"
+                                                        <select class="form-control m-bootstrap-select m_selectpicker" name="tags[]"
                                                             multiple>
                                                             @foreach($pro_tags as $tags)
                                                                 <option>{{$tags->title}}</option>
@@ -185,13 +265,14 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                @endif
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">Start &amp; End
                                                         Time</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <div class="input-group pull-right" id="m_daterangepicker_4">
                                                             <input type="text" class="form-control m-input" readonly=""
-                                                                placeholder="Select date &amp; time range">
+                                                                placeholder="Select date &amp; time range" name="time">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text">
                                                                     <i class="la la-calendar-check-o"></i>
@@ -243,7 +324,20 @@
                                                                 </div>
                                                             </div>
                                                             <div class="m-portlet__body">
-                                                                <div id="m_gmap_2" style="height:300px;"></div>
+                                                                <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
+                                                                <div class="col-lg-12" id="map">
+                                                                        <label class="">Store Location:</label>
+                                                                        <div class="m-input-icon m-input-icon--right">
+                                                                            <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                                                <span><i class="la la-location-arrow"></i><span>Location</span></span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <span class="m-form__help" id="demo"></span>
+                                                                </div>
+                                                                <input type="text" class="form-control m-input" name="location" id="location" placeholder="">
+                                                                <input type="text" class="form-control m-input" name="longitude" id="longitude" placeholder="">
+                                                                <input type="text" class="form-control m-input" name="latitude" id="latitude" placeholder="">
+                                     
                                                             </div>
                                                         </div>
                                                     </div>
@@ -409,457 +503,47 @@
                                                 </div>
                                             </div>
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                            <!--
-                                            <div class="m-form__section">
-                                                <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Billing Address
-                                                        <i data-toggle="m-tooltip" data-width="auto"
-                                                            class="m-form__heading-help-icon flaticon-info"
-                                                            title="If different than the corresponding address"></i>
-                                                    </h3>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-lg-12">
-                                                        <label class="form-control-label">* Address 1:</label>
-                                                        <input type="text" name="billing_address_1"
-                                                            class="form-control m-input" placeholder=""
-                                                            value="Headquarters 1120 N Street Sacramento 916-654-5266">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-lg-12">
-                                                        <label class="form-control-label">Address 2:</label>
-                                                        <input type="text" name="billing_address_2"
-                                                            class="form-control m-input" placeholder=""
-                                                            value="P.O. Box 942873 Sacramento, CA 94273-0001">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-lg-5 m-form__group-sub">
-                                                        <label class="form-control-label">* City:</label>
-                                                        <input type="text" class="form-control m-input"
-                                                            name="billing_city" placeholder="" value="Polo Alto">
-                                                    </div>
-                                                    <div class="col-lg-5 m-form__group-sub">
-                                                        <label class="form-control-label">* State:</label>
-                                                        <input type="text" class="form-control m-input"
-                                                            name="billing_state" placeholder="" value="California">
-                                                    </div>
-                                                    <div class="col-lg-2 m-form__group-sub">
-                                                        <label class="form-control-label">* ZIP:</label>
-                                                        <input type="text" class="form-control m-input"
-                                                            name="billing_zip" placeholder="" value="34890">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                            <div class="m-form__section">
-                                                <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Delivery Type</h3>
-                                                </div>
-                                                <div class="form-group m-form__group">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <label class="m-option">
-                                                                <span class="m-option__control">
-                                                                    <span class="m-radio m-radio--state-brand">
-                                                                        <input type="radio" name="billing_delivery"
-                                                                            value="">
-                                                                        <span></span>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="m-option__label">
-                                                                    <span class="m-option__head">
-                                                                        <span class="m-option__title">
-                                                                            Standart Delevery
-                                                                        </span>
-                                                                        <span class="m-option__focus">
-                                                                            Free
-                                                                        </span>
-                                                                    </span>
-                                                                    <span class="m-option__body">
-                                                                        Estimated 14-20 Day Shipping (&nbsp;Duties end
-                                                                        taxes may be due upon delivery&nbsp;)
-                                                                    </span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <label class="m-option">
-                                                                <span class="m-option__control">
-                                                                    <span class="m-radio m-radio--state-brand">
-                                                                        <input type="radio" name="billing_delivery"
-                                                                            value="">
-                                                                        <span></span>
-                                                                    </span>
-                                                                </span>
-                                                                <span class="m-option__label">
-                                                                    <span class="m-option__head">
-                                                                        <span class="m-option__title">
-                                                                            Fast Delevery
-                                                                        </span>
-                                                                        <span class="m-option__focus">
-                                                                            $&nbsp;8.00
-                                                                        </span>
-                                                                    </span>
-                                                                    <span class="m-option__body">
-                                                                        Estimated 2-5 Day Shipping (&nbsp;Duties end
-                                                                        taxes may be due upon delivery&nbsp;)
-                                                                    </span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="m-form__help">
-
-                                                       //must use this helper element to display error message for the options
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        -->
                                         </div>
 
                                         <!--end: Form Wizard Step 3-->
-
-                                        <!--begin: Form Wizard Step 4-->
-                                        <div class="m-wizard__form-step" id="m_wizard_form_step_4">
-
-                                            <!--begin::Section-->
-                                            <div class="m-accordion m-accordion--default" id="m_accordion_1"
-                                                role="tablist">
-
-                                                <!--begin::Item-->
-                                                <div class="m-accordion__item active">
-                                                    <div class="m-accordion__item-head" role="tab"
-                                                        id="m_accordion_1_item_1_head" data-toggle="collapse"
-                                                        href="#m_accordion_1_item_1_body" aria-expanded="  false">
-                                                        <span class="m-accordion__item-icon">
-                                                            <i class="fa flaticon-user-ok"></i>
-                                                        </span>
-                                                        <span class="m-accordion__item-title">1. Promotion
-                                                            Setup</span>
-                                                        <span class="m-accordion__item-mode"></span>
+                                        <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+                                            <div class="m-form__actions">
+                                                <div class="row">
+                                                    <div class="col-lg-6 m--align-left">
+                                                        <a href="#"
+                                                            class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
+                                                            data-wizard-action="prev">
+                                                            <span>
+                                                                <i class="la la-arrow-left"></i>&nbsp;&nbsp;
+                                                                <span>Back</span>
+                                                            </span>
+                                                        </a>
                                                     </div>
-                                                    <div class="m-accordion__item-body collapse show"
-                                                        id="m_accordion_1_item_1_body" class=" " role="tabpanel"
-                                                        aria-labelledby="m_accordion_1_item_1_head"
-                                                        data-parent="#m_accordion_1">
-
-                                                        <!--begin::Content-->
-                                                        <div class="tab-content active  m--padding-30">
-                                                            <div class="m-form__section m-form__section--first">
-                                                                <div class="m-form__heading">
-                                                                    <h4 class="m-form__heading-title">Client Details
-                                                                    </h4>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Name:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">Nick
-                                                                            Stone</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Email:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">nick.stone@gmail.com</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="m-separator m-separator--dashed m-separator--lg">
-                                                            </div>
-                                                            <div class="m-form__section">
-                                                                <div class="m-form__heading">
-                                                                    <h4 class="m-form__heading-title">Corresponding
-                                                                        Address
-                                                                        <i data-toggle="m-tooltip"
-                                                                            class="m-form__heading-help-icon flaticon-info"
-                                                                            title="Some help text goes here"></i>
-                                                                    </h4>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Address
-                                                                        Line 1:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">Headquarters
-                                                                            1120 N Street Sacramento 916-654-5266</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Address
-                                                                        Line 2:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">P.O. Box
-                                                                            942873 Sacramento, CA 94273-0001</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">City:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">Polo
-                                                                            Alto</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">State:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">California</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Country:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">USA</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!--end::Section-->
-                                                    </div>
-                                                </div>
-
-                                                <!--end::Item-->
-
-                                                <!--begin::Item-->
-                                                <div class="m-accordion__item">
-                                                    <div class="m-accordion__item-head collapsed" role="tab"
-                                                        id="m_accordion_1_item_2_head" data-toggle="collapse"
-                                                        href="#m_accordion_1_item_2_body" aria-expanded="    false">
-                                                        <span class="m-accordion__item-icon">
-                                                            <i class="fa  flaticon-placeholder"></i>
-                                                        </span>
-                                                        <span class="m-accordion__item-title">2. Location Setup</span>
-                                                        <span class="m-accordion__item-mode"></span>
-                                                    </div>
-                                                    <div class="m-accordion__item-body collapse"
-                                                        id="m_accordion_1_item_2_body" class=" " role="tabpanel"
-                                                        aria-labelledby="m_accordion_1_item_2_head"
-                                                        data-parent="#m_accordion_1">
-
-                                                        <!--begin::Content-->
-                                                        <div class="tab-content  m--padding-30">
-                                                            <div class="m-form__section m-form__section--first">
-                                                                <div class="m-form__heading">
-                                                                    <h4 class="m-form__heading-title">Account Details
-                                                                    </h4>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">URL:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">sinortech.vertoffice.com</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Username:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">sinortech.admin</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Password:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">*********</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="m-separator m-separator--dashed m-separator--lg">
-                                                            </div>
-                                                            <div class="m-form__section">
-                                                                <div class="m-form__heading">
-                                                                    <h4 class="m-form__heading-title">Client Settings
-                                                                    </h4>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label class="col-xl-4 col-lg-4 col-form-label">User
-                                                                        Group:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">Customer</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Communications:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">Phone,
-                                                                            Email</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <!--end::Content-->
-                                                    </div>
-                                                </div>
-
-                                                <!--end::Item-->
-
-                                                <!--begin::Item-->
-                                                <div class="m-accordion__item">
-                                                    <div class="m-accordion__item-head collapsed" role="tab"
-                                                        id="m_accordion_1_item_3_head" data-toggle="collapse"
-                                                        href="#m_accordion_1_item_3_body" aria-expanded="    false">
-                                                        <span class="m-accordion__item-icon">
-                                                            <i class="fa  flaticon-placeholder"></i>
-                                                        </span>
-                                                        <span class="m-accordion__item-title">3. Billing Setup</span>
-                                                        <span class="m-accordion__item-mode"></span>
-                                                    </div>
-                                                    <div class="m-accordion__item-body collapse"
-                                                        id="m_accordion_1_item_3_body" class=" " role="tabpanel"
-                                                        aria-labelledby="m_accordion_1_item_3_head"
-                                                        data-parent="#m_accordion_1">
-
-                                                        <!--begin::Content-->
-                                                        <div class="tab-content  m--padding-30">
-                                                            <div class="m-form__section m-form__section--first">
-                                                                <div class="m-form__heading">
-                                                                    <h4 class="m-form__heading-title">Billing
-                                                                        Information</h4>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">Cardholder
-                                                                        Name:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">Nick
-                                                                            Stone</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label class="col-xl-4 col-lg-4 col-form-label">Card
-                                                                        Number:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span
-                                                                            class="m-form__control-static">*************4589</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label class="col-xl-4 col-lg-4 col-form-label">Exp
-                                                                        Month:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">10</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label class="col-xl-4 col-lg-4 col-form-label">Exp
-                                                                        Year:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">2018</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    class="form-group m-form__group m-form__group--sm row">
-                                                                    <label
-                                                                        class="col-xl-4 col-lg-4 col-form-label">CVV:</label>
-                                                                    <div class="col-xl-8 col-lg-8">
-                                                                        <span class="m-form__control-static">***</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="m-separator m-separator--dashed m-separator--lg">
-                                                            </div>
-                                                        </div>
-
-                                                        <!--end::Content-->
-                                                    </div>
-                                                </div>
-
-                                                <!--end::Item-->
-                                            </div>
-
-                                            <!--end::Section-->
-
-                                            <!--end::Section-->
-                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                            <div class="form-group m-form__group m-form__group--sm row">
-                                                <div class="col-xl-12">
-                                                    <div class="m-checkbox-inline">
-                                                        <label class="m-checkbox m-checkbox--solid m-checkbox--brand">
-                                                            <input type="checkbox" name="accept" value="1"> Click here
-                                                            to indicate that you have read and agree to the terms
-                                                            presented in the Terms and Conditions agreement
-                                                            <span></span>
-                                                        </label>
+                                                    <div class="col-lg-6 m--align-right">
+                                                        <a href="#" class="btn btn-primary m-btn m-btn--custom m-btn--icon promotion_submit"
+                                                            data-wizard-action="submit">
+                                                            <span>
+                                                                <i class="la la-check"></i>&nbsp;&nbsp;
+                                                                <span>Submit</span>
+                                                            </span>
+                                                        </a>
+                                                        <a href="#" class="btn btn-success m-btn m-btn--custom m-btn--icon"
+                                                            data-wizard-action="next">
+                                                            <span>
+                                                                <span>Save &amp; Continue</span>&nbsp;&nbsp;
+                                                                <i class="la la-arrow-right"></i>
+                                                            </span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!--end: Form Wizard Step 4-->
                                     </div>
 
                                     <!--end: Form Body -->
 
                                     <!--begin: Form Actions -->
-                                    <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                        <div class="m-form__actions">
-                                            <div class="row">
-                                                <div class="col-lg-6 m--align-left">
-                                                    <a href="#"
-                                                        class="btn btn-secondary m-btn m-btn--custom m-btn--icon"
-                                                        data-wizard-action="prev">
-                                                        <span>
-                                                            <i class="la la-arrow-left"></i>&nbsp;&nbsp;
-                                                            <span>Back</span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-6 m--align-right">
-                                                    <a href="#" class="btn btn-primary m-btn m-btn--custom m-btn--icon"
-                                                        data-wizard-action="submit">
-                                                        <span>
-                                                            <i class="la la-check"></i>&nbsp;&nbsp;
-                                                            <span>Submit</span>
-                                                        </span>
-                                                    </a>
-                                                    <a href="#" class="btn btn-success m-btn m-btn--custom m-btn--icon"
-                                                        data-wizard-action="next">
-                                                        <span>
-                                                            <span>Save &amp; Continue</span>&nbsp;&nbsp;
-                                                            <i class="la la-arrow-right"></i>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
 
                                     <!--end: Form Actions -->
                                 </form>
@@ -882,5 +566,90 @@
 @endsection
 
 @section('scripts')
+
+<script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.8688, lng: 151.2195},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            formatted_address = place.formatted_address;
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+            // console.log("marker = "+place.geometry.viewport);
+            console.log(formatted_address,bounds.na.l,bounds.ia.l);
+            document.getElementById("location").value = formatted_address;
+            document.getElementById("longitude").value = bounds.na.l;
+            document.getElementById("latitude").value = bounds.ia.l;
+          });
+          map.fitBounds(bounds);
+        });
+      }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+
 <script src="{{asset('assets/demo/default/custom/crud/wizard/wizard.js')}}" type="text/javascript"></script>
 @endsection
