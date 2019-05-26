@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use App\User,
+use App\Follower,
+    App\User,
     App\Store,
     App\StoreSocialMedia;
 use App\TraitsFolder\CommonTrait;
@@ -12,6 +13,7 @@ use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Events\UserWasCreated;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Input;
 use App\Data\Repositories\UserRepository;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
 
@@ -20,7 +22,7 @@ class UserController extends Controller
 
     use SendsPasswordResetEmails;
     use CommonTrait;
-    public function __construct(UserRepository $user) {
+    public function __construct(UserRepository $user) { 
         $this->_repository = $user;
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
@@ -213,16 +215,51 @@ class UserController extends Controller
         $data['logged_user'] = $getuser;
         return view('users.create-users',$data);
     }
+    public function addUsers(Request $request){
+        $input = $request->only('email', 'password','name', 'phone_number','position','profile_pic');
+        $rules = [
+            'email' => 'required|unique:users,email',
+            'password' => 'required',
+            'name' => 'required',
+            'position' => 'required',
+            'phone_number' => 'required',
+            'profile_pic' => 'mimes:jpeg,png,jpg',
+        ];
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $code = 406;
+            $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+        }else{
+            $input['access_token'] = Str::random(60);
+            
+            if($request->hasFile('profile_pic'))
+            {
+                $img_tmp = Input::file('profile_pic');
+                if($img_tmp->isValid())
+                {
+                    $extension = $img_tmp->getClientOriginalExtension();
+                    $user_image = rand(111,99999).".".$extension;
+                    $image_path = public_path('/images/user').'/'.$user_image;
+                    Image::make($img_tmp)->save($image_path);          
+                }         
+                $input['profile_pic'] = $user_image;
+            }
+            $repsonse = $this->_repository->addUserProfile($input);
+            if($repsonse){
+                $code = 200;
+                $output = ['code' => $code,'user'=>$repsonse];
+            }else{
+                $code = 400;
+                $output = ['error'=>['code' => $code,'message' => ['An error occurred while Registration.']]];
+            }
+         }
+        return response()->json($output, $code);
+    }
     public function viewUsers(Request $request)
     {
         if($request->isMethod('post'))
         {
             $input = $request->only('id');
-            $rules = [
-                'id' => 'required',
-               ];
-            $validator = Validator::make($input, $rules);
-
             $findUser = User::whereId($request->id)->first();
             $code = 200;
             $user = [];
@@ -232,6 +269,7 @@ class UserController extends Controller
             $user['phone_number'] = $findUser->phone_number;
             $user['position'] = $findUser->position;
             $user['profile_pic'] = $findUser->profile_pic;
+            $user['user_image'] = asset('/images/user').'/'.$findUser->profile_pic;
             $output = ['success'=>['code' => $code,'message' => $user]];
             return response()->json($output, $code);
         }
@@ -240,23 +278,42 @@ class UserController extends Controller
     {
         if($request->isMethod('post'))
         {
-            $input = $request->only('email','name','phone_number','id','position');
+            $input = $request->only('email','name','phone_number','id','position','profile_pic','edit_image_path');
             $rules = [
                 'id' => 'required',
                 'email' => 'required',
                 'name' => 'required',
                 'position' => 'required',
-                'phone_number' => 'required|number',
+                'phone_number' => 'required',
+                'profile_pic' => 'required|mimes:jpeg,png,jpg',
                ];
-            $validator = Validator::make($input, $rules);
-            User::where('id',$request->id)->update([
-                "name" => $request->name,
-                "email" => $request->email,
-                "position" => $request->position,
-                "phone_number" => $request->phone_number,
-            ]);
-            $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'User Updated Successfully.']];
+               $validator = Validator::make($input, $rules);
+               if ($validator->fails()) {
+                   $code = 406;
+                   $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+               }else{
+                    if($request->hasFile('profile_pic'))
+                    {
+                        $img_tmp = Input::file('profile_pic');
+                        if($img_tmp->isValid())
+                        {
+                            $extension = $img_tmp->getClientOriginalExtension();
+                            $user_image = rand(111,99999).".".$extension;
+                            $image_path = public_path('/images/user').'/'.$user_image;
+                            Image::make($img_tmp)->save($image_path);          
+                        }         
+                    }
+                    $user_image = !empty($user_image) ? $user_image : $request->edit_image_path;
+                    User::where('id',$request->id)->update([
+                        "name" => $request->name,
+                        "email" => $request->email,
+                        "position" => $request->position,
+                        "phone_number" => $request->phone_number,
+                        "profile_pic" =>  $user_image,
+                    ]);
+                    $code = 200;
+                    $output = ['success'=>['code' => $code,'message' => 'User Updated Successfully.']];
+                }
             return response()->json($output, $code);
         }
     } 
@@ -270,9 +327,33 @@ class UserController extends Controller
                ];
             $validator = Validator::make($input, $rules);
 
-            User::where('id',$request->id)->delete();
-            $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'User Deleted Successfully.']];
+            if ($validator->fails()) {
+                $code = 406;
+                $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+            }else{
+                $user = User::where('id',$request->id)->first();
+                Follower::where('user_id',$request->id)->delete();
+                Store::where('user_id',$request->id)->delete();
+                $image_path = 'images/user/';
+                if(file_exists($image_path.$user->profile_pic) && $user->profile_pic != 'user_default.png')
+                {
+                    unlink(public_path($image_path.$user->profile_pic));
+                }
+                // $user_id = session()->get('user_id');
+                // if($user_id == $user->id){
+                //     $code = 400;
+                //     $request->session()->flush();
+                //     $request->session()->forget('user_id');
+                //     $request->session()->regenerate();
+                //     $user->delete();
+                //     return redirect('/');
+                // }else{
+                    $code = 200;
+                    $user->delete();
+                // }
+                $code = 200;
+                $output = ['success'=>['code' => $code,'message' => 'User Deleted Successfully.']];
+            }
             return response()->json($output, $code);
         } 
     }

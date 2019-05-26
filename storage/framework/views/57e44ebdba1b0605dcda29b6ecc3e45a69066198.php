@@ -358,7 +358,7 @@
                                         m-dropdown-toggle="click">
                                         <a href="#" class="m-nav__link m-dropdown__toggle">
                                             <span class="m-topbar__userpic">
-                                                <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e($logged_user->profile_pic); ?>"
+                                                <img src="<?php echo e(asset('images/user')); ?>/<?php echo e($logged_user->profile_pic); ?>"
                                                     class="m--img-rounded m--marginless m--img-centered" alt="" />
                                             </span>
                                             <span class="m-nav__link-icon m-topbar__usericon  m--hide">
@@ -374,7 +374,7 @@
                                                 <div class="m-dropdown__header m--align-center">
                                                     <div class="m-card-user m-card-user--skin-light">
                                                         <div class="m-card-user__pic">
-                                                            <img src="<?php echo e(asset('assets/app/media/img/users/')); ?>/<?php echo e(!empty($logged_user->profile_pic) ? $logged_user->profile_pic : ''); ?>"
+                                                            <img src="<?php echo e(asset('images/user/')); ?>/<?php echo e(!empty($logged_user->profile_pic) ? $logged_user->profile_pic : ''); ?>"
                                                                 class="m--img-rounded m--marginless" alt="" />
                                                         </div>
                                                         <div class="m-card-user__details">

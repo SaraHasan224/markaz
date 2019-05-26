@@ -66,6 +66,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('get-users', 'DatatablesController@getusers'); 
         Route::get('create-users', 'UserController@createUsers');
         Route::get('users', 'UserController@getusers');
+        Route::post('add-user', 'UserController@addUsers');
         Route::post('view-user', 'UserController@viewUsers');
         Route::post('edit-users', 'UserController@editusers');
         Route::post('delete-users', 'UserController@deleteUsers');

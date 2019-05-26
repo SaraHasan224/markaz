@@ -1,5 +1,4 @@
-@extends('layouts.header')
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
 			input[type=number]::-webkit-inner-spin-button, 
 			input[type=number]::-webkit-outer-spin-button { 
@@ -9,8 +8,8 @@
 			margin: 0; 
 			}
 </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -18,7 +17,7 @@
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -27,20 +26,20 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('users')}}" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                        <a href="<?php echo e(url('users')); ?>" class="m-nav__link">
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$sub_title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($sub_title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -62,34 +61,35 @@
                                     <i class="la la-gear"></i>
                                 </span>
                                 <h3 class="m-portlet__head-text">
-                                    {{$sub_title}}
+                                    <?php echo e($sub_title); ?>
+
                                 </h3>
                             </div>
                         </div>
                     </div>
 
                     <!--begin::Form-->
-                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="{{$table_id}}" method="POST"  enctype="multipart/form-data">
+                    <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="<?php echo e($table_id); ?>" method="POST"  enctype="multipart/form-data">
                         <div class="m-portlet__body">
                         <div id="result" style="padding: 10px;"></div>
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Username:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" name="name" class="form-control m-input" placeholder="Enter username" value="{{ ($user) ? $user->name : '' }}">
+                                        <input type="text" name="name" class="form-control m-input" placeholder="Enter username" value="<?php echo e(($user) ? $user->name : ''); ?>">
                                     </div>
                                     <span class="m-form__help">Enter user name</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Email Address:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="email" name="email" class="form-control m-input" value="{{ ($user) ? $user->email : '' }}"
+                                        <input type="email" name="email" class="form-control m-input" value="<?php echo e(($user) ? $user->email : ''); ?>"
                                             placeholder="Enter email-address">
                                     </div>
                                         <span class="m-form__help">Enter email-address</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('password') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Password:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -101,13 +101,13 @@
                                 <div class="col-lg-6">
                                     <label>Contact Number:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="number" name="phone_number" class="form-control m-input" value="{{ ($user) ? $user->phone_number : '' }}"
+                                        <input type="number" name="phone_number" class="form-control m-input" value="<?php echo e(($user) ? $user->phone_number : ''); ?>"
                                             placeholder="Enter contact number">
                                     </div>
                                     <span class="m-form__help">Enter contact number</span>
                                 </div>
                             </div> 
-                            <div class="form-group{{ $errors->has('position') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('position') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Designation:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -129,10 +129,10 @@
                             <div class="m-form__actions m-form__actions--solid">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <a href="{{ url('users') }}" class="btn btn-secondary">Cancel</a>
+                                        <a href="<?php echo e(url('users')); ?>" class="btn btn-secondary">Cancel</a>
                                     </div>
                                     <div class="col-lg-6 m--align-right">
-                                        <button type="submit" class="btn btn-primary {{$table_id}}">Save</button>
+                                        <button type="submit" class="btn btn-primary <?php echo e($table_id); ?>">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -147,8 +147,8 @@
         </div>
     </div>
 </div>
-@endsection
-@section('scripts') 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?> 
 <script>
     var base_url = "<?php url() ?>";
     // console.log(base_url+'/user/signinweb');
@@ -216,4 +216,5 @@
 
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -191,6 +191,9 @@ class StoreController extends Controller
     }
     public function getspecificstore(){
         $data['title'] = "Stores";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
         return view('store.view-all',$data);
     }
 

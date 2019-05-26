@@ -6,7 +6,7 @@ use JWTAuth, Carbon\Carbon;
 use Storage, Image, Zipper,App;
 use Techplanner\Helpers\Helper;
 use Hash, Illuminate\Support\Str;
-use App\User;
+use App\User; 
 use App\Contracts\RepositoryContract;
 
 
@@ -74,9 +74,9 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
                 'id' =>$user->id,
                 'access_token' => $token,
             ]);
-      return $update;
-  }
-  return false;
+            return $update;
+        }
+        return false;
     }
 
 
@@ -121,4 +121,36 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         }
     }
 
+    public function addUserProfile(array $data = []) {
+
+        $input['email']         = $data['email'];
+        $input['phone_number']  = $data['phone_number'];
+        $input['name']        = $data['name'];
+        $input['position']        = $data['position'] != '' ? $data['position'] : '';
+        $input['password']      = bcrypt($data['password']);
+        $input['access_token']  = $data['access_token'];
+        $input['profile_pic']  = $data['profile_pic'];
+
+        if($user = parent::create($input)){
+            $token = JWTAuth::fromUser($user);
+            $update = $this->update([
+                'id' =>$user->id,
+                'profile_pic' =>$data['profile_pic'],
+                'access_token' => $token,
+            ]);
+            return $update;
+        }
+        return false;
+    }
+    public function editUserProfile(array $data = []) {
+                    
+        $update = User::whereId($data['id'])->update([
+                'email' => $data['email'],
+                'name' => $data['name'],
+                'phone_number' => $data['phone_number'],
+                'position' => $data['position'],
+                'profile_pic' => $data['profile_pic'],
+            ]);
+            return $update;
+    }
 }

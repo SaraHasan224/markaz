@@ -81,16 +81,6 @@
 
     <!-- END: Subheader -->
     <div class="m-content">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="flaticon-danger"></i>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-            <strong>Oh snap!</strong> Change a few things up and try submitting again.
-        </div>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="flaticon-danger"></i>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-            <strong>Well done!</strong> You successfully read this important alert message.
-        </div>
         <div class="m-portlet m-portlet--mobile">
             <div class="m-portlet__head">
                 <div class="m-portlet__head-caption">
@@ -123,7 +113,10 @@
                             <th>PromotionID</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Time</th>
+                            <th>Location</th>
                             <th>Store Id</th>
+                            <th>Payment Status</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
@@ -135,88 +128,6 @@
         </div>
 
         <!-- END EXAMPLE TABLE PORTLET-->
-    </div>
-</div>
-
-
-<!-- Modal for Update status-->
-<div class="modal fade" id="m_status_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book.
-                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
-                    containing Lorem Ipsum passages, and more recently
-                    with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal for View  Store-->
-
-<!-- Modal for View  Store-->
-<div class="modal fade" id="view_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="edit_user" method="POST">
-                <div class="modal-body">
-                    <div id="result" style="padding: 10px;"></div>
-                    <div class="form-group m-form__group row">
-                        <div class="col-lg-12">
-                            <label>Username:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <input type="text" name="name" id="edit_name" class="form-control m-input" placeholder="Enter username" >
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <label>Email Address:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <input type="email" name="email" id="edit_email" class="form-control m-input" placeholder="Enter email address" >
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <label>Phone Number:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <input type="number" name="phone_number" id="edit_phonenumber" class="form-control m-input" placeholder="Enter phone number" >
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <label>Profile Picture:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <input type="file" name="profile_picture" class="form-control m-input" >
-                                <div> <img id="edit_image"/> </div>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" name="id" id="edit_id" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 <?php $__env->stopSection(); ?>
@@ -233,7 +144,10 @@
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
                     { data: 'description' },
+                    { data: 'time' },
+                    { data: 'location' },
                     { data: 'store_id' },
+                    { data: 'payment_status' },
                     { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
                 ]
@@ -242,20 +156,45 @@
     </script>
     
     <script>
-        $(document).ready(function (e) {
-            $(document).on("click", '#m_view_6', function (e) {
-                var id = $(this).data('id');
-                alert(id);
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function (e) {
-            $(document).on("click", '#m_status_6', function (e) {
-                var id = $(this).data('id');
-                alert(id);
-                // $("#status_id1").val(id);
-            });
+        // Delete User
+        $(document).on("click", '#delete', function (e) {
+            var id = $(this).data('id');
+            var base_url = "<?php url() ?>";
+            console.log(id);
+            e.preventDefault();
+            swal({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: !0
+            }).then(function(e) {
+                e.value ? swal("Deleted!", "Promotion has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                if(e.value == true)
+                {
+                    $.ajax({
+                        type: "POST",
+                        headers: 
+                        {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        url: base_url+'/promotion-delete',
+                        data: {id: id},
+                        success: function (response) {
+                            if(response.success.code == 200)
+                            {
+                                swal.close();
+                                $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
+                                var table = $('#view_promotions').DataTable();
+                                table.ajax.reload();
+                            }
+                        }
+                    });
+                }
+            })
         });
     </script>
 <?php $__env->stopSection(); ?>

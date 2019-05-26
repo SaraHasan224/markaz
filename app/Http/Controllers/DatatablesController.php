@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Store,
+use App\Follower,
+    App\Store,
     App\Support,
     App\Promotion,
     App\PromotionCategories,
@@ -29,10 +30,7 @@ class DatatablesController extends Controller
             }
             return($status);
         })->editColumn('actions', function ($store) {
-            $actions = '
-        <a id="view_store" data-id="'.$store->id.'"
-            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-            title="View Store" ><i class="la la-eye"></i></a>
+            $actions = '    
             <a id="edit_store" data-id="'.$store->id.'"
                 class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                 title="Edit Store" ><i class="la la-edit"></i></a>
@@ -127,6 +125,9 @@ class DatatablesController extends Controller
     {
         $getusers = User::select('id','email','name','phone_number','profile_pic','position','created_at');
         return Datatables::of($getusers)
+        ->editColumn('profile_pic', function ($users) {
+            return("<img src=".asset('images/user')."/".$users->profile_pic." style='width:60px; height:60px;'/>");
+        })
         ->editColumn('actions', function ($users) {
             $actions = ' 
             <a  id="delete" data-id="'.$users->id.'" 
@@ -138,7 +139,7 @@ class DatatablesController extends Controller
                 <i class="la la-edit"></i>
             </a>';
             return($actions);
-        })->rawColumns(['actions'])->make();
+        })->rawColumns(['actions','profile_pic'])->make();
     }
     public function getsupport()
     {
@@ -168,47 +169,41 @@ class DatatablesController extends Controller
     }
     public function getfollowers()
     {
-        $getusers = DB::table('followers')->select('id','user_id','store_id','created_at');
-        return Datatables::of($getusers)
-        // ->editColumn('actions', function ($users) {
-        //     $actions = '<span class="dropdown">
-        //     <a href="#"
-        //         class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-        //         data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
-        //     <div class="dropdown-menu dropdown-menu-right">
-        //         <a class="dropdown-item" href="'.url("edit-users").'"><i class="la la-edit"></i> Edit Details</a>
-        //         <a class="dropdown-item" href="#" data-toggle="modal" id="m_status_6"
-        //             data-target="#m_status_6" data-id="'.$users->id.'"><i class="la la-leaf"></i> Update Status</a>
-        //     </div>
-        // </span>
-        // <a href="'.url("view-promotions").'" id="m_view_6"
-        //     class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-        //     title="View"><i class="la la-edit"></i></a>';
-        //     return($actions);
-        // })
-        ->make();
+        $getfollowers = Follower::where('status',0)->select('id','user_id','store_id','created_at','status')->with('hasUser');
+        return Datatables::of($getfollowers)
+        ->editColumn('user_id', function ($follower) {
+            return($follower->hasUser->name);
+        })
+        ->editColumn('status', function ($follower) {
+            if($follower->status == 0)
+            {
+                $actions = '<button type="button" class="btn m-btn--pill btn-accent">Followed</button>';
+            }
+            elseif($follower->status == 1){
+                $actions = '<button type="button" class="btn m-btn--pill btn-focus">Blocked</button>';
+            }
+            return($actions);
+        })
+        ->rawColumns(['status','user_id'])->make();
     }
     public function getunfollowers()
     {
-        $getusers = DB::table('followers')->where('deleted_at','<>',Null)->select('id','user_id','store_id','created_at');
-        return Datatables::of($getusers)
-        // ->editColumn('actions', function ($users) {
-        //     $actions = '<span class="dropdown">
-        //     <a href="#"
-        //         class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-        //         data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
-        //     <div class="dropdown-menu dropdown-menu-right">
-        //         <a class="dropdown-item" href="'.url("edit-users").'"><i class="la la-edit"></i> Edit Details</a>
-        //         <a class="dropdown-item" href="#" data-toggle="modal" id="m_status_6"
-        //             data-target="#m_status_6" data-id="'.$users->id.'"><i class="la la-leaf"></i> Update Status</a>
-        //     </div>
-        // </span>
-        // <a href="'.url("view-promotions").'" id="m_view_6"
-        //     class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-        //     title="View"><i class="la la-edit"></i></a>';
-        //     return($actions);
-        // })
-        ->make();
+        $getfollowers = Follower::where('status',1)->select('id','user_id','store_id','created_at','status')->with('hasUser');
+        return Datatables::of($getfollowers)
+        ->editColumn('user_id', function ($follower) {
+            return($follower->hasUser->name);
+        })
+        ->editColumn('status', function ($follower) {
+            if($follower->status == 0)
+            {
+                $actions = '<button type="button" class="btn m-btn--pill btn-accent">Followed</button>';
+            }
+            elseif($follower->status == 1){
+                $actions = '<button type="button" class="btn m-btn--pill btn-focus">Blocked</button>';
+            }
+            return($actions);
+        })
+        ->rawColumns(['status','user_id'])->make();
     }
     
 }

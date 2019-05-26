@@ -17,6 +17,7 @@ class CreateFollowersTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('store_id');
+            $table->tinyInteger('status')->default(0);
 			$table->timestamps();
             $table->softDeletes();
         });
