@@ -97,8 +97,11 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('faq','UserController@storeFAQ');
         Route::get('add-faq', 'UserController@addStoreFAQ');
+        Route::post('view-faq', 'UserController@viewFAQ');
+        Route::post('edit-faq', 'UserController@editFAQ');
+        Route::post('delete-faq', 'UserController@deleteFAQ');
         
-        /*  Frequently Asked Questions routes starts here  */
+        /*  Frequently Asked Questions routes ends here  */
         
         
         /*  User Timeline routes starts here  */

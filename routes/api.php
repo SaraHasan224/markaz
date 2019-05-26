@@ -26,6 +26,28 @@ Route::post('/user/signup',[
    'uses' =>'UserController@signIn'
   ]);
 
+  Route::post('/store/faq',[
+  
+    'uses' =>'FaqController@createFaq'
+   ]);
+
+
+   Route::put('/store/faq',[
+  
+    'uses' =>'FaqController@updateFaq'
+   ]);
+
+   Route::delete('/store/faq',[
+  
+    'uses' =>'FaqController@deleteFaq'
+   ]);
+
+   Route::get('/store/faq',[
+  
+    'uses' =>'FaqController@getAllFaqs'
+   ]);
+
+
   Route::get('/user/profile',[
 
     'uses' =>'UserController@getProfile',

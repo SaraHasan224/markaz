@@ -405,10 +405,13 @@ class UserController extends Controller
     // Manage Store Timeline Ends Here //
     
 
-    // Manage Store Timeline Starts Here //
+    /* Sara's work ends here */
+
+    // Manage FAQ Starts Here //
 
     public function storeFAQ()
     {
+        $data['title'] = "Manage FAQs";
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
@@ -424,8 +427,7 @@ class UserController extends Controller
     }
     
     
-    // Manage Store Timeline Ends Here //
+    // Manage FAQ Ends Here //
     
-    
-    /* Sara's work ends here */
+
 }

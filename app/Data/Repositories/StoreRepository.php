@@ -80,5 +80,6 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
   return false;
     }
 
+
 }
 
