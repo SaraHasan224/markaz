@@ -169,11 +169,11 @@ class DatatablesController extends Controller
     }
     public function getfollowers()
     {
-        $getfollowers = Follower::where('status',0)->select('id','user_id','store_id','created_at','status')->with('hasUser');
+        $getfollowers = DB::table('followers')
+        ->leftJoin('users', 'followers.user_id', '=', 'users.id')
+        ->where('followers.deleted_at',NULL)
+        ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
         return Datatables::of($getfollowers)
-        ->editColumn('user_id', function ($follower) {
-            return($follower->hasUser->name);
-        })
         ->editColumn('status', function ($follower) {
             if($follower->status == 0)
             {
@@ -184,14 +184,17 @@ class DatatablesController extends Controller
             }
             return($actions);
         })
-        ->rawColumns(['status','user_id'])->make();
+        ->rawColumns(['status'])->make();
     }
     public function getunfollowers()
     {
-        $getfollowers = Follower::where('status',1)->select('id','user_id','store_id','created_at','status')->with('hasUser');
+        $getfollowers = DB::table('followers')
+        ->leftJoin('users', 'followers.user_id', '=', 'users.id')
+        ->where('followers.deleted_at','<>',NULL)
+        ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
         return Datatables::of($getfollowers)
         ->editColumn('user_id', function ($follower) {
-            return($follower->hasUser->name);
+            return(!empty($follower->hasUser) ? $follower->hasUser->name : '');
         })
         ->editColumn('status', function ($follower) {
             if($follower->status == 0)

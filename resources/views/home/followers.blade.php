@@ -145,7 +145,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination{
                 "ajax"      : '{{ url("get-followers") }}',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
-                    { data: 'user_id' },
+                    { data: 'name' },
                     { data: 'status' },
                     { data: 'created_at' },
                 ]
@@ -168,7 +168,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination{
                 "ajax"      : '{{ url("get-unfollowers") }}',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
-                    { data: 'user_id' },
+                    { data: 'name' },
                     { data: 'status' },
                     { data: 'created_at' },
                 ]
