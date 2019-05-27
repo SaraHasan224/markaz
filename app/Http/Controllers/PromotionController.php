@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Promotion,
+use App\Categories,
+    App\Promotion,
+    App\Tags,
     App\PromotionCategories,
     App\PromotionTags,
     App\Store,
@@ -89,7 +91,7 @@ class PromotionController extends Controller
                 $code = 406;
                 $output = $validator->messages()->all();
             }else{
-                $category = new PromotionCategories;
+                $category = new Categories;
                 $category->title = $request->category;
                 $category->status = 1;
                 $category->save();
@@ -111,7 +113,7 @@ class PromotionController extends Controller
                 $code = 406;
                 $output = ['code' => $code, 'error' => $validator->messages()->all()];
             }else{
-                PromotionCategories::where('id',$request->id)->update([
+                Categories::where('id',$request->id)->update([
                     'title' => $request->category,
                 ]);
                 $code = 200;
@@ -130,7 +132,7 @@ class PromotionController extends Controller
                ];
             $validator = Validator::make($input, $rules);
 
-            PromotionCategories::where('id',$request->id)->delete();
+            Categories::where('id',$request->id)->delete();
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Promotion Categories Deleted Successfully.']];
             return response()->json($output, $code);
@@ -160,7 +162,7 @@ class PromotionController extends Controller
                 $code = 406;
                 $output = $validator->messages()->all();
             }else{
-                $tag = new PromotionTags;
+                $tag = new Tags;
                 $tag->title = $request->tag;
                 $tag->status = 1;
                 $tag->save();
@@ -182,7 +184,7 @@ class PromotionController extends Controller
                 $code = 406;
                 $output = ['code' => $code, 'error' => $validator->messages()->all()];
             }else{
-                PromotionTags::where('id',$request->id)->update([
+                Tags::where('id',$request->id)->update([
                     'title' => $request->tag,
                 ]);
                 $code = 200;
@@ -201,7 +203,7 @@ class PromotionController extends Controller
                ];
             $validator = Validator::make($input, $rules);
 
-            PromotionTags::where('id',$request->id)->delete();
+            Tags::where('id',$request->id)->delete();
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Promotion Tags Deleted Successfully.']];
             return response()->json($output, $code);
@@ -225,8 +227,8 @@ class PromotionController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $data['getstore'] = Store::where('id',1)->first();
         $data['logged_user'] = $getuser;
-        $data['pro_cat'] = PromotionCategories::where('status',1)->get();
-        $data['pro_tags'] = PromotionTags::where('status',1)->get();
+        $data['pro_cat'] = Categories::where('status',1)->get();
+        $data['pro_tags'] = Tags::where('status',1)->get();
         if($request->isMethod('post'))
         { 
             $input = $request->only('title','description','category','tags','time','location','longitude','latitude','billing_card_name','billing_card_number','billing_card_exp_month','billing_card_exp_year','billing_card_cvv','store_id');

@@ -8,8 +8,8 @@ use App\Follower,
     App\Store,
     App\Support,
     App\Promotion,
-    App\PromotionCategories,
-    App\PromotionTags,
+    App\Categories,
+    App\Tags,
     App\User;
 use yajra\Datatables\Datatables;
 class DatatablesController extends Controller
@@ -71,7 +71,7 @@ class DatatablesController extends Controller
     }
     public function getCategories()
     {
-        $getCategories = PromotionCategories::select('id','title','status','created_at');
+        $getCategories = Categories::select('id','title','status','created_at');
         return Datatables::of($getCategories)
         ->editColumn('status', function ($store) {
             if($store->status == 1)
@@ -97,7 +97,7 @@ class DatatablesController extends Controller
     }
     public function getTags()
     {
-        $getTags = PromotionTags::select('id','title','status','created_at');
+        $getTags = Tags::select('id','title','status','created_at');
         return Datatables::of($getTags)
         ->editColumn('status', function ($store) {
             if($store->status == 1)
