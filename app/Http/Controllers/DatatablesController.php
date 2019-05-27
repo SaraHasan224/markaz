@@ -31,7 +31,7 @@ class DatatablesController extends Controller
             return($status);
         })->editColumn('actions', function ($store) {
             $actions = '    
-            <a id="edit_store" data-id="'.$store->id.'"
+            <a id="edit_store" href="'.url("edit-store").'/'.$store->id.'"
                 class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                 title="Edit Store" ><i class="la la-edit"></i></a>
         <a  id="delete" data-id="'.$store->id.'" 

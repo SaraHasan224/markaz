@@ -157,16 +157,22 @@ class StoreController extends Controller
          return response()->json($output, $code);
     }
     public function editstore(Request $request,$id){
-        $data['store'] = Store::where('id',$id)->first();
+        $data['store'] = Store::where('id',$id)->with('hassocialmedia')->first();
         $data['title'] = "Edit Store - ".$data['store']->name;
-        $data['user'] = Auth::user();
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        $data['user_id'] = $user_id;
         if($request->isMethod('post'))
         {
-            $input = $request->only('name', 'address','user_id','latitude', 'longitude','contact_number');
-            $rules = [ 
+            $input = $request->only('name', 'address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+            $rules = [  
                 'name' => 'required',
                 'address' => 'required',
-                'user_id' => 'required',
+                'user_id' => 'required', 
+                'website' => 'required',
+                'contact_email' => 'required',
+                'description' => 'required',
                 'contact_number' => 'required'
             ];
             $validator = Validator::make($input, $rules);
@@ -177,16 +183,20 @@ class StoreController extends Controller
                 Store::whereId($id)->update([
                     'name' => $request->name,
                     'address' => $request->address,
+                    'telephone' => $request->contact_number,
+                    'websitelink' => $request->website,
+                    'emailaddress' => $request->contact_email,
+                    'desciption' => $request->description,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
                     'user_id' => $request->user_id,
-                ]);
-                User::whereId($request->user_id)->update([
-                    'phone_number' => $request->contact_number,
                 ]);
                 $output = "Store updated successfully";
                 $code = 200;
             }
             return response()->json($output, $code);
         }
+
         return view('store.edit-store',$data);
     }
     public function getspecificstore(){

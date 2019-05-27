@@ -17,4 +17,8 @@ class Store extends Model
     {
         return $this->belongsTo(User::class, 'id');
     }
+    public function hassocialmedia()
+    {
+        return $this->hasOne(StoreSocialMedia::class, 'store_id');
+    }
 }

@@ -232,12 +232,12 @@
         });
     </script>
     <script>
-        $(document).ready(function (e) {
-            $(document).on("click", '#edit_store', function (e) {
-                var id = $(this).data('id');
-                $('#edit_store_modal').modal('show');
-            });
-        });
+        // $(document).ready(function (e) {
+        //     $(document).on("click", '#edit_store', function (e) {
+        //         var id = $(this).data('id');
+        //         $('#edit_store_modal').modal('show');
+        //     });
+        // });
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

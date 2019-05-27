@@ -233,11 +233,11 @@
         });
     </script>
     <script>
-        $(document).ready(function (e) {
-            $(document).on("click", '#edit_store', function (e) {
-                var id = $(this).data('id');
-                $('#edit_store_modal').modal('show');
-            });
-        });
+        // $(document).ready(function (e) {
+        //     $(document).on("click", '#edit_store', function (e) {
+        //         var id = $(this).data('id');
+        //         $('#edit_store_modal').modal('show');
+        //     });
+        // });
     </script>
 @endsection
