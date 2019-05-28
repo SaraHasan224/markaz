@@ -213,7 +213,7 @@
 
                                         <!--begin: Form Wizard Step 1-->
                                         <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
-                                            <div class="m-form__section">
+                                            <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">
                                                         Promotion Details
@@ -239,7 +239,7 @@
                                                 </div>
                                                 <?php if(!empty($pro_cat)): ?>
                                                 <div class="form-group m-form__group row">
-                                                    <label class="col-form-label col-lg-3 col-sm-12">Select/deselect
+                                                    <label class="col-form-label col-lg-3 col-sm-12">* Select/deselect
                                                         Categories</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <select class="form-control m-bootstrap-select m_selectpicker" name="category[]"
@@ -251,9 +251,9 @@
                                                     </div>
                                                 </div>
                                                 <?php endif; ?>
-                                                <?php if(!empty($pro_tags)): ?>
+                                                <?php if(count($pro_tags) > 0): ?>
                                                 <div class="form-group m-form__group row">
-                                                    <label class="col-form-label col-lg-3 col-sm-12">Select/deselect
+                                                    <label class="col-form-label col-lg-3 col-sm-12">* Select/deselect
                                                         tags</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <select class="form-control m-bootstrap-select m_selectpicker" name="tags[]"
@@ -266,7 +266,7 @@
                                                 </div>
                                                 <?php endif; ?>
                                                 <div class="form-group m-form__group row">
-                                                    <label class="col-form-label col-lg-3 col-sm-12">Start &amp; End
+                                                    <label class="col-form-label col-lg-3 col-sm-12">* Start &amp; End
                                                         Time</label>
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <div class="input-group pull-right" id="m_daterangepicker_4">
@@ -281,15 +281,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!--end: Form Wizard Step 1-->
-
-                                        <!--begin: Form Wizard Step 2-->
-                                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
-                                            <div class="m-form__section m-form__section--first">
+                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
+                                            <div class="m-form__section">
                                                 <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Photos &amp; Videos</h3>
+                                                    <h3 class="m-form__heading-title">* Photos &amp; Videos</h3>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-lg-12">
@@ -302,10 +297,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <!--end: Form Wizard Step 1-->
+
+                                        <!--begin: Form Wizard Step 2-->
+                                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                             <div class="m-form__section">
                                                 <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Location Setup</h3>
+                                                    <h3 class="m-form__heading-title">* Location Setup</h3>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-lg-12">
@@ -325,7 +327,7 @@
                                                             <div class="m-portlet__body">
                                                                 <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
                                                                 <div class="col-lg-12" id="map">
-                                                                        <label class="">Store Location:</label>
+                                                                        <label class="">* Store Location:</label>
                                                                         <div class="m-input-icon m-input-icon--right">
                                                                             <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                                                                 <span><i class="la la-location-arrow"></i><span>Location</span></span>
@@ -336,6 +338,7 @@
                                                                 <input type="text" class="form-control m-input" name="location" id="location" placeholder="">
                                                                 <input type="text" class="form-control m-input" name="longitude" id="longitude" placeholder="">
                                                                 <input type="text" class="form-control m-input" name="latitude" id="latitude" placeholder="">
+                                                                <input type="text" class="form-control m-input" name="store_id" id="store_id" value="<?php echo e($getstore->id); ?>">
                                      
                                                             </div>
                                                         </div>
@@ -350,7 +353,7 @@
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                                         <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Pricing Table </h3>
+                                                    <h3 class="m-form__heading-title">* Pricing Table </h3>
                                                 </div>
                                                 <div class="m-pricing-table-1">
                                                     <div class="m-pricing-table-1__items row">

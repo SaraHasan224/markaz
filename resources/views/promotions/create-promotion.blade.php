@@ -214,7 +214,7 @@
 
                                         <!--begin: Form Wizard Step 1-->
                                         <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
-                                            <div class="m-form__section">
+                                            <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">
                                                         Promotion Details
@@ -282,13 +282,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <!--end: Form Wizard Step 1-->
-
-                                        <!--begin: Form Wizard Step 2-->
-                                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
-                                            <div class="m-form__section m-form__section--first">
+                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
+                                            <div class="m-form__section">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">* Photos &amp; Videos</h3>
                                                 </div>
@@ -303,6 +298,13 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <!--end: Form Wizard Step 1-->
+
+                                        <!--begin: Form Wizard Step 2-->
+                                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                             <div class="m-form__section">
                                                 <div class="m-form__heading">
