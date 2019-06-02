@@ -105,6 +105,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('view-faq/{id}', 'FaqController@getSpecificQuestion');
         Route::post('edit-faq/{store_id}', 'FaqController@updateFaq');
         Route::post('faq/delete/{store_id}', 'FaqController@deleteFAQ');
+        Route::post('faq/status/{store_id}', 'FaqController@FAQStatusUpdate');
         
         /*  Frequently Asked Questions routes ends here  */
         

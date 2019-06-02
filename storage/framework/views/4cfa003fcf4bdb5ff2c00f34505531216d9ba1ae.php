@@ -269,7 +269,7 @@
                             cancelButtonText: "No, cancel!",
                             reverseButtons: !0
                         }).then(function(e) {
-                            e.value ? swal("Deleted!", "User has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                            e.value ? swal("Deleted!", "FAQ has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "FAQ not deleted", "error");
                             if(e.value == true)
                             {
                                     $.ajax({
@@ -295,6 +295,50 @@
                             }
                         })
                 });
+            });
+            
+            // Delete Question
+            $(document).on("click", '#status', function (e) {
+                        var id = $(this).data('id');
+                        var status = $(this).data('status');
+                        var store_id = "<?php echo e(json_decode($store->id)); ?>";
+                        console.log(id,status);
+                        var base_url = "<?php url() ?>";
+                        e.preventDefault();
+                        swal({
+                            title: "Are you sure?",
+                            text: "You wan't to update status",
+                            type: "warning",
+                            showCancelButton: !0,
+                            confirmButtonText: "Yes, update it!",
+                            cancelButtonText: "No, cancel!",
+                            reverseButtons: !0
+                        }).then(function(e) {
+                            e.value ? swal("Updated!", "Status Updated Successfully.", "success") : "cancel" === e.dismiss && swal("Cancelled", "Cancel Status Update", "error");
+                            if(e.value == true)
+                            {
+                                    $.ajax({
+                                        type: "POST",
+                                        headers: 
+                                        {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                        },
+                                        url: base_url+'/faq/status/'+store_id,
+                                        data: {id: id, status:status},
+                                        success: function (response) {
+                                            console.log(response.code);
+                                            if(response.code == 200)
+                                            {
+                                                swal.close();
+                                                $('#delete_result').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.faq+'</div>');
+                                                var table = $('#view_questions').DataTable();
+                                                table.ajax.reload();
+                                            }
+                                        }
+                                    });
+                            }
+                        })
             });
     </script>
 <?php $__env->stopSection(); ?>

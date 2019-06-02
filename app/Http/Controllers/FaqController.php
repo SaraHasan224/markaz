@@ -105,6 +105,29 @@ class FaqController extends Controller
          }
         return response()->json($output, $code);
     }
+    public function FAQStatusUpdate(Request $request,$store_id = null){
+        $input = $request->only('id','status');
+        $rules = [
+            'id' => 'required',
+            'status' => 'required'
+        ]; 
+        $validator = Validator::make($input, $rules);
+        if ($validator->fails()) {
+            $code = 406;
+            $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+        }else{
+            $status = ($request->status == 1)  ? 0 : 1;
+            $faq = Faq::where('id',$request->id)->update(['status' => $status]);
+            if($faq){
+                $code = 200;
+                $output = ['code' => $code,'faq'=>"Faq status Updated!!"];
+            }else{
+                $code = 400;
+                $output = ['error'=>['code' => $code,'message' => ['An error occurred while deleting faq.']]];
+            }
+         }
+        return response()->json($output, $code);
+    }
     public function deleteFaq(Request $request,$store_id = null){
         $input = $request->only('id');
         $rules = [

@@ -221,10 +221,10 @@ class DatatablesController extends Controller
         ->editColumn('status', function ($question) {
             if($question->status == 0)
             {
-                $status = '<button type="button" class="btn m-btn--pill btn-accent">Disabled</button>';
+                $status = '<button type="button" id="status" data-id="'.$question->id.'"  data-status="'.$question->status.'" class="btn m-btn--pill btn-accent">Disabled</button>';
             }
             elseif($question->status == 1){
-                $status = '<button type="button" class="btn m-btn--pill btn-focus">Enabled</button>';
+                $status = '<button type="button" id="status" data-id="'.$question->id.'"  data-status="'.$question->status.'" class="btn m-btn--pill btn-focus">Enabled</button>';
             }
             return($status);
         })
