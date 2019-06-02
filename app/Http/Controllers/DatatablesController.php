@@ -52,7 +52,7 @@ class DatatablesController extends Controller
     }
     public function getpromotions()
     {
-        $getPromotions = Promotion::select('id','title','description','time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
+        $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
         return Datatables::of($getPromotions)
         ->editColumn('store_id', function ($promotion) {
             return(empty($promotion->hasstore) ? '' : $promotion->hasstore->name);
@@ -63,7 +63,7 @@ class DatatablesController extends Controller
                             class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
                             <i class="la la-trash" style="color:#ef2626;"></i>
                         </a>
-                        <a href="'.url("view-promotions").'" id="m_view_6" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                        <a href="'.url("promotions/edit/".$promotion->id).'" id="m_view_6" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                             title="Eit"><i class="la la-edit"></i>
                         </a>';
             return($actions);
@@ -207,6 +207,39 @@ class DatatablesController extends Controller
             return($actions);
         })
         ->rawColumns(['status','user_id'])->make();
+    }
+    public function getQuestions($id = null)
+    {
+        $getQuestions = DB::table('faq')
+        ->leftJoin('users', 'faq.user_id', '=', 'users.id')
+        ->where('faq.store_id',$id)
+        ->select('faq.id as id','users.name as user_id','faq.description as description','faq.status as status','faq.title as title');
+        return Datatables::of($getQuestions)
+        ->editColumn('description', function ($question) {
+            return(str_limit($question->description, 150));
+        })
+        ->editColumn('status', function ($question) {
+            if($question->status == 0)
+            {
+                $status = '<button type="button" class="btn m-btn--pill btn-accent">Disabled</button>';
+            }
+            elseif($question->status == 1){
+                $status = '<button type="button" class="btn m-btn--pill btn-focus">Enabled</button>';
+            }
+            return($status);
+        })
+        ->editColumn('actions', function ($question) {
+            $actions = ' 
+            <a  id="delete" data-id="'.$question->id.'" 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                <i class="la la-trash" style="color:#ef2626;"></i>
+            </a>
+            <a  id="edit_faq" data-id="'.$question->id.'" 
+                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                <i class="la la-edit"></i>
+            </a>';
+            return($actions);
+        })->rawColumns(['status','user_id','description','actions'])->make();
     }
     
 }

@@ -1,6 +1,4 @@
-@extends('layouts.header')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
 <!-- END: Left Aside -->
@@ -19,13 +17,13 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('faq')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('faq')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">FAQs</span>
                         </a>
                     </li>
@@ -122,4 +120,6 @@
 </div>
 
 <!-- end:: Body -->
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

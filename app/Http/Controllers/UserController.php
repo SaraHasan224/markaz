@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use App\Follower,
+use DB,
+    App\Follower,
     App\User,
     App\Store,
-    App\StoreSocialMedia;
+    App\StoreSocialMedia,
+    App\PromotionMedia;
 use App\TraitsFolder\CommonTrait;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -96,7 +98,10 @@ class UserController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-        return view('index',$data);
+        if(empty($getuser)) 
+            return view('user.signin');
+        else
+            return view('index',$data);
     } 
     public function signInWeb(Request $request){
         $input = $request->only('email', 'password','language','login_time', 'udid');
@@ -362,16 +367,19 @@ class UserController extends Controller
 
 
     //      Manage User Profile Starts Here    //
-    public function getUserProfile(Request $request)
+    public function getUserProfile(Request $request,$id = '')
     {
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-        $store = Store::where('user_id',$user_id)->first();
+        $store = Store::where('user_id',$id)->first();
+        $data['media'] = DB::table('promotions')
+                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                    ->where('promotions.store_id',$store->id)
+                    ->get();
         $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';
         $data['social'] = !empty($social) ? $social : '';
         $data['logged_user'] = $getuser;
         $data['store'] = !empty($store) ? $store : '';
-        // dd($data);
         return view('user.client_profile',$data);
     }
     public function postUserProfile(Request $request)
@@ -472,29 +480,6 @@ class UserController extends Controller
     
     
     // Manage Store Timeline Ends Here //
-    
-
-    // Manage Store Timeline Starts Here //
-
-    public function storeFAQ()
-    {
-        $user_id = request()->session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
-        $data['logged_user'] = $getuser;
-        return view('home.faq',$data);
-    }
-    
-    public function addStoreFAQ()
-    {
-        $user_id = request()->session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
-        $data['logged_user'] = $getuser;
-        return view('home.edit-faqs',$data);
-    }
-    
-    
-    // Manage Store Timeline Ends Here //
-    
     
     /* Sara's work ends here */
 }

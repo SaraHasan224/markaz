@@ -113,7 +113,8 @@
                             <th>PromotionID</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Time</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
                             <th>Location</th>
                             <th>Store Id</th>
                             <th>Payment Status</th>
@@ -144,7 +145,8 @@
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
                     { data: 'description' },
-                    { data: 'time' },
+                    { data: 'start_time' },
+                    { data: 'end_time' },
                     { data: 'location' },
                     { data: 'store_id' },
                     { data: 'payment_status' },

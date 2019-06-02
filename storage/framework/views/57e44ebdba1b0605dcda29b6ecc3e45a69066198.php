@@ -56,7 +56,7 @@
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
                                 <a href="index.html" class="m-brand__logo-wrapper">
-                                    <img alt="" src="assets/demo/demo12/media/img/logo/logo.png" />
+                                    <img alt="" src="<?php echo e(asset('assets/demo/demo12/media/img/logo/logo.png')); ?>" />
                                 </a>
                             </div>
                             <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -391,7 +391,7 @@
                                                                 <span class="m-nav__section-text">Section</span>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="<?php echo e(url('profile')); ?>" class="m-nav__link">
+                                                                <a href="<?php echo e(url('profile/1')); ?>" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                                     <span class="m-nav__link-title">
                                                                         <span class="m-nav__link-wrap">
@@ -457,16 +457,10 @@
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Dashboard</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>" 
-                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-suitcase"></i><span
-                                    class="m-menu__link-text">Support</span></a>
-                        </li>
                         <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
                             <a href="javascript:;" class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
+                                    class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Users</span>
-                                        
                                         </span> </span></span><i class="m-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
@@ -475,7 +469,6 @@
                                         m-menu-link-redirect="1"><span class="m-menu__link"><span
                                                 class="m-menu__item-here"></span><span class="m-menu__link-title"> <span
                                                     class="m-menu__link-wrap">  
-                                                    
                                                 </span></span></span>
                                     </li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
@@ -485,14 +478,24 @@
                                 </ul>
                             </div>
                         </li>
+                        
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-list-2"></i><span
+                                    class="m-menu__link-text">Manage Categories</span></a>
+                        </li>
 
-                      
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-suitcase"></i><span
+                                    class="m-menu__link-text">Manage Tags</span></a>
+                        </li>
+                        
                         <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
                             m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
                                 class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
+                                    class="m-menu__link-icon flaticon-open-box"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Stores</span>
-                                        
                                     </span></span><i
                                     class="m-menu__ver-arrow la la-angle-right"></i></a>
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
@@ -509,7 +512,7 @@
                         <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
                             m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
                                 class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-graphic-1"></i><span class="m-menu__link-title">
+                                    class="m-menu__link-icon flaticon-gift"></i><span class="m-menu__link-title">
                                     <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Promotions</span>
                                         </span></span><i
                                     class="m-menu__ver-arrow la la-angle-right"></i></a>
@@ -540,15 +543,41 @@
                                     class="m-menu__link-icon flaticon-graphic"></i><span
                                     class="m-menu__link-text">Timeline</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('profile')); ?>"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('profile/1')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-network"></i><span
                                     class="m-menu__link-text">Profile</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('faq')); ?>"
-                                class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-settings"></i><span
-                                    class="m-menu__link-text">FAQs</span></a></li>
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-suitcase"></i><span
+                                    class="m-menu__link-text">Support</span></a>
+                        </li>
+                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
+                            m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
+                                class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-settings"></i><span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage FAQs</span>
+                                    </span></span><i
+                                    class="m-menu__ver-arrow la la-angle-right"></i></a>
+                            <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="<?php echo e(url('faq/1')); ?>" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">View All</span></a></li>
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="<?php echo e(url('manage-faq/1')); ?>" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">Manage FAQ</span></a></li>
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="<?php echo e(url('add-faq/1')); ?>" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">Add FAQ</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
                 <!-- END: Aside Menu -->
@@ -1046,15 +1075,13 @@
     <div id="m_scroll_top" class="m-scroll-top">
         <i class="la la-arrow-up"></i>
     </div>
+
+	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4MXWFPJe99KHmkoSQYa7cYK8Rz0lAuh8" type="text/javascript"></script> -->
     <!-- end::Scroll Top -->
     <!--begin::Base Scripts -->
     <script src="<?php echo e(asset('assets/vendors/base/vendors.bundle.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/demo12/base/scripts.bundle.js')); ?>" type="text/javascript"></script>
     <!--end::Base Scripts -->
-
-    <!--begin::Page Vendors -->
-    <!-- <script src="<?php echo e(asset('assets/vendors/custom/datatables/datatables.bundle.js')); ?>" type="text/javascript"></script> -->
-    <!--end::Page Vendors -->
 
     <!--begin::Page Vendors -->
     <script src="<?php echo e(asset('assets/vendors/custom/fullcalendar/fullcalendar.bundle.js')); ?>" type="text/javascript">
@@ -1065,18 +1092,11 @@
     <!--begin::Page Snippets -->
     <script src="<?php echo e(asset('assets/app/js/dashboard.js')); ?>" type="text/javascript"></script>
     <!--end::Page Snippets -->
-
-    <!--begin::Page Snippets -->
-    <!-- <script src="<?php echo e(asset('assets/snippets/custom/pages/user/login.js')); ?>" type="text/javascript"></script> -->
-    <!--end::Page Snippets -->
-    <!--begin::Page Resources -->
     
-    <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/form-repeater.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/dropzone.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-select.js')); ?>" type="text/javascript"></script>
     <script src="<?php echo e(asset('assets/demo/default/custom/crud/forms/widgets/bootstrap-daterangepicker.js')); ?>" type="text/javascript"></script>
-    <script src="<?php echo e(asset('assets/demo/default/custom/components/maps/google-maps.js')); ?>" type="text/javascript"></script>
-	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4MXWFPJe99KHmkoSQYa7cYK8Rz0lAuh8&libraries=places&callback=initAutocomplete"  async defer type="text/javascript"></script> -->
+    <!-- <script src="<?php echo e(asset('assets/demo/default/custom/components/maps/google-maps.js')); ?>" type="text/javascript"></script> -->
 	<script src="<?php echo e(asset('assets/demo/default/custom/components/base/sweetalert2.js')); ?>" type="text/javascript"></script>
         <?php echo $__env->yieldContent('scripts'); ?>
 </body>

@@ -7,14 +7,17 @@ use App\Categories,
     App\Promotion,
     App\Tags,
     App\PromotionCategories,
+    App\PromotionComment,
+    App\PromotionMedia,
     App\PromotionTags,
     App\Store,
     App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Support\Str;
+use Illuminate\Support\Str; 
 use App\Data\Repositories\PromotionRepository;
 use App\Data\Repositories\PromotionMediaRepository;
+use Illuminate\Support\Facades\Input;
 use Validator,Illuminate\Validation\Rule, Image, Storage, Carbon\Carbon;
 use App\Events\PromotionWasCreated;
 
@@ -231,9 +234,23 @@ class PromotionController extends Controller
         $data['pro_tags'] = Tags::where('status',1)->get();
         if($request->isMethod('post'))
         { 
-            $input = $request->only('title','description','category','tags','time','location','longitude','latitude','billing_card_name','billing_card_number','billing_card_exp_month','billing_card_exp_year','billing_card_cvv','store_id');
+            $input = $request->all();
             $repsonse = $this->_repository->createPromotion($input);
             if($repsonse){
+                foreach($request->category as $category)
+                {
+                    $cat = new PromotionCategories;
+                    $cat->title = $category;
+                    $cat->promotion_id = $repsonse->id;
+                    $cat->save();
+                }
+                foreach($request->tags as $tag)
+                {
+                    $cat = new PromotionTags;
+                    $cat->title = $tag;
+                    $cat->promotion_id = $repsonse->id;
+                    $cat->save();
+                }
                 $input['promotion_id'] = $repsonse->id;
                 $this->_promotion_image_repo->assignMedia($input);
                 $code = 200;
@@ -264,11 +281,14 @@ class PromotionController extends Controller
             return response()->json($output, $code);
         } 
     }
-    public function viewpromotions(){
+    public function editpromotions($id = ''){
         $data['title'] = "Edit Promotions";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['promotion'] = Promotion::where('id',$id)->first();
+        $data['promotion_media'] = PromotionMedia::where('promotion_id',$id)->get(); 
+        $data['promotion_comments'] = PromotionComment::where('promotion_id',$id)->get(); 
         return view('promotions.view-promotion',$data);
     }
 

@@ -58,7 +58,7 @@ class MediaImageRepository extends AbstractRepository implements RepositoryContr
         return parent::findByAll($pagination, $perPage, $input);
     }
 
-    public function uploadImage(array $data = []){
+    public function uploadImage(array $data = []){ 
         $input['image'] = $data['image']; 
         if($upload = parent::create($input)){
             if($upload){

@@ -226,11 +226,11 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-12" id="map">
                                         <label class="">Store Location:</label>
-                                        <div class="m-input-icon m-input-icon--right">
+                                        <!-- <div class="m-input-icon m-input-icon--right">
                                             <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                                 <span><i class="la la-location-arrow"></i><span>Location</span></span>
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <span class="m-form__help" id="demo"></span>
                                 </div>
                             </div>
@@ -263,9 +263,9 @@
       var marker;
       var lat = parseFloat($('#latitude').val());
       var lng = parseFloat($('#longitude').val());
-    //   var lat = 24.9324222;
-    //   var lng = 67.0849771;
-console.log(lat,lng);
+        //   var lat = 24.9324222;
+        //   var lng = 67.0849771;
+        console.log(lat,lng);
       function toggleBounce() {
         if (marker.getAnimation() !== null) {
           marker.setAnimation(null);
@@ -358,20 +358,7 @@ console.log(lat,lng);
     // function initialize() {
     // }
 </script>
-<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&callback=initMap" type="text/javascript"></script> -->
-
-<script>
-      // This example adds a search box to a map, using the Google Place Autocomplete
-      // feature. People can enter geographical searches. The search box will return a
-      // pick list containing a mix of places and predicted search terms.
-
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-</script>
 <script  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initialize" defer></script> -->
 
 <script>
     var base_url = "<?php url() ?>";

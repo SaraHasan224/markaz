@@ -3,7 +3,7 @@
 namespace App\Data\Repositories;
 
 use JWTAuth, Carbon\Carbon;
-use Storage, Image, Zipper,App;
+use Storage, DateTime, Image, Zipper,App;
 use Techplanner\Helpers\Helper;
 use Hash, Illuminate\Support\Str;
 use App\Promotion;
@@ -55,7 +55,7 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
                 $this->builder = $this->builder->where('store_id','=',$input['store_id']);
             }
         }
- if (!empty($input['keyword']) && is_string($input['keyword'])) {
+        if (!empty($input['keyword']) && is_string($input['keyword'])) {
             $this->builder->where('name', 'like', "%{$input['keyword']}%");
             $this->builder->orWhere('email', 'like', "%{$input['keyword']}%");
         }
@@ -64,15 +64,18 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
 
   
     public function createPromotion(array $data = []) {
-        
-        $input['title']         = $data['title'];
-        $input['description']  = $data['description'];
-        $input['time']  = $data['time'];
-        $input['location']  = $data['location'];
-        $input['longitude']  = $data['longitude'];
-        $input['latitude']  = $data['latitude'];
+        $time = explode(" / ",$data['time']);
+        // dd($time);
+        // dd(date('Y-m-d H:i:s',$time[0]));
+        $input['title']       = $data['title'];
+        $input['description'] = $data['description'];
+        $input['start_time']  = Carbon::parse($time[0])->format('Y-m-d  H:i:s'); 
+        $input['end_time']    = Carbon::parse($time[1])->format('Y-m-d  H:i:s');
+        $input['location']    = $data['location'];
+        $input['longitude']   = $data['longitude'];
+        $input['latitude']    = $data['latitude'];
         $input['payment_status']  = 0;
-        $input['store_id']  = $data['store_id'];
+        $input['store_id']    = $data['store_id'];
         if($promotion = parent::create($input)){
             return $promotion;
         }
@@ -83,8 +86,8 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         $input['image'] = $data['image']; 
         if($upload = parent::create($input)){
             if($upload){
-           $upload->image  = ($upload->image===NULL)? $upload->image 
-                       : Storage::url(config('app.files.promotion.public_relative').$upload->image);
+                $upload->image  = ($upload->image===NULL)? $upload->image 
+                            : Storage::url(config('app.files.promotion.public_relative').$upload->image);
                        
             }
             return $upload;

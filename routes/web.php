@@ -25,9 +25,9 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('get-promotions', 'DatatablesController@getpromotions');
         Route::get('promotions', 'PromotionController@getpromotions');
-        Route::get('view-promotions', 'PromotionController@viewpromotions');
         Route::get('create-promotions', 'PromotionController@createPromotion');
         Route::post('post-promotion', 'PromotionController@createPromotion');
+        Route::get('promotions/edit/{id}', 'PromotionController@editpromotions');
         Route::post('promotion-delete', 'PromotionController@deletePromotion');
         // Route::get('edit-promotions', 'PromotionController@editpromotions');
 
@@ -91,16 +91,22 @@ Route::group(['middleware' => ['web']], function () {
 
         /*  Profile routes starts here  */
 
-        Route::get('profile','UserController@getUserProfile');
+        Route::get('profile/{id}','UserController@getUserProfile');
         Route::post('user_profile','UserController@postUserProfile');        
         /*  Profile routes ends here  */
 
         /*  Frequently Asked Questions routes starts here  */
-
-        Route::get('faq','UserController@storeFAQ');
-        Route::get('add-faq', 'UserController@addStoreFAQ');
         
-        /*  Frequently Asked Questions routes starts here  */
+        Route::get('get-questions/{id}', 'DatatablesController@getQuestions');
+        Route::get('faq/{store_id}','FaqController@view');
+        Route::get('add-faq/{store_id}', 'FaqController@add');
+        Route::post('add-faq/{store_id}', 'FaqController@createFaq');
+        Route::get('manage-faq/{store_id}', 'FaqController@manage');
+        Route::post('view-faq/{id}', 'FaqController@getSpecificQuestion');
+        Route::post('edit-faq/{store_id}', 'FaqController@updateFaq');
+        Route::post('faq/delete/{store_id}', 'FaqController@deleteFAQ');
+        
+        /*  Frequently Asked Questions routes ends here  */
         
         
         /*  User Timeline routes starts here  */
