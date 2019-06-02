@@ -455,84 +455,40 @@
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Dashboard</span></a>
-                        </li>
-                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover" m-menu-link-redirect="1">
-                            <a href="javascript:;" class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-user"></i><span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Users</span>
-                                        </span> </span></span><i class="m-menu__ver-arrow la la-angle-right"></i>
-                            </a>
-                            <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
-                                <ul class="m-menu__subnav">
-                                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"
-                                        m-menu-link-redirect="1"><span class="m-menu__link"><span
-                                                class="m-menu__item-here"></span><span class="m-menu__link-title"> <span
-                                                    class="m-menu__link-wrap">  
-                                                </span></span></span>
-                                    </li>
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('users')}}" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">View All Users</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
+                        </li>                        
                         
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('users')}}" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-user"></i><span
+                                    class="m-menu__link-text">Manage Users</span></a>
+                        </li>
+
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotion-categories')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-list-2"></i><span
                                     class="m-menu__link-text">Manage Categories</span></a>
                         </li>
 
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotion-tags')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
                                     class="m-menu__link-text">Manage Tags</span></a>
                         </li>
                         
-                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
-                            m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
-                                class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-open-box"></i><span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Stores</span>
-                                    </span></span><i
-                                    class="m-menu__ver-arrow la la-angle-right"></i></a>
-                            <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
-                                <ul class="m-menu__subnav">
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('store')}}" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">View All Stores</span></a></li>
-                                </ul>
-                            </div>
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('store')}}" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-open-box"></i><span
+                                    class="m-menu__link-text">Manage Stores</span></a>
+                        </li>
+                        
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotions')}}" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-gift"></i><span
+                                    class="m-menu__link-text">Manage Promotions</span></a>
                         </li>
 
                       
-                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
-                            m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
-                                class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-gift"></i><span class="m-menu__link-title">
-                                    <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage Promotions</span>
-                                        </span></span><i
-                                    class="m-menu__ver-arrow la la-angle-right"></i></a>
-                            <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
-                                <ul class="m-menu__subnav">
-                                    
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('promotions')}}" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">View All Promotions</span></a></li>
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('promotion-categories')}}" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">Manage Promotion Categories</span></a></li>
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('promotion-tags')}}" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">Manage Promotion Tags</span></a></li>
-                                </ul>
-                            </div>
-                        </li>
+                        
                         <li class="m-menu__section ">
                             <h4 class="m-menu__section-text">Manage Account</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>

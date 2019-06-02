@@ -101,7 +101,7 @@
                             <a id="add_tags" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
-                                    <span>Create Promotion Tags</span>
+                                    <span>Create Tags</span>
                                 </span>
                             </a>
                         </li>

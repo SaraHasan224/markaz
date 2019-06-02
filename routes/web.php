@@ -116,9 +116,7 @@ Route::group(['middleware' => ['web']], function () {
        
         /*  User Timeline routes ends here  */
        
-        Route::get('activity', function () {
-            return view('user.activity');
-        });
+        Route::get('activity', 'UserController@getActivity');
        
         Route::get('invoice', function () {
             return view('home.invoice');

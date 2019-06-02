@@ -76,7 +76,7 @@ class PromotionController extends Controller
     //      Promotion Categories Starts //
 
     public function getCategories(){
-        $data['title'] = "Promotion Categories";
+        $data['title'] = "Categories";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
@@ -147,7 +147,7 @@ class PromotionController extends Controller
     //      Promotion Tags Starts   //
 
     public function getTags(){
-        $data['title'] = "Promotion Tags";
+        $data['title'] = "Tags";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;

@@ -481,5 +481,12 @@ class UserController extends Controller
     
     // Manage Store Timeline Ends Here //
     
+    public function getActivity(){
+        $data['title'] = "Categories";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        return view('user.activity',$data);
+    }
     /* Sara's work ends here */
 }
