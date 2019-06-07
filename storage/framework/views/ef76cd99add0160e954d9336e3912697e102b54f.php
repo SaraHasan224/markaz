@@ -99,7 +99,7 @@
                             <a id="add_categories" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
-                                    <span>Create Promotion Categories</span>
+                                    <span>Create Categories</span>
                                 </span>
                             </a>
                         </li>

@@ -213,7 +213,7 @@
 
                                         <!--begin: Form Wizard Step 1-->
                                         <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
-                                            <div class="m-form__section">
+                                            <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">
                                                         Promotion Details
@@ -271,7 +271,7 @@
                                                     <div class="col-lg-8 col-md-8 col-sm-12">
                                                         <div class="input-group pull-right" id="m_daterangepicker_4">
                                                             <input type="text" class="form-control m-input" readonly=""
-                                                                placeholder="Select date &amp; time range" name="time">
+                                                                placeholder="Select date &amp; time range" name="time" id="time">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text">
                                                                     <i class="la la-calendar-check-o"></i>
@@ -281,24 +281,26 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                         </div>
 
                                         <!--end: Form Wizard Step 1-->
 
                                         <!--begin: Form Wizard Step 2-->
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_2">
-                                            <div class="m-form__section m-form__section--first">
+                                            <div class="m-form__section">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">* Photos &amp; Videos</h3>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <div class="col-lg-12">
-                                                        <div class="m-dropzone dropzone m-dropzone--primary" action="inc/api/dropzone/upload.php" id="m-dropzone-two">
+                                                        <!-- <div class="m-dropzone dropzone m-dropzone--primary" action="inc/api/dropzone/upload.php" id="m-dropzone-two">
                                                             <div class="m-dropzone__msg dz-message needsclick">
                                                                 <h3 class="m-dropzone__msg-title">Drop files here or click to upload.</h3>
                                                                 <span class="m-dropzone__msg-desc">Upload up to 10 files</span>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
+                                                        <input type="file" multiple name="promotion_images[]"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -349,7 +351,7 @@
 
                                         <!--begin: Form Wizard Step 3-->
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_3">
-                                        <div class="m-form__section m-form__section--first">
+                                            <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">* Pricing Table </h3>
                                                 </div>
@@ -566,7 +568,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
-
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
@@ -612,6 +613,7 @@
           var bounds = new google.maps.LatLngBounds();
           places.forEach(function(place) {
             formatted_address = place.formatted_address;
+            // console.log(place);
             if (!place.geometry) {
               console.log("Returned place contains no geometry");
               return;
@@ -639,19 +641,137 @@
               bounds.extend(place.geometry.location);
             }
             // console.log("marker = "+place.geometry.viewport);
-            console.log(formatted_address,bounds.na.l,bounds.ia.l);
+            console.log(bounds);
+            console.log(formatted_address,bounds.na.l,bounds.ga.l);
             document.getElementById("location").value = formatted_address;
             document.getElementById("longitude").value = bounds.na.l;
-            document.getElementById("latitude").value = bounds.ia.l;
+            document.getElementById("latitude").value = bounds.ga.l;
           });
           map.fitBounds(bounds);
         });
       }
 
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
 
-<script src="<?php echo e(asset('assets/demo/default/custom/crud/wizard/wizard.js')); ?>" type="text/javascript"></script>
+<script type="text/javascript">
+    var WizardDemo=function() {
+        $("#m_wizard");
+        var e,
+        r,
+        i=$("#m_form");
+        return {
+            init:function() {
+                var n;
+                $("#m_wizard"),
+                i=$("#m_form"),
+                (r=new mWizard("m_wizard", {
+                    startStep: 1
+                }
+                )).on("beforeNext", function(r) {
+                    !0!==e.form()&&r.stop()
+                }
+                ),
+                r.on("change", function(e) {
+                    mUtil.scrollTop()
+                }
+                ),
+                e=i.validate( {
+                    ignore:":hidden", rules: {
+                        title: {
+                            required: !0
+                        }
+                        , description: {
+                            required: !0
+                        }
+                        , time: {
+                            required: !0
+                        }
+                        , "account_communication[]": {
+                            required: !0
+                        }
+                        , billing_card_name: {
+                            required: !0
+                        }
+                        , billing_card_number: {
+                            required: !0, creditcard: !0
+                        }
+                        , billing_card_exp_month: {
+                            required: !0
+                        }
+                        , billing_card_exp_year: {
+                            required: !0
+                        }
+                        , billing_card_cvv: {
+                            required: !0, minlength: 2, maxlength: 3
+                        }
+                    }
+                    , messages: {
+                        "tags[]": {
+                            required: "You must select at least one communication option"
+                        }
+                        , "category[]": {
+                            required: "You must select at least one communication option"
+                        }
+                        , "promotion_images[]": {
+                            required: "You must select at least one image"
+                        }
+                        , accept: {
+                            required: "You must accept the Terms and Conditions agreement!"
+                        }
+                    }
+                    , invalidHandler:function(e, r) {
+                        mUtil.scrollTop(), swal( {
+                            title: "", text: "There are some errors in your submission. Please correct them.", type: "error", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                        }
+                        )
+                    }
+                    , submitHandler:function(e) {}
+                }
+                ),
+                (n=$('.promotion_submit')).on("click", function(r) {
+                    r.preventDefault();
+                    var formData = new FormData($('#m_form')[0]);
+                    $.ajax( {
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        contentType: false,
+                        processData:false,
+                        cache:false,
+                        headers: 
+                        {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        url: '/post-promotion',
+                        data: formData,
+                        success: function (response) {
+                            // console.log(response);
+                            document.getElementById("m_form").reset();
+                            mApp.unprogress(n), swal( {
+                                        title: "", text: "The application has been successfully submitted!", type: "success", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                            })
+                        },
+                        error: function (response){
+                            response.responseJSON.messages.forEach(function (msg) {
+                                console.log(msg);
+                                mApp.unprogress(n), swal( {
+                                    title: "", text: "The application is not submitted!", type: "danger", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
+                                })
+                            });
+                        }
+                    })
+                })
+            }
+        }
+    }
+
+    ();
+    jQuery(document).ready(function() {
+        WizardDemo.init()
+    }
+
+    );
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

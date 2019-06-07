@@ -16,7 +16,7 @@ class CreatePromotionTagsTable extends Migration
         Schema::create('promotion_tags', function (Blueprint $table) {
             $table->increments('id'); 
             $table->string('title', 255);
-            $table->tinyInteger('status')->nullable(); 
+            $table->integer('promotion_id'); 
 			$table->timestamps();
             $table->softDeletes();
         });

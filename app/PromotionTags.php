@@ -9,4 +9,6 @@ class PromotionTags extends Model
 {
     use SoftDeletes;
     protected $table = "promotion_tags";
+    protected $fillable = ['promotion_id','title'];
+    public $timestamps = true;
 }

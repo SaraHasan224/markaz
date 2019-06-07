@@ -12,4 +12,16 @@ class Promotion extends Model
     {
         return $this->hasOne(Store::class, 'id');
     }
+
+    //  Categories
+    public function categories()
+    {
+        return $this->hasOne(PromotionCategories::class, 'promotion_id');
+    }
+
+    //  Tags
+    public function tags()
+    {
+        return $this->hasOne(PromotionTags::class, 'promotion_id');
+    }
 }

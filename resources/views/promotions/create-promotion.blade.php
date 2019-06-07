@@ -336,10 +336,10 @@
                                                                         </div>
                                                                         <span class="m-form__help" id="demo"></span>
                                                                 </div>
-                                                                <input type="text" class="form-control m-input" name="location" id="location" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="longitude" id="longitude" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="latitude" id="latitude" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="store_id" id="store_id" value="{{ $getstore->id }}">
+                                                                <input type="hidden" class="form-control m-input" name="location" id="location" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="longitude" id="longitude" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="latitude" id="latitude" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="store_id" id="store_id" value="{{ $getstore->id }}">
                                      
                                                             </div>
                                                         </div>
@@ -642,11 +642,11 @@
               bounds.extend(place.geometry.location);
             }
             // console.log("marker = "+place.geometry.viewport);
-            console.log(bounds);
-            console.log(formatted_address,bounds.na.l,bounds.ga.l);
+            // console.log(bounds);
+            // console.log(formatted_address,bounds.na.l,bounds.ga.l);
             document.getElementById("location").value = formatted_address;
-            document.getElementById("longitude").value = bounds.na.l;
-            document.getElementById("latitude").value = bounds.ga.l;
+            document.getElementById("latitude").value = bounds.na.l;
+            document.getElementById("longitude").value = bounds.ga.l;
           });
           map.fitBounds(bounds);
         });

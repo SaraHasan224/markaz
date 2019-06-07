@@ -153,61 +153,60 @@
                             <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
-                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name">
+                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name" value="<?php echo e(!empty($store) ? $store->name : ''); ?>">
                                     <span class="m-form__help">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"> <?php echo e(!empty($store) ? $store->telephone : ''); ?></textarea>
                                     <span class="m-form__help">Enter your store contact number</span>
                                 </div>
                             </div>
                             <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
-                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="<?php echo e(!empty($store) ? $store->websitelink : ''); ?>">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
-                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
+                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"><?php echo e(!empty($store) ? $store->emailaddress : ''); ?></textarea>
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
                             </div>
                             <div class="form-group<?php echo e($errors->has('fb_link') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
-                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
+                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link" value="<?php echo e(!empty($store->hassocialmedia) ? $store->hassocialmedia->facebook_link : ''); ?>">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
-                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
+                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link" value="<?php echo e(!empty($store->hassocialmedia) ? $store->hassocialmedia->insta_link : ''); ?>">
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
                             </div>
                             <div class="form-group<?php echo e($errors->has('description') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
-                                    <input type="text" name="tw_link" class="form-control m-input"
-                                        placeholder="Enter store  twitter link">
+                                    <input type="text" name="tw_link" class="form-control m-input" placeholder="Enter store  twitter link" value="<?php echo e(!empty($store->hassocialmedia) ? $store->hassocialmedia->twitter_link : ''); ?>">
                                     <span class="m-form__help">Enter your store twitter link</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
+                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"><?php echo e(!empty($store) ? $store->desciption : ''); ?></textarea>
                                     <span class="m-form__help">Enter your store description</span>
                                 </div>
                             </div>
 
                             <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
-                                    <input type="hidden" name="longitude" id="longitude" />
-                                    <input type="hidden" name="latitude" id="latitude" />
+                                    <input type="hidden" name="longitude" id="longitude" value="<?php echo e(!empty($store) ? $store->longitude : ''); ?>" />
+                                    <input type="hidden" name="latitude" id="latitude" value="<?php echo e(!empty($store) ? $store->latitude : ''); ?>"/>
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="store_address" class="form-control m-input" placeholder="Enter address" disabled/>
+                                        <input type="text" id="store_address" class="form-control m-input" placeholder="Enter address" disabled value="<?php echo e(!empty($store) ? $store->address : ''); ?>"/>
                                         <span class="m-input-icon__icon m-input-icon__icon--right">
                                             <span>
                                                 <i class="la la-map-marker"></i>
@@ -219,7 +218,7 @@
                                 <div class="col-lg-6">
                                     <!-- <label>Store Adress:</label> -->
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
+                                        <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address" value="<?php echo e(!empty($store) ? $store->address : ''); ?>">
                                         
                                     </div>
                                 </div>
@@ -227,11 +226,11 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-12" id="map">
                                         <label class="">Store Location:</label>
-                                        <div class="m-input-icon m-input-icon--right">
+                                        <!-- <div class="m-input-icon m-input-icon--right">
                                             <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                                 <span><i class="la la-location-arrow"></i><span>Location</span></span>
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <span class="m-form__help" id="demo"></span>
                                 </div>
                             </div>
@@ -260,94 +259,110 @@
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('scripts'); ?> 
-
 <script>
-      // This example adds a search box to a map, using the Google Place Autocomplete
-      // feature. People can enter geographical searches. The search box will return a
-      // pick list containing a mix of places and predicted search terms.
+      var marker;
+      var lat = parseFloat($('#latitude').val());
+      var lng = parseFloat($('#longitude').val());
+        //   var lat = 24.9324222;
+        //   var lng = 67.0849771;
+        console.log(lat,lng);
+      function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
+    
+        function initAutocomplete() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: lat, lng: lng},
+                zoom: 16,
+                mapTypeId: 'roadmap'
+            });
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                position: {lat: lat, lng: lng}
+            });
+                marker.addListener('click', toggleBounce);
+            // Create the search box and link it to the UI element.
+            var input = document.getElementById('pac-input');
+            var searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+            // Bias the SearchBox results towards current map's viewport.
+            map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+            });
 
-      function initAutocomplete() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -33.8688, lng: 151.2195},
-          zoom: 13,
-          mapTypeId: 'roadmap'
-        });
-
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
-        });
-
-        var markers = [];
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-          var places = searchBox.getPlaces();
-          if (places.length == 0) {
-            return;
-          }
-
-          // Clear out the old markers.
-          markers.forEach(function(marker) {
-            marker.setMap(null);
-          });
-          markers = [];
-
-          // For each place, get the icon, name and location.
-          var bounds = new google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            formatted_address = place.formatted_address;
-            if (!place.geometry) {
-              console.log("Returned place contains no geometry");
-              return;
+            var markers = [];
+            // Listen for the event fired when the user selects a prediction and retrieve
+            // more details for that place.
+            searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
             }
-            var icon = {
-              url: place.icon,
-              size: new google.maps.Size(71, 71),
-              origin: new google.maps.Point(0, 0),
-              anchor: new google.maps.Point(17, 34),
-              scaledSize: new google.maps.Size(25, 25)
-            };
 
-            // Create a marker for each place.
-            markers.push(new google.maps.Marker({
-              map: map,
-              icon: icon,
-              title: place.name,
-              position: place.geometry.location
-            }));
+            // Clear out the old markers.
+            //   markers.forEach(function(marker) {
+            //     marker.setMap(null);
+            //   });
+            markers = [];
 
-            if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-            // console.log("marker = "+place.geometry.viewport);
-            console.log(formatted_address,bounds.na.l,bounds.ga.l);
-            document.getElementById("store_address").value = formatted_address;
-            document.getElementById("longitude").value = bounds.na.l;
-            document.getElementById("latitude").value = bounds.ga.l;
-          });
-          map.fitBounds(bounds);
-        });
-      } 
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+                // console.log(place);
+            // console.log(place.geometry.location);
+                formatted_address = place.formatted_address;
+                if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+                }
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
 
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+                marker.addListener('click', toggleBounce);
+
+                if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+                // console.log("marker = "+place.geometry.viewport);
+                // console.log(formatted_address,bounds.ga.l,bounds.ia.l);
+                document.getElementById("store_address").value = formatted_address;
+                document.getElementById("latitude").value = bounds.na.l;
+                document.getElementById("longitude").value = bounds.ga.l;
+            });
+            map.fitBounds(bounds);
+            });
+        }
+      
+    // function initialize() {
+    // }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
-
+<script  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
 
 <script>
     var base_url = "<?php url() ?>";
+    var id = "<?php echo e(json_decode($store->id)); ?>";
     $('#stores').submit(function(event){	
             event.preventDefault();
     	$.ajax({
@@ -356,7 +371,7 @@
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     		},
-    		url: base_url+'/poststore',
+    		url: base_url+'/edit-store/'+id,
     		data: $("#stores").serialize(),
     		success: function (response) {
                 // console.log(response);

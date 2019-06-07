@@ -51,7 +51,7 @@ class DatatablesController extends Controller
         })->rawColumns(['actions','status'])->make();
     }
     public function getpromotions()
-    {
+    { 
         $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
         return Datatables::of($getPromotions)
         ->editColumn('store_id', function ($promotion) {
@@ -62,7 +62,7 @@ class DatatablesController extends Controller
             $actions = ' <a  id="delete" data-id="'.$promotion->id.'" 
                             class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
                             <i class="la la-trash" style="color:#ef2626;"></i>
-                        </a>
+                        </a> 
                         <a href="'.url("promotions/edit/".$promotion->id).'" id="m_view_6" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                             title="Eit"><i class="la la-edit"></i>
                         </a>';

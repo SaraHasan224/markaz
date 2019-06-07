@@ -2,6 +2,12 @@
 
 @section('styles')
 <style>
+    .no-before::before{
+        display:none;
+        content: '';
+        display: inline-block;
+        width: 100%;
+    }
     .masonry-wrapper {
     padding: 1.5em;
     max-width: 800px;
@@ -41,7 +47,7 @@
     filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, .3));
     }
 </style>
-@endsection
+@endsection 
 @section('content')
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -122,7 +128,7 @@
                     <div class="tab-content">
                         <div class="tab-pane " id="m_tabs_9_1" role="tabpanel">
                             @if(count($promotion_media) > 0)
-    							<!--begin:: Widgets/Support Tickets -->
+    							<!--begin:: Widgets/Support Tickets --> 
 								<div class="m-portlet m-portlet--full-height ">
 									<div class="m-portlet__head">
 										<div class="m-portlet__head-caption">
@@ -220,44 +226,49 @@
                         <div class="tab-pane active" id="m_tabs_9_2" role="tabpanel">
                             <!--begin::Form-->
                             <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
-                                id="stores" action="{{url('poststore')}}" method="POST">
+                                id="promotion_details" method="POST">
                                 <div class="m-portlet__body">
-                                    <div
-                                        class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-lg-12" id="delete_result"></div>  
+                                    </div> 
+                                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-6">
                                             <label>Promotion Title:</label>
                                             <input type="text" name="title" class="form-control m-input"
                                                 placeholder="Enter promotion title" value="{{ $promotion->title}}">
                                             <span class="m-form__help">Enter your promotion title</span>
                                         </div>
+                                        
+                                        <div class="col-lg-6">
+                                            <label>Promotion Description:</label>
+                                            <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" >{{$promotion->description}}</textarea>
+                                        </div> 
+                                    </div>
+                                    <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-6">
                                             <label class="">Select/Deselect Categories:</label>
-                                            <select class="form-control m-bootstrap-select m_selectpicker" multiple>
-                                                <option>Mustard</option>
-                                                <option>Ketchup</option>
-                                                <option>Relish</option>
+                                            <select class="form-control m-bootstrap-select m_selectpicker" id="category" name="category[]" multiple>
+                                                @foreach($categories as $category)
+                                                    <option value="{{$category->title}}">{{$category->title}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
-                                    </div>
-                                    <div
-                                        class="form-group{{ $errors->has('address') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-6">
                                             <label>Select/Deselect Tags:</label>
-                                            <div class="m-input-icon m-input-icon--right">
-                                                <select class="form-control m-bootstrap-select m_selectpicker" multiple>
-                                                    <option>Mustard</option>
-                                                    <option>Ketchup</option>
-                                                    <option>Relish</option>
-                                                </select>
-                                            </div>
-                                            <span class="m-form__help">Enter your store address</span>
+                                            <select class="form-control m-bootstrap-select m_selectpicker" id="tags" name="tags[]" multiple>
+                                                @foreach($tags as $tag)
+                                                        <option value="{{$tag->title}}">{{$tag->title}}</option>
+                                                @endforeach
+                                            </select> 
                                         </div>
+                                    </div>
+                                    <div class="form-group{{ $errors->has('time') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-6">
                                             <label class="">Start / End Time:</label>
                                             <div class="m-input-icon m-input-icon--right">
                                                 <div class="input-group pull-right" id="m_daterangepicker_4">
                                                     <input type="text" class="form-control m-input" readonly=""
-                                                        placeholder="Select date &amp; time range">
+                                                        placeholder="Select date &amp; time range" name="time">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">
                                                             <i class="la la-calendar-check-o"></i>
@@ -287,8 +298,11 @@
                         <div class="tab-pane" id="m_tabs_location" role="tabpanel">
                             <!--begin::Form-->
                             <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
-                                id="stores" action="{{url('poststore')}}" method="POST">
+                                id="promotion_location" action="{{url('poststore')}}" method="POST">
                                 <div class="m-portlet__body">
+                                    <div class="form-group m-form__group row">
+                                        <div class="col-lg-12" id="delete_result"></div>  
+                                    </div>    
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-12"> 
                                             <div class="m-portlet m-portlet--tab">
@@ -306,9 +320,10 @@
                                                 </div>
                                                 <div class="m-portlet__body">
                                                     <div id="map" style="height:300px;"></div>
-                                                    <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address" value="{{ !empty($store) ? $store->address : '' }}">
+                                                    <input type="text" id="pac-input" name="location"  class="controls form-control m-input" placeholder="Enter your store address" value="{{ !empty($promotion) ? $promotion->location : '' }}">
                                                     <input type="hidden" name="longitude" id="longitude" value="{{ !empty($promotion) ? $promotion->longitude : '' }}" />
                                                     <input type="hidden" name="latitude" id="latitude" value="{{ !empty($promotion) ? $promotion->latitude : '' }}"/>
+                                                    <input type="hidden" name="location" id="location" value="{{ !empty($promotion) ? $promotion->location : '' }}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -402,6 +417,54 @@
 
 
 @section('scripts') 
+
+<script>
+    $( document ).ready(function() {
+        var id = "{{ json_decode($promotion->id) }}";
+        // e.preventDefault();
+    	$.ajax({
+    		type: "POST",
+    		headers: 
+    		{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    		},
+    		url: base_url+'/promotions/edit/view/'+id,
+    		// data: $("#stores").serialize(),
+    		success: function (response) {
+                // console.log(response.success.promotion.start_time);
+                $('#m_daterangepicker_4 input').val(response.success.promotion.start_time+' / '+response.success.promotion.end_time);
+                $('#description').text(response.success.promotion.description);
+
+                var cat_name = new Array();
+                response.success.promotion_categories.forEach(function (cat) {
+                    cat_name.push(cat.title);
+                });
+                if(cat_name.length > 0)
+                {
+                        // console.log(cat_name);          
+                    $('#category').nextAll('button').first().html(cat_name); 
+                    $('#category').nextAll('button').first().attr('style','vertical-align:left; display: grid;'); 
+                    $('#category').nextAll('button').first().attr('title',cat_name);   
+                    // $("#category option[value='"+cat_name+"]'").attr('selected','selected');
+                    $('#category').val(cat_name); 
+                }
+
+                var tag_name = new Array();
+                response.success.promotion_tags.forEach(function (cat) {
+                    tag_name.push(cat.title);
+                });
+                if(tag_name.length > 0)
+                {
+                    $('#tags').nextAll('button').first().html(tag_name); 
+                    $('#tags').nextAll('button').first().attr('style','vertical-align:left; display: grid;'); 
+                    $('#tags').nextAll('button').first().attr('title',tag_name);   
+                    $('#tags').val(tag_name); 
+                }
+            },
+    	});
+    });
+</script>
+
 <script>
       var marker;
       var lat = parseFloat($('#latitude').val());
@@ -489,10 +552,10 @@
                     bounds.extend(place.geometry.location);
                 }
                 // console.log("marker = "+place.geometry.viewport);
-                console.log(formatted_address,bounds.na.l,bounds.ia.l);
-                document.getElementById("store_address").value = formatted_address;
-                document.getElementById("longitude").value = bounds.ia.l;
+                // console.log(formatted_address,bounds.na.l,bounds.ia.l);
+                document.getElementById("location").value = formatted_address;
                 document.getElementById("latitude").value = bounds.na.l;
+                document.getElementById("longitude").value = bounds.ga.l;
             });
             map.fitBounds(bounds);
             });
@@ -506,31 +569,38 @@
 <script>
     var base_url = "<?php url() ?>";
     var id = "{{ json_decode($promotion->id) }}";
-    $('#stores').submit(function(event){	
-            event.preventDefault();
+    $('#promotion_location').submit(function(event){	
+        event.preventDefault();
     	$.ajax({
     		type: "POST",
     		headers: 
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     		},
-    		url: base_url+'/edit-store/'+id,
-    		data: $("#stores").serialize(),
+    		url: base_url+'/promotion/edit/'+id,
+    		data: $("#promotion_location").serialize(),
     		success: function (response) {
-                // console.log(response);
-                document.getElementById("stores").reset();
-                $('#delete_result').empty();
-                $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>'); 
-            },
-            error: function (response){
-                response.responseJSON.messages.forEach(function (msg) {
-                // console.log(msg);
-                $('#delete_result').empty();
-                    $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
-				});
+                    console.log(response);
+                    $(this).find('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.promotion+'.</div>')
             }
     	});
-    })
+    });
+
+    $('#promotion_details').submit(function(event){	
+        event.preventDefault();
+    	$.ajax({
+    		type: "POST",
+    		headers: 
+    		{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    		},
+    		url: base_url+'/promotion/edit/'+id,
+    		data: $("#promotion_details").serialize(),
+    		success: function (response) {
+                    console.log(response);
+                    $(this).find('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.promotion+'.</div>')
+            }
+    	});
+    });
 </script>
 @endsection

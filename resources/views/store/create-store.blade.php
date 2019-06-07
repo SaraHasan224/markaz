@@ -333,14 +333,14 @@
               bounds.extend(place.geometry.location);
             }
             // console.log("marker = "+place.geometry.viewport);
-            console.log(formatted_address,bounds.na.l,bounds.ia.l);
+            console.log(formatted_address,bounds.na.l,bounds.ga.l);
             document.getElementById("store_address").value = formatted_address;
-            document.getElementById("longitude").value = bounds.na.l;
-            document.getElementById("latitude").value = bounds.ia.l;
+            document.getElementById("latitude").value = bounds.na.l;
+            document.getElementById("longitude").value = bounds.ga.l;
           });
           map.fitBounds(bounds);
         });
-      }
+      } 
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>

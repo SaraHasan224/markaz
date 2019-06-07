@@ -286,10 +286,85 @@ class PromotionController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+
+        $data['categories'] = Categories::where('status',1)->get();
+        $data['tags'] = Tags::where('status',1)->get();
+
         $data['promotion'] = Promotion::where('id',$id)->first();
         $data['promotion_media'] = PromotionMedia::where('promotion_id',$id)->get(); 
         $data['promotion_comments'] = PromotionComment::where('promotion_id',$id)->get(); 
         return view('promotions.view-promotion',$data);
+
+    }
+
+    public function editpromotion(Request $request,$id = '')
+    {
+        if($request->isMethod('post'))
+        {
+            $input = $request->all();
+            if(!empty($request->time))
+            {
+                $time = explode(" / ",$request->time);
+                Promotion::where('id',$id)->update([
+                    'title'       => $request->title,
+                    'description' => $request->description,
+                    'start_time'  => Carbon::parse($time[0])->format('Y-m-d  H:i:s'), 
+                    'end_time'    => Carbon::parse($time[1])->format('Y-m-d  H:i:s'),
+                ]);
+                
+                if(!empty($request->category))
+                {
+                    // dd($request->category);
+                    foreach($request->category as $key => $category)
+                    {
+                        PromotionCategories::updateOrInsert(                        
+                            [
+                                'title' => $category,
+                            ],
+                            [
+                                'promotion_id' => $id
+                            ]
+                        );
+                    }
+                }
+                if(!empty($request->tags))
+                {
+                    foreach($request->tags as $tag)
+                    {
+                        PromotionTags::updateOrInsert(
+                            [
+                                'title' => $tag,
+                            ], 
+                            [
+                                'promotion_id' => $id
+                            ]
+                        );
+                    }
+                }
+            }
+            if(!empty($request->location))
+            { 
+                Promotion::where('id',$id)->update([
+                    'location'    => $request->location,
+                    'longitude'   => $request->longitude,
+                    'latitude'    => $request->latitude,
+                ]);
+            }
+                $code = 200;
+                $output = ['code' => $code,'promotion'=>'Promotion Updated Successfully'];
+           
+            return response()->json($output, $code);
+        }
+    }
+
+
+    public function viewpromotions($id = ''){
+        $promotion_categories = PromotionCategories::where('promotion_id',$id)->get();
+        $promotion_tags = PromotionTags::where('promotion_id',$id)->get();
+        $promotion = Promotion::where('id',$id)->first();
+        $code = 200;
+        $output = ['success'=>['code' => $code,'promotion_categories' => $promotion_categories,'promotion_tags' => $promotion_tags,'promotion'=>$promotion ]];
+        return response()->json($output, $code);
     }
 
     

@@ -81,6 +81,7 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         }
         return false;
     }
+ 
 
     public function uploadImage(array $data = []){
         $input['image'] = $data['image']; 
