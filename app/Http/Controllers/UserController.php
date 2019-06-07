@@ -375,6 +375,7 @@ class UserController extends Controller
         $data['media'] = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                     ->where('promotions.store_id',$store->id)
+                    ->select('promotion_media.media_id')
                     ->get();
         $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';
         $data['social'] = !empty($social) ? $social : '';
@@ -470,11 +471,21 @@ class UserController extends Controller
 
     // Manage Store Timeline Starts Here //
 
-    public function getTimeline()
+    public function getTimeline($store_id = '')
     {
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['timeline'] = DB::table('stores')
+                            ->leftJoin('followers', 'followers.store_id', '=', 'stores.id')
+                            ->leftJoin('promotions', 'promotions.store_id', '=', 'stores.id')
+                            ->leftJoin('support', 'support.store_id', '=', 'stores.id')
+                            ->leftJoin('promotion_comments', 'promotion_comments.promotion_id', '=', 'promotions.id')
+                            ->where('stores.id',$store_id)->get();
+                            // ->select('followers.user_id as follower','followers.created_at as follower_added',
+                            //         'support.user_id as support','support.created_at as support_added',
+                            //         'promotions.title as promotion_title','promotion.created_at as promotion_created',
+                            //         'promotion_comments.user_id as promotion_comment_user','promotion_comments.comment as promotion_comment','promotion_comments.created_at as promotion_comment_created');
         return view('user.timeline',$data);
     }
     

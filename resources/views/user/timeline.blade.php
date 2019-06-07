@@ -2,6 +2,7 @@
 
 @section('content')
 <!-- END: Left Aside -->
+<?php dd($timeline); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 

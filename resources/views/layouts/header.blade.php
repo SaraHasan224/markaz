@@ -493,7 +493,7 @@
                             <h4 class="m-menu__section-text">Manage Account</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('timeline')}}"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('timeline/1')}}"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic"></i><span
                                     class="m-menu__link-text">Timeline</span></a>
@@ -503,7 +503,7 @@
                                     class="m-menu__link-icon flaticon-network"></i><span
                                     class="m-menu__link-text">Profile</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support/1')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
                                     class="m-menu__link-text">Support</span></a>

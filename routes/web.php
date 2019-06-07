@@ -85,7 +85,7 @@ Route::group(['middleware' => ['web']], function () {
 
         /* Support routes starts here*/    
         
-        Route::match(['get','post'],'support', 'UserController@support');
+        Route::match(['get','post'],'support/{store_id}', 'UserController@support');
         Route::get('get-support', 'DatatablesController@getsupport');
         
         /* Support routes ends here*/
@@ -113,7 +113,7 @@ Route::group(['middleware' => ['web']], function () {
         
         /*  User Timeline routes starts here  */
         
-        Route::get('timeline', 'UserController@getTimeline');
+        Route::get('timeline/{store_id}', 'UserController@getTimeline');
        
         /*  User Timeline routes ends here  */
        
