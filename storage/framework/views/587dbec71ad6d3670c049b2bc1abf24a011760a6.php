@@ -115,7 +115,7 @@
                                         <th>UserID</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Position</th>
+                                        <th>Role</th>
                                         <th>Phone Number</th>
                                         <th>Profile Picture</th>
                                         <th>Created At</th>
@@ -209,7 +209,7 @@
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
                     { data: 'email' },
-                    { data: 'position' },
+                    { data: 'role_id' },
                     { data: 'phone_number' },
                     { data: 'profile_pic' },
                     { data: 'created_at' },

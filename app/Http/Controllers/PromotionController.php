@@ -36,14 +36,14 @@ class PromotionController extends Controller
             'store_id' => 'required',
             'media_ids' =>'array',
         ];
-        $validator = Validator::make($input, $rules);
+        $validator = Validator::make($input, $rules); 
         if ($validator->fails()) {
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
            $repsonse = $this->_repository->createPromotion($input);
             if($repsonse){
-                $input['promotion_id'] = $repsonse->id;
+                $input['promotion_id'] = $repsonse->id; 
                  $this->_promotion_image_repo->assignMedia($input);
                 $code = 200;
                 $output = ['code' => $code,'promotion'=>$repsonse];
@@ -283,6 +283,7 @@ class PromotionController extends Controller
     }
     public function editpromotions($id = ''){
         $data['title'] = "Edit Promotions";
+        $data['sub_title'] = "Promotions";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;

@@ -68,6 +68,12 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
+                        <a href="<?php echo e(url('promotions')); ?>" class="m-nav__link">
+                            <span class="m-nav__link-text"><?php echo e($sub_title); ?></span>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">-</li>
+                    <li class="m-nav__item">
                         <a href="JavaScript::void(0)" class="m-nav__link">
                             <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>

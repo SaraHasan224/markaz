@@ -24,4 +24,10 @@ class Promotion extends Model
     {
         return $this->hasOne(PromotionTags::class, 'promotion_id');
     }
+
+    //  Comments
+    public function comments()
+    {
+        return $this->hasOne(PromotionComment::class, 'promotion_id');
+    }
 }

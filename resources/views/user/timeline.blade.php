@@ -2,7 +2,6 @@
 
 @section('content')
 <!-- END: Left Aside -->
-<?php dd($timeline); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -10,7 +9,7 @@
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">Timeline</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"> {{ $title }}</h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -26,7 +25,7 @@
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="" class="m-nav__link">
-                            <span class="m-nav__link-text">Timeline</span>
+                            <span class="m-nav__link-text">{{ $title }}</span>
                         </a>
                     </li>
 
@@ -48,7 +47,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Timeline Examples
+                                {{ $title }}
                             </h3>
                         </div>
                     </div>
@@ -58,13 +57,19 @@
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_widget2_tab1_content"
                                     role="tab" aria-expanded="true">
-                                    Last Month
+                                    Yestarday
                                 </a>
                             </li>
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget2_tab2_content"
                                     role="tab" aria-expanded="false">
-                                    All Time
+                                    Last Week
+                                </a>
+                            </li>
+                            <li class="nav-item m-tabs__item">
+                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget2_tab2_content"
+                                    role="tab" aria-expanded="false">
+                                    All Week
                                 </a>
                             </li>
                         </ul>
@@ -92,24 +97,11 @@
                                             </div>
                                             <div class="m-timeline-1__item-body">
                                                 <div class="m-list-pics">
+                                                    @foreach($logged_user as $user)
                                                     <a href="../../#">
                                                         <img src="assets/app/media/img/users/100_4.jpg" title="">
                                                     </a>
-                                                    <a href="../../#">
-                                                        <img src="assets/app/media/img/users/100_13.jpg" title="">
-                                                    </a>
-                                                    <a href="../../#">
-                                                        <img src="assets/app/media/img/users/100_11.jpg" title="">
-                                                    </a>
-                                                    <a href="../../#">
-                                                        <img src="assets/app/media/img/users/100_14.jpg" title="">
-                                                    </a>
-                                                    <a href="../../#">
-                                                        <img src="assets/app/media/img/users/100_7.jpg" title="">
-                                                    </a>
-                                                    <a href="../../#">
-                                                        <img src="assets/app/media/img/users/100_3.jpg" title="">
-                                                    </a>
+                                                    @endforeach
                                                 </div>
                                                 <div class="m-timeline-1__item-body m--margin-top-15">
                                                     Lorem ipsum dolor sit amit,consectetur eiusmdd

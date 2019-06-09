@@ -171,7 +171,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-
+        Spatie\Permission\PermissionServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -250,7 +250,7 @@ return [
         ],
 
         
-
+ 
         
     ],
 

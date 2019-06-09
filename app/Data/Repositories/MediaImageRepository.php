@@ -18,7 +18,7 @@ class MediaImageRepository extends AbstractRepository implements RepositoryContr
      *
      * @var object
      * @access public
-     *
+     * 
      **/
     public $model;
 

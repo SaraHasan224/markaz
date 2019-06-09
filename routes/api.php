@@ -78,7 +78,7 @@ use Illuminate\Http\Request;
     ]);
     Route::post('/upload-promotion-image',[
       'uses'=>'MediaImageController@uploadImage',
-      'middleware'=>'auth.jwt'
+      'middleware'=>'auth.jwt' 
     ]);
     Route::get('/get-all-promotions',[
       'uses'=>'PromotionController@all',

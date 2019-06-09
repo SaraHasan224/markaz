@@ -8,7 +8,10 @@ use DB,
     App\Follower,
     App\User,
     App\Store,
+    App\Support,
     App\StoreSocialMedia,
+    App\Promotion,
+    App\PromotionComment,
     App\PromotionMedia;
 use App\TraitsFolder\CommonTrait;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
@@ -17,6 +20,10 @@ use App\Events\UserWasCreated;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Input;
 use App\Data\Repositories\UserRepository;
+
+
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
 
 class UserController extends Controller
@@ -473,19 +480,17 @@ class UserController extends Controller
 
     public function getTimeline($store_id = '')
     {
+        $data['title'] = 'Timeline';
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-        $data['timeline'] = DB::table('stores')
-                            ->leftJoin('followers', 'followers.store_id', '=', 'stores.id')
-                            ->leftJoin('promotions', 'promotions.store_id', '=', 'stores.id')
-                            ->leftJoin('support', 'support.store_id', '=', 'stores.id')
-                            ->leftJoin('promotion_comments', 'promotion_comments.promotion_id', '=', 'promotions.id')
-                            ->where('stores.id',$store_id)->get();
-                            // ->select('followers.user_id as follower','followers.created_at as follower_added',
-                            //         'support.user_id as support','support.created_at as support_added',
-                            //         'promotions.title as promotion_title','promotion.created_at as promotion_created',
-                            //         'promotion_comments.user_id as promotion_comment_user','promotion_comments.comment as promotion_comment','promotion_comments.created_at as promotion_comment_created');
+        $data['store'] = Store::where('id',$store_id)->first();
+        $data['store'] = Store::where('id',$store_id)->first();
+        $data['follower'] = Follower::where('store_id',$store_id)->get();
+        $promotion = Promotion::where('store_id',$store_id)->with('comments')->get();
+        $data['promotion'] = $promotion;
+        $data['support'] = Support::where('store_id',$store_id)->get();
+
         return view('user.timeline',$data);
     }
     

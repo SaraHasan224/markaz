@@ -65,7 +65,7 @@ class PromotionMediaRepository extends AbstractRepository implements RepositoryC
     //             $input['promotion_id'] = $data['promotion_id'];
     //             $input['media_id'] = $media_id;
     //             $this->create($input);
-    //         }
+    //         }  
     //     }
     // }
     public function assignMedia($data){ 

@@ -153,8 +153,7 @@
                                 <!--begin: Form Wizard Nav -->
                                 <div class="m-wizard__nav">
                                     <div class="m-wizard__steps">
-                                        <div class="m-wizard__step m-wizard__step--done"
-                                            m-wizard-target="m_wizard_form_step_1">
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
                                             <div class="m-wizard__step-info">
                                                 <a href="#" class="m-wizard__step-number">
                                                     <span>
@@ -169,7 +168,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
+                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_1">
                                             <div class="m-wizard__step-info">
                                                 <a href="#" class="m-wizard__step-number">
                                                     <span>
@@ -617,7 +616,7 @@
             // console.log(place);
             if (!place.geometry) {
               console.log("Returned place contains no geometry");
-              return;
+              return; 
             }
             var icon = {
               url: place.icon,
@@ -627,6 +626,13 @@
               scaledSize: new google.maps.Size(25, 25)
             };
 
+            // Add circle overlay and bind to marker
+            var circle = new google.maps.Circle({
+            map: map,
+            radius: 16093,    // 10 miles in metres
+            fillColor: '#AA0000'
+            });
+            circle.bindTo('center', markers, 'po?sensor=falsesition');
             // Create a marker for each place.
             markers.push(new google.maps.Marker({
               map: map,
@@ -635,12 +641,15 @@
               position: place.geometry.location
             }));
 
-            if (place.geometry.viewport) {
+            if (place.geometry.viewport) { 
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
             } else {
               bounds.extend(place.geometry.location);
             }
+            
+
+            
             // console.log("marker = "+place.geometry.viewport);
             // console.log(bounds);
             // console.log(formatted_address,bounds.na.l,bounds.ga.l);

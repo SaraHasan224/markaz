@@ -1,5 +1,5 @@
 <?php
-
+  
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -20,7 +20,7 @@ class MediaImageController extends Controller
     public function uploadImage(Request $request){
         $input = $request->only('image');
 
-        $rules = [ 
+        $rules = [   
              'image'     =>  'required',
              'image' => 'mimes:jpeg,jpeg,png'
             ];
@@ -34,11 +34,11 @@ class MediaImageController extends Controller
                 $output = ['error'=>['code'=>$code,'messages'=>$validator->messages()->all()]];
 
             } else{
-               $file_name = $input['image']->store(config('app.files.promotion.folder_name'));
+              $file_name = $input['image']->store(config('app.files.promotion.folder_name'));
               $input['image'] = $input['image']->hashName();
     
 
-            $repsonse = $this->_repository->uploadImage($input);
+            $repsonse = $this->_repository->uploadImage($input); 
                 if($repsonse) {
 
                     $code = 200;

@@ -152,8 +152,7 @@
                                 <!--begin: Form Wizard Nav -->
                                 <div class="m-wizard__nav">
                                     <div class="m-wizard__steps">
-                                        <div class="m-wizard__step m-wizard__step--done"
-                                            m-wizard-target="m_wizard_form_step_1">
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
                                             <div class="m-wizard__step-info">
                                                 <a href="#" class="m-wizard__step-number">
                                                     <span>
@@ -168,7 +167,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
+                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_1">
                                             <div class="m-wizard__step-info">
                                                 <a href="#" class="m-wizard__step-number">
                                                     <span>
@@ -335,10 +334,10 @@
                                                                         </div>
                                                                         <span class="m-form__help" id="demo"></span>
                                                                 </div>
-                                                                <input type="text" class="form-control m-input" name="location" id="location" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="longitude" id="longitude" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="latitude" id="latitude" placeholder="">
-                                                                <input type="text" class="form-control m-input" name="store_id" id="store_id" value="<?php echo e($getstore->id); ?>">
+                                                                <input type="hidden" class="form-control m-input" name="location" id="location" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="longitude" id="longitude" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="latitude" id="latitude" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="store_id" id="store_id" value="<?php echo e($getstore->id); ?>">
                                      
                                                             </div>
                                                         </div>
@@ -640,19 +639,29 @@
             } else {
               bounds.extend(place.geometry.location);
             }
+            
+
+            
+            // Add circle overlay and bind to marker
+            var circle = new google.maps.Circle({
+            map: map,
+            radius: 16093,    // 10 miles in metres
+            fillColor: '#AA0000'
+            });
+            circle.bindTo('center', markers, 'po?sensor=falsesition');
             // console.log("marker = "+place.geometry.viewport);
-            console.log(bounds);
-            console.log(formatted_address,bounds.na.l,bounds.ga.l);
+            // console.log(bounds);
+            // console.log(formatted_address,bounds.na.l,bounds.ga.l);
             document.getElementById("location").value = formatted_address;
-            document.getElementById("longitude").value = bounds.na.l;
-            document.getElementById("latitude").value = bounds.ga.l;
+            document.getElementById("latitude").value = bounds.na.l;
+            document.getElementById("longitude").value = bounds.ga.l;
           });
           map.fitBounds(bounds);
         });
       }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete?sensor=false" type="text/javascript"></script>
 
 <script type="text/javascript">
     var WizardDemo=function() {

@@ -123,7 +123,7 @@ class DatatablesController extends Controller
     }
     public function getusers()
     {
-        $getusers = User::select('id','email','name','phone_number','profile_pic','position','created_at');
+        $getusers = User::select('id','email','name','phone_number','profile_pic','role_id','created_at');
         return Datatables::of($getusers)
         ->editColumn('profile_pic', function ($users) {
             return("<img src=".asset('images/user')."/".$users->profile_pic." style='width:60px; height:60px;'/>");
