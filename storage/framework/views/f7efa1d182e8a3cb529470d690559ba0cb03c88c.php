@@ -107,15 +107,7 @@
                                     <span class="m-form__help">Enter contact number</span>
                                 </div>
                             </div> 
-                            <div class="form-group<?php echo e($errors->has('position') ? ' has-error' : ''); ?> m-form__group row">
-                                <div class="col-lg-6">
-                                    <label>Designation:</label>
-                                    <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" name="position" class="form-control m-input"
-                                            placeholder="Enter designation">
-                                    </div>
-                                    <span class="m-form__help">Enter designation</span>
-                                </div>
+                            <div class="form-group<?php echo e($errors->has('profile_pic') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Profile Picture:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -155,6 +147,7 @@
     $('.create_user').click(function(event){	
         event.preventDefault();
         var formData = new FormData($('#create_user')[0]);
+        console.log(formData);
 				var a = $(this),
                     l = $(this).closest("form");
                 l.validate({
@@ -167,9 +160,6 @@
                             required: !0,
                         },
                         name: {
-                            required: !0,
-                        },
-                        position: {
                             required: !0,
                         },
                         phone_number: {

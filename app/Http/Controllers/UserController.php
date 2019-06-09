@@ -51,6 +51,7 @@ class UserController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
+            $input['role_id'] = 1;
            $repsonse = $this->_repository->registerUser($input);
             if($repsonse){
                 $code = 200;
@@ -154,6 +155,7 @@ class UserController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
+            $input['role_id'] = 2;
            $repsonse = $this->_repository->registerUser($input);
             if($repsonse){
                 $code = 200;
@@ -228,12 +230,11 @@ class UserController extends Controller
         return view('users.create-users',$data);
     }
     public function addUsers(Request $request){
-        $input = $request->only('email', 'password','name', 'phone_number','position','profile_pic');
+        $input = $request->only('email', 'password','name', 'phone_number','profile_pic');
         $rules = [
             'email' => 'required|unique:users,email',
             'password' => 'required',
             'name' => 'required',
-            'position' => 'required',
             'phone_number' => 'required',
             'profile_pic' => 'mimes:jpeg,png,jpg',
         ];
@@ -243,6 +244,7 @@ class UserController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
+            $input['role_id'] = 3;
             
             if($request->hasFile('profile_pic'))
             {
