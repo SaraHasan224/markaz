@@ -526,10 +526,6 @@
                                             href="<?php echo e(url('manage-faq/1')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">Manage FAQ</span></a></li>
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="<?php echo e(url('add-faq/1')); ?>" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">Add FAQ</span></a></li>
                                 </ul>
                             </div>
                         </li>

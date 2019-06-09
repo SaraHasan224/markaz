@@ -78,7 +78,8 @@ class PromotionController extends Controller
     public function getCategories(){
         $data['title'] = "Categories";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
+        $data['role'] = $getuser->roles[0]->name;
         $data['logged_user'] = $getuser;
         return view('promotions.promotion-categories',$data);
     }
@@ -149,7 +150,8 @@ class PromotionController extends Controller
     public function getTags(){
         $data['title'] = "Tags";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
+        $data['role'] = $getuser->roles[0]->name;
         $data['logged_user'] = $getuser;
         return view('promotions.promotion-tags',$data);
     }

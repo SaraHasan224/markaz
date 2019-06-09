@@ -29,7 +29,8 @@ class FaqController extends Controller
     public function manage($store_id = null)
     {
         $user_id = request()->session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
+        $data['role'] = $getuser->roles[0]->name;
         $data['logged_user'] = $getuser;
         $data['store'] = Store::where('id',$store_id)->first();
         $data['title'] = 'Frequently Asked Questions';

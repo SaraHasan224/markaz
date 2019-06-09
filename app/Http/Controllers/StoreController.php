@@ -103,7 +103,8 @@ class StoreController extends Controller
     public function getstore(){
         $data['title'] = "Manage Stores";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
+        $data['role'] = $getuser->roles[0]->name;
         $data['logged_user'] = $getuser;
         $data['user_id'] = $user_id;
         return view('store.view-all',$data);

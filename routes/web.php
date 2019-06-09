@@ -129,3 +129,7 @@ Route::group(['middleware' => ['web']], function () {
             return view('user.statistics');
         });
     });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

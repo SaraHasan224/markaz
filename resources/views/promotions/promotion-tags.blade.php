@@ -95,6 +95,7 @@
                         </h3>
                     </div>
                 </div>
+                @if($role == 'Admin' || $role == 'Store Admin')
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
@@ -107,6 +108,7 @@
                         </li>
                     </ul>
                 </div>
+                @endif
             </div>
             <div class="m-portlet__body">
                 <div class="container">

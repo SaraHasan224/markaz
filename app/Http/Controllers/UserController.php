@@ -51,7 +51,7 @@ class UserController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
-            $input['role_id'] = 1;
+            $input['role_id'] = 4;
            $repsonse = $this->_repository->registerUser($input);
             if($repsonse){
                 $code = 200;
@@ -76,7 +76,7 @@ class UserController extends Controller
             $output = ['error' => [ 'code' => $code, 'messages' => $validator->messages()->all() ] ];
         }else{
             $user = $this->_repository->login($input);
-        if($user){
+        if($user->role_id == 4){
                 $code = 200;
                 $output = ['code' => $code,'user'=>$user];
                 //event(new UserWasCreated($user->id));
@@ -214,7 +214,8 @@ class UserController extends Controller
     public function getusers(){
         $data['title'] = "Manage Users";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
+        $data['role'] = $getuser->roles[0]->name;
         $data['logged_user'] = $getuser;
         return view('users.view-all',$data);
     }
