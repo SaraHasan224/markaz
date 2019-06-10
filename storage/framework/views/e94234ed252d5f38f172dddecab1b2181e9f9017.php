@@ -487,14 +487,11 @@
                                     class="m-menu__link-icon flaticon-gift"></i><span
                                     class="m-menu__link-text">Manage Promotions</span></a>
                         </li>
-
-                      
-                        
                         <li class="m-menu__section ">
                             <h4 class="m-menu__section-text">Manage Account</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('timeline/1')); ?>"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('timeline/1/today')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic"></i><span
                                     class="m-menu__link-text">Timeline</span></a>

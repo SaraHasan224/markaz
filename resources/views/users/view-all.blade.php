@@ -174,12 +174,6 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <label>Phone Number:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <input type="text" name="position" id="edit_position" class="form-control m-input" placeholder="Enter position" >
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
                             <label>Profile Picture:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="file" name="profile_pic" class="form-control m-input" >
@@ -207,7 +201,7 @@
             $('#view_users').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax"      : '{{ url("get-users") }}',
+                "ajax"      : '{{ url("get-users/1") }}',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
@@ -234,7 +228,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/view-user',
+                    url: base_url+'/view-user/1',
     		        data: {id: id},
 					success: function (response) {
 						if(response.success.code == 200)
@@ -243,7 +237,6 @@
                             $('#edit_name').val(response.success.message.name);
                             $('#edit_email').val(response.success.message.email);
                             $('#edit_phonenumber').val(response.success.message.phone_number);
-                            $('#edit_position').val(response.success.message.position);
                             $('#edit_image').attr('src',response.success.message.user_image);
                             $('#edit_image_path').val(response.success.message.profile_pic);
                             // console.log(response.success.message);
@@ -267,7 +260,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/edit-users',
+                    url: base_url+'/edit-users/1',
     		        data: formData,
 					success: function (response) {
 						if(response.success.code == 200)
@@ -309,7 +302,7 @@
                                     {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                                     },
-                                    url: base_url+'/delete-users',
+                                    url: base_url+'/delete-users/1',
                                     data: {id: id},
                                     success: function (response) {
                                         console.log(response.success.code);

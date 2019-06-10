@@ -16,6 +16,10 @@ class DatatablesController extends Controller
 {
     public function getstore()
     {
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('roles')->first();
+        $role = $getuser->roles[0]->name;
+        
         $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','user_id','status','created_at');
         return Datatables::of($getStore)
         ->editColumn('desciption', function ($store) {
@@ -29,51 +33,78 @@ class DatatablesController extends Controller
                 $status = '<button type="button" class="btn m-btn--pill btn-focus response"  data-toggle="modal" data-target="#m_status_6" data-id="'.$store->id.'">Disable</button>';
             }
             return($status);
-        })->editColumn('actions', function ($store) {
-            $actions = '    
-            <a id="edit_store" href="'.url("edit-store").'/'.$store->id.'"
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-                title="Edit Store" ><i class="la la-edit"></i></a>
-        <a  id="delete" data-id="'.$store->id.'" 
-            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-            <i class="la la-trash" style="color:#ef2626;"></i>
-        </a>
-        <span class="dropdown">
-            <a href="#"
-                class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-                data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="'.url("followers/".$store->user_id).'"><i class="la la-edit"></i> Manage Following</a>
-                <a class="dropdown-item" href="'.url("unfollowers/".$store->user_id).'"><i class="la la-edit"></i> Manage Blocked</a>
-            </div>
-        </span>';
+        })->editColumn('actions', function ($store)  use($role)  {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions .= 
+                '<a id="edit_store" href="'.url("edit-store").'/'.$store->id.'"
+                        class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                        title="Edit Store" ><i class="la la-edit"></i></a>
+                <a  id="delete" data-id="'.$store->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                    <i class="la la-trash" style="color:#ef2626;"></i>
+                </a><span class="dropdown">
+                            <a href="#"
+                                class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                                data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="'.url("followers/".$store->user_id).'"><i class="la la-edit"></i> Manage Following</a>
+                                <a class="dropdown-item" href="'.url("unfollowers/".$store->user_id).'"><i class="la la-edit"></i> Manage Blocked</a>
+                            </div>
+                    </span>';
+            }
+            else if(($role == 'Store Franchise'))
+            {
+                $actions .= '<span class="dropdown">
+                        <a href="#"
+                            class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                            data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="'.url("followers/".$store->user_id).'"><i class="la la-edit"></i> Manage Following</a>
+                            <a class="dropdown-item" href="'.url("unfollowers/".$store->user_id).'"><i class="la la-edit"></i> Manage Blocked</a>
+                        </div>
+                </span>';
+            }
             return($actions);
         })->rawColumns(['actions','status'])->make();
     }
     public function getpromotions()
     { 
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('roles')->first();
+        $role = $getuser->roles[0]->name;
+        
         $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
         return Datatables::of($getPromotions)
         ->editColumn('store_id', function ($promotion) {
             return(empty($promotion->hasstore) ? '' : $promotion->hasstore->name);
         })->editColumn('location', function ($promotion) {
             return($promotion->location.' longitude = '.$promotion->longitude.' latitude = '.$promotion->latitude);
-        })->editColumn('actions', function ($promotion) {
-            $actions = ' <a  id="delete" data-id="'.$promotion->id.'" 
-                            class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-                            <i class="la la-trash" style="color:#ef2626;"></i>
-                        </a> 
-                        <a href="'.url("promotions/edit/".$promotion->id).'" id="m_view_6" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
-                            title="Eit"><i class="la la-edit"></i>
-                        </a>';
+        })->editColumn('actions', function ($promotion)  use($role)   {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions = ' <a  id="delete" data-id="'.$promotion->id.'" 
+                                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                                <i class="la la-trash" style="color:#ef2626;"></i>
+                            </a> 
+                            <a href="'.url("promotions/edit/".$promotion->id).'" id="m_view_6" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
+                                title="Eit"><i class="la la-edit"></i>
+                            </a>';
+            }
             return($actions);
         })->rawColumns(['actions','location','store_id'])->make();
     }
     public function getCategories()
     {
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('roles')->first();
+        $role = $getuser->roles[0]->name;
+        
         $getCategories = Categories::select('id','title','status','created_at');
         return Datatables::of($getCategories)
-        ->editColumn('status', function ($store) {
+        ->editColumn('status', function ($store)   use($role)  {
             if($store->status == 1)
             {
                 $status = '<button type="button" class="btn m-btn--pill btn-accent" data-id="'.$store->id.'">Enable</button>';
@@ -82,24 +113,32 @@ class DatatablesController extends Controller
                 $status = '<button type="button" class="btn m-btn--pill btn-focus" data-id="'.$store->id.'">Disable</button>';
             }
             return($status);
-        })->editColumn('actions', function ($categories) {
-            $actions = ' 
-            <a  id="delete" data-id="'.$categories->id.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-                <i class="la la-trash" style="color:#ef2626;"></i>
-            </a>
-            <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
-                <i class="la la-edit"></i>
-            </a>';
+        })->editColumn('actions', function ($categories)  use($role)   {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions = ' 
+                <a  id="delete" data-id="'.$categories->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                    <i class="la la-trash" style="color:#ef2626;"></i>
+                </a>
+                <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <i class="la la-edit"></i>
+                </a>';
+            }
             return($actions);
         })->rawColumns(['actions','status'])->make();
     }
     public function getTags()
     {
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('roles')->first();
+        $role = $getuser->roles[0]->name;
+        
         $getTags = Tags::select('id','title','status','created_at');
         return Datatables::of($getTags)
-        ->editColumn('status', function ($store) {
+        ->editColumn('status', function ($store)  use($role)   {
             if($store->status == 1)
             {
                 $status = '<button type="button" class="btn m-btn--pill btn-accent" data-id="'.$store->id.'">Enable</button>';
@@ -108,38 +147,55 @@ class DatatablesController extends Controller
                 $status = '<button type="button" class="btn m-btn--pill btn-focus" data-id="'.$store->id.'">Disable</button>';
             }
             return($status);
-        })->editColumn('actions', function ($tags) {
-            $actions = ' 
-            <a  id="delete" data-id="'.$tags->id.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-                <i class="la la-trash" style="color:#ef2626;"></i>
-            </a>
-            <a  id="edit_tags" data-id="'.$tags->id.'" data-tag="'.$tags->title.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
-                <i class="la la-edit"></i>
-            </a>';
+        })->editColumn('actions', function ($tags)  use($role)   {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions = ' 
+                <a  id="delete" data-id="'.$tags->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                    <i class="la la-trash" style="color:#ef2626;"></i>
+                </a>
+                <a  id="edit_tags" data-id="'.$tags->id.'" data-tag="'.$tags->title.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <i class="la la-edit"></i>
+                </a>';
+            }
             return($actions);
         })->rawColumns(['actions','status'])->make();
     }
-    public function getusers()
+    public function getusers($store_id = '')
     {
-        $getusers = User::select('id','email','name','phone_number','profile_pic','role_id','created_at');
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('roles')->first();
+        $role = $getuser->roles[0]->name;
+
+        $getusers = DB::table('users')
+        ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+        ->where('users.store_id',$store_id)
+        ->select('users.id as id','users.name as name','users.email as email','users.profile_pic as profile_pic','users.phone_number as phone_number','roles.name as role_id','users.created_at as created_at');
+
+        // $getusers = User::select('id','email','name','phone_number','profile_pic','role_id','created_at');
         return Datatables::of($getusers)
         ->editColumn('profile_pic', function ($users) {
             return("<img src=".asset('images/user')."/".$users->profile_pic." style='width:60px; height:60px;'/>");
         })
-        ->editColumn('actions', function ($users) {
-            $actions = ' 
-            <a  id="delete" data-id="'.$users->id.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
-                <i class="la la-trash" style="color:#ef2626;"></i>
-            </a>
-            <a  id="view" data-id="'.$users->id.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
-                <i class="la la-edit"></i>
-            </a>';
+        ->editColumn('actions', function ($users)   use($role)  {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions = ' 
+                <a  id="delete" data-id="'.$users->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
+                    <i class="la la-trash" style="color:#ef2626;"></i>
+                </a>
+                <a  id="view" data-id="'.$users->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
+                    <i class="la la-edit"></i>
+                </a>';
+            }
             return($actions);
-        })->rawColumns(['actions','profile_pic'])->make();
+        })->rawColumns(['actions','profile_pic','role_id'])->make();
     }
     public function getsupport()
     {
@@ -168,7 +224,7 @@ class DatatablesController extends Controller
         ->rawColumns(['store_id','status','first_name'])->make();
     }
     public function getfollowers()
-    {
+    {      
         $getfollowers = DB::table('followers')
         ->leftJoin('users', 'followers.user_id', '=', 'users.id')
         ->where('followers.deleted_at',NULL)
@@ -210,6 +266,10 @@ class DatatablesController extends Controller
     }
     public function getQuestions($id = null)
     {
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('roles')->first();
+        $role = $getuser->roles[0]->name;
+        
         $getQuestions = DB::table('faq')
         ->leftJoin('users', 'faq.user_id', '=', 'users.id')
         ->where('faq.store_id',$id)
@@ -218,26 +278,34 @@ class DatatablesController extends Controller
         ->editColumn('description', function ($question) {
             return(str_limit($question->description, 150));
         })
-        ->editColumn('status', function ($question) {
-            if($question->status == 0)
+        ->editColumn('status', function ($question)  use($role)   {
+            $status = '';
+            if($role == 'Admin' || $role == 'Store Admin')
             {
-                $status = '<button type="button" id="status" data-id="'.$question->id.'"  data-status="'.$question->status.'" class="btn m-btn--pill btn-accent">Disabled</button>';
-            }
-            elseif($question->status == 1){
-                $status = '<button type="button" id="status" data-id="'.$question->id.'"  data-status="'.$question->status.'" class="btn m-btn--pill btn-focus">Enabled</button>';
+                if($question->status == 0)
+                {
+                    $status = '<button type="button" id="status" data-id="'.$question->id.'"  data-status="'.$question->status.'" class="btn m-btn--pill btn-accent">Disabled</button>';
+                }
+                elseif($question->status == 1){
+                    $status = '<button type="button" id="status" data-id="'.$question->id.'"  data-status="'.$question->status.'" class="btn m-btn--pill btn-focus">Enabled</button>';
+                }
             }
             return($status);
         })
-        ->editColumn('actions', function ($question) {
-            $actions = ' 
-            <a  id="delete" data-id="'.$question->id.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-                <i class="la la-trash" style="color:#ef2626;"></i>
-            </a>
-            <a  id="edit_faq" data-id="'.$question->id.'" 
-                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
-                <i class="la la-edit"></i>
-            </a>';
+        ->editColumn('actions', function ($question)   use($role)  {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions = ' 
+                <a  id="delete" data-id="'.$question->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                    <i class="la la-trash" style="color:#ef2626;"></i>
+                </a>
+                <a  id="edit_faq" data-id="'.$question->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <i class="la la-edit"></i>
+                </a>';
+            }
             return($actions);
         })->rawColumns(['status','user_id','description','actions'])->make();
     }

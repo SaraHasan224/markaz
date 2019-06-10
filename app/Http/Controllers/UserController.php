@@ -211,7 +211,7 @@ class UserController extends Controller
     /* Web Panel User CRUD */
 
     //      Manage User CRUD Starts Here    //
-    public function getusers(){
+    public function getusers($store_id = ''){
         $data['title'] = "Manage Users";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
@@ -219,18 +219,23 @@ class UserController extends Controller
         $data['logged_user'] = $getuser;
         return view('users.view-all',$data);
     }
-    public function createUsers(Request $request)
+    public function createUsers(Request $request,$store_id = '')
     {
         $data['title'] = "User";
         $data['table_id'] = "create_user";
         $data['sub_title'] = "Create User";
         $data['user'] = '';
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        if($store_id != '')
+        {
+            $getuser = User::where('id',$user_id)->where('store_id',$store_id)->first();
+        }else{
+            $getuser = User::where('id',$user_id)->first();
+        }
         $data['logged_user'] = $getuser;
         return view('users.create-users',$data);
     }
-    public function addUsers(Request $request){
+    public function addUsers(Request $request,$store_id = ''){
         $input = $request->only('email', 'password','name', 'phone_number','profile_pic');
         $rules = [
             'email' => 'required|unique:users,email',
@@ -246,6 +251,7 @@ class UserController extends Controller
         }else{
             $input['access_token'] = Str::random(60);
             $input['role_id'] = 3;
+            $input['store_id'] = $store_id;
             
             if($request->hasFile('profile_pic'))
             {
@@ -270,7 +276,7 @@ class UserController extends Controller
          }
         return response()->json($output, $code);
     }
-    public function viewUsers(Request $request)
+    public function viewUsers(Request $request,$store_id = '')
     {
         if($request->isMethod('post'))
         {
@@ -282,14 +288,13 @@ class UserController extends Controller
             $user['email'] = $findUser->email;
             $user['name'] = $findUser->name;
             $user['phone_number'] = $findUser->phone_number;
-            $user['position'] = $findUser->position;
             $user['profile_pic'] = $findUser->profile_pic;
             $user['user_image'] = asset('/images/user').'/'.$findUser->profile_pic;
             $output = ['success'=>['code' => $code,'message' => $user]];
             return response()->json($output, $code);
         }
     }
-    public function editUsers(Request $request)
+    public function editUsers(Request $request,$store_id = '')
     {
         if($request->isMethod('post'))
         {
@@ -298,9 +303,7 @@ class UserController extends Controller
                 'id' => 'required',
                 'email' => 'required',
                 'name' => 'required',
-                'position' => 'required',
                 'phone_number' => 'required',
-                'profile_pic' => 'required|mimes:jpeg,png,jpg',
                ];
                $validator = Validator::make($input, $rules);
                if ($validator->fails()) {
@@ -322,7 +325,6 @@ class UserController extends Controller
                     User::where('id',$request->id)->update([
                         "name" => $request->name,
                         "email" => $request->email,
-                        "position" => $request->position,
                         "phone_number" => $request->phone_number,
                         "profile_pic" =>  $user_image,
                     ]);
@@ -332,7 +334,7 @@ class UserController extends Controller
             return response()->json($output, $code);
         }
     } 
-    public function deleteUsers(Request $request)
+    public function deleteUsers(Request $request,$store_id = '')
     {
         if($request->isMethod('post'))
         {
@@ -346,7 +348,7 @@ class UserController extends Controller
                 $code = 406;
                 $output = ['code' => $code, 'messages' => $validator->messages()->all()];
             }else{
-                $user = User::where('id',$request->id)->first();
+                $user = User::where('id',$request->id)->where('store_id',$store_id)->first();
                 Follower::where('user_id',$request->id)->delete();
                 Store::where('user_id',$request->id)->delete();
                 $image_path = 'images/user/';
@@ -380,7 +382,7 @@ class UserController extends Controller
     public function getUserProfile(Request $request,$id = '')
     {
         $user_id = $request->session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
+        $getuser = User::where('id',$user_id)->with('roles')->first();
         $store = Store::where('user_id',$id)->first();
         $data['media'] = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
@@ -400,7 +402,6 @@ class UserController extends Controller
             $input = $request->all();
             User::where('id',$request->user_id)->update([
                 'name' => $request->name,
-                'position' => $request->position
             ]);
             $store_updated = Store::where('user_id',$request->user_id)->update([
                 'name' => $request->company,
@@ -481,27 +482,43 @@ class UserController extends Controller
 
     // Manage Store Timeline Starts Here //
 
-    public function getTimeline($store_id = '')
+    public function getTimeline($store_id = '',$timeline = '')
     {
         $data['title'] = 'Timeline';
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-        $data['store'] = Store::where('id',$store_id)->first();
-        $data['store'] = Store::where('id',$store_id)->first();
-        $data['follower'] = Follower::where('store_id',$store_id)->get();
-        $promotion = Promotion::where('store_id',$store_id)->with('comments')->get();
-        $data['promotion'] = $promotion;
-        $data['support'] = Support::where('store_id',$store_id)->get();
 
-        return view('user.timeline',$data);
+        if($timeline == 'today')
+        {
+            $data['user'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
+            $data['store'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
+            $data['follower'] = Follower::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+            $data['promotion'] = Promotion::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->with('comments')->get();
+            $data['support'] = Support::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+        }
+        elseif($timeline == 'yestarday'){
+            $data['store'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
+            $data['follower'] = Follower::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+            $data['promotion'] = Promotion::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->with('comments')->get();
+            $data['support'] = Support::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+        }
+        return view('user.timeline',$data); 
     }
     
-    
+     
     // Manage Store Timeline Ends Here //
     
-    public function getActivity(){
-        $data['title'] = "Categories";
+    public function getActivity($store_id = ''){ 
+        $data['title'] = "Activity";
+        $data['sub_title'] = "Recent Activities";
+        $date = date("Y/m/d");
+
+        $data['store'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
+        $data['follower'] = Follower::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+        $data['promotion'] = Promotion::where('store_id',$store_id)->with('comments')->whereDate('created_at', Carbon::today())->get();
+        $data['support'] = Support::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;

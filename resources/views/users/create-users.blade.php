@@ -144,7 +144,7 @@
 <script>
     var base_url = "<?php url() ?>";
     // console.log(base_url+'/user/signinweb');
-    $('.create_user').click(function(event){	
+    $('.create_user').click(function(event){	 
         event.preventDefault();
         var formData = new FormData($('#create_user')[0]);
         // console.log(formData);

@@ -49,7 +49,7 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Role</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input" type="text" name="position" value="{{$logged_user->position}}">
+                                            <input class="form-control m-input m-input--solid" type="text" value="{{$logged_user->roles[0]->name}}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">

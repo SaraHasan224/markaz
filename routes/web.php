@@ -71,7 +71,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('view-user', 'UserController@viewUsers');
         Route::post('edit-users', 'UserController@editusers');
         Route::post('delete-users', 'UserController@deleteUsers');
-        
+        //Store Admin Users
+        Route::get('get-users/{store_id}', 'DatatablesController@getusers'); 
+        Route::get('create-users/{store_id}', 'UserController@createUsers');
+        Route::get('users/{store_id}', 'UserController@getusers');
+        Route::post('add-user/{store_id}', 'UserController@addUsers');
+        Route::post('view-user/{store_id}', 'UserController@viewUsers'); 
+        Route::post('edit-users/{store_id}', 'UserController@editusers');
+        Route::post('delete-users/{store_id}', 'UserController@deleteUsers');
         /* User routes ends here*/
 
         /* Follower routes starts here*/
@@ -113,11 +120,11 @@ Route::group(['middleware' => ['web']], function () {
         
         /*  User Timeline routes starts here  */
         
-        Route::get('timeline/{store_id}', 'UserController@getTimeline');
+        Route::get('timeline/{store_id}/{timeline}', 'UserController@getTimeline');
        
         /*  User Timeline routes ends here  */
        
-        Route::get('activity', 'UserController@getActivity');
+        Route::get('activity/{store_id}', 'UserController@getActivity');
        
         Route::get('invoice', function () {
             return view('home.invoice');

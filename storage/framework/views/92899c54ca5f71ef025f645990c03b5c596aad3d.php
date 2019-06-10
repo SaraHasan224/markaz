@@ -1,6 +1,4 @@
-@extends('user.profile')
-
-@section('profile')
+<?php $__env->startSection('profile'); ?>
 <div class="col-xl-9 col-lg-8">
     <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
         <div class="m-portlet__head">
@@ -8,7 +6,8 @@
                 <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
-                           {{$title}}
+                           <?php echo e($title); ?>
+
                         </a>
                     </li>
                 </ul>
@@ -25,7 +24,8 @@
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
-                                        {{ $sub_title }}
+                                        <?php echo e($sub_title); ?>
+
                                     </h3>
                                 </div>
                             </div>
@@ -138,4 +138,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('user.profile', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
