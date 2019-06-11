@@ -217,7 +217,6 @@
                     { data: 'desciption' },
                     { data: 'latitude' }, 
                     { data: 'longitude' },
-                    { data: 'user_id' },
                     { data: 'status' },
                     { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },

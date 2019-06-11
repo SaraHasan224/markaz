@@ -21,11 +21,10 @@ class StoreController extends Controller
 
 
     public function create(Request $request){
-        $input = $request->only('name', 'address','latitude', 'longitude','user_id');
+        $input = $request->only('name', 'address','latitude', 'longitude');
         $rules = [
             'name' => 'required',
             'address' => 'required',
-            'user_id' => 'required',
 
         ];
         $validator = Validator::make($input, $rules);
@@ -166,11 +165,10 @@ class StoreController extends Controller
         $data['user_id'] = $user_id;
         if($request->isMethod('post'))
         {
-            $input = $request->only('name', 'address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+            $input = $request->only('name', 'address','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
             $rules = [  
                 'name' => 'required',
                 'address' => 'required',
-                'user_id' => 'required', 
                 'website' => 'required',
                 'contact_email' => 'required',
                 'description' => 'required',
@@ -190,7 +188,6 @@ class StoreController extends Controller
                     'desciption' => $request->description,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
-                    'user_id' => $request->user_id,
                 ]);
                 $output = "Store updated successfully";
                 $code = 200;

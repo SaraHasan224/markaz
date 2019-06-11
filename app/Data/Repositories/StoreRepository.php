@@ -71,7 +71,6 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
         $input['address']  = $data['address'];
         $input['latitude']        = $data['latitude'];
         $input['longitude']      = $data['longitude'];
-        $input['user_id']  = $data['user_id'];
        
         if($store = parent::create($input)){
                 return $store;

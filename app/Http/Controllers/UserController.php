@@ -140,12 +140,13 @@ class UserController extends Controller
         return response()->json($output, $code);
     }
     public function signUpWeb(Request $request){
-        $input = $request->only('email', 'password','name', 'phone_number','position');
+        $input = $request->only('email', 'password','name', 'phone_number','position','organization');
         $rules = [
             'email' => 'required|unique:users,email',
             'password' => 'required',
             'name' => 'required',
-            'phone_number'=>'required'
+            'phone_number'=>'required',
+            'organization' => 'required|unique:stores,name'
         ];
 
         $validator = Validator::make($input, $rules);
@@ -154,9 +155,11 @@ class UserController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
+            $store = Store::create(['name'=>$request->organization]);
             $input['access_token'] = Str::random(60);
             $input['role_id'] = 2;
-           $repsonse = $this->_repository->registerUser($input);
+            $input['store_id'] = $store->id;
+            $repsonse = $this->_repository->registerStore($input);
             if($repsonse){
                 $code = 200;
                 $request->session()->put('user_id', $repsonse->id);

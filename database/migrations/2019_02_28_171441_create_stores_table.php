@@ -16,14 +16,13 @@ class CreateStoresTable extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('name');
-			$table->text('address');
-			$table->text('telephone');
-			$table->string('websitelink');
-			$table->string('emailaddress');
-			$table->longtext('desciption');
+			$table->text('address')->nullable();
+			$table->text('telephone')->nullable();
+			$table->string('websitelink')->nullable();
+			$table->string('emailaddress')->nullable();
+			$table->longtext('desciption')->nullable();
 			$table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 10, 8)->nullable();
-            $table->bigInteger('user_id')->unsigned()->index('stores_user_id_foreign');
             $table->tinyInteger('status')->default(1);
 			$table->timestamps();
             $table->softDeletes();

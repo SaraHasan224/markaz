@@ -200,7 +200,6 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" name="user_id" value="{{$user_id}}"/>
                                     <input type="hidden" name="longitude" id="longitude" />
                                     <input type="hidden" name="latitude" id="latitude" />
                             <div class="form-group m-form__group row">

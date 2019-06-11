@@ -78,6 +78,27 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         }
         return false;
     }
+  
+    public function registerStore(array $data = []) {
+        
+        $input['email']         = $data['email'];
+        $input['phone_number']  = $data['phone_number'];
+        $input['name']        = $data['name'];
+        $input['role_id']        = $data['role_id'] != '' ? $data['role_id'] : 0;
+        $input['password']      = bcrypt($data['password']);
+        $input['access_token']  = $data['access_token'];
+        $input['store_id'] = $data['store_id'];
+       
+        if($user = parent::create($input)){
+            $token = JWTAuth::fromUser($user);
+            $update = $this->update([
+                'id' =>$user->id,
+                'access_token' => $token,
+            ]);
+            return $update;
+        }
+        return false;
+    }
 
 
     public function login($data){

@@ -20,7 +20,7 @@ class DatatablesController extends Controller
         $getuser = User::where('id',$user_id)->with('roles')->first();
         $role = $getuser->roles[0]->name;
         
-        $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','user_id','status','created_at');
+        $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','status','created_at');
         return Datatables::of($getStore)
         ->editColumn('desciption', function ($store) {
             return(str_limit($store->desciption, 50));

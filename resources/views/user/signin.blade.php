@@ -92,8 +92,16 @@
 								<div class="m-login__desc">Enter your details to create your account:</div>
 							</div>
 							<form class="m-login__form m-form" id="signup_form" method="POST">
+								<div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }} m-form__group">
+									<input class="form-control m-input" type="text" placeholder="Enter your organization name" name="signup_organization" value="{{ old('signup_organization') }}" autofocus>
+									@if ($errors->has('signup_organization'))
+										<span class="help-block">
+											<strong>{{ $errors->first('signup_organization') }}</strong>
+										</span>
+                                	@endif
+								</div>
 								<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group">
-									<input class="form-control m-input" type="text" placeholder="Enter your name" name="signup_name" value="{{ old('name') }}" autofocus>
+									<input class="form-control m-input" type="text" placeholder="Enter your name" name="signup_name" value="{{ old('name') }}">
 									@if ($errors->has('name'))
 										<span class="help-block">
 											<strong>{{ $errors->first('name') }}</strong>
@@ -275,6 +283,7 @@
 					l = $(this).closest("form");
 					
 					var name = $("input[name=signup_name]").val();
+					var organization = $("input[name=signup_organization]").val();
 					var email = $("input[name=signup_email]").val();
 					var password = $("input[name=signup_password]").val();
 					var phone_number = $("input[name=signup_phone_number]").val();
@@ -284,6 +293,9 @@
                         signup_name: {
                             required: !0,
                         },
+						signup_organization: {
+                            required: !0,
+						},
                         signup_email: {
                             required: !0,
                             email: !0
@@ -312,7 +324,8 @@
 						name:name,
 						email:email,
 						password:password,
-						phone_number:phone_number
+						phone_number:phone_number,
+						organization: organization
 					},
 					success: function (response) {
 						// console.log(response);
