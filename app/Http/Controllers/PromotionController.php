@@ -81,6 +81,7 @@ class PromotionController extends Controller
         $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
         $data['role'] = $getuser->roles[0]->name;
         $data['logged_user'] = $getuser;
+        dd($data);
         return view('promotions.promotion-categories',$data);
     }
     public function addCategories(Request $request){

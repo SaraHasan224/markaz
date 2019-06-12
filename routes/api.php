@@ -17,10 +17,10 @@ use Illuminate\Http\Request;
     //  User Login  //
 
     Route::post('/user/signup',[
-      'uses' => 'UserController@signUp'
+      'uses' => 'RegisterController@signUp'
     ]);
     Route::post('/user/signin',[
-    'uses' =>'UserController@signIn'
+    'uses' =>'LoginController@signIn'
     ]);
 
     //  User Profile  //

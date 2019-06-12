@@ -12,14 +12,14 @@
 */
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', 'UserController@login');
-    Route::post('/user/signupweb',['uses' => 'UserController@signUpWeb']);
-    Route::post('/user/signinweb',['uses' =>'UserController@signInWeb']);
-    Route::post('forgot-pwd',['uses' =>'UserController@forgotpwd']);
-    Route::post('logout', 'UserController@logout');
+    Route::get('/', 'LoginController@login');
+    Route::post('/user/signupweb',['uses' => 'RegisterController@signUpWeb']);
+    Route::post('/user/signinweb',['uses' =>'LoginController@signInWeb']);
+    Route::post('forgot-pwd',['uses' =>'ForgotPasswordController@forgotpwd']);
+    Route::post('logout', 'LoginController@logout');
 });
     Route::group(['middleware' => ['customauth']], function () {
-        Route::match(['get','post'],'dashboard', 'UserController@loggedIn');
+        Route::match(['get','post'],'dashboard', 'LoginController@loggedIn');
         
         /* Promotion routes starts here*/
 

@@ -37,179 +37,12 @@ class UserController extends Controller
         $getuser = User::where('id',$user_id)->first();
     }
 
-    public function signUp(Request $request){
-        $input = $request->only('email', 'password','name', 'phone_number');
-        $rules = [
-            'email' => 'required|unique:users,email',
-            'password' => 'required',
-            'name' => 'required',
-            'phone_number'=>'required'
-        ];
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $code = 406;
-            $output = ['code' => $code, 'messages' => $validator->messages()->all()];
-        }else{
-            $input['access_token'] = Str::random(60);
-            $input['role_id'] = 4;
-           $repsonse = $this->_repository->registerUser($input);
-            if($repsonse){
-                $code = 200;
-                $output = ['code' => $code,'user'=>$repsonse];
-            }else{
-                $code = 400;
-                $output = ['error'=>['code' => $code,'message' => ['An error occurred while Registration.']]];
-            }
-         }
-        return response()->json($output, $code);
-    }
-
-    public function signIn(Request $request){
-        $input = $request->only('email', 'password','language','login_time', 'udid');
-        $rules = [
-            'email' => 'required|exists:users,email',
-            'password' => 'required',
-           ];
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $code = 406;
-            $output = ['error' => [ 'code' => $code, 'messages' => $validator->messages()->all() ] ];
-        }else{
-            $user = $this->_repository->login($input);
-        if($user->role_id == 4){
-                $code = 200;
-                $output = ['code' => $code,'user'=>$user];
-                //event(new UserWasCreated($user->id));
-            }else{
-                
-                $code = 400;
-                $output = ['error'=>['code' => $code,'message' => ['Invalid email or password']]];
-            }
-        }
-        return response()->json($output, $code);
-    }
-    
     public function getProfile(){
         $user = JWTAuth::parseToken()->ToUser();
         return response()->json(['user'=>$user]);
     }
 
-
     /* Sara's work starts here */
-
-    /* SignIn, SignUp and logout for web panel starts here  */
-    public function login(Request $request){
-        $request->session()->forget('user_id');
-            return view('user.signin');
-    } 
-    public function loggedIn(Request $request){
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
-        $data['logged_user'] = $getuser;
-        if(empty($getuser)) 
-            return view('user.signin');
-        else
-            return view('index',$data);
-    } 
-    public function signInWeb(Request $request){
-        $input = $request->only('email', 'password','language','login_time', 'udid');
-        $rules = [
-            'email' => 'required|exists:users,email',
-            'password' => 'required',
-           ];
-        $validator = Validator::make($input, $rules);
-
-        if ($validator->fails()) {
-            $code = 406;
-            $output = ['error' => [ 'code' => $code, 'messages' => $validator->messages()->all() ] ];
-        }else{
-
-            $user = $this->_repository->loginWeb($input);
-            
-        if($user){
-                $code = 200;
-                $request->session()->put('user_id', $user->id);
-                $request->session()->save();
-                $output = ['code' => $code,'user'=>$user];
-                event(new UserWasCreated($user->id));
-            }else{
-                $code = 400;
-                $output = ['error'=>['code' => $code,'message' => ['Incorrect username or password. Please try again.']]];
-            }   
-        }
-        return response()->json($output, $code);
-    }
-    public function signUpWeb(Request $request){
-        $input = $request->only('email', 'password','name', 'phone_number','position','organization');
-        $rules = [
-            'email' => 'required|unique:users,email',
-            'password' => 'required',
-            'name' => 'required',
-            'phone_number'=>'required',
-            'organization' => 'required|unique:stores,name'
-        ];
-
-        $validator = Validator::make($input, $rules);
-
-        if ($validator->fails()) {
-            $code = 406;
-            $output = ['code' => $code, 'messages' => $validator->messages()->all()];
-        }else{
-            $store = Store::create(['name'=>$request->organization]);
-            $input['access_token'] = Str::random(60);
-            $input['role_id'] = 2;
-            $input['store_id'] = $store->id;
-            $repsonse = $this->_repository->registerStore($input);
-            if($repsonse){
-                $code = 200;
-                $request->session()->put('user_id', $repsonse->id);
-                $request->session()->save();
-                $output = ['code' => $code,'user'=>$repsonse];
-            }else{
-                $code = 400;
-                $output = ['error'=>['code' => $code,'message' => ['An error occurred while Registration.']]];
-            }
-            
-         }
-        return response()->json($output, $code);
-    }
-    public function logout(Request $request)
-    {
-        $request->session()->flush();
-        $request->session()->forget('user_id');
-        $request->session()->regenerate();
-        return redirect('/');
-    }
-    public function forgotpwd(Request $request){
-        $input = $request->only('email');
-        $rules = [
-            'email' => 'required',
-        ];
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $code = 406;
-            $output = ['code' => $code, 'messages' => $validator->messages()->all()];
-        }else{
-            $us = User::whereEmail($request->email)->count();
-            if ($us == 0)
-            {
-                $code = 400;
-                $repsonse = "We can't find a user with this email-address";
-                // $output = ['code' => $code,'user'=>$repsonse];
-                $output = ['error'=>['code' => $code,'message' => ['We can\'t find a user with this email-address']]];
-            }else{
-                $user1 = User::whereEmail($request->email)->first();
-                $route = 'password.reset';
-                $code = 200;
-                $repsonse = "Password Reset Link Send Your E-mail";
-                $output = ['success'=>['code' => $code,'message' => ['Password Reset Link Send Your E-mail']]];
-            }               
-        }
-        return response()->json($output, $code);
-        
-    }
-
-    /* SignIn, SignUp and logout for web panel ends here  */
 
     /* Web Panel User CRUD */
 
@@ -217,9 +50,10 @@ class UserController extends Controller
     public function getusers($store_id = ''){
         $data['title'] = "Manage Users";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
-        $data['role'] = $getuser->roles[0]->name;
+        $getuser = User::where('id',$user_id)->with('permissions')->first();
+        $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
         return view('users.view-all',$data);
     }
     public function createUsers(Request $request,$store_id = '')

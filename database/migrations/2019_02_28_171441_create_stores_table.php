@@ -23,6 +23,7 @@ class CreateStoresTable extends Migration
 			$table->longtext('desciption')->nullable();
 			$table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 10, 8)->nullable();
+            $table->integer('views')->default(1);
             $table->tinyInteger('status')->default(1);
 			$table->timestamps();
             $table->softDeletes();

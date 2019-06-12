@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Store;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -28,8 +30,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     /* Created by Sara to use this relation inorder to print data into datatable*/
-    public function hasstore()
+    public function stores()
     {
-        return $this->hasOne(Store::class, 'user_id');
+        return $this->hasOne(Store::class, 'id');
     }
+    // public function roles()
+    // {
+    //     return $this->hasOne(Role::class, 'id');
+    // }
 }

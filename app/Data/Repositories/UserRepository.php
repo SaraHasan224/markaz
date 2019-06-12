@@ -9,7 +9,6 @@ use Hash, Illuminate\Support\Str;
 use App\User; 
 use App\Contracts\RepositoryContract;
 
-
 class UserRepository extends AbstractRepository implements RepositoryContract {
 
     /**
@@ -69,6 +68,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         $input['access_token']  = $data['access_token'];
        
         if($user = parent::create($input)){
+
             $token = JWTAuth::fromUser($user);
             $update = $this->update([
                 'id' =>$user->id,
@@ -88,13 +88,14 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         $input['password']      = bcrypt($data['password']);
         $input['access_token']  = $data['access_token'];
         $input['store_id'] = $data['store_id'];
-       
+
         if($user = parent::create($input)){
             $token = JWTAuth::fromUser($user);
-            $update = $this->update([
-                'id' =>$user->id,
-                'access_token' => $token,
-            ]);
+                $update = $this->update([
+                    'id' =>$user->id,
+                    'access_token' => $token,
+                ]);
+
             return $update;
         }
         return false;

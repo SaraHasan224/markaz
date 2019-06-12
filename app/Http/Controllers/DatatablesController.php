@@ -18,7 +18,7 @@ class DatatablesController extends Controller
     {
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('roles')->first();
-        $role = $getuser->roles[0]->name;
+        $role =  session()->get('role_name');
         
         $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','status','created_at');
         return Datatables::of($getStore)
@@ -73,7 +73,7 @@ class DatatablesController extends Controller
     { 
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('roles')->first();
-        $role = $getuser->roles[0]->name;
+        $role =  session()->get('role_name');
         
         $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
         return Datatables::of($getPromotions)
@@ -100,7 +100,7 @@ class DatatablesController extends Controller
     {
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('roles')->first();
-        $role = $getuser->roles[0]->name;
+        $role =  session()->get('role_name');
         
         $getCategories = Categories::select('id','title','status','created_at');
         return Datatables::of($getCategories)
@@ -134,7 +134,7 @@ class DatatablesController extends Controller
     {
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('roles')->first();
-        $role = $getuser->roles[0]->name;
+        $role =  session()->get('role_name');
         
         $getTags = Tags::select('id','title','status','created_at');
         return Datatables::of($getTags)
@@ -167,8 +167,7 @@ class DatatablesController extends Controller
     public function getusers($store_id = '')
     {
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
-        $role = $getuser->roles[0]->name;
+        $role = session()->get('role_name');
 
         $getusers = DB::table('users')
         ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
@@ -268,7 +267,7 @@ class DatatablesController extends Controller
     {
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('roles')->first();
-        $role = $getuser->roles[0]->name;
+        $role =  session()->get('role_name');
         
         $getQuestions = DB::table('faq')
         ->leftJoin('users', 'faq.user_id', '=', 'users.id')

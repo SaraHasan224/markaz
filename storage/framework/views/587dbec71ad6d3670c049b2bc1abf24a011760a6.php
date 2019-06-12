@@ -27,7 +27,7 @@
             text-decoration: none !important;
             cursor: pointer;
             *: ;
-            cursor: hand;
+            cursor: hand; 
             /* color: #333 !important; */
             border: 1px solid transparent;
             border-radius: 2px;
@@ -43,7 +43,7 @@
             white-space: nowrap;
         }
     </style>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?> 
 <?php $__env->startSection('content'); ?>
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
@@ -200,7 +200,7 @@
             $('#view_users').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax"      : '<?php echo e(url("get-users/1")); ?>',
+                "ajax"      : '<?php echo e(url("get-users")); ?>/<?php echo($store_id) ?>',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
