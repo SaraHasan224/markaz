@@ -54,6 +54,13 @@ class UserController extends Controller
         $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
         $data['store_id'] = $store_id;
+        
+        $role = DB::table('roles')->where('name',session()->get('role_name'))->first();
+        if($role->id == 1){
+            $data['roles'] = DB::table('roles')->get();
+        }else if($role->id == 2){
+            $data['roles'] = DB::table('roles')->whereIn('id',[2,3])->orderBy('id','DESC')->get();
+        }
         return view('users.view-all',$data);
     }
     public function createUsers(Request $request,$store_id = '')
@@ -63,6 +70,8 @@ class UserController extends Controller
         $data['sub_title'] = "Create User";
         $data['user'] = '';
         $user_id = session()->get('user_id');
+        $role = DB::table('roles')->where('name',session()->get('role_name'))->first();
+
         if($store_id != '')
         {
             $getuser = User::where('id',$user_id)->where('store_id',$store_id)->first();
@@ -70,16 +79,23 @@ class UserController extends Controller
             $getuser = User::where('id',$user_id)->first();
         }
         $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
+        if($role->id == 1){
+            $data['roles'] = DB::table('roles')->get();
+        }else if($role->id == 2){
+            $data['roles'] = DB::table('roles')->whereIn('id',[2,3])->orderBy('id','DESC')->get();
+        }
         return view('users.create-users',$data);
     }
     public function addUsers(Request $request,$store_id = ''){
-        $input = $request->only('email', 'password','name', 'phone_number','profile_pic');
+        $input = $request->only('email', 'password','name', 'phone_number','profile_pic','role_id');
         $rules = [
             'email' => 'required|unique:users,email',
             'password' => 'required',
             'name' => 'required',
             'phone_number' => 'required',
             'profile_pic' => 'mimes:jpeg,png,jpg',
+            'role_id' => 'required'
         ];
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -87,7 +103,6 @@ class UserController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
-            $input['role_id'] = 3;
             $input['store_id'] = $store_id;
             
             if($request->hasFile('profile_pic'))
@@ -125,6 +140,7 @@ class UserController extends Controller
             $user['email'] = $findUser->email;
             $user['name'] = $findUser->name;
             $user['phone_number'] = $findUser->phone_number;
+            $user['role_id'] = $findUser->role_id;
             $user['profile_pic'] = $findUser->profile_pic;
             $user['user_image'] = asset('/images/user').'/'.$findUser->profile_pic;
             $output = ['success'=>['code' => $code,'message' => $user]];
@@ -135,12 +151,13 @@ class UserController extends Controller
     {
         if($request->isMethod('post'))
         {
-            $input = $request->only('email','name','phone_number','id','position','profile_pic','edit_image_path');
+            $input = $request->only('email','name','phone_number','id','position','profile_pic','edit_image_path','edit_role_id');
             $rules = [
                 'id' => 'required',
                 'email' => 'required',
                 'name' => 'required',
                 'phone_number' => 'required',
+                'edit_role_id' => 'required'
                ];
                $validator = Validator::make($input, $rules);
                if ($validator->fails()) {
@@ -164,7 +181,38 @@ class UserController extends Controller
                         "email" => $request->email,
                         "phone_number" => $request->phone_number,
                         "profile_pic" =>  $user_image,
+                        'role_id' => $request->edit_role_id
                     ]);
+                    // $user = User::find($repsonse->id);
+                    
+                    //Ask kashaf to tell how to update permissions assigned to a user
+                    // if($request->role_id == 1)
+                    // {
+                    //     $permission = Permission::get();
+                    //     foreach($permission as $permit)
+                    //     {
+                    //         $user->givePermissionTo($permit->name);
+                    //     }
+                    //     $user->assignRole('Admin');
+                    // }
+                    // else if($request->role_id == 2)
+                    // {
+                    //     $permission = Permission::whereNotIn('id',[4,9,14,19,24,29,34])->get();
+                    //     foreach($permission as $permit)
+                    //     { 
+                    //         $user->givePermissionTo($permit->name);
+                    //     }
+                    //     $user->assignRole('Store Admin');
+                    // }
+                    // else if($repsonse->role_id == 3)
+                    // {
+                    //     $permission = Permission::whereNotIn('id',[1,2,3,4,5,7,8,9,12,13,14,16,17,18,19,20,22,23,24,27,28,29,33,34])->get();
+                    //     foreach($permission as $permit)
+                    //     {
+                    //         $user->givePermissionTo($permit->name);
+                    //     }
+                    //     $user->assignRole('Store Franchise');
+                    // }
                     $code = 200;
                     $output = ['success'=>['code' => $code,'message' => 'User Updated Successfully.']];
                 }
@@ -219,17 +267,16 @@ class UserController extends Controller
     public function getUserProfile(Request $request,$id = '')
     {
         $user_id = $request->session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
-        $store = Store::where('user_id',$id)->first();
+        $getuser = User::where('id',$user_id)->first();
+        $store = Store::where('id',$getuser->store_id)->first();
         $data['media'] = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
-                    ->where('promotions.store_id',$store->id)
+                    ->where('promotions.store_id',$getuser->store_id)
                     ->select('promotion_media.media_id')
                     ->get();
         $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';
         $data['social'] = !empty($social) ? $social : '';
         $data['logged_user'] = $getuser;
-        $data['store'] = !empty($store) ? $store : '';
         return view('user.client_profile',$data);
     }
     public function postUserProfile(Request $request)

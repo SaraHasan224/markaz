@@ -31,34 +31,52 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('promotions/edit/view/{id}', 'PromotionController@viewpromotions');
         Route::post('promotion/edit/{id}', 'PromotionController@editpromotion');
         Route::post('promotion-delete', 'PromotionController@deletePromotion');
+        //For Store Admin
+        Route::get('get-promotions/{store_id}', 'DatatablesController@getpromotions');
+        Route::get('promotions/{store_id}', 'PromotionController@getpromotions');
 
-            /* Promotion Categories routes starts here*/
+            /* Categories routes starts here*/
+            //For Admin
             Route::get('get-categories', 'DatatablesController@getCategories');
-            Route::get('promotion-categories', 'PromotionController@getCategories');
-            Route::post('promotion-categories', 'PromotionController@addCategories');
-            Route::post('promotion-categories-edit', 'PromotionController@editCategories');
-            Route::post('promotion-categories-delete', 'PromotionController@deleteCategories');
-            /* Promotion Categories routes ends here*/
+            Route::get('promotion-categories', 'CategoryController@getCategories');
+            Route::post('promotion-categories', 'CategoryController@addCategories');
+            Route::post('promotion-categories-edit', 'CategoryController@editCategories');
+            Route::post('promotion-categories-delete', 'CategoryController@deleteCategories');
+            //For Store Admin            
+            Route::get('get-categories/{store_id}', 'DatatablesController@getCategories');
+            Route::get('promotion-categories/{store_id}', 'CategoryController@getCategories');
+            Route::post('promotion-categories/{store_id}', 'CategoryController@addCategories');
+            Route::post('promotion-categories-edit/{store_id}', 'CategoryController@editCategories');
+            Route::post('promotion-categories-delete/{store_id}', 'CategoryController@deleteCategories');
+            /* Categories routes ends here*/
 
-            /* Promotion Tags routes starts here*/
+            /* Tags routes starts here*/
+            //For Admin
             Route::get('get-tags', 'DatatablesController@getTags');
-            Route::get('promotion-tags', 'PromotionController@getTags');
-            Route::post('promotion-tags', 'PromotionController@addTags');
-            Route::post('promotion-tags-edit', 'PromotionController@editTags');
-            Route::post('promotion-tags-delete', 'PromotionController@deleteTags');
-            /* Promotion Tags routes ends here*/
+            Route::get('promotion-tags', 'TagController@getTags');
+            Route::post('promotion-tags', 'TagController@addTags');
+            Route::post('promotion-tags-edit', 'TagController@editTags');
+            Route::post('promotion-tags-delete', 'TagController@deleteTags');
+
+            // For Store Admin
+            Route::get('get-tags/{store_id}', 'DatatablesController@getTags');
+            Route::get('promotion-tags/{store_id}', 'TagController@getTags');
+            Route::post('promotion-tags/{store_id}', 'TagController@addTags');
+            Route::post('promotion-tags-edit/{store_id}', 'TagController@editTags');
+            Route::post('promotion-tags-delete/{store_id}', 'TagController@deleteTags');
+            /* Tags routes ends here*/
 
         /* Promotion routes ends here*/
         
         /* Store routes starts here*/
-
+        //Store Rouutes
         Route::get('get-store', 'DatatablesController@getstore');
         Route::get('store', 'StoreController@getstore');
         Route::post('poststore', 'StoreController@poststore');
         Route::get('create-store', 'StoreController@createstore');
         Route::match(['get','post'],'edit-store/{id}', 'StoreController@editstore');
         //Get Specific Store
-        Route::get('store/{id}', 'StoreController@getspecificstore');
+        Route::get('view-store/{id}', 'StoreController@getspecificstore');
         
         /* Store routes ends here*/
         

@@ -121,7 +121,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         
     }
 
-
+// Have to add where clause in login web where role_id are 1,2,3 only
     public function loginWeb($data)
     {
         $user = $this->findByAttribute('email', $data['email'], false, true, false);
@@ -148,7 +148,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         $input['email']         = $data['email'];
         $input['phone_number']  = $data['phone_number'];
         $input['name']        = $data['name'];
-        $input['role_id']        = $data['role_id'] != '' ? $data['role_id'] : 0;
+        $input['role_id']        = $data['role_id'];
         $input['password']      = bcrypt($data['password']);
         $input['access_token']  = $data['access_token'];
         $input['profile_pic']  = $data['profile_pic'];

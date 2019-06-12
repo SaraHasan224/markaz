@@ -18,7 +18,7 @@ class StoreController extends Controller
     public function __construct(StoreRepository $store) {
         $this->_repository = $store;
     }
-
+    // API work starts here
 
     public function create(Request $request){
         $input = $request->only('name', 'address','latitude', 'longitude');
@@ -95,17 +95,29 @@ class StoreController extends Controller
         }
         return response()->json($output, $code);
     }
+
+    //API work ends here
+
+
+
+
+
+
+
+
+
     /* Sara's work starts here */
     
     // Manage stores starts here 
 
-    public function getstore(){
+    public function getstore($store_id = ''){
         $data['title'] = "Manage Stores";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
-        $data['role'] = $getuser->roles[0]->name;
+        $getuser = User::where('id',$user_id)->first();
+        $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
         $data['user_id'] = $user_id;
+        $data['store_id'] = $store_id;
         return view('store.view-all',$data);
     }
     public function createstore(Request $request){
@@ -202,6 +214,7 @@ class StoreController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['role'] = session()->get('role_name');
         return view('store.view-all',$data);
     }
 

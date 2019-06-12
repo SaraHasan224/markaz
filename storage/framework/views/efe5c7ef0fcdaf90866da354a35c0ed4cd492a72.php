@@ -200,7 +200,6 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>"/>
                                     <input type="hidden" name="longitude" id="longitude" />
                                     <input type="hidden" name="latitude" id="latitude" />
                             <div class="form-group m-form__group row">
@@ -335,8 +334,8 @@
             // console.log("marker = "+place.geometry.viewport);
             console.log(formatted_address,bounds.na.l,bounds.ga.l);
             document.getElementById("store_address").value = formatted_address;
-            document.getElementById("longitude").value = bounds.na.l;
-            document.getElementById("latitude").value = bounds.ga.l;
+            document.getElementById("latitude").value = bounds.na.l;
+            document.getElementById("longitude").value = bounds.ga.l;
           });
           map.fitBounds(bounds);
         });

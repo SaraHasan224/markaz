@@ -107,7 +107,18 @@
                                     <span class="m-form__help">Enter contact number</span>
                                 </div>
                             </div> 
-                            <div class="form-group<?php echo e($errors->has('profile_pic') ? ' has-error' : ''); ?> m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('role_id') ? ' has-error' : ''); ?> m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Assign Role:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <select class="form-control m-input m-input--square" id="role_id" name="role_id">
+                                            <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>   
+    											<option value="<?php echo e($role->id); ?>"><?php echo e($role->name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+										</select>
+                                    </div>
+                                    <span class="m-form__help">Assign role to user</span>
+                                </div>
                                 <div class="col-lg-6">
                                     <label>Profile Picture:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -143,6 +154,7 @@
 <?php $__env->startSection('scripts'); ?> 
 <script>
     var base_url = "<?php url() ?>";
+    var store_id = "<?php echo e($store_id); ?>";
     // console.log(base_url+'/user/signinweb');
     $('.create_user').click(function(event){	 
         event.preventDefault();
@@ -164,6 +176,9 @@
                         },
                         phone_number: {
                             required: !0,
+                        },
+                        role_id: {
+                            required: !0,
                         }
                     }
                 }), l.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0),
@@ -177,7 +192,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/add-user', 
+                    url: base_url+'/add-user/'+store_id, 
     		        data: formData,
 					success: function (response) {
                         console.log(response);

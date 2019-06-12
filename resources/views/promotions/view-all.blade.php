@@ -144,7 +144,7 @@
             $('#view_promotions').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax"      : '{{ url("get-promotions") }}',
+                "ajax"      : '{{ url("get-promotions") }}/{{$store_id}}',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },

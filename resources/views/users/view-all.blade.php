@@ -95,7 +95,7 @@
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
-                            <a href="{{url('create-users')}}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                            <a href="{{url('create-users')}}/{{$store_id}}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
                                     <span>Add User</span>
@@ -174,6 +174,16 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
+                            <label>Assign User Role:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <select class="form-control m-input m-input--square" id="edit_roleid" name="edit_role_id">
+                                    @foreach($roles as $role)   
+										<option value="{{$role->id}}">{{$role->name}}</option>
+                                    @endforeach
+								</select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
                             <label>Profile Picture:</label>
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="file" name="profile_pic" class="form-control m-input" >
@@ -218,6 +228,7 @@
     
     <script>
         var base_url = '<?php url('/') ?>';
+        var store_id = "{{ $store_id }}";
         $(document).ready(function (e) {
             // Get User
             $(document).on("click", '#view', function (e) {
@@ -228,7 +239,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/view-user/1',
+                    url: base_url+'/view-user/'+store_id,
     		        data: {id: id},
 					success: function (response) {
 						if(response.success.code == 200)
@@ -237,6 +248,7 @@
                             $('#edit_name').val(response.success.message.name);
                             $('#edit_email').val(response.success.message.email);
                             $('#edit_phonenumber').val(response.success.message.phone_number);
+                            $('select[name="edit_role_id"]').val(response.success.message.role_id);
                             $('#edit_image').attr('src',response.success.message.user_image);
                             $('#edit_image_path').val(response.success.message.profile_pic);
                             // console.log(response.success.message);
@@ -260,7 +272,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/edit-users/1',
+                    url: base_url+'/edit-users/'+store_id,
     		        data: formData,
 					success: function (response) {
 						if(response.success.code == 200)

@@ -271,7 +271,7 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-tags',
+                url: base_url+'/promotion-tags/'+"{{$store_id}}",
                 data: $("#add_tags_form").serialize(),
                 success: function (response) {
                     $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
@@ -294,7 +294,7 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-tags-edit',
+                url: base_url+'/promotion-tags-edit/'+"{{$store_id}}",
                 data: $("#edit_tags_form").serialize(),
                 success: function (response) {
                     console.log(response);
@@ -342,7 +342,7 @@
                         {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         },
-                        url: base_url+'/promotion-tags-delete',
+                        url: base_url+'/promotion-tags-delete/'+"{{$store_id}}",
                         data: {id: id},
                         success: function (response) {
                             if(response.success.code == 200)

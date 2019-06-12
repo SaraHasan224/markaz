@@ -16,6 +16,7 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id'); 
             $table->string('title', 255);
+			$table->integer('store_id')->unsigned()->index('user_store_id_foreign');
             $table->tinyInteger('status')->nullable(); 
 			$table->timestamps();
             $table->softDeletes();

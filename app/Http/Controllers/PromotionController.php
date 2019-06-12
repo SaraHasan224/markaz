@@ -28,6 +28,7 @@ class PromotionController extends Controller
         $this->_promotion_image_repo = $promotionImageRepo;
     }
 
+    //API work starts here
     public function create(Request $request){
         $input = $request->only('title', 'description','store_id','media_ids');
         $rules = [
@@ -71,160 +72,18 @@ class PromotionController extends Controller
             return response()->json($output, $code);
     }
     
+    //API work ends here
+
     /* Sara's work starts here */
-        
-    //      Promotion Categories Starts //
-
-    public function getCategories(){
-        $data['title'] = "Categories";
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
-        $data['role'] = $getuser->roles[0]->name;
-        $data['logged_user'] = $getuser;
-        dd($data);
-        return view('promotions.promotion-categories',$data);
-    }
-    public function addCategories(Request $request){
-        if($request->isMethod('post'))
-        {
-            $input = $request->only('category');
-            $rules = [ 
-                'category' => 'required',
-            ];
-            $validator = Validator::make($input, $rules);
-            if ($validator->fails()) {
-                $code = 406;
-                $output = $validator->messages()->all();
-            }else{
-                $category = new Categories;
-                $category->title = $request->category;
-                $category->status = 1;
-                $category->save();
-                $code = 200;
-                $output = 'Category Added Successfully';
-            }
-            return response()->json($output, $code);
-        }
-    }
-    public function editCategories(Request $request){
-        if($request->isMethod('post'))
-        {
-            $input = $request->only('category','id');
-            $rules = [ 
-                'category' => 'required',
-            ];
-            $validator = Validator::make($input, $rules);
-            if ($validator->fails()) {
-                $code = 406;
-                $output = ['code' => $code, 'error' => $validator->messages()->all()];
-            }else{
-                Categories::where('id',$request->id)->update([
-                    'title' => $request->category,
-                ]);
-                $code = 200;
-                $output = ['code' => $code, 'success' => 'Category Edited Successfully'];
-            }
-            return response()->json($output, $code);
-        }
-    }
-    public function deleteCategories(Request $request)
-    {
-        if($request->isMethod('post'))
-        {
-            $input = $request->only('id');
-            $rules = [
-                'id' => 'required',
-               ];
-            $validator = Validator::make($input, $rules);
-
-            Categories::where('id',$request->id)->delete();
-            $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'Promotion Categories Deleted Successfully.']];
-            return response()->json($output, $code);
-        } 
-    }
-
-    //      Promotion Categories Ends   //
-
-    //      Promotion Tags Starts   //
-
-    public function getTags(){
-        $data['title'] = "Tags";
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
-        $data['role'] = $getuser->roles[0]->name;
-        $data['logged_user'] = $getuser;
-        return view('promotions.promotion-tags',$data);
-    }
-    public function addTags(Request $request){
-        if($request->isMethod('post'))
-        {
-            $input = $request->only('tag');
-            $rules = [ 
-                'tag' => 'required',
-            ];
-            $validator = Validator::make($input, $rules);
-            if ($validator->fails()) {
-                $code = 406;
-                $output = $validator->messages()->all();
-            }else{
-                $tag = new Tags;
-                $tag->title = $request->tag;
-                $tag->status = 1;
-                $tag->save();
-                $code = 200;
-                $output = 'Tags Added Successfully';
-            }
-            return response()->json($output, $code);
-        }
-    }
-    public function editTags(Request $request){
-        if($request->isMethod('post'))
-        {
-            $input = $request->only('tag','id');
-            $rules = [ 
-                'tag' => 'required',
-            ];
-            $validator = Validator::make($input, $rules);
-            if ($validator->fails()) {
-                $code = 406;
-                $output = ['code' => $code, 'error' => $validator->messages()->all()];
-            }else{
-                Tags::where('id',$request->id)->update([
-                    'title' => $request->tag,
-                ]);
-                $code = 200;
-                $output = ['code' => $code, 'success' => 'Tags Edited Successfully'];
-            }
-            return response()->json($output, $code);
-        }
-    }
-    public function deleteTags(Request $request)
-    {
-        if($request->isMethod('post'))
-        {
-            $input = $request->only('id');
-            $rules = [
-                'id' => 'required',
-               ];
-            $validator = Validator::make($input, $rules);
-
-            Tags::where('id',$request->id)->delete();
-            $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'Promotion Tags Deleted Successfully.']];
-            return response()->json($output, $code);
-        } 
-    }
-
-    //      Promotion Tags Ends //
-
+   
     //  Promotion Starts   //
-    public function getpromotions(){
+    public function getpromotions($store_id = ''){
         $data['title'] = "Promotions";
         $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
-        $data['role'] = $getuser->roles[0]->name;
+        $getuser = User::where('id',$user_id)->first();
+        $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
         return view('promotions.view-all',$data);
     }
 

@@ -227,7 +227,7 @@
                 { "width": "200px", "targets": [1,2,3] },       
                 { "width": "70px", "targets": [4] }
             ], 
-                "ajax"      : '<?php echo e(url("get-categories")); ?>', 
+                "ajax"      : '<?php echo e(url("get-categories")); ?>/<?php echo e($store_id); ?>', 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
@@ -269,7 +269,7 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-categories',
+                url: base_url+'/promotion-categories/'+"<?php echo e($store_id); ?>",
                 data: $("#add_category").serialize(),
                 success: function (response) {
                     $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
@@ -292,7 +292,7 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-categories-edit',
+                url: base_url+'/promotion-categories-edit/'+'<?php echo e($store_id); ?>',
                 data: $("#edit_category").serialize(),
                 success: function (response) {
                     console.log(response);
@@ -331,7 +331,7 @@
                 cancelButtonText: "No, cancel!",
                 reverseButtons: !0
             }).then(function(e) {
-                e.value ? swal("Deleted!", "User has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                e.value ? swal("Deleted!", "Cateory has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
                 if(e.value == true)
                 {
                     $.ajax({
@@ -340,7 +340,7 @@
                         {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         },
-                        url: base_url+'/promotion-categories-delete',
+                        url: base_url+'/promotion-categories-delete/'+'<?php echo e($store_id); ?>',
                         data: {id: id},
                         success: function (response) {
                             if(response.success.code == 200)

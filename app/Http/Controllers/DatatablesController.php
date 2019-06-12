@@ -16,8 +16,6 @@ class DatatablesController extends Controller
 {
     public function getstore()
     {
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
         $role =  session()->get('role_name');
         
         $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','status','created_at');
@@ -69,13 +67,16 @@ class DatatablesController extends Controller
             return($actions);
         })->rawColumns(['actions','status'])->make();
     }
-    public function getpromotions()
+    public function getpromotions($store_id = '')
     { 
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
         $role =  session()->get('role_name');
-        
-        $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
+        if($store_id == '')
+        {
+            $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
+        }else{
+            $getPromotions = Promotion::where('store_id',$store_id)->select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
+        }
+
         return Datatables::of($getPromotions)
         ->editColumn('store_id', function ($promotion) {
             return(empty($promotion->hasstore) ? '' : $promotion->hasstore->name);
@@ -98,8 +99,6 @@ class DatatablesController extends Controller
     }
     public function getCategories()
     {
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
         $role =  session()->get('role_name');
         
         $getCategories = Categories::select('id','title','status','created_at');
@@ -132,8 +131,6 @@ class DatatablesController extends Controller
     }
     public function getTags()
     {
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
         $role =  session()->get('role_name');
         
         $getTags = Tags::select('id','title','status','created_at');
@@ -166,7 +163,6 @@ class DatatablesController extends Controller
     }
     public function getusers($store_id = '')
     {
-        $user_id = session()->get('user_id');
         $role = session()->get('role_name');
 
         $getusers = DB::table('users')
@@ -265,8 +261,6 @@ class DatatablesController extends Controller
     }
     public function getQuestions($id = null)
     {
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->with('roles')->first();
         $role =  session()->get('role_name');
         
         $getQuestions = DB::table('faq')

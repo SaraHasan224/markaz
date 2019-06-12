@@ -33,7 +33,7 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('users')}}" class="m-nav__link">
+                        <a href="{{url('users')}}/{{Session::get('store_id')}" class="m-nav__link">
                             <span class="m-nav__link-text">{{$title}}</span>
                         </a>
                     </li>
@@ -107,7 +107,18 @@
                                     <span class="m-form__help">Enter contact number</span>
                                 </div>
                             </div> 
-                            <div class="form-group{{ $errors->has('profile_pic') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group{{ $errors->has('role_id') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Assign Role:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <select class="form-control m-input m-input--square" id="role_id" name="role_id">
+                                            @foreach($roles as $role)   
+    											<option value="{{$role->id}}">{{$role->name}}</option>
+                                            @endforeach
+										</select>
+                                    </div>
+                                    <span class="m-form__help">Assign role to user</span>
+                                </div>
                                 <div class="col-lg-6">
                                     <label>Profile Picture:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -143,6 +154,7 @@
 @section('scripts') 
 <script>
     var base_url = "<?php url() ?>";
+    var store_id = "{{ $store_id }}";
     // console.log(base_url+'/user/signinweb');
     $('.create_user').click(function(event){	 
         event.preventDefault();
@@ -164,6 +176,9 @@
                         },
                         phone_number: {
                             required: !0,
+                        },
+                        role_id: {
+                            required: !0,
                         }
                     }
                 }), l.valid() && (a.addClass("m-loader m-loader--right m-loader--light").attr("disabled", !0),
@@ -177,7 +192,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/add-user', 
+                    url: base_url+'/add-user/'+store_id, 
     		        data: formData,
 					success: function (response) {
                         console.log(response);
