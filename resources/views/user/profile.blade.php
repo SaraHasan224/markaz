@@ -94,12 +94,6 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="m-nav__item">
-                                <a href="{{url('activity/1')}}" class="m-nav__link">
-                                    <i class="m-nav__link-icon flaticon-share"></i>
-                                    <span class="m-nav__link-text">Activity</span>
-                                </a>
-                            </li>
                         </ul>
                         <div class="m-portlet__body-separator"></div>
                     </div>

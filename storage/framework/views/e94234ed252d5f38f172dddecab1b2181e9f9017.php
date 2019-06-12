@@ -391,7 +391,7 @@
                                                                 <span class="m-nav__section-text">Section</span>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="<?php echo e(url('profile/1')); ?>" class="m-nav__link">
+                                                                <a href="<?php echo e(url('profile')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                                     <span class="m-nav__link-title">
                                                                         <span class="m-nav__link-wrap">
@@ -404,7 +404,7 @@
                                                                 </a>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="<?php echo e(url('faq')); ?>" class="m-nav__link">
+                                                                <a href="<?php echo e(url('faq')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-info"></i>
                                                                     <span class="m-nav__link-text">FAQ</span>
                                                                 </a>
@@ -452,25 +452,33 @@
                             <h4 class="m-menu__section-text">Departments</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
-                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="<?php echo e(url('/')); ?>"
+                        <?php if(Session::get('role_name') == 'Admin'): ?>
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="<?php echo e(url('/dashboard')); ?>"
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
-                                    class="m-menu__link-text">Dashboard</span></a>
+                                    class="m-menu__link-text">Admin Dashboard</span></a>
+                        </li>  
+                        <?php endif; ?>           
+                        <?php if(Session::get('role_name') == 'Store Admin'): ?>           
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="<?php echo e(url('/dashboard')); ?>/<?php echo e(Session::get('store_id')); ?>"
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-line-graph"></i><span
+                                    class="m-menu__link-text">Company Dashboard</span></a>
                         </li>                        
-                        
+                        <?php endif; ?>                        
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('users')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-user"></i><span
                                     class="m-menu__link-text">Manage Users</span></a>
                         </li>
 
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('promotion-categories')); ?>/<?php echo e(Session::get('store_id')); ?>" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('categories')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-list-2"></i><span
                                     class="m-menu__link-text">Manage Categories</span></a>
                         </li>
 
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('promotion-tags')); ?>/<?php echo e(Session::get('store_id')); ?>" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('tags')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
                                     class="m-menu__link-text">Manage Tags</span></a>
@@ -481,12 +489,13 @@
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">Manage Stores</span></a>
                         </li>
-                        
+                        <?php if(Session::get('role_name') == 'Store Admin'): ?>  
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('store')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">View Stores</span></a>
                         </li>
+                        <?php endif; ?>
                         
                         <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
                             m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
@@ -502,14 +511,6 @@
                                             href="<?php echo e(url('promotions')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">View All Promotions</span></a></li>
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="<?php echo e(url('promotion-categories')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">Manage Promotion Categories</span></a></li>
-                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="<?php echo e(url('promotion-tags')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-menu__link "><i
-                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
-                                                class="m-menu__link-text">Manage Promotion Tags</span></a></li>
                                 </ul>
                             </div>
                         </li>

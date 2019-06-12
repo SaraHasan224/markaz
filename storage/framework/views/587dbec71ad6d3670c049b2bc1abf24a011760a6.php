@@ -292,6 +292,7 @@
     <script>
         $(document).ready(function (e) {
             // Delete User
+            var user_id = "<?php echo e($logged_user->id); ?>";
             $(document).on("click", '#delete', function (e) {
                 var id = $(this).data('id');
                     e.preventDefault();
@@ -328,7 +329,10 @@
                                         if(response.success.code == 200)
                                         {
                                             swal.close();
-                                            window.location = "/";
+                                            if(user_id == id)
+                                            {
+                                                window.location = "/";
+                                            }
                                         }
                                     }
                                 });

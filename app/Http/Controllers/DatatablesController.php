@@ -181,7 +181,7 @@ class DatatablesController extends Controller
             {
                 $actions = ' 
                 <a  id="delete" data-id="'.$users->id.'" 
-                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="View">
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
                     <i class="la la-trash" style="color:#ef2626;"></i>
                 </a>
                 <a  id="view" data-id="'.$users->id.'" 
@@ -302,5 +302,4 @@ class DatatablesController extends Controller
             return($actions);
         })->rawColumns(['status','user_id','description','actions'])->make();
     }
-    
 }

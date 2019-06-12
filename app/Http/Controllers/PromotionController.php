@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categories,
+    App\EventLog,
     App\Promotion,
     App\Tags,
     App\PromotionCategories,
@@ -100,6 +101,13 @@ class PromotionController extends Controller
             $input = $request->all();
             $repsonse = $this->_repository->createPromotion($input);
             if($repsonse){
+                EventLog::create([
+                    'component' => 'Promotions',
+                    'component_name' => $repsonse->title,
+                    'operation' => 'Added',
+                    'user_id'   => session()->get('user_id'),
+                    'store_id'  => session()->get('store_id'),
+                ]);
                 foreach($request->category as $category)
                 {
                     $cat = new PromotionCategories;
@@ -137,8 +145,15 @@ class PromotionController extends Controller
                 'id' => 'required',
                ];
             $validator = Validator::make($input, $rules);
-
-            Promotion::where('id',$request->id)->delete();
+            $promotion = Promotion::where('id',$request->id)->first();
+            EventLog::create([
+                'component' => 'Promotions',
+                'component_name' => $promotion->title,
+                'operation' => 'Deleted',
+                'user_id'   => session()->get('user_id'),
+                'store_id'  => session()->get('store_id'),
+            ]);
+            $promotion->delete();
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Promotion Deleted Successfully.']];
             return response()->json($output, $code);
@@ -175,7 +190,13 @@ class PromotionController extends Controller
                     'start_time'  => Carbon::parse($time[0])->format('Y-m-d  H:i:s'), 
                     'end_time'    => Carbon::parse($time[1])->format('Y-m-d  H:i:s'),
                 ]);
-                
+                EventLog::create([
+                    'component' => 'Promotions',
+                    'component_name' => $request->title,
+                    'operation' => 'Updated',
+                    'user_id'   => session()->get('user_id'),
+                    'store_id'  => session()->get('store_id'),
+                ]);
                 if(!empty($request->category))
                 {
                     // dd($request->category);
@@ -231,6 +252,5 @@ class PromotionController extends Controller
         return response()->json($output, $code);
     }
 
-    
     /* Sara's work ends here */
 }

@@ -32,7 +32,7 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="<?php echo e(url('users')); ?>" class="m-nav__link">
+                        <a href="<?php echo e(url('users')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>

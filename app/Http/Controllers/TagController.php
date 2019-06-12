@@ -29,12 +29,10 @@ class TagController extends Controller
         $data['title'] = "Tags";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-
         $data['role'] = session()->get('role_name');
         $data['store_id'] = $store_id;
-
         $data['logged_user'] = $getuser;
-        return view('promotions.promotion-tags',$data);
+        return view('tags.tags',$data);
     }
     public function addTags(Request $request,$store_id = ''){
         if($request->isMethod('post'))

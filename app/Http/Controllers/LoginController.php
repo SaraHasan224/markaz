@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use DB,
+    App\EventLog,
     App\User;
 use App\TraitsFolder\CommonTrait;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
@@ -17,7 +18,6 @@ use App\Data\Repositories\UserRepository;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
-
 class LoginController extends Controller
 {
     
@@ -28,7 +28,6 @@ class LoginController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
     }
-
     public function signIn(Request $request){
         $input = $request->only('email', 'password','language','login_time', 'udid');
         $rules = [
@@ -78,6 +77,16 @@ class LoginController extends Controller
             return view('index',$data);
     } 
     
+    public function dashboard(Request $request,$store_id = ''){
+        
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        $data['role'] = session()->get('role_name');
+
+        return view('index',$data);
+    } 
+    
     public function signInWeb(Request $request){
         $input = $request->only('email', 'password','language','login_time', 'udid');
         $rules = [
@@ -96,6 +105,14 @@ class LoginController extends Controller
                 $code = 200;
                 $request->session()->put('user_id', $user->id);
                 $request->session()->save();
+                EventLog::create([
+                    'component' => 'Users',
+                    'component_name' => $user->name,
+                    'component_image' => $user->profile_pic,
+                    'operation' => 'Logged In',
+                    'user_id'   =>$user->id,
+                    'store_id'  => $user->store_id,
+                ]);
                 $output = ['code' => $code,'user'=>$user];
                 event(new UserWasCreated($user->id));
             }else{

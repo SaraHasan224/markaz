@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use DB,
+    App\EventLog,
     App\Follower,
     App\User,
     App\Store,
@@ -51,7 +52,6 @@ class UserController extends Controller
         $data['title'] = "Manage Users";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('permissions')->first();
-        $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
         $data['store_id'] = $store_id;
         
@@ -61,6 +61,7 @@ class UserController extends Controller
         }else if($role->id == 2){
             $data['roles'] = DB::table('roles')->whereIn('id',[2,3])->orderBy('id','DESC')->get();
         }
+        $data['role'] = $role->name;
         return view('users.view-all',$data);
     }
     public function createUsers(Request $request,$store_id = '')
@@ -85,6 +86,7 @@ class UserController extends Controller
         }else if($role->id == 2){
             $data['roles'] = DB::table('roles')->whereIn('id',[2,3])->orderBy('id','DESC')->get();
         }
+        $data['role'] = $role->name;
         return view('users.create-users',$data);
     }
     public function addUsers(Request $request,$store_id = ''){
@@ -118,6 +120,14 @@ class UserController extends Controller
                 $input['profile_pic'] = $user_image;
             }
             $repsonse = $this->_repository->addUserProfile($input);
+            EventLog::create([
+                'component' => 'Users',
+                'component_name' => $repsonse->name,
+                'component_image' => $repsonse->profile_pic,
+                'operation' => 'Added',
+                'user_id'   => session()->get('user_id'),
+                'store_id'  => $store_id
+            ]);
             if($repsonse){
                 $code = 200;
                 $output = ['code' => $code,'user'=>$repsonse];
@@ -176,12 +186,20 @@ class UserController extends Controller
                         }         
                     }
                     $user_image = !empty($user_image) ? $user_image : $request->edit_image_path;
-                    User::where('id',$request->id)->update([
-                        "name" => $request->name,
-                        "email" => $request->email,
-                        "phone_number" => $request->phone_number,
-                        "profile_pic" =>  $user_image,
-                        'role_id' => $request->edit_role_id
+                    $user = User::where('id',$request->id)->update([
+                                "name" => $request->name,
+                                "email" => $request->email,
+                                "phone_number" => $request->phone_number,
+                                "profile_pic" =>  $user_image,
+                                'role_id' => $request->edit_role_id
+                            ]);
+                    EventLog::create([
+                        'component' => 'Users',
+                        'component_name' => $user->name,
+                        'component_image' => $user->profile_pic,
+                        'operation' => 'Updated',
+                        'user_id'   => session()->get('user_id'),
+                        'store_id'  => $store_id
                     ]);
                     // $user = User::find($repsonse->id);
                     
@@ -234,26 +252,16 @@ class UserController extends Controller
                 $output = ['code' => $code, 'messages' => $validator->messages()->all()];
             }else{
                 $user = User::where('id',$request->id)->where('store_id',$store_id)->first();
-                Follower::where('user_id',$request->id)->delete();
-                Store::where('user_id',$request->id)->delete();
-                $image_path = 'images/user/';
-                if(file_exists($image_path.$user->profile_pic) && $user->profile_pic != 'user_default.png')
-                {
-                    unlink(public_path($image_path.$user->profile_pic));
-                }
-                // $user_id = session()->get('user_id');
-                // if($user_id == $user->id){
-                //     $code = 400;
-                //     $request->session()->flush();
-                //     $request->session()->forget('user_id');
-                //     $request->session()->regenerate();
-                //     $user->delete();
-                //     return redirect('/');
-                // }else{
-                    $code = 200;
-                    $user->delete();
-                // }
+                EventLog::create([
+                    'component' => 'Users',
+                    'component_name' => $user->name,
+                    'component_image' => $user->profile_pic,
+                    'operation' => 'Deleted',
+                    'user_id'   => session()->get('user_id'),
+                    'store_id'  => $store_id
+                ]);
                 $code = 200;
+                $user->delete();
                 $output = ['success'=>['code' => $code,'message' => 'User Deleted Successfully.']];
             }
             return response()->json($output, $code);
@@ -268,6 +276,8 @@ class UserController extends Controller
     {
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
+        $role = $getuser->roles()->first();
+        $data['role'] = $role;
         $store = Store::where('id',$getuser->store_id)->first();
         $data['media'] = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
@@ -336,6 +346,7 @@ class UserController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['role'] = session()->get('role_name');
         return view('home.support',$data); 
     }
     //      Manage Support Ends Here    //
@@ -372,7 +383,7 @@ class UserController extends Controller
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-
+        $data['role'] = session()->get('role_name');
         if($timeline == 'today')
         {
             $data['user'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
@@ -392,21 +403,5 @@ class UserController extends Controller
     
      
     // Manage Store Timeline Ends Here //
-    
-    public function getActivity($store_id = ''){ 
-        $data['title'] = "Activity";
-        $data['sub_title'] = "Recent Activities";
-        $date = date("Y/m/d");
-
-        $data['store'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
-        $data['follower'] = Follower::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
-        $data['promotion'] = Promotion::where('store_id',$store_id)->with('comments')->whereDate('created_at', Carbon::today())->get();
-        $data['support'] = Support::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
-
-        $user_id = session()->get('user_id');
-        $getuser = User::where('id',$user_id)->first();
-        $data['logged_user'] = $getuser;
-        return view('user.activity',$data);
-    }
     /* Sara's work ends here */
 }

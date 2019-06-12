@@ -20,6 +20,7 @@ Route::group(['middleware' => ['web']], function () {
 });
     Route::group(['middleware' => ['customauth']], function () {
         Route::match(['get','post'],'dashboard', 'LoginController@loggedIn');
+        Route::match(['get','post'],'dashboard/{store_id}', 'LoginController@dashboard');
         
         /* Promotion routes starts here*/
 
@@ -35,40 +36,44 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('get-promotions/{store_id}', 'DatatablesController@getpromotions');
         Route::get('promotions/{store_id}', 'PromotionController@getpromotions');
 
-            /* Categories routes starts here*/
+        /* Promotion routes ends here*/ 
+
+        /* Categories routes starts here*/
+        
             //For Admin
             Route::get('get-categories', 'DatatablesController@getCategories');
-            Route::get('promotion-categories', 'CategoryController@getCategories');
-            Route::post('promotion-categories', 'CategoryController@addCategories');
-            Route::post('promotion-categories-edit', 'CategoryController@editCategories');
-            Route::post('promotion-categories-delete', 'CategoryController@deleteCategories');
+            Route::get('categories', 'CategoryController@getCategories');
+            Route::post('categories', 'CategoryController@addCategories');
+            Route::post('categories-edit', 'CategoryController@editCategories');
+            Route::post('categories-delete', 'CategoryController@deleteCategories');
             //For Store Admin            
             Route::get('get-categories/{store_id}', 'DatatablesController@getCategories');
-            Route::get('promotion-categories/{store_id}', 'CategoryController@getCategories');
-            Route::post('promotion-categories/{store_id}', 'CategoryController@addCategories');
-            Route::post('promotion-categories-edit/{store_id}', 'CategoryController@editCategories');
-            Route::post('promotion-categories-delete/{store_id}', 'CategoryController@deleteCategories');
+            Route::get('categories/{store_id}', 'CategoryController@getCategories');
+            Route::post('categories/{store_id}', 'CategoryController@addCategories'); 
+            Route::post('categories-edit/{store_id}', 'CategoryController@editCategories');
+            Route::post('categories-delete/{store_id}', 'CategoryController@deleteCategories');
             /* Categories routes ends here*/
 
             /* Tags routes starts here*/
             //For Admin
             Route::get('get-tags', 'DatatablesController@getTags');
-            Route::get('promotion-tags', 'TagController@getTags');
-            Route::post('promotion-tags', 'TagController@addTags');
-            Route::post('promotion-tags-edit', 'TagController@editTags');
-            Route::post('promotion-tags-delete', 'TagController@deleteTags');
+            Route::get('tags', 'TagController@getTags');
+            Route::post('tags', 'TagController@addTags');
+            Route::post('tags-edit', 'TagController@editTags');
+            Route::post('tags-delete', 'TagController@deleteTags');
 
-            // For Store Admin
+            // For Store Admin 
             Route::get('get-tags/{store_id}', 'DatatablesController@getTags');
-            Route::get('promotion-tags/{store_id}', 'TagController@getTags');
-            Route::post('promotion-tags/{store_id}', 'TagController@addTags');
-            Route::post('promotion-tags-edit/{store_id}', 'TagController@editTags');
-            Route::post('promotion-tags-delete/{store_id}', 'TagController@deleteTags');
+            Route::get('tags/{store_id}', 'TagController@getTags');
+            Route::post('tags/{store_id}', 'TagController@addTags');
+            Route::post('tags-edit/{store_id}', 'TagController@editTags');
+            Route::post('tags-delete/{store_id}', 'TagController@deleteTags');
             /* Tags routes ends here*/
 
         /* Promotion routes ends here*/
         
         /* Store routes starts here*/
+        
         //Store Rouutes
         Route::get('get-store', 'DatatablesController@getstore');
         Route::get('store', 'StoreController@getstore');
@@ -116,7 +121,7 @@ Route::group(['middleware' => ['web']], function () {
         /* Support routes ends here*/
 
         /*  Profile routes starts here  */
-
+ 
         Route::get('profile/{id}','UserController@getUserProfile');
         Route::post('user_profile','UserController@postUserProfile');        
         /*  Profile routes ends here  */

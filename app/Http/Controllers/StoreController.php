@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Store,
+    App\EventLog,
     App\StoreSocialMedia,
     App\User,
     App\Support;
@@ -124,6 +125,7 @@ class StoreController extends Controller
         $data['title'] = "Create Store";
         $data['user_id'] = $request->session()->get('user_id');
         $user_id = session()->get('user_id');
+        $data['role'] = session()->get('role_name');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
         return view('store.create-store',$data);
@@ -162,7 +164,13 @@ class StoreController extends Controller
             $social->twitter_link = $request->tw_link;
             $social->insta_link = $request->insta_link;
             $social->save();
-            
+            EventLog::create([
+                'component' => 'Store',
+                'component_name' => $request->name,
+                'operation' => 'Added',
+                'user_id'   => session()->get('user_id'),
+                'store_id'  => $store->id
+            ]);
             $output = "Store created successfully";
             $code = 200;
          }
@@ -200,6 +208,13 @@ class StoreController extends Controller
                     'desciption' => $request->description,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
+                ]);
+                EventLog::create([
+                    'component' => 'Store',
+                    'component_name' => $request->name,
+                    'operation' => 'Updated',
+                    'user_id'   => session()->get('user_id'),
+                    'store_id'  => $id
                 ]);
                 $output = "Store updated successfully";
                 $code = 200;

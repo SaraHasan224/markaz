@@ -97,7 +97,7 @@
                         </h3>
                     </div>
                 </div>
-                <?php if($role == 'Admin' || $role == 'Store Admin'): ?>
+                <?php if(Session::get('role_name') == 'Admin' || Session::get('role_name') == 'Store Admin'): ?>
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">

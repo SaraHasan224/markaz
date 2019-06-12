@@ -229,7 +229,7 @@
                 { "width": "200px", "targets": [1,2,3] },       
                 { "width": "70px", "targets": [4] }
             ], 
-                "ajax"      : '{{ url("get-tags") }}', 
+                "ajax"      : '{{ url("get-promotion-tags") }}'+'/'+{{$store_id}}, 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
