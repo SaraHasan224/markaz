@@ -122,7 +122,7 @@
                                 <div class="col-lg-6">
                                     <label>Profile Picture:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="file" name="profile_pic" class="form-control m-input">
+                                        <input type="file" name="profile_pic" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
                                     <span class="m-form__help">Select a profile  picture</span>
                                 </div>
