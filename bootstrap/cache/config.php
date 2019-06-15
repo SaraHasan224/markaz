@@ -96,7 +96,7 @@
       array (
         'folder_name' => 'public/promotion',
         'public_relative' => 'public/promotion/',
-        'full_path' => 'D:\\laragon\\www\\markaz\\storage\\app/public/files/promotion',
+        'full_path' => 'C:\\xampp\\htdocs\\markaz\\storage\\app/public/files/promotion',
       ),
     ),
   ),
@@ -190,7 +190,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\laragon\\www\\markaz\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\markaz\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -308,12 +308,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\laragon\\www\\markaz\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\markaz\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\laragon\\www\\markaz\\storage\\app/public',
+        'root' => 'C:\\xampp\\htdocs\\markaz\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -372,7 +372,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\laragon\\www\\markaz\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\markaz\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -452,7 +452,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'D:\\laragon\\www\\markaz\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\markaz\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -480,9 +480,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\laragon\\www\\markaz\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\markaz\\resources\\views',
     ),
-    'compiled' => 'D:\\laragon\\www\\markaz\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\markaz\\storage\\framework\\views',
   ),
   'datatables' => 
   array (
