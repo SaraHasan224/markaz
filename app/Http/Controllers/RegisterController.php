@@ -66,7 +66,6 @@ class RegisterController extends Controller
             'password' => 'required',
             'name' => 'required',
             'phone_number'=>'required',
-            'organization' => 'required|unique:stores,name'
         ];
 
         $validator = Validator::make($input, $rules);
@@ -75,10 +74,8 @@ class RegisterController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-            $store = Store::create(['name'=>$request->organization]);
             $input['access_token'] = Str::random(60);
             $input['role_id'] = 2;
-            $input['store_id'] = $store->id;
             $repsonse = $this->_repository->registerStore($input);
             if($repsonse){
                 //Assign role to user

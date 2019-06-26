@@ -87,7 +87,6 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         $input['role_id']        = $data['role_id'] != '' ? $data['role_id'] : 0;
         $input['password']      = bcrypt($data['password']);
         $input['access_token']  = $data['access_token'];
-        $input['store_id'] = $data['store_id'];
 
         if($user = parent::create($input)){
             $token = JWTAuth::fromUser($user);

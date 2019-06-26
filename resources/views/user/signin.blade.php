@@ -92,14 +92,6 @@
 								<div class="m-login__desc">Enter your details to create your account:</div>
 							</div>
 							<form class="m-login__form m-form" id="signup_form" method="POST">
-								<div class="form-group{{ $errors->has('organization') ? ' has-error' : '' }} m-form__group">
-									<input class="form-control m-input" type="text" placeholder="Enter your organization name" name="signup_organization" value="{{ old('signup_organization') }}" autofocus>
-									@if ($errors->has('signup_organization'))
-										<span class="help-block">
-											<strong>{{ $errors->first('signup_organization') }}</strong>
-										</span>
-                                	@endif
-								</div>
 								<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group">
 									<input class="form-control m-input" type="text" placeholder="Enter your name" name="signup_name" value="{{ old('name') }}">
 									@if ($errors->has('name'))

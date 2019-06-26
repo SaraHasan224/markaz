@@ -18,10 +18,10 @@ class DatatablesController extends Controller
     {
         $role =  session()->get('role_name');
         
-        $getStore = Store::select('id','name','address','telephone','websitelink','emailaddress','desciption','latitude','longitude','status','created_at');
+        $getStore = Store::select('id','name','address','telephone','website','emailaddress','tagline','latitude','longitude','status','created_at');
         return Datatables::of($getStore)
         ->editColumn('desciption', function ($store) {
-            return(str_limit($store->desciption, 50));
+            return(str_limit($store->tagline, 50));
         })->editColumn('status', function ($store) {
             if($store->status == 1)
             {
@@ -167,7 +167,6 @@ class DatatablesController extends Controller
 
         $getusers = DB::table('users')
         ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
-        ->where('users.store_id',$store_id)
         ->select('users.id as id','users.name as name','users.email as email','users.profile_pic as profile_pic','users.phone_number as phone_number','roles.name as role_id','users.created_at as created_at');
 
         // $getusers = User::select('id','email','name','phone_number','profile_pic','role_id','created_at');

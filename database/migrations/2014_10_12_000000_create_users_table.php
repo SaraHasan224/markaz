@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('password')->bcrypt();
 			$table->string('name', 150);
 			$table->integer('role_id')->unsigned()->index('user_roles_id_foreign')->nullable();
-			$table->integer('store_id')->unsigned()->index('user_store_id_foreign')->nullable();
 			$table->string('phone_number', 150)->nullable();
 			$table->string('profile_pic',80)->default('user_default.png');
             $table->string('remember_token', 100)->nullable();

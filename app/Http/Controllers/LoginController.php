@@ -54,6 +54,8 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
+
+        
         $request->session()->forget('user_id');
         $request->session()->forget('role_name');
         $request->session()->forget('store_id');
@@ -111,7 +113,6 @@ class LoginController extends Controller
                     'component_image' => $user->profile_pic,
                     'operation' => 'Logged In',
                     'user_id'   =>$user->id,
-                    'store_id'  => $user->store_id,
                 ]);
                 $output = ['code' => $code,'user'=>$user];
                 event(new UserWasCreated($user->id));
