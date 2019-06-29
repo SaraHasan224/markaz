@@ -107,14 +107,15 @@ Route::group(['middleware' => ['web']], function () {
 
         /* Support routes starts here*/    
         
-        Route::match(['get','post'],'support/{store_id}', 'UserController@support');
+        Route::match(['get','post'],'support', 'UserController@support');
+        Route::match(['get','post'],'support/{store_id}', 'UserController@storeSupport');
         Route::get('get-support', 'DatatablesController@getsupport');
         
         /* Support routes ends here*/
 
         /*  Profile routes starts here  */
  
-        Route::get('profile/{id}','UserController@getUserProfile');
+        Route::get('profile','UserController@getUserProfile');
         Route::post('user_profile','UserController@postUserProfile');        
         /*  Profile routes ends here  */
 

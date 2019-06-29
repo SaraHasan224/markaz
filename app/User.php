@@ -34,8 +34,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Store::class, 'id');
     }
-    // public function roles()
-    // {
-    //     return $this->hasOne(Role::class, 'id');
-    // }
+    public function roles()
+    {
+        return $this->hasOne(Role::class, 'id');
+    }
 }

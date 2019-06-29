@@ -11,6 +11,7 @@
                                         Update Profile
                                     </a>
                                 </li>
+                        @if(Session::get('role_name') == 'Store Admin')  
                                 <li class="nav-item m-tabs__item">
                                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
                                         About
@@ -21,12 +22,13 @@
                                         Photos & Videos
                                     </a>
                                 </li>
+                        @endif
                             </ul>
                         </div>
                     </div>
                     <div class="tab-content">
                         <div class="tab-pane active" id="m_user_profile_tab_1">
-                            <form class="m-form m-form--fit m-form--label-align-right" id="profile" method="POST">
+                            <form class="m-form m-form--fit m-form--label-align-right" id="profile" method="POST"  enctype="multipart/form-data">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group m--margin-top-10 m--hide">
                                         <div class="alert m-alert m-alert--default result" role="alert">
@@ -37,7 +39,9 @@
                                         <div class="col-10 ml-auto">
                                             <h3 class="m-form__section">1. Company Information</h3>
                                         </div>
-                                        {{-- <div id="result"></div> --}}
+                                        <div class="col-md-12">
+                                            <div id="result"></div>
+                                        </div>
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Full Name</label>
@@ -47,11 +51,32 @@
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
-                                        <label for="example-text-input" class="col-2 col-form-label">Role</label>
+                                        <label for="example-text-input" class="col-2 col-form-label">Email</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input m-input--solid" type="text" value="{{$logged_user->roles[0]->name}}" readonly>
+                                            <input class="form-control m-input m-input--solid" type="text" value="{{$logged_user->email}}" name="email">
                                         </div>
                                     </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Phone Number</label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input m-input--solid" type="text" value="{{$logged_user->phone_number}}" name="phone_number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Role</label>
+                                        <div class="col-7">
+                                            <div> <img src="{{asset('/images/user')}}/{{$logged_user->profile_pic}}" style="width:20%; height:50%;"  /> </div>
+                                            <input class="form-control m-input m-input--solid" type="hidden"  name="profile_pic" value="{{$logged_user->profile_pic}}">
+                                            <input class="form-control m-input m-input--solid" type="file"  name="profile_picture">
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label for="example-text-input" class="col-2 col-form-label">Role</label>
+                                        <div class="col-7">
+                                            <input class="form-control m-input m-input--solid" type="text" value="{{$role->name}}" readonly>
+                                        </div>
+                                    </div>
+                        @if(Session::get('role_name') == 'Store Admin')  
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                         <div class="col-7">
@@ -87,8 +112,7 @@
                                         <div class="col-7">
                                         <textarea class="form-control" id="m_clipboard_3" name="company_info" rows="6">{{!empty($store) ? $store->desciption : ''  }}</textarea>
                                         </div>
-                                    </div>
-                                    
+                                    </div>       
                                     <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-10 ml-auto">
@@ -113,6 +137,7 @@
                                             <input class="form-control m-input" type="text"  name="insta_link" value="{{  !empty($social) ? $social->insta_link : '' }}">
                                         </div>
                                     </div>
+                                    @endif  
                                 </div>
                                 <div class="m-portlet__foot m-portlet__foot--fit">
                                     <div class="m-form__actions">
@@ -200,6 +225,7 @@
                         <div class="tab-pane " id="m_user_profile_tab_3">
                             <div class="masonry-wrapper">
                                 <div class="masonry">
+                                @if($media != '')
                                     @foreach($media as $m)
                                     @if(!empty($m->media_id))
                                         <div class="masonry-item">
@@ -210,6 +236,7 @@
                                         No image added to account
                                     @endif
                                     @endforeach
+                                @endif
                                 </div>
                             </div>
                         </div>

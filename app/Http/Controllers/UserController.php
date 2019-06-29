@@ -258,20 +258,24 @@ class UserController extends Controller
 
 
     //      Manage User Profile Starts Here    //
-    public function getUserProfile(Request $request,$id = '')
+    public function getUserProfile(Request $request)
     {
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-        $role = $getuser->roles()->first();
+        $role = DB::table('roles')->whereId($getuser->role_id)->first();
         $data['role'] = $role;
-        $store = Store::where('id',$getuser->store_id)->first();
-        $data['media'] = DB::table('promotions')
-                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
-                    ->where('promotions.store_id',$getuser->store_id)
-                    ->select('promotion_media.media_id')
-                    ->get();
-        $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';
+        if($role->id != 1){ 
+            $store = Store::where('id',$getuser->store_id)->first();
+            $media = DB::table('promotions')
+                        ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                        ->where('promotions.store_id',$getuser->store_id)
+                        ->select('promotion_media.media_id')
+                        ->get();
+            $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';    
+        }
+        $data['store'] = !empty($store) ? $store : '';
         $data['social'] = !empty($social) ? $social : '';
+        $data['media'] = !empty($media) ? $media : '';
         $data['logged_user'] = $getuser;
         return view('user.client_profile',$data);
     }
@@ -280,22 +284,41 @@ class UserController extends Controller
         if($request->isMethod('post'))
         {
             $input = $request->all();
+            if($request->hasFile('profile_picture'))
+            { 
+                $img_tmp = Input::file('profile_picture');
+                if($img_tmp->isValid())
+                {
+                    $extension = $img_tmp->getClientOriginalExtension();
+                    $user_image = rand(111,99999).".".$extension;
+                    $image_path = public_path('/images/user').'/'.$user_image;
+                    Image::make($img_tmp)->save($image_path);          
+                }         
+            }
+            $user_image = !empty($user_image) ? $user_image : $request->profile_pic;
             User::where('id',$request->user_id)->update([
                 'name' => $request->name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'profile_pic' =>  $user_image
             ]);
-            $store_updated = Store::where('user_id',$request->user_id)->update([
-                'name' => $request->company,
-                'address' => $request->company_address,
-                'telephone' => $request->company_telephone,
-                'websitelink' => $request->company_website, 
-                'emailaddress' => $request->company_email,
-                'desciption' => $request->company_info, 
-            ]); 
-            StoreSocialMedia::where('store_id',$store_updated)->update([
-                'facebook_link' => $request->fb_link,
-                'twitter_link' => $request->tw_link,
-                'insta_link' => $request->insta_link
-            ]);
+            $store_updated = Store::where('user_id',$request->user_id)->first();
+            if($store_updated != '')
+            {
+                $store_updated->update([
+                    'name' => $request->company,
+                    'address' => $request->company_address,
+                    'telephone' => $request->company_telephone,
+                    'website' => $request->company_website, 
+                    'emailaddress' => $request->company_email,
+                    'tagline' => $request->company_info, 
+                ]); 
+                StoreSocialMedia::where('store_id',$store_updated)->update([
+                    'facebook_link' => $request->fb_link,
+                    'twitter_link' => $request->tw_link,
+                    'insta_link' => $request->insta_link
+                ]);
+            }
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Profile Updated Successfully.']];
             return response()->json($output, $code);
@@ -308,6 +331,38 @@ class UserController extends Controller
 
     //      Manage Support Starts Here    //
     public function support(Request $request){
+        if($request->isMethod("post"))
+        {
+            $input = $request->all();
+            $rules = [
+                'response' => 'required',
+                'id' => 'required',
+            ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->messages()->all()]);
+            }else{
+                Support::where('id',$request->id)->update([
+                    "status" => 1,
+                    "response" => $request->response
+                ]);
+                $support = Support::where('id',$request->id)->first();
+                Mail::to($support->email)->send(new SupportEmail($support->response)); 
+                return response()->json(['success'=>'Response submitted.']);
+            }
+        }
+        $data['title'] = "Customer Support";
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $data['logged_user'] = $getuser;
+        $data['role'] = session()->get('role_name');
+        $data['store_id'] = '';
+        return view('home.support',$data); 
+    }
+
+
+
+    public function storeSupport(Request $request,$store_id = ''){
         if($request->isMethod("post"))
         {
             $input = $request->all();

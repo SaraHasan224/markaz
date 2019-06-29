@@ -110,19 +110,27 @@
     
     $('#profile').submit(function(event){	
             event.preventDefault();
+            var formData = new FormData($('#profile')[0]);
             $.ajax({
                 type: "POST",
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData:false,
+                cache:false,
                 headers: 
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: base_url+'/user_profile',
-                data: $("#profile").serialize(),
+    		    data: formData,
                 success: function (response) {
                     $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
+                    setTimeout(function() {
+                        window.location.reload(true);
+    			    }, 2000);
                 },
             });
-        });
+        }); 
 </script>
 @endsection

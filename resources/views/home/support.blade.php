@@ -112,19 +112,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr>
-                                <td>1</td>
-                                <td>Orient Textile Mills</td>
-                                <td>Hyderi</td>
-                                <td>5.00</td>
-                                <td>6.45</td>
-                                <td>Karachi,Pakistan</td>
-                                <td>Kashaf Nazir</td>
-                                <td>2/12/2018</td>
-                                <td nowrap>
-                                    
-                                </td>
-                            </tr> -->
 
                         </tbody>
                     </table>
@@ -175,7 +162,7 @@
             $('#view_stores').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax"      : '{{ url("get-support") }}',
+                "ajax"      : '{{ url("get-support") }}/{{$store_id}}',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'store_id' },

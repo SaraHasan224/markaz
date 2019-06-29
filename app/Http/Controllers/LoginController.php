@@ -66,7 +66,7 @@ class LoginController extends Controller
         
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-        $role = $getuser->roles()->first();
+        $role = DB::table('roles')->whereId($getuser->role_id)->first();
         $data['logged_user'] = $getuser;
         $user_role = $role->name;
         $data['logged_user_role'] = $user_role;
