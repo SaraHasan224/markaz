@@ -161,15 +161,13 @@ class DatatablesController extends Controller
             return($actions);
         })->rawColumns(['actions','status'])->make();
     }
-    public function getusers($store_id = '')
+    public function getusers()
     {
         $role = session()->get('role_name');
 
         $getusers = DB::table('users')
         ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
         ->select('users.id as id','users.name as name','users.email as email','users.profile_pic as profile_pic','users.phone_number as phone_number','roles.name as role_id','users.created_at as created_at');
-
-        // $getusers = User::select('id','email','name','phone_number','profile_pic','role_id','created_at');
         return Datatables::of($getusers)
         ->editColumn('profile_pic', function ($users) {
             return("<img src=".asset('images/user')."/".$users->profile_pic." style='width:60px; height:60px;'/>");

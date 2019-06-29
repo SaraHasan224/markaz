@@ -151,7 +151,6 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
         $input['password']      = bcrypt($data['password']);
         $input['access_token']  = $data['access_token'];
         $input['profile_pic']  = $data['profile_pic'];
-        $input['store_id']  = $data['store_id'];
 
         if($user = parent::create($input)){
             $token = JWTAuth::fromUser($user);
@@ -170,7 +169,7 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
                 'email' => $data['email'],
                 'name' => $data['name'],
                 'phone_number' => $data['phone_number'],
-                'position' => $data['position'],
+                'role_id' => $data['role_id'],
                 'profile_pic' => $data['profile_pic'],
             ]);
             return $update;

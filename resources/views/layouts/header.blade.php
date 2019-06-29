@@ -464,13 +464,14 @@
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Company Dashboard</span></a>
                         </li>                        
-                        @endif                        
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('users')}}/{{Session::get('store_id')}}" 
+                        @endif            
+                        @if(Session::get('role_name') == 'Admin')            
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('users')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-user"></i><span
                                     class="m-menu__link-text">Manage Users</span></a>
                         </li>
-
+                        @endif
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('categories')}}/{{Session::get('store_id')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-list-2"></i><span

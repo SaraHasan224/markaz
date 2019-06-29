@@ -94,7 +94,7 @@
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
-                            <a href="<?php echo e(url('create-users')); ?>/<?php echo e($store_id); ?>" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                            <a href="<?php echo e(url('create-users')); ?>" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
                                     <span>Add User</span>
@@ -210,7 +210,7 @@
             $('#view_users').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax"      : '<?php echo e(url("get-users")); ?>/<?php echo($store_id) ?>',
+                "ajax"      : '<?php echo e(url("get-users")); ?>',
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
@@ -227,7 +227,6 @@
     
     <script>
         var base_url = '<?php url('/') ?>';
-        var store_id = "<?php echo e($store_id); ?>";
         $(document).ready(function (e) {
             // Get User
             $(document).on("click", '#view', function (e) {
@@ -238,7 +237,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/view-user/'+store_id,
+                    url: base_url+'/view-user',
     		        data: {id: id},
 					success: function (response) {
 						if(response.success.code == 200)
@@ -271,7 +270,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/edit-users/'+store_id,
+                    url: base_url+'/edit-users',
     		        data: formData,
 					success: function (response) {
 						if(response.success.code == 200)
@@ -314,7 +313,7 @@
                                     {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                                     },
-                                    url: base_url+'/delete-users/1',
+                                    url: base_url+'/delete-users',
                                     data: {id: id},
                                     success: function (response) {
                                         console.log(response.success.code);

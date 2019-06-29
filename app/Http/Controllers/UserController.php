@@ -48,13 +48,11 @@ class UserController extends Controller
     /* Web Panel User CRUD */
 
     //      Manage User CRUD Starts Here    //
-    public function getusers($store_id = ''){
+    public function getusers(){
         $data['title'] = "Manage Users";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('permissions')->first();
-        $data['logged_user'] = $getuser;
-        $data['store_id'] = $store_id;
-        
+        $data['logged_user'] = $getuser;        
         $role = DB::table('roles')->where('name',session()->get('role_name'))->first();
         if($role->id == 1){
             $data['roles'] = DB::table('roles')->get();
@@ -64,23 +62,16 @@ class UserController extends Controller
         $data['role'] = $role->name;
         return view('users.view-all',$data);
     }
-    public function createUsers(Request $request,$store_id = '')
+    public function createUsers(Request $request)
     {
         $data['title'] = "User";
         $data['table_id'] = "create_user";
         $data['sub_title'] = "Create User";
         $data['user'] = '';
-        $user_id = session()->get('user_id');
         $role = DB::table('roles')->where('name',session()->get('role_name'))->first();
-
-        if($store_id != '')
-        {
-            $getuser = User::where('id',$user_id)->where('store_id',$store_id)->first();
-        }else{
-            $getuser = User::where('id',$user_id)->first();
-        }
+        $user_id = session()->get('user_id');
+        $getuser = User::where('id',$user_id)->with('permissions')->first();
         $data['logged_user'] = $getuser;
-        $data['store_id'] = $store_id;
         if($role->id == 1){
             $data['roles'] = DB::table('roles')->get();
         }else if($role->id == 2){
@@ -89,7 +80,7 @@ class UserController extends Controller
         $data['role'] = $role->name;
         return view('users.create-users',$data);
     }
-    public function addUsers(Request $request,$store_id = ''){
+    public function addUsers(Request $request){
         $input = $request->only('email', 'password','name', 'phone_number','profile_pic','role_id');
         $rules = [
             'email' => 'required|unique:users,email',
@@ -104,9 +95,7 @@ class UserController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-            $input['access_token'] = Str::random(60);
-            $input['store_id'] = $store_id;
-            
+            $input['access_token'] = Str::random(60);            
             if($request->hasFile('profile_pic'))
             {
                 $img_tmp = Input::file('profile_pic');
@@ -125,8 +114,7 @@ class UserController extends Controller
                 'component_name' => $repsonse->name,
                 'component_image' => $repsonse->profile_pic,
                 'operation' => 'Added',
-                'user_id'   => session()->get('user_id'),
-                'store_id'  => $store_id
+                'user_id'   => session()->get('user_id')
             ]);
             if($repsonse){
                 $code = 200;
@@ -195,11 +183,10 @@ class UserController extends Controller
                             ]);
                     EventLog::create([
                         'component' => 'Users',
-                        'component_name' => $user->name,
-                        'component_image' => $user->profile_pic,
+                        'component_name' => $request->name,
+                        'component_image' => $user_image,
                         'operation' => 'Updated',
-                        'user_id'   => session()->get('user_id'),
-                        'store_id'  => $store_id
+                        'user_id'   => session()->get('user_id')
                     ]);
                     // $user = User::find($repsonse->id);
                     
@@ -237,7 +224,7 @@ class UserController extends Controller
             return response()->json($output, $code);
         }
     } 
-    public function deleteUsers(Request $request,$store_id = '')
+    public function deleteUsers(Request $request)
     {
         if($request->isMethod('post'))
         {
@@ -251,14 +238,13 @@ class UserController extends Controller
                 $code = 406;
                 $output = ['code' => $code, 'messages' => $validator->messages()->all()];
             }else{
-                $user = User::where('id',$request->id)->where('store_id',$store_id)->first();
+                $user = User::where('id',$request->id)->first();
                 EventLog::create([
                     'component' => 'Users',
                     'component_name' => $user->name,
                     'component_image' => $user->profile_pic,
                     'operation' => 'Deleted',
                     'user_id'   => session()->get('user_id'),
-                    'store_id'  => $store_id
                 ]);
                 $code = 200;
                 $user->delete();

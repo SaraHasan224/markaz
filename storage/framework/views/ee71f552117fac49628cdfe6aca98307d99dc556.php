@@ -465,13 +465,14 @@
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Company Dashboard</span></a>
                         </li>                        
-                        <?php endif; ?>                        
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('users')); ?>/<?php echo e(Session::get('store_id')); ?>" 
+                        <?php endif; ?>            
+                        <?php if(Session::get('role_name') == 'Admin'): ?>            
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('users')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-user"></i><span
                                     class="m-menu__link-text">Manage Users</span></a>
                         </li>
-
+                        <?php endif; ?>
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('categories')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-list-2"></i><span

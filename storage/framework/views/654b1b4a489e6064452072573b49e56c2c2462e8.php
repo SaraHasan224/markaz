@@ -32,7 +32,7 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="<?php echo e(url('users')); ?>/<?php echo e(Session::get('store_id')); ?>" class="m-nav__link">
+                        <a href="<?php echo e(url('users')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
@@ -154,7 +154,6 @@
 <?php $__env->startSection('scripts'); ?> 
 <script>
     var base_url = "<?php url() ?>";
-    var store_id = "<?php echo e($store_id); ?>";
     // console.log(base_url+'/user/signinweb');
     $('.create_user').click(function(event){	 
         event.preventDefault();
@@ -192,7 +191,7 @@
 					{
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					},
-                    url: base_url+'/add-user/'+store_id, 
+                    url: base_url+'/add-user', 
     		        data: formData,
 					success: function (response) {
                         console.log(response);

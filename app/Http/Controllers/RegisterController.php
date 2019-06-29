@@ -75,7 +75,7 @@ class RegisterController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
-            $input['role_id'] = 2;
+            $input['role_id'] = 1;
             $repsonse = $this->_repository->registerStore($input);
             if($repsonse){
                 //Assign role to user
