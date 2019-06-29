@@ -120,7 +120,7 @@
                                     <tr>
                                         <th>CategoryID</th>
                                         <th>Title</th>
-                                        <th>Status</th>
+                                        <th>Image</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -152,7 +152,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="add_category" method="POST">
+            <form id="add_category" method="POST"  enctype="multipart/form-data">
                 <div class="modal-body">
                         <div id="result" style="padding: 10px;"></div>
                     <div class="form-group m-form__group row">
@@ -162,6 +162,15 @@
                                 <input type="text" name="category" class="form-control m-input" placeholder="Enter categories" value="">
                             </div>
                             <span class="m-form__help">Enter category name</span>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-12">
+                            <label>Categories Image:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="file" name="category_image" class="form-control m-input" value="">
+                            </div>
+                            <span class="m-form__help">Enter category image</span>
                         </div>
                     </div>
                 </div>
@@ -197,6 +206,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group m-form__group row">
+                        <div class="col-lg-12">
+                            <label>Category Image:</label>
+                            <div class="m-input-icon m-input-icon--right">
+                                <input type="file" name="category_image" class="form-control m-input" value="">
+                                <input type="hidden" name="cat_image" id="ca_image" class="form-control m-input" value="">
+                                <img  id="category_image" >
+                            </div>
+                        </div>
+                    </div>
                     <input type="hidden" name="id" id="edit_id" />
                 </div>
                 <div class="modal-footer">
@@ -227,11 +246,11 @@
                 { "width": "200px", "targets": [1,2,3] },       
                 { "width": "70px", "targets": [4] }
             ], 
-                "ajax"      : '<?php echo e(url("get-categories")); ?>/<?php echo e($store_id); ?>', 
+                "ajax"      : '<?php echo e(url("get-categories")); ?>', 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
-                    { data: 'status' },
+                    { data: 'image' },
                     { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
                 ]
@@ -245,9 +264,12 @@
             $(document).on("click", '#edit_categories', function (e) {
                 var id = $(this).data('id');
                 var category = $(this).data('category');
+                var image = $(this).data('image');
                 $('#result_edit').empty();
                 $('#edit_id').val(id);
                 $('#category').val(category);
+                $('#ca_image').val(image);
+                $('#category_image').attr("src",'<?php echo e(asset("images/category")); ?>'+'/'+image);
                 $('#edit_categories_model').modal('show');
             });
         });
@@ -263,14 +285,19 @@
         var base_url = "<?php url() ?>";
         $('#add_category').submit(function(event){	
             event.preventDefault();
+            var formData = new FormData($('#add_category')[0]);
             $.ajax({
                 type: "POST",
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData:false,
+                cache:false,
                 headers: 
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-categories/'+"<?php echo e($store_id); ?>",
-                data: $("#add_category").serialize(),
+                url: base_url+'/categories',
+    		    data: formData,
                 success: function (response) {
                     $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
@@ -286,14 +313,19 @@
         });
         $('#edit_category').submit(function(event){	
             event.preventDefault();
+            var formData = new FormData($('#edit_category')[0]);
             $.ajax({
                 type: "POST",
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData:false,
+                cache:false,
                 headers: 
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/promotion-categories-edit/'+'<?php echo e($store_id); ?>',
-                data: $("#edit_category").serialize(),
+                url: base_url+'/categories-edit',
+                data: formData,
                 success: function (response) {
                     console.log(response);
                     if(response.code == 200)
@@ -340,7 +372,7 @@
                         {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         },
-                        url: base_url+'/promotion-categories-delete/'+'<?php echo e($store_id); ?>',
+                        url: base_url+'/promotion-categories-delete',
                         data: {id: id},
                         success: function (response) {
                             if(response.success.code == 200)

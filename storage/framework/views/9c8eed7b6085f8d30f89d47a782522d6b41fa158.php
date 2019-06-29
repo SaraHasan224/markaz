@@ -10,7 +10,7 @@
                                         Update Profile
                                     </a>
                                 </li>
-                        <?php if(Session::get('role_name') == 'Store Admin'): ?>  
+                        <?php if(Session::get('role_name') == 'Store Admin' && $store != ''): ?>  
                                 <li class="nav-item m-tabs__item">
                                     <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
                                         About

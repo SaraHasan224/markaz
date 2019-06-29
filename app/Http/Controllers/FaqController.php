@@ -36,9 +36,14 @@ class FaqController extends Controller
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->with('permissions')->with('roles')->first();
         $data['logged_user'] = $getuser;
-        $data['store'] = Store::where('id',$store_id)->first();
         $data['title'] = 'Frequently Asked Questions';
-        return view('faq.view-all',$data);
+        if($store_id == null)
+        {
+            return view('faq.error');
+        }else{
+            $data['store'] = Store::where('id',$store_id)->first();
+            return view('faq.view-all',$data);
+        }
     }
     
     public function createFaq(Request $request){

@@ -101,17 +101,10 @@ class DatatablesController extends Controller
     {
         $role =  session()->get('role_name');
         
-        $getCategories = Categories::select('id','title','status','created_at');
+        $getCategories = Categories::select('id','title','image','created_at');
         return Datatables::of($getCategories)
-        ->editColumn('status', function ($store)   use($role)  {
-            if($store->status == 1)
-            {
-                $status = '<button type="button" class="btn m-btn--pill btn-accent" data-id="'.$store->id.'">Enable</button>';
-            }
-            else{
-                $status = '<button type="button" class="btn m-btn--pill btn-focus" data-id="'.$store->id.'">Disable</button>';
-            }
-            return($status);
+        ->editColumn('image', function ($cat) {
+            return("<img src=".asset('images/category')."/".$cat->image." style='width:60px; height:60px;'/>");
         })->editColumn('actions', function ($categories)  use($role)   {
             $actions = '';
             if($role == 'Admin' || $role == 'Store Admin')
@@ -121,13 +114,13 @@ class DatatablesController extends Controller
                     class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
                     <i class="la la-trash" style="color:#ef2626;"></i>
                 </a>
-                <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'" 
+                <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'"  data-image="'.$categories->image.'"   
                     class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
                     <i class="la la-edit"></i>
                 </a>';
             }
             return($actions);
-        })->rawColumns(['actions','status'])->make();
+        })->rawColumns(['actions','image'])->make();
     }
     public function getTags()
     {

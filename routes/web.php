@@ -46,12 +46,6 @@ Route::group(['middleware' => ['web']], function () {
             Route::post('categories', 'CategoryController@addCategories');
             Route::post('categories-edit', 'CategoryController@editCategories');
             Route::post('categories-delete', 'CategoryController@deleteCategories');
-            //For Store Admin            
-            Route::get('get-categories/{store_id}', 'DatatablesController@getCategories');
-            Route::get('categories/{store_id}', 'CategoryController@getCategories');
-            Route::post('categories/{store_id}', 'CategoryController@addCategories'); 
-            Route::post('categories-edit/{store_id}', 'CategoryController@editCategories');
-            Route::post('categories-delete/{store_id}', 'CategoryController@deleteCategories');
             /* Categories routes ends here*/
 
             /* Tags routes starts here*/
@@ -61,13 +55,6 @@ Route::group(['middleware' => ['web']], function () {
             Route::post('tags', 'TagController@addTags');
             Route::post('tags-edit', 'TagController@editTags');
             Route::post('tags-delete', 'TagController@deleteTags');
-
-            // For Store Admin 
-            Route::get('get-tags/{store_id}', 'DatatablesController@getTags');
-            Route::get('tags/{store_id}', 'TagController@getTags');
-            Route::post('tags/{store_id}', 'TagController@addTags');
-            Route::post('tags-edit/{store_id}', 'TagController@editTags');
-            Route::post('tags-delete/{store_id}', 'TagController@deleteTags');
             /* Tags routes ends here*/
 
         /* Promotion routes ends here*/
@@ -122,6 +109,7 @@ Route::group(['middleware' => ['web']], function () {
         /*  Frequently Asked Questions routes starts here  */
         
         Route::get('faq','FaqController@view');
+        Route::get('manage-faq', 'FaqController@manage');
 
 
         Route::get('get-questions/{id}', 'DatatablesController@getQuestions');
