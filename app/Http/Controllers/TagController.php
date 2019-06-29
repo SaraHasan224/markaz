@@ -25,16 +25,15 @@ class TagController extends Controller
           
     //      Promotion Tags Starts   //
 
-    public function getTags($store_id = ''){
+    public function getTags(){
         $data['title'] = "Tags";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['role'] = session()->get('role_name');
-        $data['store_id'] = $store_id;
         $data['logged_user'] = $getuser;
         return view('tags.tags',$data);
     }
-    public function addTags(Request $request,$store_id = ''){
+    public function addTags(Request $request){
         if($request->isMethod('post'))
         {
             $input = $request->only('tag');
@@ -48,8 +47,6 @@ class TagController extends Controller
             }else{
                 $tag = new Tags;
                 $tag->title = $request->tag;
-                $tag->store_id = $store_id;
-                $tag->status = 1;
                 $tag->save();
                 $code = 200;
                 $output = 'Tags Added Successfully';
@@ -57,7 +54,7 @@ class TagController extends Controller
             return response()->json($output, $code);
         }
     }
-    public function editTags(Request $request,$store_id = ''){
+    public function editTags(Request $request){
         if($request->isMethod('post'))
         {
             $input = $request->only('tag','id');
@@ -78,7 +75,7 @@ class TagController extends Controller
             return response()->json($output, $code);
         }
     }
-    public function deleteTags(Request $request,$store_id = '')
+    public function deleteTags(Request $request)
     {
         if($request->isMethod('post'))
         {
@@ -90,7 +87,7 @@ class TagController extends Controller
 
             Tags::where('id',$request->id)->delete();
             $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'Promotion Tags Deleted Successfully.']];
+            $output = ['success'=>['code' => $code,'message' => 'Tags Deleted Successfully.']];
             return response()->json($output, $code);
         } 
     }

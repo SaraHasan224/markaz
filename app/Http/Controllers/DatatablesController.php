@@ -126,18 +126,9 @@ class DatatablesController extends Controller
     {
         $role =  session()->get('role_name');
         
-        $getTags = Tags::select('id','title','status','created_at');
+        $getTags = Tags::select('id','title','created_at');
         return Datatables::of($getTags)
-        ->editColumn('status', function ($store)  use($role)   {
-            if($store->status == 1)
-            {
-                $status = '<button type="button" class="btn m-btn--pill btn-accent" data-id="'.$store->id.'">Enable</button>';
-            }
-            else{
-                $status = '<button type="button" class="btn m-btn--pill btn-focus" data-id="'.$store->id.'">Disable</button>';
-            }
-            return($status);
-        })->editColumn('actions', function ($tags)  use($role)   {
+       ->editColumn('actions', function ($tags)  use($role)   {
             $actions = '';
             if($role == 'Admin' || $role == 'Store Admin')
             {
@@ -152,7 +143,7 @@ class DatatablesController extends Controller
                 </a>';
             }
             return($actions);
-        })->rawColumns(['actions','status'])->make();
+        })->rawColumns(['actions'])->make();
     }
     public function getusers()
     {

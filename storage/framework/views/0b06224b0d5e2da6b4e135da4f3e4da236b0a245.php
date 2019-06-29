@@ -120,7 +120,6 @@
                                     <tr>
                                         <th>TagsID</th>
                                         <th>Title</th>
-                                        <th>Status</th>
                                         <th>Created At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -223,15 +222,12 @@
                 autoWidth:         true,  
                 paging:         true,       
                 columnDefs: [    
-                { "width": "70px", "targets": [0] },
-                { "width": "200px", "targets": [1,2,3] },       
-                { "width": "70px", "targets": [4] }
+                { "width": "200px", "targets": [0,1,2,3] }
             ], 
                 "ajax"      : '<?php echo e(url("get-tags")); ?>', 
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'title' },
-                    { data: 'status' },
                     { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
                 ]
@@ -269,7 +265,7 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/tags/'+"<?php echo e($store_id); ?>",
+                url: base_url+'/tags',
                 data: $("#add_tags_form").serialize(),
                 success: function (response) {
                     $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
@@ -292,7 +288,7 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/tags-edit/'+"<?php echo e($store_id); ?>",
+                url: base_url+'/tags-edit',
                 data: $("#edit_tags_form").serialize(),
                 success: function (response) {
                     console.log(response);
@@ -340,7 +336,7 @@
                         {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         },
-                        url: base_url+'/tags-delete/'+"<?php echo e($store_id); ?>",
+                        url: base_url+'/tags-delete',
                         data: {id: id},
                         success: function (response) {
                             if(response.success.code == 200)

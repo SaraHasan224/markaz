@@ -31,7 +31,7 @@ class CategoryController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
-        return view('promotions.promotion-categories',$data);
+        return view('categories.categories',$data);
     }
     public function addCategories(Request $request,$store_id = ''){
         if($request->isMethod('post'))
@@ -114,7 +114,7 @@ class CategoryController extends Controller
 
             Categories::where('id',$request->id)->delete();
             $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'Promotion Categories Deleted Successfully.']];
+            $output = ['success'=>['code' => $code,'message' => 'Category Deleted Successfully.']];
             return response()->json($output, $code);
         } 
     }
