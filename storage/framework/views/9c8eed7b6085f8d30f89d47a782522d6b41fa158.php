@@ -75,7 +75,7 @@
                                             <input class="form-control m-input m-input--solid" type="text" value="<?php echo e($role->name); ?>" readonly>
                                         </div>
                                     </div>
-                        <?php if(Session::get('role_name') == 'Store Admin'): ?>  
+                        <?php if(Session::get('role_name') == 'Store Admin' && $store != ''): ?>  
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Company Name</label>
                                         <div class="col-7">

@@ -121,6 +121,9 @@ Route::group(['middleware' => ['web']], function () {
 
         /*  Frequently Asked Questions routes starts here  */
         
+        Route::get('faq','FaqController@view');
+
+
         Route::get('get-questions/{id}', 'DatatablesController@getQuestions');
         Route::get('faq/{store_id}','FaqController@view');
         Route::get('add-faq/{store_id}', 'FaqController@add');
@@ -136,7 +139,8 @@ Route::group(['middleware' => ['web']], function () {
         
         /*  User Timeline routes starts here  */
         
-        Route::get('timeline/{store_id}/{timeline}', 'UserController@getTimeline');
+        Route::get('timeline', 'UserController@getTimeline');
+        Route::get('timeline/{store_id}', 'UserController@getTimeline');
        
         /*  User Timeline routes ends here  */
        

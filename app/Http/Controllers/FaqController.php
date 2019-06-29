@@ -12,9 +12,14 @@ class FaqController extends Controller
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-        $data['store'] = Store::where('id',$store_id)->first();
-        $data['questions'] = Faq::where('store_id',$store_id)->get();
-        return view('faq.view',$data);
+        if($store_id != null)
+        {
+            $data['store'] = Store::where('id',$store_id)->first();
+            $data['questions'] = Faq::where('store_id',$store_id)->get();
+            return view('faq.view',$data);
+        }else{
+            return view('faq.error',$data);
+        }
     }
     
     public function add($store_id = null)
