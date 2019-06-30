@@ -12,7 +12,8 @@ use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Str;
 use App\Data\Repositories\StoreRepository;
-use Validator,Illuminate\Validation\Rule, Image, Storage, Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
+use Validator,Illuminate\Validation\Rule,Image, Storage, Carbon\Carbon;
 
 class StoreController extends Controller
 {
@@ -131,9 +132,11 @@ class StoreController extends Controller
         return view('store.create-store',$data);
     }
     public function poststore(Request $request){
-        $input = $request->only('name', 'address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+        $input = $request->only('name','cover','image','address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
         $rules = [  
             'name' => 'required|unique:stores,name',
+            'cover' => 'required',
+            'image' => 'required',
             'address' => 'required',
             'user_id' => 'required', 
             'website' => 'required',
@@ -147,13 +150,37 @@ class StoreController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
+            if($request->hasFile('cover'))
+            { 
+                $img_tmp = Input::file('cover');
+                if($img_tmp->isValid())
+                {
+                    $extension = $img_tmp->getClientOriginalExtension();
+                    $cover = rand(111,99999).".".$extension;
+                    $image_path = public_path('/images/store/cover').'/'.$cover;
+                    Image::make($img_tmp)->save($image_path);          
+                }         
+            }
+            if($request->hasFile('image'))
+            { 
+                $img_tmp = Input::file('image');
+                if($img_tmp->isValid())
+                {
+                    $extension = $img_tmp->getClientOriginalExtension();
+                    $image = rand(111,99999).".".$extension;
+                    $image_path = public_path('/images/store/logo').'/'.$image;
+                    Image::make($img_tmp)->save($image_path);          
+                }         
+            }
             $store = new Store;
             $store->name = $request->name;
+            $store->image = $image;
+            $store->cover = $cover;
             $store->address = $request->address;
             $store->user_id = $request->user_id;
-            $store->websitelink = $request->website;
+            $store->website = $request->website;
             $store->emailaddress = $request->contact_email;
-            $store->desciption = $request->description;
+            $store->tagline = $request->description;
             $store->longitude = $request->longitude;
             $store->latitude = $request->latitude;
             $store->telephone = $request->contact_number;
@@ -168,8 +195,7 @@ class StoreController extends Controller
                 'component' => 'Store',
                 'component_name' => $request->name,
                 'operation' => 'Added',
-                'user_id'   => session()->get('user_id'),
-                'store_id'  => $store->id
+                'user_id'   => session()->get('user_id')
             ]);
             $output = "Store created successfully";
             $code = 200;
@@ -233,6 +259,34 @@ class StoreController extends Controller
         return view('store.view-all',$data);
     }
 
+    public function deleteStore(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('id');
+            $rules = [
+                'id' => 'required',
+               ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 406;
+                $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+            }else{
+                $code = 200;
+                $store = Store::where('id',$request->id)->first();
+                EventLog::create([
+                    'component' => 'Store',
+                    'component_name' => $store->name,
+                    'operation' => 'Deleted',
+                    'user_id'   => session()->get('user_id'),
+                ]);
+                $storecode = 200;
+                $store->delete();
+                $output = ['code' => $code,'message' => 'Store Deleted Successfully.'];
+            }
+            return response()->json($output, $code);
+        } 
+    }
     // Manage stores ends here 
 
     /* Sara's work ends here */

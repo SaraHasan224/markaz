@@ -108,7 +108,7 @@
                 @endif
             </div>
             <div class="m-portlet__body table-responsive">
-
+                <div id="delete_result" style="padding: 10px;"></div>
                 <!--begin: Datatable -->
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="view_stores">
                     <thead>
@@ -205,16 +205,16 @@
                 "serverSide": true,
                 "ajax"      : '{{ url("get-store") }}',
                 columnDefs: [    
-                    { "width": "150px", "targets": [7] }
+                    { "width": "100px", "targets": [11] }
                 ],
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
                     { data: 'name' },
                     { data: 'address' },
                     { data: 'telephone' },
-                    { data: 'websitelink' },
+                    { data: 'website' },
                     { data: 'emailaddress' },
-                    { data: 'desciption' },
+                    { data: 'tagline' },
                     { data: 'latitude' }, 
                     { data: 'longitude' },
                     { data: 'status' },
@@ -231,14 +231,50 @@
                 var id = $(this).data('id');
                 $('#view_store_modal').modal('show');
             });
-        });
+        }); 
     </script>
     <script>
-        // $(document).ready(function (e) {
-        //     $(document).on("click", '#edit_store', function (e) {
-        //         var id = $(this).data('id');
-        //         $('#edit_store_modal').modal('show');
-        //     });
-        // });
+        $(document).ready(function (e) {
+            // Delete Store
+            var base_url = '<?php url('/') ?>';
+            $(document).on("click", '#delete', function (e) {
+                var id = $(this).data('id');
+                    e.preventDefault();
+                    swal({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        type: "warning",
+                        showCancelButton: !0,
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "No, cancel!",
+                        reverseButtons: !0
+                    }).then(function(e) {
+                        e.value ? swal("Deleted!", "User has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                        if(e.value == true)
+                        {
+                                $.ajax({
+                                    type: "POST",
+                                    headers: 
+                                    {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                    },
+                                    url: base_url+'/delete-store',
+                                    data: {id: id},
+                                    success: function (response) {
+                                        console.log(response.code);
+                                        if(response.code == 200)
+                                        {
+                                            swal.close();
+                                            $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
+                                            var table = $('#view_stores').DataTable();
+                                            table.ajax.reload();
+                                        }
+                                    }
+                                });
+                        }
+                    })
+            });
+        });
     </script>
 @endsection

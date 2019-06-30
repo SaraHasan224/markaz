@@ -23,8 +23,8 @@ class CreateStoresTable extends Migration
 			$table->string('website')->nullable();
 			$table->string('emailaddress')->nullable();
 			$table->longtext('tagline')->nullable();
-			$table->decimal('latitude', 10, 8)->nullable();
-            $table->decimal('longitude', 10, 8)->nullable();
+			$table->double('latitude', 15, 8)->nullable();
+            $table->double('longitude', 15, 8)->nullable();
 			$table->integer('user_id')->unsigned()->index('user_user_id_foreign')->nullable();
             $table->integer('views')->default(1);
             $table->tinyInteger('status')->default(1);

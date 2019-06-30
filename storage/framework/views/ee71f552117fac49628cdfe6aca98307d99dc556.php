@@ -466,38 +466,62 @@
                                     class="m-menu__link-text">Company Dashboard</span></a>
                         </li>                        
                         <?php endif; ?>            
-                        <?php if(Session::get('role_name') == 'Admin'): ?>            
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('users')); ?>" 
+                        <?php if(Session::get('role_name') == 'Admin'): ?>     
+                        <li class="m-menu__section ">
+                            <h4 class="m-menu__section-text">Manage Roles and Permissions</h4>
+                            <i class="m-menu__section-icon flaticon-more-v3"></i>
+                        </li>       
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('roles')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-user"></i><span
-                                    class="m-menu__link-text">Manage Users</span></a>
+                                    class="m-menu__link-icon flaticon-user-add"></i><span
+                                    class="m-menu__link-text">Manage Roles</span></a>
+                        </li>       
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('permission')); ?>" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-user-ok"></i><span
+                                    class="m-menu__link-text">Manage Roles & Permission</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('categories')); ?>/<?php echo e(Session::get('store_id')); ?>" 
+
+                        <li class="m-menu__section ">
+                            <h4 class="m-menu__section-text">Manage Categories and Tags</h4>
+                            <i class="m-menu__section-icon flaticon-more-v3"></i>
+                        </li>   
+                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('categories')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-list-2"></i><span
-                                    class="m-menu__link-text">Manage Categories</span></a>
+                                    class="m-menu__link-text">Categories</span></a>
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('tags')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-suitcase"></i><span
-                                    class="m-menu__link-text">Manage Tags</span></a>
-                        </li>                        
+                                    class="m-menu__link-icon flaticon-signs-1"></i><span
+                                    class="m-menu__link-text">Tags</span></a>
+                        </li>   
+                        <li class="m-menu__section ">
+                            <h4 class="m-menu__section-text">Manage User Accounts</h4>
+                            <i class="m-menu__section-icon flaticon-more-v3"></i>
+                        </li>       
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('users')); ?>" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-user"></i><span
+                                    class="m-menu__link-text">Manage Users</span></a>
+                        </li>                       
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('store')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-open-box"></i><span
+                                    class="m-menu__link-icon flaticon-imac"></i><span
                                     class="m-menu__link-text">Manage Stores</span></a>
                         </li>
-                        <?php endif; ?>
-                        
-        
-                        <?php if(Session::get('role_name') == 'Admin'): ?> 
-                        
+                                                
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('promotions')); ?>/<?php echo e(Session::get('store_id')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">Manage Promotions</span></a>
                         </li> 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>/<?php echo e(Session::get('store_id')); ?>" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-suitcase"></i><span
+                                    class="m-menu__link-text">Support</span></a>
+                        </li>
                         <li class="m-menu__section ">
                             <h4 class="m-menu__section-text">Manage Account</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
@@ -515,33 +539,16 @@
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">Manage Promotions</span></a>
                         </li>
-                        <?php endif; ?>
-                        <?php if(Session::get('role_name') == 'Store Admin'): ?>  
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('timeline')); ?>/<?php echo e(Session::get('store_id')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic"></i><span
                                     class="m-menu__link-text">Timeline</span></a>
                         </li>
-                        <?php endif; ?>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('profile')); ?>"
-                                class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-network"></i><span
-                                    class="m-menu__link-text">Profile</span></a>
-                        </li>
-                        <?php if(Session::get('role_name') == 'Store Admin'): ?>  
                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
                                     class="m-menu__link-text">Support</span></a>
                         </li>
-                        <?php else: ?>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('support')); ?>/<?php echo e(Session::get('store_id')); ?>" 
-                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
-                                    class="m-menu__link-icon flaticon-suitcase"></i><span
-                                    class="m-menu__link-text">Support</span></a>
-                        </li>
-                        <?php endif; ?>
-                        <?php if(Session::get('role_name') == 'Store Admin'): ?> 
                         <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
                             m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
                                 class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
@@ -563,6 +570,12 @@
                             </div>
                         </li>
                         <?php endif; ?>
+                        
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('profile')); ?>"
+                                class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-network"></i><span
+                                    class="m-menu__link-text">Profile</span></a>
+                        </li>
                     </ul>
                 </div>
                 <!-- END: Aside Menu -->

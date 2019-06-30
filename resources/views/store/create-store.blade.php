@@ -157,16 +157,32 @@
                                     <span class="m-form__help">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
-                                    <span class="m-form__help">Enter your store contact number</span>
+                                    <label>Store Website Link:</label>
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
+                                    <span class="m-form__help">Enter your website</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
-                                    <label>Store Website Link:</label>
-                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
-                                    <span class="m-form__help">Enter your website</span>
+                                    <label>Store Logo:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
+                                    </div>
+                                    <span class="m-form__help">Select a logo</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Store Cover:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
+                                    </div>
+                                    <span class="m-form__help">Select a cover</span>
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label class="">Store Contact Number:</label>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
+                                    <span class="m-form__help">Enter your store contact number</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
@@ -176,27 +192,27 @@
                             </div>
                             <div class="form-group{{ $errors->has('fb_link') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
+                                    <label>Store Description:</label>
+                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
+                                    <span class="m-form__help">Enter your store description</span>
+                                </div>
+                                <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
                                     <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
                                     <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input"
                                         placeholder="Enter store  twitter link">
                                     <span class="m-form__help">Enter your store twitter link</span>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
-                                    <span class="m-form__help">Enter your store description</span>
                                 </div>
                             </div>
 
@@ -235,6 +251,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="user_id" value="{{$user_id}}">
+                                        
                         <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                             <div class="m-form__actions m-form__actions--solid">
                                 <div class="row">
@@ -348,15 +366,20 @@
 <script>
     var base_url = "<?php url() ?>";
     $('#stores').submit(function(event){	
-            event.preventDefault();
+        event.preventDefault();
+        var formData = new FormData($('#stores')[0]);
     	$.ajax({
     		type: "POST",
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData:false,
+            cache:false, 
     		headers: 
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     		},
     		url: base_url+'/poststore',
-    		data: $("#stores").serialize(),
+    	    data: formData,
     		success: function (response) {
                 // console.log(response);
                 document.getElementById("stores").reset();

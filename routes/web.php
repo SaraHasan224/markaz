@@ -64,9 +64,10 @@ Route::group(['middleware' => ['web']], function () {
         //Store Rouutes
         Route::get('get-store', 'DatatablesController@getstore');
         Route::get('store', 'StoreController@getstore');
-        Route::post('poststore', 'StoreController@poststore');
         Route::get('create-store', 'StoreController@createstore');
+        Route::post('poststore', 'StoreController@poststore');
         Route::match(['get','post'],'edit-store/{id}', 'StoreController@editstore');
+        Route::post('delete-store', 'StoreController@deleteStore');
         //Get Specific Store
         Route::get('view-store/{id}', 'StoreController@getspecificstore');
         
@@ -82,6 +83,16 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('edit-users', 'UserController@editusers');
         Route::post('delete-users', 'UserController@deleteUsers');
         /* User routes ends here*/
+        
+        /* Roles routes starts here*/
+
+        Route::get('roles', 'PermissionController@getroles');
+        Route::get('permission', 'PermissionController@getpermission');
+        Route::post('create-permit', 'PermissionController@addpermission');
+        Route::post('view-role-permit/{role_id}', 'PermissionController@viewrolepermission');
+        
+        /* Roles routes starts here*/
+
 
         /* Follower routes starts here*/
         
