@@ -17,10 +17,13 @@ class DatatablesController extends Controller
     public function getstore()
     {
         $role =  session()->get('role_name');
-        
-        $getStore = Store::select('id','name','address','telephone','website','emailaddress','tagline','latitude','longitude','status','created_at');
+        $getStore = DB::table('stores')
+                    ->leftJoin('categories', 'stores.category_id', '=', 'categories.id')
+                    ->select('categories.title as category_id','stores.id as id','stores.name as name','stores.address as address','stores.telephone as telephone','stores.website as website','stores.emailaddress as emailaddress','stores.tagline as tagline','stores.status as status','stores.user_id as user_id','stores.created_at as created_at');
         return Datatables::of($getStore)
-        ->editColumn('desciption', function ($store) {
+        ->editColumn('telephone', function ($store) {
+            return(str_limit($store->telephone, 50));
+        })->editColumn('tagline', function ($store) {
             return(str_limit($store->tagline, 50));
         })->editColumn('status', function ($store) {
             if($store->status == 1)
@@ -65,7 +68,7 @@ class DatatablesController extends Controller
                 </span>';
             }
             return($actions);
-        })->rawColumns(['actions','status'])->make();
+        })->rawColumns(['tagline','actions','status'])->make();
     }
     public function getpromotions($store_id = '')
     { 

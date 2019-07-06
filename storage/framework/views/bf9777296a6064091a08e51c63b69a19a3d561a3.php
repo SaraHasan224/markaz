@@ -113,15 +113,13 @@
                     <thead>
                         <tr>
                             <th>StoreID</th>
-                            <th>Store Name</th>
-                            <th>Store Address</th>
-                            <th>Store Telephone</th>
-                            <th>Store Website Link</th>
-                            <th>Store Website Email Address</th>
-                            <th>Store Description</th>
-                            <th>Store Longitude</th>
-                            <th>Store Latitude</th>
-                            <th>Created By</th>
+                            <th>Category</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Website Link</th>
+                            <th>Email Address</th>
+                            <th>Description</th>
                             <th>Created At</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -204,20 +202,19 @@
                 "serverSide": true,
                 "ajax"      : '<?php echo e(url("get-store")); ?>',
                 columnDefs: [    
-                    { "width": "100px", "targets": [11] }
+                    { "width": "100px", "targets": [10] }
                 ],
                 "columns"   : [
                     { data: 'id',searchable: false, orderable: true  },
+                    { data: 'category_id' },
                     { data: 'name' },
                     { data: 'address' },
                     { data: 'telephone' },
                     { data: 'website' },
-                    { data: 'emailaddress' },
-                    { data: 'tagline' },
-                    { data: 'latitude' }, 
-                    { data: 'longitude' },
+                    { data: 'emailaddress'},
+                    { data: 'tagline' },  
+                    { data: 'created_at' },  
                     { data: 'status' },
-                    { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
                 ]
             });

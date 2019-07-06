@@ -212,7 +212,7 @@
                             <div class="m-input-icon m-input-icon--right">
                                 <input type="file" name="category_image" class="form-control m-input" value="">
                                 <input type="hidden" name="cat_image" id="ca_image" class="form-control m-input" value="">
-                                <img  id="category_image" >
+                                <img  id="category_image" style="width:50%; height:200px;">
                             </div>
                         </div>
                     </div>

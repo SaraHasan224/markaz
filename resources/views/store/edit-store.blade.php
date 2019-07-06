@@ -157,45 +157,49 @@
                                     <span class="m-form__help">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
+                                    <label>Store Category:</label>
+                                    <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id">
+                                        @foreach($categories as $category)
+											<option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+									</select>
+                                    <span class="m-form__help">Enter your store name</span>
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
                                     <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"> {{ !empty($store) ? $store->telephone : '' }}</textarea>
                                     <span class="m-form__help">Enter your store contact number</span>
                                 </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
                                     <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ !empty($store) ? $store->websitelink : '' }}">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('fb_link') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
                                     <textarea name="contact_email" class="form-control m-input" cols="50" rows="5">{{ !empty($store) ? $store->emailaddress : '' }}</textarea>
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('fb_link') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
                                     <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link" value="{{ !empty($store->hassocialmedia) ? $store->hassocialmedia->facebook_link : '' }}">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
                                     <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link" value="{{ !empty($store->hassocialmedia) ? $store->hassocialmedia->insta_link : '' }}">
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input" placeholder="Enter store  twitter link" value="{{ !empty($store->hassocialmedia) ? $store->hassocialmedia->twitter_link : '' }}">
                                     <span class="m-form__help">Enter your store twitter link</span>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50">{{ !empty($store) ? $store->desciption : '' }}</textarea>
-                                    <span class="m-form__help">Enter your store description</span>
                                 </div>
                             </div>
 
@@ -203,6 +207,11 @@
                                     <input type="hidden" name="longitude" id="longitude" value="{{ !empty($store) ? $store->longitude : '' }}" />
                                     <input type="hidden" name="latitude" id="latitude" value="{{ !empty($store) ? $store->latitude : '' }}"/>
                             <div class="form-group m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Store Description:</label>
+                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50">{{ !empty($store) ? $store->desciption : '' }}</textarea>
+                                    <span class="m-form__help">Enter your store description</span>
+                                </div>
                                 <div class="col-lg-6">
                                     <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">

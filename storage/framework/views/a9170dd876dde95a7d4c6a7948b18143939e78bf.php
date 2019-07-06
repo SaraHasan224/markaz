@@ -157,12 +157,21 @@
                                     <span class="m-form__help">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
+                                    <label>Store Category:</label>
+                                    <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id">
+                                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<option value="<?php echo e($category->id); ?>"><?php echo e($category->title); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+									</select>
+                                    <span class="m-form__help">Enter your store name</span>
+                                </div>
+                            </div>
+                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
+                                <div class="col-lg-6">
                                     <label>Store Website Link:</label>
                                     <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
-                            </div>
-                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Logo:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -170,6 +179,8 @@
                                     </div>
                                     <span class="m-form__help">Select a logo</span>
                                 </div>
+                            </div>
+                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Cover:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -177,48 +188,46 @@
                                     </div>
                                     <span class="m-form__help">Select a cover</span>
                                 </div>
-                            </div>
-                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
                                     <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
                                     <span class="m-form__help">Enter your store contact number</span>
                                 </div>
+                            </div>
+                            <div class="form-group<?php echo e($errors->has('fb_link') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
                                     <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
-                            </div>
-                            <div class="form-group<?php echo e($errors->has('fb_link') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
                                     <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
                                     <span class="m-form__help">Enter your store description</span>
                                 </div>
+                            </div>
+                            <div class="form-group<?php echo e($errors->has('description') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
                                     <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
-                            </div>
-                            <div class="form-group<?php echo e($errors->has('description') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
                                     <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
                                     <span class="m-form__help">Enter your instagram link</span>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label class="">Store Twitter Link:</label>
-                                    <input type="text" name="tw_link" class="form-control m-input"
-                                        placeholder="Enter store  twitter link">
-                                    <span class="m-form__help">Enter your store twitter link</span>
                                 </div>
                             </div>
 
                                     <input type="hidden" name="longitude" id="longitude" />
                                     <input type="hidden" name="latitude" id="latitude" />
                             <div class="form-group m-form__group row">
+                                <div class="col-lg-6">
+                                    <label class="">Store Twitter Link:</label>
+                                    <input type="text" name="tw_link" class="form-control m-input"
+                                        placeholder="Enter store  twitter link">
+                                    <span class="m-form__help">Enter your store twitter link</span>
+                                </div>
                                 <div class="col-lg-6">
                                     <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">

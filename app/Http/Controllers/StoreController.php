@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Store,
+use App\Categories,
+    App\Store,
     App\EventLog,
     App\StoreSocialMedia,
     App\User,
@@ -127,12 +128,13 @@ class StoreController extends Controller
         $data['user_id'] = $request->session()->get('user_id');
         $user_id = session()->get('user_id');
         $data['role'] = session()->get('role_name');
+        $data['categories'] = Categories::all();
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
         return view('store.create-store',$data);
     }
     public function poststore(Request $request){
-        $input = $request->only('name','cover','image','address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+        $input = $request->only('name','cover','image','category_id','address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
         $rules = [  
             'name' => 'required|unique:stores,name',
             'cover' => 'required',
@@ -143,7 +145,8 @@ class StoreController extends Controller
             'contact_email' => 'required',
             'description' => 'required',
             'address' => 'required',
-            'contact_number' => 'required'
+            'contact_number' => 'required',
+            'category_id' => 'required'
         ];
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -174,6 +177,7 @@ class StoreController extends Controller
             }
             $store = new Store;
             $store->name = $request->name;
+            $store->category_id = $request->category_id;
             $store->image = $image;
             $store->cover = $cover;
             $store->address = $request->address;
@@ -207,6 +211,7 @@ class StoreController extends Controller
         $data['title'] = "Edit Store - ".$data['store']->name;
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
+        $data['categories'] = Categories::all();
         $data['logged_user'] = $getuser;
         $data['user_id'] = $user_id;
         if($request->isMethod('post'))
