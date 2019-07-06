@@ -21,14 +21,10 @@
                                 <div class="masonry">
                                 @if($media != '')
                                     @foreach($media as $m)
-                                    @if(!empty($m->media_id))
                                         <div class="masonry-item">
-                                            <img src="{{ asset('images/promotion_media/'.$m->media_id) }}" alt="Dummy Image"
+                                            <img src="{{ asset('images/promotion_media/'.$m->image) }}" alt="Promotion Images"
                                                 class="masonry-content">
                                         </div>
-                                    @else
-                                        No image added to account
-                                    @endif
                                     @endforeach
                                 @endif
                                 </div>

@@ -106,6 +106,19 @@
                                     </span>
                                 </a>
                             </li>
+                            <li class="m-nav__item">
+                                <a href="<?php echo e(url('media')); ?>" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-profile-1"></i>
+                                    <span class="m-nav__link-title">
+                                        <span class="m-nav__link-wrap">
+                                            <span class="m-nav__link-text">System Logs</span>
+                                            <span class="m-nav__link-badge">
+                                                <span class="m-badge m-badge--success"><?php echo e(count($media)); ?></span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                         <div class="m-portlet__body-separator"></div>
                     </div>

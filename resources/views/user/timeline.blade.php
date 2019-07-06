@@ -83,52 +83,55 @@
                             <div class="m-timeline-1 m-timeline-1--fixed">
                                 <div class="m-timeline-1__items">
                                     <div class="m-timeline-1__marker"></div>
-                                    @foreach($promotions as $pkey => $promotion)
-                                    <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
+                                    @foreach($promotions as $pkey => $promotion)                                    
+                                        @if($pkey == 0)
+                                        <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
+                                        @elseif($pkey %2  == 0) 
+                                        <div class="m-timeline-1__item m-timeline-1__item--left">
+                                        @else
+                                        <div class="m-timeline-1__item m-timeline-1__item--right">
+                                        @endif
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
                                         </div>
                                         <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">05:00&nbsp;
-                                            <span>PM</span>
-                                        </span>
+                                        <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($promotion->created_at,'d-M-Y')}} / {{DATE_FORMAT($promotion->created_at,'H:i A')}}</span>
                                         <div class="m-timeline-1__item-content">
                                             <div class="media">
                                                 <img class="m--margin-right-20"
-                                                    src="../../assets/app/media/img/products/product1.jpg" title="">
+                                                    src="{{asset('images/promotion')}}/{{$promotion->image}}" title="">
                                                 <div class="media-body">
-                                                    <div class="m-timeline-1__item-title m--margin-top-10  ">
-                                                        Some Post
-                                                    </div>
-                                                    <div class="m-timeline-1__item-body">
-                                                        Lorem ipsum dolor sit amit
-                                                        <br> consectetur eiusmdd
-                                                        <br> tempor incididunt ut labore
-                                                        <br> et dolore magna.
-                                                    </div>
+                                                    <div class="m-timeline-1__item-title m--margin-top-10  ">{{$promotion->title}}</div>
+                                                    <div class="m-timeline-1__item-body">{{str_limit($promotion->description,100)}}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     @endforeach
-                                    <div class="m-timeline-1__item m-timeline-1__item--right">
+                                    @foreach($stores as $skey => $store)
+                                        @if($skey %2  == 0) 
+                                        <div class="m-timeline-1__item m-timeline-1__item--right">
+                                        @else
+                                        <div class="m-timeline-1__item m-timeline-1__item--left">
+                                        @endif
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
                                         </div>
                                         <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">02:50
-                                            <span>PM</span>
-                                        </span>
+
+                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($store->created_at,'d-M-Y')}} / {{DATE_FORMAT($store->created_at,'H:i A')}}</span>
                                         <div class="m-timeline-1__item-content">
-                                            <div style="height:170px;">
-                                                <div
-                                                    style="height:100%;overflow:hidden;display:block;background: url(http://maps.googleapis.com/maps/api/staticmap?center=48.858271,2.294264&amp;size=640x300&amp;zoom=5&amp;key=AIzaSyBMlTEcPR5QULmk9QUaS7lwUK7qtabunEI) no-repeat 50% 50%;">
-                                                    <img src="http://maps.googleapis.com/maps/api/staticmap?center=48.858271,2.294264&amp;size=640x300&amp;zoom=16&amp;key=AIzaSyBMlTEcPR5QULmk9QUaS7lwUK7qtabunEI"
-                                                        style="" alt="">
+                                            <div class="media">
+                                                <img class="m--margin-right-20"
+                                                    src="{{asset('images/store/logo/')}}/{{$store->image}}" title="">
+                                                <div class="media-body">
+                                                    <div class="m-timeline-1__item-title m--margin-top-10  ">{{$store->title}}</div>
+                                                    <div class="m-timeline-1__item-body">{{str_limit($promotion->store,100)}}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    @endforeach
                                     @foreach($support as $key => $s)
                                         @if($key %2  == 0) 
                                         <div class="m-timeline-1__item m-timeline-1__item--left">
@@ -139,9 +142,7 @@
                                                 <div class="m--bg-danger"></div>
                                             </div>
                                             <div class="m-timeline-1__item-arrow"></div>
-                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($s->created_at,'d-M-Y')}} / {{DATE_FORMAT($s->created_at,'H:i')}}
-                                                <span>PM</span>
-                                            </span>
+                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($s->created_at,'d-M-Y')}} / {{DATE_FORMAT($s->created_at,'H:i A')}}</span>
                                             <div class="m-timeline-1__item-content">
                                                 <div class="m-timeline-1__item-title">
                                                     Support Query

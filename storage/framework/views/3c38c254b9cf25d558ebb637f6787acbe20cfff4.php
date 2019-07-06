@@ -20,14 +20,10 @@
                                 <div class="masonry">
                                 <?php if($media != ''): ?>
                                     <?php $__currentLoopData = $media; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $m): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <?php if(!empty($m->media_id)): ?>
                                         <div class="masonry-item">
-                                            <img src="<?php echo e(asset('images/promotion_media/'.$m->media_id)); ?>" alt="Dummy Image"
+                                            <img src="<?php echo e(asset('images/promotion_media/'.$m->image)); ?>" alt="Promotion Images"
                                                 class="masonry-content">
                                         </div>
-                                    <?php else: ?>
-                                        No image added to account
-                                    <?php endif; ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
                                 </div>

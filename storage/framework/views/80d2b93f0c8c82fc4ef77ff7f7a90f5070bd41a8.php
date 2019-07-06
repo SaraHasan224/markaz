@@ -82,50 +82,55 @@
                             <div class="m-timeline-1 m-timeline-1--fixed">
                                 <div class="m-timeline-1__items">
                                     <div class="m-timeline-1__marker"></div>
-                                    <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
+                                    <?php $__currentLoopData = $promotions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pkey => $promotion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                    
+                                        <?php if($pkey == 0): ?>
+                                        <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
+                                        <?php elseif($pkey %2  == 0): ?> 
+                                        <div class="m-timeline-1__item m-timeline-1__item--left">
+                                        <?php else: ?>
+                                        <div class="m-timeline-1__item m-timeline-1__item--right">
+                                        <?php endif; ?>
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
                                         </div>
                                         <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">05:00&nbsp;
-                                            <span>PM</span>
-                                        </span>
+                                        <span class="m-timeline-1__item-time m--font-brand"><?php echo e(DATE_FORMAT($promotion->created_at,'d-M-Y')); ?> / <?php echo e(DATE_FORMAT($promotion->created_at,'H:i A')); ?></span>
                                         <div class="m-timeline-1__item-content">
                                             <div class="media">
                                                 <img class="m--margin-right-20"
-                                                    src="../../assets/app/media/img/products/product1.jpg" title="">
+                                                    src="<?php echo e(asset('images/promotion')); ?>/<?php echo e($promotion->image); ?>" title="">
                                                 <div class="media-body">
-                                                    <div class="m-timeline-1__item-title m--margin-top-10  ">
-                                                        Some Post
-                                                    </div>
-                                                    <div class="m-timeline-1__item-body">
-                                                        Lorem ipsum dolor sit amit
-                                                        <br> consectetur eiusmdd
-                                                        <br> tempor incididunt ut labore
-                                                        <br> et dolore magna.
-                                                    </div>
+                                                    <div class="m-timeline-1__item-title m--margin-top-10  "><?php echo e($promotion->title); ?></div>
+                                                    <div class="m-timeline-1__item-body"><?php echo e(str_limit($promotion->description,100)); ?></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="m-timeline-1__item m-timeline-1__item--right">
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $skey => $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($skey %2  == 0): ?> 
+                                        <div class="m-timeline-1__item m-timeline-1__item--right">
+                                        <?php else: ?>
+                                        <div class="m-timeline-1__item m-timeline-1__item--left">
+                                        <?php endif; ?>
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
                                         </div>
                                         <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">02:50
-                                            <span>PM</span>
-                                        </span>
+
+                                            <span class="m-timeline-1__item-time m--font-brand"><?php echo e(DATE_FORMAT($store->created_at,'d-M-Y')); ?> / <?php echo e(DATE_FORMAT($store->created_at,'H:i A')); ?></span>
                                         <div class="m-timeline-1__item-content">
-                                            <div style="height:170px;">
-                                                <div
-                                                    style="height:100%;overflow:hidden;display:block;background: url(http://maps.googleapis.com/maps/api/staticmap?center=48.858271,2.294264&amp;size=640x300&amp;zoom=5&amp;key=AIzaSyBMlTEcPR5QULmk9QUaS7lwUK7qtabunEI) no-repeat 50% 50%;">
-                                                    <img src="http://maps.googleapis.com/maps/api/staticmap?center=48.858271,2.294264&amp;size=640x300&amp;zoom=16&amp;key=AIzaSyBMlTEcPR5QULmk9QUaS7lwUK7qtabunEI"
-                                                        style="" alt="">
+                                            <div class="media">
+                                                <img class="m--margin-right-20"
+                                                    src="<?php echo e(asset('images/store/logo/')); ?>/<?php echo e($store->image); ?>" title="">
+                                                <div class="media-body">
+                                                    <div class="m-timeline-1__item-title m--margin-top-10  "><?php echo e($store->title); ?></div>
+                                                    <div class="m-timeline-1__item-body"><?php echo e(str_limit($promotion->store,100)); ?></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php $__currentLoopData = $support; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <?php if($key %2  == 0): ?> 
                                         <div class="m-timeline-1__item m-timeline-1__item--left">
@@ -136,10 +141,7 @@
                                                 <div class="m--bg-danger"></div>
                                             </div>
                                             <div class="m-timeline-1__item-arrow"></div>
-                                            <span class="m-timeline-1__item-time m--font-brand"><?php echo e(DATE_FORMAT($s->created_at,'d-M-Y')); ?> / <?php echo e(DATE_FORMAT($s->created_at,'H:i')); ?>
-
-                                                <span>PM</span>
-                                            </span>
+                                            <span class="m-timeline-1__item-time m--font-brand"><?php echo e(DATE_FORMAT($s->created_at,'d-M-Y')); ?> / <?php echo e(DATE_FORMAT($s->created_at,'H:i A')); ?></span>
                                             <div class="m-timeline-1__item-content">
                                                 <div class="m-timeline-1__item-title">
                                                     Support Query

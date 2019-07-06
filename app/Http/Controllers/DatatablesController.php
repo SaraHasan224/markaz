@@ -141,6 +141,8 @@ class DatatablesController extends Controller
             return(empty($promotion->hasstore) ? '' : $promotion->hasstore->name);
         })->editColumn('location', function ($promotion) {
             return($promotion->location.' longitude = '.$promotion->longitude.' latitude = '.$promotion->latitude);
+        })->editColumn('image', function ($users) {
+            return("<img src=".asset('images/promotion')."/".$users->image." style='width:60px; height:60px;'/>");
         })->editColumn('actions', function ($promotion)  use($role)   {
             $actions = '';
             if($role == 'Admin' || $role == 'Store Admin')
@@ -154,7 +156,7 @@ class DatatablesController extends Controller
                             </a>';
             }
             return($actions);
-        })->rawColumns(['actions','location','store_id'])->make();
+        })->rawColumns(['image','actions','location','store_id'])->make();
     }
     public function getusers()
     {

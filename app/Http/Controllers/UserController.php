@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use DB,
     App\EventLog,
     App\Follower,
+    App\MediaImage,
     App\User,
     App\Store,
     App\Support,
@@ -286,13 +287,17 @@ class UserController extends Controller
         $stores = Store::where('user_id',$getuser->id)->get();
         $ids = [];
         foreach($stores as $store){ array_push($ids,$store->id);}
-        $media = DB::table('promotions')
+        $medias = DB::table('promotions')
                 ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                 ->whereIn('promotions.store_id',$ids)
                 ->select('promotion_media.media_id')
                 ->get();
+        $media_id = [];
+        foreach($medias as  $media){array_push($media_id,$media->media_id);}
+        $pro_media = MediaImage::whereIn('id',$media_id)->get();
+        // dd($pro_media);
         $data['stores'] = !empty($stores) ? $stores : '';
-        $data['media'] = !empty($media) ? $media : '';
+        $data['media'] = !empty($media) ? $pro_media : '';
         $data['logged_user'] = $getuser;
         return view('user.media',$data);
     }
@@ -454,9 +459,9 @@ class UserController extends Controller
         {
             $now = Carbon::now();
             // dd($now->subWeek()->toDateTimeString());
-            $data['store'] = Store::whereIn('id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
+            $data['stores'] = Store::whereIn('id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
             $data['follower'] = Follower::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
-            $data['promotion'] = Promotion::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('comments')->get();
+            $data['promotions'] = Promotion::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('comments')->get();
             $data['support'] = Support::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
             // dd($data);
             return view('user.timeline',$data); 
