@@ -170,29 +170,58 @@
 <script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
     <script>
-        $(function () {
-            $('#view_stores').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax"      : '{{ url("get-store") }}',
-                columnDefs: [    
-                    { "width": "100px", "targets": [10] }
-                ],
-                "columns"   : [
-                    { data: 'id',searchable: false, orderable: true  },
-                    { data: 'category_id' },
-                    { data: 'name' },
-                    { data: 'address' },
-                    { data: 'telephone' },
-                    { data: 'website' },
-                    { data: 'emailaddress'},
-                    { data: 'tagline' },  
-                    { data: 'created_at' },  
-                    { data: 'status' },
-                    { data: 'actions', searchable: false, orderable: false },
-                ]
+        var user_id = '{{$user_id}}';
+
+        if(user_id > 0)
+        {
+            $(function () {
+                $('#view_stores').DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax"      : '{{ url("get-store") }}'+'/'+user_id,
+                    columnDefs: [    
+                        { "width": "100px", "targets": [10] }
+                    ],
+                    "columns"   : [
+                        { data: 'id',searchable: false, orderable: true  },
+                        { data: 'category_id' },
+                        { data: 'name' },
+                        { data: 'address' },
+                        { data: 'telephone' },
+                        { data: 'website' },
+                        { data: 'emailaddress'},
+                        { data: 'tagline' },  
+                        { data: 'created_at' },  
+                        { data: 'status' },
+                        { data: 'actions', searchable: false, orderable: false },
+                    ]
+                });
             });
-        });
+        }else{ 
+            $(function () {
+                $('#view_stores').DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax"      : '{{ url("get-store") }}',
+                    columnDefs: [    
+                        { "width": "100px", "targets": [10] }
+                    ],
+                    "columns"   : [
+                        { data: 'id',searchable: false, orderable: true  },
+                        { data: 'category_id' },
+                        { data: 'name' },
+                        { data: 'address' },
+                        { data: 'telephone' },
+                        { data: 'website' },
+                        { data: 'emailaddress'},
+                        { data: 'tagline' },  
+                        { data: 'created_at' },  
+                        { data: 'status' },
+                        { data: 'actions', searchable: false, orderable: false },
+                    ]
+                });
+            });
+        }
     </script>
     
     <script>
@@ -253,19 +282,19 @@
             // Update Store Status
         $(document).ready(function (e) {
             var base_url = '<?php url('/') ?>';
-            $(document).on("click", '#delete', function (e) {
+            $(document).on("click", '#status', function (e) {
                 var id = $(this).data('id');
                     e.preventDefault();
                     swal({
                         title: "Are you sure?",
-                        text: "You won't be able to revert this!",
+                        text: "You want to update store status?",
                         type: "warning",
                         showCancelButton: !0,
-                        confirmButtonText: "Yes, delete it!",
+                        confirmButtonText: "Yes, disable/enable it!",
                         cancelButtonText: "No, cancel!",
                         reverseButtons: !0
                     }).then(function(e) {
-                        e.value ? swal("Deleted!", "User has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                        e.value ? swal("Updated!", "Store status has been updated.", "success") : "cancel" === e.dismiss && swal("Cancelled", "Status not updated", "error");
                         if(e.value == true)
                         {
                                 $.ajax({
@@ -274,16 +303,14 @@
                                     {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                                     },
-                                    url: base_url+'/delete-store',
+                                    url: base_url+'/update-store-status',
                                     data: {id: id},
                                     success: function (response) {
                                         console.log(response.code);
                                         if(response.code == 200)
                                         {
                                             swal.close();
-                                            $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-                                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
-                                            var table = $('#view_stores').DataTable();
+                                           var table = $('#view_stores').DataTable();
                                             table.ajax.reload();
                                         }
                                     }

@@ -63,12 +63,19 @@ class DatatablesController extends Controller
             return($actions);
         })->rawColumns(['actions'])->make();
     }
-    public function getstore()
+    public function getstore($user_id = '')
     {
         $role =  session()->get('role_name');
-        $getStore = DB::table('stores')
-                    ->leftJoin('categories', 'stores.category_id', '=', 'categories.id')
-                    ->select('categories.title as category_id','stores.id as id','stores.name as name','stores.address as address','stores.telephone as telephone','stores.website as website','stores.emailaddress as emailaddress','stores.tagline as tagline','stores.status as status','stores.user_id as user_id','stores.created_at as created_at');
+        if($user_id == '')
+        {
+            $getStore = DB::table('stores')
+            ->leftJoin('categories', 'stores.category_id', '=', 'categories.id')
+            ->select('categories.title as category_id','stores.id as id','stores.name as name','stores.address as address','stores.telephone as telephone','stores.website as website','stores.emailaddress as emailaddress','stores.tagline as tagline','stores.status as status','stores.user_id as user_id','stores.created_at as created_at');
+        }else{
+            $getStore = DB::table('stores')->where('user_id',$user_id)
+            ->leftJoin('categories', 'stores.category_id', '=', 'categories.id')
+            ->select('categories.title as category_id','stores.id as id','stores.name as name','stores.address as address','stores.telephone as telephone','stores.website as website','stores.emailaddress as emailaddress','stores.tagline as tagline','stores.status as status','stores.user_id as user_id','stores.created_at as created_at');
+        }
         return Datatables::of($getStore)
         ->editColumn('telephone', function ($store) {
             return(str_limit($store->telephone, 50));
@@ -77,10 +84,10 @@ class DatatablesController extends Controller
         })->editColumn('status', function ($store) {
             if($store->status == 1)
             {
-                $status = '<button type="button" class="btn m-btn--pill btn-accent response" data-toggle="modal" data-target="#m_status_6" data-id="'.$store->id.'">Enable</button>';
+                $status = '<button type="button" class="btn m-btn--pill btn-accent response" id="status" data-id="'.$store->id.'" >Enable</button>';
             }
             else{
-                $status = '<button type="button" class="btn m-btn--pill btn-focus response"  data-toggle="modal" data-target="#m_status_6" data-id="'.$store->id.'">Disable</button>';
+                $status = '<button type="button" class="btn m-btn--pill btn-focus response"  id="status" data-id="'.$store->id.'" >Disable</button>';
             }
             return($status);
         })->editColumn('actions', function ($store)  use($role)  {

@@ -113,14 +113,13 @@ class StoreController extends Controller
     
     // Manage stores starts here 
 
-    public function getstore($store_id = ''){
+    public function getstore(){
         $data['title'] = "Manage Stores";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['role'] = session()->get('role_name');
         $data['logged_user'] = $getuser;
         $data['user_id'] = $user_id;
-        $data['store_id'] = $store_id;
         return view('store.view-all',$data);
     }
     public function createstore(Request $request){
@@ -264,6 +263,36 @@ class StoreController extends Controller
         $data['logged_user'] = $getuser;
         $data['role'] = session()->get('role_name');
         return view('store.view-all',$data);
+    }
+
+    public function updateStoreStatus(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $input = $request->only('id');
+            $rules = [
+                'id' => 'required',
+               ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 406;
+                $output = ['code' => $code, 'messages' => $validator->messages()->all()];
+            }else{
+                $code = 200;
+                $store = Store::where('id',$request->id)->first();
+                EventLog::create([
+                    'component' => 'Store',
+                    'component_name' => $store->name,
+                    'operation' => 'Status Updated',
+                    'user_id'   => session()->get('user_id'),
+                ]);
+                $storecode = 200;
+                $status = ($store->status == 1) ? 0 : 1;
+                $store->update(['status' => $status]);
+                $output = ['code' => $code,'message' => 'Store Updated Successfully.'];
+            }
+            return response()->json($output, $code);
+        } 
     }
 
     public function deleteStore(Request $request)

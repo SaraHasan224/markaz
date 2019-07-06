@@ -138,34 +138,7 @@
 
 
 <!-- Modal for Update status-->
-<div class="modal fade" id="edit_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book.
-                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
-                    containing Lorem Ipsum passages, and more recently
-                    with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal for View  Store-->
-<div class="modal fade" id="view_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="status_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -196,29 +169,58 @@
 <script src="<?php echo e(asset('assets/admin/js/jquery.dataTables.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/admin/js/dataTables.bootstrap.min.js')); ?>"></script>
     <script>
-        $(function () {
-            $('#view_stores').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax"      : '<?php echo e(url("get-store")); ?>',
-                columnDefs: [    
-                    { "width": "100px", "targets": [10] }
-                ],
-                "columns"   : [
-                    { data: 'id',searchable: false, orderable: true  },
-                    { data: 'category_id' },
-                    { data: 'name' },
-                    { data: 'address' },
-                    { data: 'telephone' },
-                    { data: 'website' },
-                    { data: 'emailaddress'},
-                    { data: 'tagline' },  
-                    { data: 'created_at' },  
-                    { data: 'status' },
-                    { data: 'actions', searchable: false, orderable: false },
-                ]
+        var user_id = '<?php echo e($user_id); ?>';
+
+        if(user_id > 0)
+        {
+            $(function () {
+                $('#view_stores').DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax"      : '<?php echo e(url("get-store")); ?>'+'/'+user_id,
+                    columnDefs: [    
+                        { "width": "100px", "targets": [10] }
+                    ],
+                    "columns"   : [
+                        { data: 'id',searchable: false, orderable: true  },
+                        { data: 'category_id' },
+                        { data: 'name' },
+                        { data: 'address' },
+                        { data: 'telephone' },
+                        { data: 'website' },
+                        { data: 'emailaddress'},
+                        { data: 'tagline' },  
+                        { data: 'created_at' },  
+                        { data: 'status' },
+                        { data: 'actions', searchable: false, orderable: false },
+                    ]
+                });
             });
-        });
+        }else{ 
+            $(function () {
+                $('#view_stores').DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax"      : '<?php echo e(url("get-store")); ?>',
+                    columnDefs: [    
+                        { "width": "100px", "targets": [10] }
+                    ],
+                    "columns"   : [
+                        { data: 'id',searchable: false, orderable: true  },
+                        { data: 'category_id' },
+                        { data: 'name' },
+                        { data: 'address' },
+                        { data: 'telephone' },
+                        { data: 'website' },
+                        { data: 'emailaddress'},
+                        { data: 'tagline' },  
+                        { data: 'created_at' },  
+                        { data: 'status' },
+                        { data: 'actions', searchable: false, orderable: false },
+                    ]
+                });
+            });
+        }
     </script>
     
     <script>
@@ -230,6 +232,7 @@
         }); 
     </script>
     <script>
+    // Delete a store
         $(document).ready(function (e) {
             // Delete Store
             var base_url = '<?php url('/') ?>';
@@ -264,6 +267,49 @@
                                             $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
                                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
                                             var table = $('#view_stores').DataTable();
+                                            table.ajax.reload();
+                                        }
+                                    }
+                                });
+                        }
+                    })
+            });
+        });
+    </script>
+    
+    <script>
+            // Update Store Status
+        $(document).ready(function (e) {
+            var base_url = '<?php url('/') ?>';
+            $(document).on("click", '#status', function (e) {
+                var id = $(this).data('id');
+                    e.preventDefault();
+                    swal({
+                        title: "Are you sure?",
+                        text: "You want to update store status?",
+                        type: "warning",
+                        showCancelButton: !0,
+                        confirmButtonText: "Yes, disable/enable it!",
+                        cancelButtonText: "No, cancel!",
+                        reverseButtons: !0
+                    }).then(function(e) {
+                        e.value ? swal("Updated!", "Store status has been updated.", "success") : "cancel" === e.dismiss && swal("Cancelled", "Status not updated", "error");
+                        if(e.value == true)
+                        {
+                                $.ajax({
+                                    type: "POST",
+                                    headers: 
+                                    {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                    },
+                                    url: base_url+'/update-store-status',
+                                    data: {id: id},
+                                    success: function (response) {
+                                        console.log(response.code);
+                                        if(response.code == 200)
+                                        {
+                                            swal.close();
+                                           var table = $('#view_stores').DataTable();
                                             table.ajax.reload();
                                         }
                                     }

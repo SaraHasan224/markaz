@@ -63,11 +63,13 @@ Route::group(['middleware' => ['web']], function () {
         
         //Store Rouutes
         Route::get('get-store', 'DatatablesController@getstore');
+        Route::get('get-store/{user_id}', 'DatatablesController@getstore');
         Route::get('store', 'StoreController@getstore');
         Route::get('create-store', 'StoreController@createstore');
         Route::post('poststore', 'StoreController@poststore');
         Route::match(['get','post'],'edit-store/{id}', 'StoreController@editstore');
         Route::post('delete-store', 'StoreController@deleteStore');
+        Route::post('update-store-status', 'StoreController@updateStoreStatus');
         //Get Specific Store
         Route::get('view-store/{id}', 'StoreController@getspecificstore');
         
