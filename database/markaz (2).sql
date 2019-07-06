@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 06, 2019 at 05:29 AM
+-- Generation Time: Jul 06, 2019 at 07:42 AM
 -- Server version: 5.7.19
 -- PHP Version: 7.1.20
 
@@ -219,10 +219,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (58, '2019_06_09_133704_create_permission_tables', 5),
 (60, '2019_06_12_183457_create_logs_table', 7),
 (61, '2014_10_12_000000_create_users_table', 8),
-(66, '2019_02_28_181002_create_promotions_table', 9),
 (67, '2019_05_27_161418_create_categories_table', 9),
 (68, '2019_05_27_161508_create_tags_table', 9),
-(69, '2019_02_28_171441_create_stores_table', 10);
+(69, '2019_02_28_171441_create_stores_table', 10),
+(70, '2019_02_28_181002_create_promotions_table', 11);
 
 -- --------------------------------------------------------
 
@@ -371,9 +371,8 @@ CREATE TABLE `promotions` (
   `location` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `longitude` double NOT NULL,
   `latitude` double NOT NULL,
-  `payment_status` tinyint(4) NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `store_id` bigint(20) UNSIGNED NOT NULL,
-  `category_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -613,10 +612,18 @@ CREATE TABLE `support` (
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `response` text COLLATE utf8mb4_unicode_ci,
   `status` tinyint(4) NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `support`
+--
+
+INSERT INTO `support` (`id`, `first_name`, `last_name`, `store_id`, `subject`, `email`, `description`, `response`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Sara', 'Hasan', 1, 'Problem', 'sara122@gmail.com', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ', 1, '2019-07-02 19:00:00', NULL, NULL),
+(2, 'Sara', 'Hasan', 2, 'Problem', 'sara122@gmail.com', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ', 1, '2019-07-02 06:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -745,8 +752,7 @@ ALTER TABLE `permissions`
 --
 ALTER TABLE `promotions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `promotions_store_id_foreign` (`store_id`),
-  ADD KEY `promotions_category_id_foreign` (`category_id`);
+  ADD KEY `promotions_store_id_foreign` (`store_id`);
 
 --
 -- Indexes for table `promotion_comments`
@@ -852,7 +858,7 @@ ALTER TABLE `media_images`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -900,7 +906,7 @@ ALTER TABLE `stores`
 -- AUTO_INCREMENT for table `support`
 --
 ALTER TABLE `support`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tags`

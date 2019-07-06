@@ -562,7 +562,7 @@
                                     class="m-menu__link-icon flaticon-network"></i><span
                                     class="m-menu__link-text">Profile</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('timeline')); ?>/<?php echo e(Session::get('store_id')); ?>"
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('timeline')); ?>"
                                 class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-graphic"></i><span
                                     class="m-menu__link-text">Timeline</span></a>

@@ -1,6 +1,4 @@
-@extends('layouts.header')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
@@ -9,7 +7,7 @@
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator"> {{ $title }}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"> <?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -25,7 +23,7 @@
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="" class="m-nav__link">
-                            <span class="m-nav__link-text">{{ $title }}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
 
@@ -47,7 +45,8 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                {{ $title }}
+                                <?php echo e($title); ?>
+
                             </h3>
                         </div>
                     </div>
@@ -83,7 +82,6 @@
                             <div class="m-timeline-1 m-timeline-1--fixed">
                                 <div class="m-timeline-1__items">
                                     <div class="m-timeline-1__marker"></div>
-                                    @foreach($promotions as $pkey => $promotion)
                                     <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
@@ -110,7 +108,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
                                     <div class="m-timeline-1__item m-timeline-1__item--right">
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
@@ -129,17 +126,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @foreach($support as $key => $s)
-                                        @if($key %2  == 0) 
+                                    <?php $__currentLoopData = $support; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($key %2  == 0): ?> 
                                         <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        @else
+                                        <?php else: ?>
                                         <div class="m-timeline-1__item m-timeline-1__item--right">
-                                        @endif
+                                        <?php endif; ?>
                                             <div class="m-timeline-1__item-circle">
                                                 <div class="m--bg-danger"></div>
                                             </div>
                                             <div class="m-timeline-1__item-arrow"></div>
-                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($s->created_at,'d-M-Y')}} / {{DATE_FORMAT($s->created_at,'H:i')}}
+                                            <span class="m-timeline-1__item-time m--font-brand"><?php echo e(DATE_FORMAT($s->created_at,'d-M-Y')); ?> / <?php echo e(DATE_FORMAT($s->created_at,'H:i')); ?>
+
                                                 <span>PM</span>
                                             </span>
                                             <div class="m-timeline-1__item-content">
@@ -147,19 +145,19 @@
                                                     Support Query
                                                 </div>
                                                 <div class="m-timeline-1__item-body">
-                                                    <p style="font-weight:450;">Recently a user {{$s->first_name.' '.$s->last_name}} registered complain against {{$s->store_id}} Store<p> <br/>
+                                                    <p style="font-weight:450;">Recently a user <?php echo e($s->first_name.' '.$s->last_name); ?> registered complain against <?php echo e($s->store_id); ?> Store<p> <br/>
                                                     Lorem ipsum dolor sit amit,consectetur eiusmdd
                                                     <br> tempor incididunt ut labore et dolore magna enim
                                                     <br> ad minim veniam nostrud.
                                                 </div>
                                                 <div class="m-timeline-1__item-actions">
-                                                    <a href="{{url('support')}}"
+                                                    <a href="<?php echo e(url('support')); ?>"
                                                         class="btn btn-sm btn-outline-brand m-btn m-btn--pill m-btn--custom">Read
                                                         more...</a>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <div class="m-timeline-1__item m-timeline-1__item--left">
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
@@ -209,11 +207,11 @@
                                             </div>
                                             <div class="m-timeline-1__item-body">
                                                 <div class="m-list-pics">
-                                                    @foreach($logged_user as $user)
+                                                    <?php $__currentLoopData = $logged_user; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <a href="../../#">
                                                         <img src="assets/app/media/img/users/100_4.jpg" title="">
                                                     </a>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </div>
                                                 <div class="m-timeline-1__item-body m--margin-top-15">
                                                     Lorem ipsum dolor sit amit,consectetur eiusmdd
@@ -413,4 +411,6 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

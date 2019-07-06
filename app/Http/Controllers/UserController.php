@@ -439,20 +439,26 @@ class UserController extends Controller
 
     // Manage Store Timeline Starts Here //
 
-    public function getTimeline($store_id = '')
+    public function getTimeline()
     {
         $data['title'] = 'Timeline';
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
         $data['role'] = session()->get('role_name');
+        $stores = Store::where('user_id',$user_id)->get();
+        $store_id = [];
+        foreach($stores as $store){ array_push($store_id,$store->id);}
+        // dd($store_id);
         if($store_id != '')
         {
-                $data['user'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
-                $data['store'] = Store::where('id',$store_id)->whereDate('created_at', Carbon::today())->first();
-                $data['follower'] = Follower::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
-                $data['promotion'] = Promotion::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->with('comments')->get();
-                $data['support'] = Support::where('store_id',$store_id)->whereDate('created_at', Carbon::today())->get();
+            $now = Carbon::now();
+            // dd($now->subWeek()->toDateTimeString());
+            $data['store'] = Store::whereIn('id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
+            $data['follower'] = Follower::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
+            $data['promotion'] = Promotion::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('comments')->get();
+            $data['support'] = Support::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
+            // dd($data);
             return view('user.timeline',$data); 
         }else{
             return view('faq.error');
