@@ -116,6 +116,7 @@ Route::group(['middleware' => ['web']], function () {
         /*  Profile routes starts here  */
  
         Route::get('profile','UserController@getUserProfile');
+        Route::get('media','UserController@getMedia');
         Route::post('user_profile','UserController@postUserProfile');        
         /*  Profile routes ends here  */
 

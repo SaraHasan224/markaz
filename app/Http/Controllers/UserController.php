@@ -264,20 +264,37 @@ class UserController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $role = DB::table('roles')->whereId($getuser->role_id)->first();
         $data['role'] = $role;
-        if($role->id != 1){ 
-            $store = Store::where('id',$getuser->store_id)->first();
-            $media = DB::table('promotions')
-                        ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
-                        ->where('promotions.store_id',$getuser->store_id)
-                        ->select('promotion_media.media_id')
-                        ->get();
-            $social = ($store != '') ? StoreSocialMedia::where('store_id',$store->id)->first() : '';    
-        }
-        $data['store'] = !empty($store) ? $store : '';
-        $data['social'] = !empty($social) ? $social : '';
+        $stores = Store::where('user_id',$getuser->id)->get();
+        $ids = [];
+        foreach($stores as $store){ array_push($ids,$store->id);}
+        $media = DB::table('promotions')
+                ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                ->whereIn('promotions.store_id',$ids)
+                ->select('promotion_media.media_id')
+                ->get();
+        $data['stores'] = !empty($stores) ? $stores : '';
         $data['media'] = !empty($media) ? $media : '';
         $data['logged_user'] = $getuser;
         return view('user.client_profile',$data);
+    }
+    public function getMedia(Request $request)
+    {
+        $user_id = $request->session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $role = DB::table('roles')->whereId($getuser->role_id)->first();
+        $data['role'] = $role;
+        $stores = Store::where('user_id',$getuser->id)->get();
+        $ids = [];
+        foreach($stores as $store){ array_push($ids,$store->id);}
+        $media = DB::table('promotions')
+                ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                ->whereIn('promotions.store_id',$ids)
+                ->select('promotion_media.media_id')
+                ->get();
+        $data['stores'] = !empty($stores) ? $stores : '';
+        $data['media'] = !empty($media) ? $media : '';
+        $data['logged_user'] = $getuser;
+        return view('user.media',$data);
     }
     public function postUserProfile(Request $request)
     {

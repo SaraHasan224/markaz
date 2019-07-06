@@ -87,7 +87,20 @@
                                         <span class="m-nav__link-wrap">
                                             <span class="m-nav__link-text">My Profile</span>
                                             <span class="m-nav__link-badge">
-                                                <span class="m-badge m-badge--success">2</span>
+                                                <span class="m-badge m-badge--success"><?php echo e(count($stores)); ?></span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item">
+                                <a href="<?php echo e(url('media')); ?>" class="m-nav__link">
+                                    <i class="m-nav__link-icon flaticon-profile-1"></i>
+                                    <span class="m-nav__link-title">
+                                        <span class="m-nav__link-wrap">
+                                            <span class="m-nav__link-text">My Media</span>
+                                            <span class="m-nav__link-badge">
+                                                <span class="m-badge m-badge--success"><?php echo e(count($media)); ?></span>
                                             </span>
                                         </span>
                                     </span>
