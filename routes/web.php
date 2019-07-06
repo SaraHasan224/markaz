@@ -97,9 +97,9 @@ Route::group(['middleware' => ['web']], function () {
         /* Follower routes starts here*/
         
         Route::get('get-followers', 'DatatablesController@getfollowers');
-        Route::get('followers/{user_id}', 'UserController@getfollowers');
+        Route::get('followers/{store_id}', 'UserController@getfollowers');
         Route::get('get-unfollowers', 'DatatablesController@getunfollowers');
-        Route::get('unfollowers/{user_id}', 'UserController@getunfollowers');
+        Route::get('unfollowers/{store_id}', 'UserController@getunfollowers');
         
         /* Follower routes ends here*/
 

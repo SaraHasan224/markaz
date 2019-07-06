@@ -1,3 +1,4 @@
+
 @extends('layouts.header')
 
 @section('styles')
@@ -71,7 +72,11 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination{
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
+                        @if($role == 'Admin')
+                        <a href="{{url('store')}}" class="m-nav__link">
+                        @else
                         <a href="{{url('store/'.$id)}}" class="m-nav__link">
+                        @endif
                             <span class="m-nav__link-text">Store</span>
                         </a>
                     </li>
@@ -110,7 +115,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination{
                             <th>ID</th>
                             <th>User Id</th>
                             <th>Status</th>
-                            <th>Followed At</th>
+                            <th>{{$follow}}</th>
                         </tr>
                     </thead>
                     <tbody>

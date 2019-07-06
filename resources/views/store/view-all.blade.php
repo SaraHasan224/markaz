@@ -139,34 +139,7 @@
 
 
 <!-- Modal for Update status-->
-<div class="modal fade" id="edit_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book.
-                    It has survived not only five centuries, but also the leap into electronic typesetting, remaining
-                    essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
-                    containing Lorem Ipsum passages, and more recently
-                    with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal for View  Store-->
-<div class="modal fade" id="view_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade" id="status_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -231,8 +204,54 @@
         }); 
     </script>
     <script>
+    // Delete a store
         $(document).ready(function (e) {
             // Delete Store
+            var base_url = '<?php url('/') ?>';
+            $(document).on("click", '#delete', function (e) {
+                var id = $(this).data('id');
+                    e.preventDefault();
+                    swal({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        type: "warning",
+                        showCancelButton: !0,
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "No, cancel!",
+                        reverseButtons: !0
+                    }).then(function(e) {
+                        e.value ? swal("Deleted!", "User has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                        if(e.value == true)
+                        {
+                                $.ajax({
+                                    type: "POST",
+                                    headers: 
+                                    {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                    },
+                                    url: base_url+'/delete-store',
+                                    data: {id: id},
+                                    success: function (response) {
+                                        console.log(response.code);
+                                        if(response.code == 200)
+                                        {
+                                            swal.close();
+                                            $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
+                                            var table = $('#view_stores').DataTable();
+                                            table.ajax.reload();
+                                        }
+                                    }
+                                });
+                        }
+                    })
+            });
+        });
+    </script>
+    
+    <script>
+            // Update Store Status
+        $(document).ready(function (e) {
             var base_url = '<?php url('/') ?>';
             $(document).on("click", '#delete', function (e) {
                 var id = $(this).data('id');

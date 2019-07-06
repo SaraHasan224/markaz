@@ -216,13 +216,14 @@ class StoreController extends Controller
         $data['user_id'] = $user_id;
         if($request->isMethod('post'))
         {
-            $input = $request->only('name', 'address','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+            $input = $request->only('name','category_id', 'address','website','contact_email','tagline','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
             $rules = [  
                 'name' => 'required',
                 'address' => 'required',
                 'website' => 'required',
                 'contact_email' => 'required',
-                'description' => 'required',
+                'tagline' => 'required',
+                'category_id' => 'required',
                 'contact_number' => 'required'
             ];
             $validator = Validator::make($input, $rules);
@@ -234,9 +235,10 @@ class StoreController extends Controller
                     'name' => $request->name,
                     'address' => $request->address,
                     'telephone' => $request->contact_number,
-                    'websitelink' => $request->website,
+                    'website' => $request->website,
                     'emailaddress' => $request->contact_email,
-                    'desciption' => $request->description,
+                    'tagline' => $request->tagline,
+                    'category_id' => $request->category_id,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
                 ]);

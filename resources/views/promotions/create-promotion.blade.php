@@ -183,21 +183,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_3">
-                                            <div class="m-wizard__step-info">
-                                                <a href="#" class="m-wizard__step-number">
-                                                    <span>
-                                                        <span>3</span>
-                                                    </span>
-                                                </a>
-                                                <div class="m-wizard__step-label">
-                                                    Billing Setup
-                                                </div>
-                                                <div class="m-wizard__step-icon">
-                                                    <i class="la la-check"></i>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <!--end: Form Wizard Nav -->
@@ -237,34 +222,6 @@
                                                     <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" ></textarea>
                                                     </div>
                                                 </div>
-                                                @if(!empty($pro_cat))
-                                                <div class="form-group m-form__group row">
-                                                    <label class="col-form-label col-lg-3 col-sm-12">* Select/deselect
-                                                        Categories</label>
-                                                    <div class="col-lg-8 col-md-8 col-sm-12">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker" name="category[]"
-                                                            multiple>
-                                                            @foreach($pro_cat as $category)
-                                                                <option>{{$category->title}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                @endif
-                                                @if(count($pro_tags) > 0)
-                                                <div class="form-group m-form__group row">
-                                                    <label class="col-form-label col-lg-3 col-sm-12">* Select/deselect
-                                                        tags</label>
-                                                    <div class="col-lg-8 col-md-8 col-sm-12">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker" name="tags[]"
-                                                            multiple>
-                                                            @foreach($pro_tags as $tags)
-                                                                <option>{{$tags->title}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                @endif
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">* Start &amp; End
                                                         Time</label>
@@ -301,6 +258,17 @@
                                                             </div>
                                                         </div> -->
                                                         <input type="file" multiple name="promotion_images[]"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-form-label col-lg-3 col-sm-12">Multiple Promotions Images Upload</label>
+                                                    <div class="col-lg-9 col-md-9 col-sm-9">
+                                                        <div class="m-dropzone dropzone m-dropzone--primary dz-clickable" action="inc/api/dropzone/upload.php" id="m-dropzone-two">
+                                                            <div class="m-dropzone__msg dz-message needsclick">
+                                                                <h3 class="m-dropzone__msg-title">Drop files here or click to upload.</h3>
+                                                                <span class="m-dropzone__msg-desc">Upload up to 10 files</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -350,7 +318,7 @@
                                         <!--end: Form Wizard Step 2-->
 
                                         <!--begin: Form Wizard Step 3-->
-                                        <div class="m-wizard__form-step" id="m_wizard_form_step_3">
+                                        <!-- <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                                             <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">* Pricing Table </h3>
@@ -505,7 +473,7 @@
                                                 </div>
                                             </div>
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                        </div>
+                                        </div> -->
 
                                         <!--end: Form Wizard Step 3-->
                                         <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">

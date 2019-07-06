@@ -69,7 +69,11 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination{
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
+                        <?php if($role == 'Admin'): ?>
+                        <a href="<?php echo e(url('store')); ?>" class="m-nav__link">
+                        <?php else: ?>
                         <a href="<?php echo e(url('store/'.$id)); ?>" class="m-nav__link">
+                        <?php endif; ?>
                             <span class="m-nav__link-text">Store</span>
                         </a>
                     </li>
@@ -109,7 +113,7 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination{
                             <th>ID</th>
                             <th>User Id</th>
                             <th>Status</th>
-                            <th>Followed At</th>
+                            <th><?php echo e($follow); ?></th>
                         </tr>
                     </thead>
                     <tbody>

@@ -94,8 +94,6 @@ class PromotionController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $data['getstore'] = Store::where('id',1)->first();
         $data['logged_user'] = $getuser;
-        $data['pro_cat'] = Categories::where('status',1)->get();
-        $data['pro_tags'] = Tags::where('status',1)->get();
         if($request->isMethod('post'))
         { 
             $input = $request->all();

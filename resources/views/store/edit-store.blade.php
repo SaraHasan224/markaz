@@ -160,10 +160,10 @@
                                     <label>Store Category:</label>
                                     <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id">
                                         @foreach($categories as $category)
-											<option value="{{$category->id}}">{{$category->title}}</option>
+											<option value="{{$category->id}}" @if($category->id == $store->category_id) selected="selected" @endif>{{$category->title}}</option>
                                         @endforeach
 									</select>
-                                    <span class="m-form__help">Enter your store name</span>
+                                    <span class="m-form__help">Select your store category</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
@@ -174,7 +174,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
-                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ !empty($store) ? $store->websitelink : '' }}">
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ !empty($store) ? $store->website : '' }}">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50">{{ !empty($store) ? $store->desciption : '' }}</textarea>
+                                    <textarea name="tagline" class="form-control m-input" placeholder="Enter description" rows="4" cols="50">{{ !empty($store) ? $store->tagline : '' }}</textarea>
                                     <span class="m-form__help">Enter your store description</span>
                                 </div>
                                 <div class="col-lg-6">

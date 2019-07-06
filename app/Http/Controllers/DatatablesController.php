@@ -14,6 +14,55 @@ use App\Follower,
 use yajra\Datatables\Datatables;
 class DatatablesController extends Controller
 {
+    public function getCategories()
+    {
+        $role =  session()->get('role_name');
+        
+        $getCategories = Categories::select('id','title','image','created_at');
+        return Datatables::of($getCategories)
+        ->editColumn('image', function ($cat) {
+            return("<img src=".asset('images/category')."/".$cat->image." style='width:60px; height:60px;'/>");
+        })->editColumn('actions', function ($categories)  use($role)   {
+            $actions = '';
+            if($role == 'Admin' || $role == 'Store Admin')
+            {
+                $actions = ' 
+                <a  id="delete" data-id="'.$categories->id.'" 
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                    <i class="la la-trash" style="color:#ef2626;"></i>
+                </a>
+                <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'"  data-image="'.$categories->image.'"   
+                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                    <i class="la la-edit"></i>
+                </a>';
+            }
+            return($actions);
+        })->rawColumns(['actions','image'])->make();
+    }
+    public function getTags()
+    {
+        $role =  session()->get('role_name');
+        
+        $getTags = Tags::select('id','title','created_at');
+        return Datatables::of($getTags)
+       ->editColumn('actions', function ($tags)  use($role)   {
+            $actions = '';
+            if($role == 'Admin')
+            {
+                $actions = '<a  id="delete" data-id="'.$tags->id.'" 
+                                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+                                <i class="la la-trash" style="color:#ef2626;"></i>
+                            </a>';
+                $actions .= '<a  id="edit_tags" data-id="'.$tags->id.'" data-tag="'.$tags->title.'" 
+                                class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+                                <i class="la la-edit"></i>
+                            </a>';
+            }        else{
+                $actions = 'You don\'t have permissions to perform any action';
+            }    
+            return($actions);
+        })->rawColumns(['actions'])->make();
+    }
     public function getstore()
     {
         $role =  session()->get('role_name');
@@ -50,8 +99,8 @@ class DatatablesController extends Controller
                                 class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill"
                                 data-toggle="dropdown" aria-expanded="true"><i class="la la-ellipsis-h"></i></a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="'.url("followers/".$store->user_id).'"><i class="la la-edit"></i> Manage Following</a>
-                                <a class="dropdown-item" href="'.url("unfollowers/".$store->user_id).'"><i class="la la-edit"></i> Manage Blocked</a>
+                                <a class="dropdown-item" href="'.url("followers/".$store->id).'"><i class="la la-edit"></i> Manage Following</a>
+                                <a class="dropdown-item" href="'.url("unfollowers/".$store->id).'"><i class="la la-edit"></i> Manage Blocked</a>
                             </div>
                     </span>';
             }
@@ -100,58 +149,9 @@ class DatatablesController extends Controller
             return($actions);
         })->rawColumns(['actions','location','store_id'])->make();
     }
-    public function getCategories()
-    {
-        $role =  session()->get('role_name');
-        
-        $getCategories = Categories::select('id','title','image','created_at');
-        return Datatables::of($getCategories)
-        ->editColumn('image', function ($cat) {
-            return("<img src=".asset('images/category')."/".$cat->image." style='width:60px; height:60px;'/>");
-        })->editColumn('actions', function ($categories)  use($role)   {
-            $actions = '';
-            if($role == 'Admin' || $role == 'Store Admin')
-            {
-                $actions = ' 
-                <a  id="delete" data-id="'.$categories->id.'" 
-                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-                    <i class="la la-trash" style="color:#ef2626;"></i>
-                </a>
-                <a  id="edit_categories" data-id="'.$categories->id.'" data-category="'.$categories->title.'"  data-image="'.$categories->image.'"   
-                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
-                    <i class="la la-edit"></i>
-                </a>';
-            }
-            return($actions);
-        })->rawColumns(['actions','image'])->make();
-    }
-    public function getTags()
-    {
-        $role =  session()->get('role_name');
-        
-        $getTags = Tags::select('id','title','created_at');
-        return Datatables::of($getTags)
-       ->editColumn('actions', function ($tags)  use($role)   {
-            $actions = '';
-            if($role == 'Admin' || $role == 'Store Admin')
-            {
-                $actions = ' 
-                <a  id="delete" data-id="'.$tags->id.'" 
-                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
-                    <i class="la la-trash" style="color:#ef2626;"></i>
-                </a>
-                <a  id="edit_tags" data-id="'.$tags->id.'" data-tag="'.$tags->title.'" 
-                    class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
-                    <i class="la la-edit"></i>
-                </a>';
-            }
-            return($actions);
-        })->rawColumns(['actions'])->make();
-    }
     public function getusers()
     {
         $role = session()->get('role_name');
-
         $getusers = DB::table('users')
         ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
         ->select('users.id as id','users.name as name','users.email as email','users.profile_pic as profile_pic','users.phone_number as phone_number','roles.name as role_id','users.created_at as created_at');
@@ -178,7 +178,14 @@ class DatatablesController extends Controller
     }
     public function getsupport()
     {
-        $getusers = Support::with('getstore')->select('id','store_id','first_name','last_name','email','subject','description','response','status','created_at');
+        $role =  session()->get('role_name');
+        if($role == 'Admin')
+        {
+            $getusers = Support::with('getstore')->select('id','store_id','first_name','last_name','email','subject','description','response','status','created_at');
+        }else
+        {
+            $getusers = Support::where('store_id',$store_id)->with('getstore')->select('id','store_id','first_name','last_name','email','subject','description','response','status','created_at');
+        }
         return Datatables::of($getusers)
         ->editColumn('store_id', function ($users) { 
             return($users->getstore->name);
@@ -202,12 +209,22 @@ class DatatablesController extends Controller
         })
         ->rawColumns(['store_id','status','first_name'])->make();
     }
-    public function getfollowers()
+    public function getfollowers($store_id = '')
     {      
-        $getfollowers = DB::table('followers')
-        ->leftJoin('users', 'followers.user_id', '=', 'users.id')
-        ->where('followers.deleted_at',NULL)
-        ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
+        $role =  session()->get('role_name');
+        if($role == 'Admin')
+        {
+            $getfollowers = DB::table('followers')
+            ->leftJoin('users', 'followers.user_id', '=', 'users.id')
+            ->where('followers.deleted_at',NULL)
+            ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
+        }else
+        {
+            $getfollowers = DB::table('followers')->where('store_id',$store_id)
+            ->leftJoin('users', 'followers.user_id', '=', 'users.id')
+            ->where('followers.deleted_at',NULL)
+            ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
+        }
         return Datatables::of($getfollowers)
         ->editColumn('status', function ($follower) {
             if($follower->status == 0)
@@ -221,12 +238,21 @@ class DatatablesController extends Controller
         })
         ->rawColumns(['status'])->make();
     }
-    public function getunfollowers()
-    {
-        $getfollowers = DB::table('followers')
-        ->leftJoin('users', 'followers.user_id', '=', 'users.id')
-        ->where('followers.deleted_at','<>',NULL)
-        ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
+    public function getunfollowers($store_id = '')
+    {    
+        $role =  session()->get('role_name');
+        if($role == 'Admin')
+        {
+            $getfollowers = DB::table('followers')
+            ->leftJoin('users', 'followers.user_id', '=', 'users.id')
+            ->where('followers.deleted_at','<>',NULL)
+            ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');
+        }else{
+            $getfollowers = DB::table('followers')->where('store_id',$store_id)
+            ->leftJoin('users', 'followers.user_id', '=', 'users.id')
+            ->where('followers.deleted_at','<>',NULL)
+            ->select('followers.id as id','users.name as  name','followers.store_id as store_id','followers.created_at as created_at','followers.status as status');    
+        }
         return Datatables::of($getfollowers)
         ->editColumn('user_id', function ($follower) {
             return(!empty($follower->hasUser) ? $follower->hasUser->name : '');

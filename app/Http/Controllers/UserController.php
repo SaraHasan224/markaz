@@ -402,6 +402,8 @@ class UserController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['follow'] = 'Followed At';
+        $data['role'] = session()->get('role_name');
         return view('home.followers',$data);
     }
     public function getunfollowers($id = null){
@@ -411,6 +413,8 @@ class UserController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['role'] = session()->get('role_name');
+        $data['follow'] = 'Unfollowed At';
         return view('home.followers',$data);
     }
     //      Manage Follower Ends Here    //
