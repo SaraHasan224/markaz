@@ -131,9 +131,9 @@ class DatatablesController extends Controller
         $role =  session()->get('role_name');
         if($store_id == '')
         {
-            $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
+            $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','image','store_id','created_at')->with('hasstore');
         }else{
-            $getPromotions = Promotion::where('store_id',$store_id)->select('id','title','description','start_time','end_time','location','longitude','latitude','payment_status','store_id','created_at')->with('hasstore');
+            $getPromotions = Promotion::where('store_id',$store_id)->select('id','title','description','start_time','end_time','location','longitude','latitude','image','store_id','created_at')->with('hasstore');
         }
 
         return Datatables::of($getPromotions)

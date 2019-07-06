@@ -120,8 +120,8 @@
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>Location</th>
-                            <th>Store Id</th>
-                            <th>Payment Status</th>
+                            <th>Store</th>
+                            <th>Image</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
@@ -153,7 +153,7 @@
                     { data: 'end_time' },
                     { data: 'location' },
                     { data: 'store_id' },
-                    { data: 'payment_status' },
+                    { data: 'image' },
                     { data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
                 ]

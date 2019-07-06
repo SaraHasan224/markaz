@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Categories,
     App\EventLog,
+    App\MediaImage,
     App\Promotion,
     App\Tags,
     App\PromotionCategories,
@@ -92,11 +93,43 @@ class PromotionController extends Controller
         $data['title'] = "Create Promotion";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-        $data['getstore'] = Store::where('id',1)->first();
+        $data['tags'] = Tags::get();
+        $data['stores'] = Store::where('user_id',$user_id)->get();
         $data['logged_user'] = $getuser;
         if($request->isMethod('post'))
         { 
             $input = $request->all();
+            // dd($input);
+            $media_ids = [];
+            if($request->hasFile('image'))
+            {
+                foreach($input['image'] as $value=> $file)
+                {
+                    if($file->isValid())
+                    {
+                        $extension = $file->getClientOriginalExtension();
+                        $image = rand(111,99999).".".$extension;
+                        $image_path = public_path('/images/promotion_media').'/'.$image;
+                        Image::make($file)->save($image_path);
+                        $media = new MediaImage;
+                        $media->image = $image;
+                        $media->save();
+                        array_push($media_ids,$media->id);
+                    } 
+                }
+            }
+            if($request->hasFile('images'))
+            { 
+                $img_tmp = Input::file('images');
+                if($img_tmp->isValid())
+                {
+                    $extension = $img_tmp->getClientOriginalExtension();
+                    $image = rand(111,99999).".".$extension;
+                    $image_path = public_path('/images/promotion').'/'.$image;
+                    Image::make($img_tmp)->save($image_path);          
+                }         
+            }
+            $input['images'] = $image;
             $repsonse = $this->_repository->createPromotion($input);
             if($repsonse){
                 EventLog::create([
@@ -104,23 +137,10 @@ class PromotionController extends Controller
                     'component_name' => $repsonse->title,
                     'operation' => 'Added',
                     'user_id'   => session()->get('user_id'),
-                    'store_id'  => session()->get('store_id'),
+                    'store_id'  => $request->store_id,
                 ]);
-                foreach($request->category as $category)
-                {
-                    $cat = new PromotionCategories;
-                    $cat->title = $category;
-                    $cat->promotion_id = $repsonse->id;
-                    $cat->save();
-                }
-                foreach($request->tags as $tag)
-                {
-                    $cat = new PromotionTags;
-                    $cat->title = $tag;
-                    $cat->promotion_id = $repsonse->id;
-                    $cat->save();
-                }
                 $input['promotion_id'] = $repsonse->id;
+                $input['media_ids'] = $media_ids;
                 $this->_promotion_image_repo->assignMedia($input);
                 $code = 200;
                 $output = ['code' => $code,'promotion'=>$repsonse];

@@ -59,31 +59,15 @@ class PromotionMediaRepository extends AbstractRepository implements RepositoryC
         return parent::findByAll($pagination, $perPage, $input);
     }
 
-    // public function assignMedia($data){
-    //     if(!empty($data['media_ids'])){
-    //         foreach ($data['media_ids'] as $media_id){
-    //             $input['promotion_id'] = $data['promotion_id'];
-    //             $input['media_id'] = $media_id;
-    //             $this->create($input);
-    //         }  
-    //     }
-    // }
-    public function assignMedia($data){ 
-        if(!empty($data['promotion_images'])){
-            foreach ($data['promotion_images'] as $file){
-                if($file->isValid())
-                {
-                    $extension = $file->getClientOriginalExtension();
-                    $filename = rand(111,99999).".".$extension;
-                    $image_path = public_path('/images/promotion_media').'/'.$filename;
-                    Image::make($file)->save($image_path);  
-                    $input['promotion_id'] = $data['promotion_id'];
-                    $input['media_id'] = $filename;
-                    $this->create($input);
-                    
-                } 
-            }
+    public function assignMedia($data){
+        if(!empty($data['media_ids'])){
+            foreach ($data['media_ids'] as $media_id){
+                $input['promotion_id'] = $data['promotion_id'];
+                $input['media_id'] = $media_id;
+                $this->create($input);
+            }  
         }
     }
+    
 }
 

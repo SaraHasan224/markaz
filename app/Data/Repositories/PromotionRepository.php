@@ -74,8 +74,9 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         $input['location']    = $data['location'];
         $input['longitude']   = $data['longitude'];
         $input['latitude']    = $data['latitude'];
-        $input['payment_status']  = 0;
         $input['store_id']    = $data['store_id']; 
+        $input['image']    = $data['images']; 
+        $input['tag_id']    = $data['tags']; 
         if($promotion = parent::create($input)){
             return $promotion;
         }

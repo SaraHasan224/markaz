@@ -153,11 +153,26 @@
                                 <!--begin: Form Wizard Nav -->
                                 <div class="m-wizard__nav">
                                     <div class="m-wizard__steps">
-                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_2">
+                                        <div class="m-wizard__step" m-wizard-target="m_wizard_form_step_1">
                                             <div class="m-wizard__step-info">
                                                 <a href="#" class="m-wizard__step-number">
                                                     <span>
                                                         <span>1</span>
+                                                    </span>
+                                                </a>
+                                                <div class="m-wizard__step-label">
+                                                    Select Store
+                                                </div>
+                                                <div class="m-wizard__step-icon">
+                                                    <i class="la la-check"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_2">
+                                            <div class="m-wizard__step-info">
+                                                <a href="#" class="m-wizard__step-number">
+                                                    <span>
+                                                        <span>2</span>
                                                     </span>
                                                 </a>
                                                 <div class="m-wizard__step-label">
@@ -168,11 +183,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_1">
+                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_3">
                                             <div class="m-wizard__step-info">
                                                 <a href="#" class="m-wizard__step-number">
                                                     <span>
-                                                        <span>2</span>
+                                                        <span>3</span>
                                                     </span>
                                                 </a>
                                                 <div class="m-wizard__step-label">
@@ -201,26 +216,62 @@
                                             <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">
-                                                        Promotion Details
+                                                        Select Store
                                                         <i data-toggle="m-tooltip" data-width="auto"
                                                             class="m-form__heading-help-icon flaticon-info"
                                                             title="Some help text goes here"></i>
                                                     </h3>
                                                 </div>
+                                            </div>
+                                            <div class="m-form__section m-form__section--first">
                                                 <div class="form-group m-form__group row">
-                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Promotion
-                                                        Title:</label>
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Select Store</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <select class="form-control m-input m-input--square" id="store_id" name="store_id">
+                                                            @foreach($stores as $store)   
+                                                                <option value="{{$store->id}}">{{$store->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
+                                        </div>
+
+                                        <!--end: Form Wizard Step 1-->
+
+                                        <!--begin: Form Wizard Step 2-->
+                                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+                                            <div class="m-form__section m-form__section--first">
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Promotion Title</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="title" class="form-control m-input"
                                                             placeholder="Enter promotion title">
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Promotion Cover Image</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <input type="file" name="images"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label">* Promotion
-                                                        Description:</label>
+                                                        Description</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                     <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" ></textarea>
                                                     </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">* Promotion Tags</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                    <select class="form-control m-input m-input--square" id="tags" name="tags">
+                                                        @foreach($tags as $tag)   
+                                                            <option value="{{$tag->id}}">{{$tag->title}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                        </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-form-label col-lg-3 col-sm-12">* Start &amp; End
@@ -241,10 +292,8 @@
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                         </div>
 
-                                        <!--end: Form Wizard Step 1-->
-
                                         <!--begin: Form Wizard Step 2-->
-                                        <div class="m-wizard__form-step" id="m_wizard_form_step_2">
+                                        <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                                             <div class="m-form__section">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">* Photos &amp; Videos</h3>
@@ -257,7 +306,7 @@
                                                                 <span class="m-dropzone__msg-desc">Upload up to 10 files</span>
                                                             </div>
                                                         </div> -->
-                                                        <input type="file" multiple name="promotion_images[]"/>
+                                                        <input type="file" multiple name="image[]"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -306,7 +355,6 @@
                                                                 <input type="hidden" class="form-control m-input" name="location" id="location" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="longitude" id="longitude" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="latitude" id="latitude" placeholder="">
-                                                                <input type="hidden" class="form-control m-input" name="store_id" id="store_id" value="{{ $getstore->id }}">
                                      
                                                             </div>
                                                         </div>

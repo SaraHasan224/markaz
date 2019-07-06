@@ -24,7 +24,7 @@ class CreatePromotionsTable extends Migration
 			$table->double('latitude');
 			$table->string('image');
             $table->bigInteger('store_id')->unsigned()->index('promotions_store_id_foreign');
-            // $table->bigInteger('category_id')->unsigned()->index('promotions_category_id_foreign');
+            $table->bigInteger('tag_id')->unsigned()->index('promotions_tag_id_foreign');
 			$table->timestamps();
             $table->softDeletes();
         });

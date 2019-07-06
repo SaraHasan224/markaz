@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 06, 2019 at 07:42 AM
+-- Generation Time: Jul 06, 2019 at 08:43 AM
 -- Server version: 5.7.19
 -- PHP Version: 7.1.20
 
@@ -134,7 +134,11 @@ INSERT INTO `event_logs` (`id`, `component`, `component_name`, `component_image`
 (38, 'Store', 'Hardees', NULL, 'Status Updated', 4, NULL, '2019-07-06 00:15:07', '2019-07-06 00:15:07', NULL),
 (39, 'Store', 'Hardees', NULL, 'Status Updated', 4, NULL, '2019-07-06 00:16:01', '2019-07-06 00:16:01', NULL),
 (40, 'Store', 'Hardees', NULL, 'Status Updated', 4, NULL, '2019-07-06 00:16:06', '2019-07-06 00:16:06', NULL),
-(41, 'Store', 'Limelight', NULL, 'Added', 4, NULL, '2019-07-06 00:27:52', '2019-07-06 00:27:52', NULL);
+(41, 'Store', 'Limelight', NULL, 'Added', 4, NULL, '2019-07-06 00:27:52', '2019-07-06 00:27:52', NULL),
+(42, 'Promotions', 'Clearance Sale (10% Off)', NULL, 'Added', 4, 2, '2019-07-06 03:25:25', '2019-07-06 03:25:25', NULL),
+(43, 'Promotions', 'Clearance Sale (10% Off)', NULL, 'Added', 4, 2, '2019-07-06 03:40:37', '2019-07-06 03:40:37', NULL),
+(44, 'Promotions', 'Clearance Sale (10% Off)', NULL, 'Deleted', 4, NULL, '2019-07-06 03:40:53', '2019-07-06 03:40:53', NULL),
+(45, 'Promotions', 'Clearance Sale (10% Off)', NULL, 'Added', 4, 2, '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -191,6 +195,22 @@ CREATE TABLE `media_images` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `media_images`
+--
+
+INSERT INTO `media_images` (`id`, `image`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, '24476.jpg', '2019-07-06 03:42:57', '2019-07-06 03:42:57', NULL),
+(2, '59768.jpg', '2019-07-06 03:42:57', '2019-07-06 03:42:57', NULL),
+(3, '14811.jpg', '2019-07-06 03:42:57', '2019-07-06 03:42:57', NULL),
+(4, '18578.jpg', '2019-07-06 03:42:57', '2019-07-06 03:42:57', NULL),
+(5, '59489.png', '2019-07-06 03:42:57', '2019-07-06 03:42:57', NULL),
+(6, '36690.jpg', '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL),
+(7, '49072.jpg', '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL),
+(8, '77024.png', '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL),
+(9, '73223.jpg', '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL),
+(10, '44012.jpg', '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -222,7 +242,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (67, '2019_05_27_161418_create_categories_table', 9),
 (68, '2019_05_27_161508_create_tags_table', 9),
 (69, '2019_02_28_171441_create_stores_table', 10),
-(70, '2019_02_28_181002_create_promotions_table', 11);
+(71, '2019_02_28_181002_create_promotions_table', 11);
 
 -- --------------------------------------------------------
 
@@ -373,10 +393,18 @@ CREATE TABLE `promotions` (
   `latitude` double NOT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `store_id` bigint(20) UNSIGNED NOT NULL,
+  `tag_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `promotions`
+--
+
+INSERT INTO `promotions` (`id`, `title`, `description`, `start_time`, `end_time`, `location`, `longitude`, `latitude`, `image`, `store_id`, `tag_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Clearance Sale (10% Off)', 'Unstitched Lawn Suits Collection 2019 Online in Pakistan', '2019-07-05 19:00:00', '2019-07-12 18:00:00', 'FB Indus-Area Block 21 Block 21 Gulberg Town, Karachi, Karachi City, Sindh, Pakistan', 67.08807753029146, 24.9338977802915, '2953.jpg', 2, 1, '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -414,21 +442,16 @@ CREATE TABLE `promotion_media` (
 --
 
 INSERT INTO `promotion_media` (`id`, `promotion_id`, `media_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'clasp-01.jpg', NULL, NULL, NULL),
-(2, 1, 'blue-4.jpg', NULL, NULL, NULL),
-(3, 1, 'clasp-02.jpg', NULL, NULL, NULL),
-(4, 1, 'clearance-pro.png', NULL, NULL, NULL),
-(5, 1, '85485.jpg', '2019-06-02 07:43:05', '2019-06-02 07:43:05', NULL),
-(6, 1, '4686.jpg', '2019-06-02 07:43:05', '2019-06-02 07:43:05', NULL),
-(7, 1, '19904.jpg', '2019-06-02 07:43:05', '2019-06-02 07:43:05', NULL),
-(8, 1, '21473.png', '2019-06-02 07:43:05', '2019-06-02 07:43:05', NULL),
-(9, 2, '35208.jpg', '2019-06-02 07:47:09', '2019-06-02 07:47:09', NULL),
-(10, 2, '46833.jpg', '2019-06-02 07:47:09', '2019-06-02 07:47:09', NULL),
-(11, 3, '80271.jpg', '2019-06-02 07:54:44', '2019-06-02 07:54:44', NULL),
-(12, 3, '17059.jpg', '2019-06-02 07:54:45', '2019-06-02 07:54:45', NULL),
-(13, 3, '2996.jpg', '2019-06-02 07:54:45', '2019-06-02 07:54:45', NULL),
-(14, 3, '76035.jpg', '2019-06-02 07:54:45', '2019-06-02 07:54:45', NULL),
-(15, 3, '24142.jpg', '2019-06-02 07:54:45', '2019-06-02 07:54:45', NULL);
+(1, 1, '1', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(2, 1, '2', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(3, 1, '3', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(4, 1, '4', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(5, 1, '5', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(6, 1, '6', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(7, 1, '7', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(8, 1, '8', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(9, 1, '9', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL),
+(10, 1, '10', '2019-07-06 03:42:59', '2019-07-06 03:42:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -752,7 +775,8 @@ ALTER TABLE `permissions`
 --
 ALTER TABLE `promotions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `promotions_store_id_foreign` (`store_id`);
+  ADD KEY `promotions_store_id_foreign` (`store_id`),
+  ADD KEY `promotions_tag_id_foreign` (`tag_id`);
 
 --
 -- Indexes for table `promotion_comments`
@@ -834,7 +858,7 @@ ALTER TABLE `device_tokens`
 -- AUTO_INCREMENT for table `event_logs`
 --
 ALTER TABLE `event_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `faq`
@@ -852,13 +876,13 @@ ALTER TABLE `followers`
 -- AUTO_INCREMENT for table `media_images`
 --
 ALTER TABLE `media_images`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -870,7 +894,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `promotion_comments`
@@ -882,7 +906,7 @@ ALTER TABLE `promotion_comments`
 -- AUTO_INCREMENT for table `promotion_media`
 --
 ALTER TABLE `promotion_media`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `roles`
