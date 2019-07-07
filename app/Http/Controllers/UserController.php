@@ -267,7 +267,12 @@ class UserController extends Controller
         $stores = Store::where('user_id',$getuser->id)->get();
         $ids = [];
         foreach($stores as $store){ array_push($ids,$store->id);}
-        $logs = EventLog::where('store_id',$ids)->get();
+        if($data['role'] == 'Admin')
+        {
+            $logs = EventLog::get();
+        }else{
+            $logs = EventLog::where('store_id',$ids)->get();
+        }
         $media = DB::table('promotions')
                 ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                 ->whereIn('promotions.store_id',$ids)
