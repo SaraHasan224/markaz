@@ -264,14 +264,17 @@ class UserController extends Controller
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['role'] = session()->get('role_name');
-        $stores = Store::where('user_id',$getuser->id)->get();
-        $ids = [];
-        foreach($stores as $store){ array_push($ids,$store->id);}
-        if($data['role'] == 'Admin')
+        if($data['role'] != 'Admin')
         {
+            $stores = Store::where('user_id',$getuser->id)->get();
+            $ids = [];
+            foreach($stores as $store){ array_push($ids,$store->id);}
             $logs = EventLog::get();
         }else{
-            $logs = EventLog::where('store_id',$ids)->get();
+            $stores = Store::get();
+            $ids = [];
+            foreach($stores as $store){ array_push($ids,$store->id);}
+            $logs = EventLog::get();
         }
         $media = DB::table('promotions')
                 ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
@@ -290,14 +293,29 @@ class UserController extends Controller
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['role'] = session()->get('role_name');
-        $stores = Store::where('user_id',$getuser->id)->get();
-        $ids = [];
+        if($data['role'] == 'Admin')
+        {
+            $stores = Store::get();
+            $ids = [];
+        }else{
+            $stores = Store::where('user_id',$getuser->id)->get();
+            $ids = [];
+        }
         if($store_id != '')
         {
             $logs = EventLog::where('store_id',$store_id)->get();
             $medias = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                     ->where('promotions.store_id',$store_id)
+                    ->select('promotion_media.media_id')
+                    ->get();
+            $media_id = [];
+            foreach($medias as  $media){array_push($media_id,$media->media_id);}
+            $pro_media = MediaImage::whereIn('id',$media_id)->get();
+        }else{
+            $logs = EventLog::get();
+            $medias = DB::table('promotions')
+                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                     ->select('promotion_media.media_id')
                     ->get();
             $media_id = [];
@@ -330,6 +348,15 @@ class UserController extends Controller
             foreach($medias as  $media){array_push($media_id,$media->media_id);}
             $pro_media = MediaImage::whereIn('id',$media_id)->get();
             // dd($pro_media);
+        }else{
+            $logs = EventLog::get();
+            $medias = DB::table('promotions')
+                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                    ->select('promotion_media.media_id')
+                    ->get();
+            $media_id = [];
+            foreach($medias as  $media){array_push($media_id,$media->media_id);}
+            $pro_media = MediaImage::whereIn('id',$media_id)->get();
         }
         
         $data['stores'] = !empty($stores) ? $stores : [];

@@ -452,7 +452,7 @@
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
                         @if(Session::get('role_name') == 'Admin')
-                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{url('/dashboard')}}"
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{url('/admin/dashboard')}}"
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Admin Dashboard</span></a>

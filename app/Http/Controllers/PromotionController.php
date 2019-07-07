@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 use App\Data\Repositories\PromotionRepository;
 use App\Data\Repositories\PromotionMediaRepository;
 use Illuminate\Support\Facades\Input;
-use Validator,Illuminate\Validation\Rule, Image, Storage, Carbon\Carbon;
+use Validator,Illuminate\Validation\Rule, DB,Image, Storage, Carbon\Carbon;
 use App\Events\PromotionWasCreated;
 
 class PromotionController extends Controller
@@ -184,11 +184,16 @@ class PromotionController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
 
-        $data['categories'] = Categories::where('status',1)->get();
-        $data['tags'] = Tags::where('status',1)->get();
+        $data['tags'] = Tags::get();
 
         $data['promotion'] = Promotion::where('id',$id)->first();
-        $data['promotion_media'] = PromotionMedia::where('promotion_id',$id)->get(); 
+        $promotion_media = DB::table('promotions')->where('promotions.id',$id)
+                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                    ->select('promotion_media.media_id')
+                    ->get();
+        $media_id = [];
+        foreach($promotion_media as  $media){array_push($media_id,$media->media_id);}
+        $data['promotion_media'] = MediaImage::whereIn('id',$media_id)->get();
         $data['promotion_comments'] = PromotionComment::where('promotion_id',$id)->get(); 
         return view('promotions.view-promotion',$data);
 
@@ -215,35 +220,6 @@ class PromotionController extends Controller
                     'user_id'   => session()->get('user_id'),
                     'store_id'  => session()->get('store_id'),
                 ]);
-                if(!empty($request->category))
-                {
-                    // dd($request->category);
-                    foreach($request->category as $key => $category)
-                    {
-                        PromotionCategories::updateOrInsert(                        
-                            [
-                                'title' => $category,
-                            ],
-                            [
-                                'promotion_id' => $id
-                            ]
-                        );
-                    }
-                }
-                if(!empty($request->tags))
-                {
-                    foreach($request->tags as $tag)
-                    {
-                        PromotionTags::updateOrInsert(
-                            [
-                                'title' => $tag,
-                            ], 
-                            [
-                                'promotion_id' => $id
-                            ]
-                        );
-                    }
-                }
             }
             if(!empty($request->location))
             { 

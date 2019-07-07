@@ -232,16 +232,33 @@
 					url: base_url+'/user/signinweb',
 					data: $("#signin_form").serialize(),
 					success: function (response) {
+							console.log();
 						if(response.code == 200)
 						{
-							setTimeout(function() {
-								a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1);
-								i(l, "success", "Logged In Successfully.")
-							}, 2e3)
-							
-							setTimeout(function(){
-								window.location.href = base_url+'/dashboard';
-							}, 5000);
+							if(response.user.role_id == 1)
+							{
+								setTimeout(function() {
+									a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1);
+									i(l, "success", "Admin Logged In Successfully.")
+								}, 2e3)
+								setTimeout(function(){
+									window.location.href = base_url+'/admin/dashboard';
+								}, 5000);
+							}else if(response.user.role_id == 2)
+							{
+								setTimeout(function() {
+									a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1);
+									i(l, "success", "Admin Logged In Successfully.")
+								}, 2e3)
+								setTimeout(function(){
+									window.location.href = base_url+'/dashboard/'+response.user.id;
+								}, 5000);
+							}else{
+								setTimeout(function() {
+									a.removeClass("m-loader m-loader--right m-loader--light").attr("disabled", !1);
+									i(l, "success", "You don't have defined access.")
+								}, 2e3)
+							}
 						}
 						
 					},

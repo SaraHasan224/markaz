@@ -170,8 +170,8 @@
     <script src="<?php echo e(asset('assets/admin/js/dataTables.bootstrap.min.js')); ?>"></script>
     <script>
         var user_id = '<?php echo e($user_id); ?>';
-
-        if(user_id > 0)
+        var role  = '<?php echo e($role); ?>';
+        if(user_id > 0 && role != 'Admin')
         {
             $(function () {
                 $('#view_stores').DataTable({

@@ -242,9 +242,8 @@
                 autoWidth:         true,  
                 paging:         true,       
                 columnDefs: [    
-                { "width": "70px", "targets": [0] },
-                { "width": "100px", "targets": [1,2,3] },       
-                { "width": "100px", "targets": [4] }
+                { "width": "50px", "targets": [0] },
+                { "width": "170px", "targets": [1,2,3,4] },       
             ], 
                 "ajax"      : '<?php echo e(url("get-categories")); ?>', 
                 "columns"   : [

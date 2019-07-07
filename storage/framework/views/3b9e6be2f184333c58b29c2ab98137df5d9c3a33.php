@@ -22,13 +22,15 @@
                         <div class="m-widget24">
                             <div class="m-widget24__item">
                                 <h4 class="m-widget24__title" id="views_title">
-                                    Total Store Views
+                                    <?php echo e($views_heading); ?>
+
                                 </h4><br>
                                 <!-- <span class="m-widget24__desc">
                                     20% of target
                                 </span> -->
                                 <span class="m-widget24__stats m--font-brand" id="views_stats">
-                                    18
+                                    <?php echo e($store_views); ?>
+
                                 </span><br>
                                 <div class="m--space-10"></div>
                                 <div class="progress m-progress--sm">
@@ -50,24 +52,27 @@
                         <div class="m-widget24">
                             <div class="m-widget24__item">
                                 <h4 class="m-widget24__title" id="follow_title">
-                                    Follower Stats
+                                    <?php echo e($follow_title); ?>
+
                                 </h4><br>
                                 <!-- <span class="m-widget24__desc">
                                     Customer Review
                                 </span> -->
                                 <span class="m-widget24__stats m--font-info" id="follow_stats">
-                                    1349
+                                    <?php echo e($follow_stats); ?>
+
                                 </span>
                                 <div class="m--space-10"></div>
                                 <div class="progress m-progress--sm">
-                                    <div class="progress-bar m--bg-info" id="follow_progress_bar" role="progressbar" style="width: 84%;"
+                                    <div class="progress-bar m--bg-info" id="follow_progress_bar" role="progressbar" style="width: <?php echo e($follow_statistics); ?>%;"
                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="m-widget24__change">
                                     Change
                                 </span>
                                 <span class="m-widget24__number"  id="follow_statistics">
-                                    84%
+                                    <?php echo e($follow_statistics); ?>
+
                                 </span>
                             </div>
                         </div>
@@ -77,25 +82,26 @@
                         <!--begin::New Orders-->
                         <div class="m-widget24">
                             <div class="m-widget24__item">
-                                <h4 class="m-widget24__title" id="unfollow_title">
-                                    Store Ratings
+                                <h4 class="m-widget24__title" id="rating_title">
+                                    <?php echo e($rate_heading); ?> Ratings
                                 </h4><br>
                                 <!-- <span class="m-widget24__desc">
                                     Fresh Order Amount
                                 </span> -->
-                                <span class="m-widget24__stats m--font-success" id="follow_stats">
-                                    100 %
+                                <span class="m-widget24__stats m--font-success" id="rating_stats">
+                                    5 Stars
                                 </span>
                                 <div class="m--space-10"></div>
                                 <div class="progress m-progress--sm">
-                                    <div class="progress-bar m--bg-success"  id="unfollow_progress_bar" role="progressbar" style="width: 69%;"
+                                    <div class="progress-bar m--bg-success"  id="rating_progress_bar" role="progressbar" style="width: <?php echo e(sprintf('%0.2f',$promotion_stats*20)); ?>%;"
                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="m-widget24__change">
                                     Change
                                 </span>
-                                <span class="m-widget24__number" id="unfollow_statistics">
-                                    69%
+                                <span class="m-widget24__number" id="rating_statistics">
+                                    <?php echo e(sprintf('%0.2f',$promotion_stats)); ?>
+
                                 </span>
                             </div>
                         </div>
@@ -115,7 +121,8 @@
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
                                 <h3 class="m-portlet__head-text">
-                                    New Followers
+                                    New <?php echo e($follower_head); ?>
+
                                 </h3>
                             </div>
                         </div>
@@ -137,23 +144,47 @@
                                 <!--begin::Widget 14-->
                                 <div class="m-widget4" id="show_followers">
                                     <!--begin::Widget 14 Item-->
-                                    <div class="m-widget4__item">
-                                        <div class="m-widget4__img m-widget4__img--pic">
-                                            <img src="assets/app/media/img/users/100_4.jpg" alt="">
+                                    <?php $__currentLoopData = $follower_data->take(8); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if($role == 'Admin'): ?>
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--pic">
+                                                <img src="<?php echo e(asset('images/store/logo')); ?>/<?php echo e($data->image); ?>" alt="">
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__title">
+                                                    <?php echo e($data->name); ?> 
+                                                </span><br>
+                                                <span class="m-widget4__sub">
+                                                    <?php echo e($data->tagline); ?>
+
+                                                </span>
+                                            </div>
+                                            <div class="m-widget4__ext">
+                                                <a href="JavaScript::void(0);"
+                                                    class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary"><?php echo e(DATE_FORMAT($data->created_at,'d-M')); ?></a>
+                                            </div>
                                         </div>
-                                        <div class="m-widget4__info">
-                                            <span class="m-widget4__title">
-                                                Anna Strong
-                                            </span><br>
-                                            <span class="m-widget4__sub">
-                                                Visual Designer,Google Inc
-                                            </span>
+                                    <?php else: ?>
+                                        <div class="m-widget4__item">
+                                            <div class="m-widget4__img m-widget4__img--pic">
+                                                <img src="<?php echo e(asset('images/user')); ?>/<?php echo e($data->hasuser->profile_pic); ?>" alt="">
+                                            </div>
+                                            <div class="m-widget4__info">
+                                                <span class="m-widget4__title">
+                                                    <?php echo e($data->hasuser->name); ?> 
+                                                </span><br>
+                                                <span class="m-widget4__sub">
+                                                    <?php echo e(DATE_FORMAT($data->created_at,'d-M-Y H-i A')); ?>
+
+                                                </span>
+                                            </div>
+                                            <div class="m-widget4__ext">
+                                                <a href="JavaScript::void(0);"
+                                                    class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Follow</a>
+                                            </div>
                                         </div>
-                                        <div class="m-widget4__ext">
-                                            <a href="#"
-                                                class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Follow</a>
-                                        </div>
-                                    </div>
+                                    <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <!--end::Widget 14 Item-->
                                 </div>
                                 <!--end::Widget 14-->
@@ -207,51 +238,54 @@
 
                                 <!--begin::m-widget5-->
                                 <div class="m-widget5">
+                                    <?php $__currentLoopData = $recent_promotions->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pro): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="m-widget5__item">
                                         <div class="m-widget5__content">
                                             <div class="m-widget5__pic">
                                                 <img class="m-widget7__img"
-                                                    src="../../assets/app/media/img//products/product6.jpg" alt="">
+                                                    src="<?php echo e(asset('images/promotion')); ?>/<?php echo e($pro->image); ?>" alt="">
                                             </div>
                                             <div class="m-widget5__section">
                                                 <h4 class="m-widget5__title">
-                                                    Great Logo Designn
+                                                    <?php echo e($pro->title); ?>
+
                                                 </h4>
                                                 <span class="m-widget5__desc">
-                                                    Make Metronic Great Again.Lorem Ipsum Amet
+                                                    <?php echo e($pro->description); ?>
+
                                                 </span>
                                                 <div class="m-widget5__info">
-                                                    <span class="m-widget5__author">
-                                                        Author:
-                                                    </span>
                                                     <span class="m-widget5__info-label">
-                                                        author:
-                                                    </span>
-                                                    <span class="m-widget5__info-author-name">
-                                                        Fly themes
-                                                    </span>
-                                                    <span class="m-widget5__info-label">
-                                                        Released:
+                                                        Created On:
                                                     </span>
                                                     <span class="m-widget5__info-date m--font-info">
-                                                        23.08.17
+                                                        <?php echo e($pro->start_time); ?>
+
+                                                    </span>
+                                                    <span class="m-widget5__info-label">
+                                                        Valid Uptil:
+                                                    </span>
+                                                    <span class="m-widget5__info-date m--font-info">
+                                                        <?php echo e($pro->end_time); ?>
+
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="m-widget5__content">
-                                            <div class="m-widget5__stats1">
+                                            <!-- <div class="m-widget5__stats1">
                                                 <span class="m-widget5__number">19,200</span>
                                                 <br>
                                                 <span class="m-widget5__sales">views</span>
-                                            </div>
+                                            </div> -->
                                             <div class="m-widget5__stats2">
-                                                <span class="m-widget5__number">1046</span>
+                                                <span class="m-widget5__number">4.5</span>
                                                 <br>
                                                 <span class="m-widget5__votes">ratings</span>
                                             </div>
                                         </div>
                                     </div>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <!-- <div class="m-widget5__item">
                                         <div class="m-widget5__content">
                                             <div class="m-widget5__pic">
@@ -386,7 +420,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="m-widget5__item">
+                                    <!-- <div class="m-widget5__item">
                                         <div class="m-widget5__content">
                                             <div class="m-widget5__pic">
                                                 <img class="m-widget7__img"
@@ -469,7 +503,7 @@
                                                 <span class="m-widget5__votes">votes</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <!--end::m-widget5-->
@@ -653,53 +687,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
-<script>
-    var role = '<?php echo e($role); ?>';
-    if(role == 'Store Admin')
-    {
-        $( document ).ready(function() {
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                processData: false,
-                headers: 
-                {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-                url: base_url+'/dashboard-data',
-                data: $("#store_form").serialize(),
-                success: function(response){
-                    
-                    id = response.id; 
-                    window.location.href = base_url+"/support/"+id;
-                }
-            });
-        });
-    }
-    else{
-        $('#store_id_modal').modal('show');
-        var id = '<?php echo e($store_id); ?>';
-        id = id != '' ? id : 0;
-        var base_url = "<?php url() ?>";
-        $('#store_form').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                processData: false,
-                headers: 
-                {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-                url: base_url+'/select-store',
-                data: $("#store_form").serialize(),
-                success: function(response){
-                    $('#store_id_modal').modal('hide');
-                    id = response.id; 
-                    window.location.href = base_url+"/support/"+id;
-                }
-            });
-        });
-    }
-</script>
+
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

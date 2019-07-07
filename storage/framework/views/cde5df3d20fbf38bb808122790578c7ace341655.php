@@ -1,6 +1,4 @@
-@extends('layouts.header')
-
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
     .no-before::before{
         display:none;
@@ -26,11 +24,11 @@
     vertical-align: top;
     margin-bottom: 10px;
     }
-    @media only screen and (max-width: 1023px) and (min-width: 768px) {  .masonry {
+    @media  only screen and (max-width: 1023px) and (min-width: 768px) {  .masonry {
         columns: 2;
     }
     }
-    @media only screen and (min-width: 1024px) {
+    @media  only screen and (min-width: 1024px) {
     .masonry {
         columns: 3;
     }
@@ -47,15 +45,15 @@
     filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, .3));
     }
 </style>
-@endsection 
-@section('content')
+<?php $__env->stopSection(); ?> 
+<?php $__env->startSection('content'); ?>
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -64,20 +62,20 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('promotions')}}" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$sub_title}}</span>
+                        <a href="<?php echo e(url('promotions')); ?>" class="m-nav__link">
+                            <span class="m-nav__link-text"><?php echo e($sub_title); ?></span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript::void(0)" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -99,7 +97,8 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{$title}}
+                            <?php echo e($title); ?>
+
                         </h3>
                     </div>
                 </div>
@@ -133,7 +132,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane " id="m_tabs_9_1" role="tabpanel">
-                            @if(count($promotion_media) > 0)
+                            <?php if(count($promotion_media) > 0): ?>
     							<!--begin:: Widgets/Support Tickets --> 
 								<div class="m-portlet m-portlet--full-height ">
 									<div class="m-portlet__head">
@@ -151,12 +150,12 @@
                                                 <div class="m-widget3__body">
                                                     <div class="masonry-wrapper">
                                                         <div class="masonry">
-                                                            @foreach($promotion_media as $media)
+                                                            <?php $__currentLoopData = $promotion_media; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $media): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <div class="masonry-item">
-                                                                <img src="{{ asset('images/promotion_media/'.$media->image) }}"
+                                                                <img src="<?php echo e(asset('images/promotion_media/'.$media->image)); ?>"
                                                                     class="masonry-content img-responsive">
                                                             </div>
-                                                            @endforeach
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,7 +164,7 @@
 									</div>
 								</div>
 								<!--end:: Widgets/Support Tickets -->
-                            @else
+                            <?php else: ?>
     							<!--begin:: Widgets/Support Tickets -->
 								<div class="m-portlet m-portlet--full-height ">
 									<div class="m-portlet__head">
@@ -190,11 +189,11 @@
 									</div>
 								</div>
 								<!--end:: Widgets/Support Tickets -->
-                            @endif
+                            <?php endif; ?>
                             <!--begin::Form-->
                             <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" method="POST">
                                 <div class="m-portlet__body">
-                                    <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }} m-form__group row">
+                                    <div class="form-group<?php echo e($errors->has('address') ? ' has-error' : ''); ?> m-form__group row">
                                        
                                         
                                         <div class="col-lg-12">
@@ -237,26 +236,26 @@
                                     <div class="form-group m-form__group row">
                                         <div class="col-lg-12" id="delete_result"></div>  
                                     </div> 
-                                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
+                                    <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                         <div class="col-lg-6">
                                             <label>Promotion Title:</label>
                                             <input type="text" name="title" class="form-control m-input"
-                                                placeholder="Enter promotion title" value="{{ $promotion->title}}">
+                                                placeholder="Enter promotion title" value="<?php echo e($promotion->title); ?>">
                                             <span class="m-form__help">Enter your promotion title</span>
                                         </div>
                                         
                                         <div class="col-lg-6">
                                             <label>Promotion Description:</label>
-                                            <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" >{{$promotion->description}}</textarea>
+                                            <textarea class="form-control m-input m-input--air" id="description" name="description" rows="3" ><?php echo e($promotion->description); ?></textarea>
                                         </div> 
                                     </div>
-                                    <div class="form-group{{ $errors->has('category') ? ' has-error' : '' }} m-form__group row">
+                                    <div class="form-group<?php echo e($errors->has('category') ? ' has-error' : ''); ?> m-form__group row">
                                         <div class="col-lg-6">
                                             <label>Select/Deselect Tags:</label>
                                             <select class="form-control m-bootstrap-select m_selectpicker" id="tags" name="tags[]" multiple>
-                                                @foreach($tags as $tag)
-                                                        <option value="{{$tag->title}}">{{$tag->title}}</option>
-                                                @endforeach
+                                                <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($tag->title); ?>"><?php echo e($tag->title); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select> 
                                         </div>
                                         <div class="col-lg-6">
@@ -274,7 +273,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('time') ? ' has-error' : '' }} m-form__group row">
+                                    <div class="form-group<?php echo e($errors->has('time') ? ' has-error' : ''); ?> m-form__group row">
                                         <div class="col-lg-6">
                                             <label class="">Promotion Banner:</label>
                                             <div class="col-xl-9 col-lg-9">
@@ -302,12 +301,12 @@
                         <div class="tab-pane" id="m_tabs_location" role="tabpanel">
                             <!--begin::Form-->
                             <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed"
-                                id="promotion_location" action="{{url('poststore')}}" method="POST">
+                                id="promotion_location" action="<?php echo e(url('poststore')); ?>" method="POST">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group row">
                                         <div class="col-lg-12" id="delete_result"></div>  
                                     </div>    
-                                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
+                                    <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                         <div class="col-lg-12"> 
                                             <div class="m-portlet m-portlet--tab">
                                                 <div class="m-portlet__head">
@@ -324,10 +323,10 @@
                                                 </div>
                                                 <div class="m-portlet__body">
                                                     <div id="map" style="height:300px;"></div>
-                                                    <input type="text" id="pac-input" name="location"  class="controls form-control m-input" placeholder="Enter your store address" value="{{ !empty($promotion) ? $promotion->location : '' }}">
-                                                    <input type="hidden" name="longitude" id="longitude" value="{{ !empty($promotion) ? $promotion->longitude : '' }}" />
-                                                    <input type="hidden" name="latitude" id="latitude" value="{{ !empty($promotion) ? $promotion->latitude : '' }}"/>
-                                                    <input type="hidden" name="location" id="location" value="{{ !empty($promotion) ? $promotion->location : '' }}"/>
+                                                    <input type="text" id="pac-input" name="location"  class="controls form-control m-input" placeholder="Enter your store address" value="<?php echo e(!empty($promotion) ? $promotion->location : ''); ?>">
+                                                    <input type="hidden" name="longitude" id="longitude" value="<?php echo e(!empty($promotion) ? $promotion->longitude : ''); ?>" />
+                                                    <input type="hidden" name="latitude" id="latitude" value="<?php echo e(!empty($promotion) ? $promotion->latitude : ''); ?>"/>
+                                                    <input type="hidden" name="location" id="location" value="<?php echo e(!empty($promotion) ? $promotion->location : ''); ?>"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -363,12 +362,12 @@
 									</div>
 									<div class="m-portlet__body">
 										<div class="m-widget3">
-                                            @if(count($promotion_comments) > 0)
-                                                @foreach($promotion_comments as $comments)
+                                            <?php if(count($promotion_comments) > 0): ?>
+                                                <?php $__currentLoopData = $promotion_comments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $comments): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div class="m-widget3__item">
                                                         <div class="m-widget3__header">
                                                             <div class="m-widget3__user-img">
-                                                                <img class="m-widget3__img" src="{{asset('assets/app/media/img/users/user1.jpg')}}" alt="">
+                                                                <img class="m-widget3__img" src="<?php echo e(asset('assets/app/media/img/users/user1.jpg')); ?>" alt="">
                                                             </div>
                                                             <div class="m-widget3__info">
                                                                 <span class="m-widget3__username">
@@ -389,8 +388,8 @@
                                                             </p>
                                                         </div>
                                                     </div>
-                                                @endforeach
-                                            @else
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            <?php else: ?>
                                                 <div class="m-widget3__item">
                                                     <div class="m-widget3__body">
                                                         <p class="m-widget3__text">
@@ -398,7 +397,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            <?php endif; ?>
 										</div>
 									</div>
 								</div>
@@ -417,14 +416,14 @@
 
     <!--End::Main Portlet-->
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@section('scripts') 
+<?php $__env->startSection('scripts'); ?> 
 
 <script>
     $( document ).ready(function() {
-        var id = "{{ json_decode($promotion->id) }}";
+        var id = "<?php echo e(json_decode($promotion->id)); ?>";
         // e.preventDefault();
     	$.ajax({
     		type: "POST",
@@ -572,7 +571,7 @@
 
 <script>
     var base_url = "<?php url() ?>";
-    var id = "{{ json_decode($promotion->id) }}";
+    var id = "<?php echo e(json_decode($promotion->id)); ?>";
     $('#promotion_location').submit(function(event){	
         event.preventDefault();
     	$.ajax({
@@ -607,4 +606,5 @@
     	});
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
