@@ -20,6 +20,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
 
+use Authenticatable, Authorizable, CanResetPassword, HasRoles;
 
 class RegisterController extends Controller
 {
@@ -75,7 +76,7 @@ class RegisterController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $input['access_token'] = Str::random(60);
-            $input['role_id'] = 1;
+            $input['role_id'] = 2;
             $repsonse = $this->_repository->registerStore($input);
             if($repsonse){
                 //Assign role to user
@@ -83,29 +84,23 @@ class RegisterController extends Controller
                 if($repsonse->role_id == 1)
                 {
                     $permission = Permission::get();
+                    $role = Role::where('id',1)->first();
                     foreach($permission as $permit)
                     {
                         $user->givePermissionTo($permit->name);
                     }
-                    $user->assignRole('Admin');
+                    // $user->assignRole('Admin');
                 }
                 else if($repsonse->role_id == 2)
                 {
                     $permission = Permission::whereNotIn('id',[4,9,14,19,24,29,34])->get();
+                    $role = Role::where('id',2)->first();
                     foreach($permission as $permit)
                     { 
                         $user->givePermissionTo($permit->name);
                     }
-                    $user->assignRole('Store Admin');
-                }
-                else if($repsonse->role_id == 3)
-                {
-                    $permission = Permission::whereNotIn('id',[1,2,3,4,5,7,8,9,12,13,14,16,17,18,19,20,22,23,24,27,28,29,33,34])->get();
-                    foreach($permission as $permit)
-                    {
-                        $user->givePermissionTo($permit->name);
-                    }
-                    $user->assignRole('Store Franchise');
+                    // $user->assignRole($role);
+                    
                 }
 
                 

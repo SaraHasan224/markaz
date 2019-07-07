@@ -33,14 +33,14 @@
                                 </span><br>
                                 <div class="m--space-10"></div>
                                 <div class="progress m-progress--sm">
-                                    <div class="progress-bar m--bg-brand" id="views_progress_bar" role="progressbar" style="width: 8%;"
+                                    <div class="progress-bar m--bg-brand" id="views_progress_bar" role="progressbar" style="width: {{$store_views}}%;"
                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="m-widget24__change">
                                     Change
                                 </span>
                                 <span class="m-widget24__number" id="views_statistics">
-                                    78%
+                                    {{$store_views}}%
                                 </span>
                             </div>
                         </div>
@@ -57,8 +57,8 @@
                                     Customer Review
                                 </span> -->
                                 <span class="m-widget24__stats m--font-info" id="follow_stats">
-                                    {{$follow_stats}}
-                                </span>
+                                    {{sprintf('%0.2f',$follow_stats)}}
+                                </span><br/>
                                 <div class="m--space-10"></div>
                                 <div class="progress m-progress--sm">
                                     <div class="progress-bar m--bg-info" id="follow_progress_bar" role="progressbar" style="width: {{$follow_statistics}}%;"
@@ -68,7 +68,7 @@
                                     Change
                                 </span>
                                 <span class="m-widget24__number"  id="follow_statistics">
-                                    {{$follow_statistics}}
+                                    {{sprintf('%0.2f',$follow_statistics)}} %
                                 </span>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                                 </span> -->
                                 <span class="m-widget24__stats m--font-success" id="rating_stats">
                                     5 Stars
-                                </span>
+                                </span><br/>
                                 <div class="m--space-10"></div>
                                 <div class="progress m-progress--sm">
                                     <div class="progress-bar m--bg-success"  id="rating_progress_bar" role="progressbar" style="width: {{sprintf('%0.2f',$promotion_stats*20)}}%;"
@@ -138,45 +138,52 @@
                                 <!--begin::Widget 14-->
                                 <div class="m-widget4" id="show_followers">
                                     <!--begin::Widget 14 Item-->
-                                    @foreach($follower_data->take(8) as $data)
-                                    @if($role == 'Admin')
-                                        <div class="m-widget4__item">
-                                            <div class="m-widget4__img m-widget4__img--pic">
-                                                <img src="{{asset('images/store/logo')}}/{{$data->image}}" alt="">
-                                            </div>
-                                            <div class="m-widget4__info">
-                                                <span class="m-widget4__title">
-                                                    {{$data->name}} 
-                                                </span><br>
-                                                <span class="m-widget4__sub">
-                                                    {{$data->tagline}}
-                                                </span>
-                                            </div>
-                                            <div class="m-widget4__ext">
-                                                <a href="JavaScript::void(0);"
-                                                    class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">{{DATE_FORMAT($data->created_at,'d-M')}}</a>
-                                            </div>
-                                        </div>
+                                    @if(!empty($follower_data))
+                                        @foreach($follower_data->take(8) as $data)
+                                            @if($role == 'Admin')
+                                                <div class="m-widget4__item">
+                                                    <div class="m-widget4__img m-widget4__img--pic">
+                                                        <img src="{{asset('images/store/logo')}}/{{$data->image}}" alt="">
+                                                    </div>
+                                                    <div class="m-widget4__info">
+                                                        <span class="m-widget4__title">
+                                                            {{$data->name}} 
+                                                        </span><br>
+                                                        <span class="m-widget4__sub">
+                                                            {{$data->tagline}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-widget4__ext">
+                                                        <a href="JavaScript::void(0);"
+                                                            class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">{{DATE_FORMAT($data->created_at,'d-M')}}</a>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="m-widget4__item">
+                                                    <div class="m-widget4__img m-widget4__img--pic">
+                                                        <img src="{{asset('images/user')}}/{{$data->hasuser->profile_pic}}" alt="">
+                                                    </div>
+                                                    <div class="m-widget4__info">
+                                                        <span class="m-widget4__title">
+                                                            {{$data->hasuser->name}} 
+                                                        </span><br>
+                                                        <span class="m-widget4__sub">
+                                                            {{DATE_FORMAT($data->created_at,'d-M-Y H-i A')}}
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-widget4__ext">
+                                                        <a href="JavaScript::void(0);"
+                                                            class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Follow</a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+
                                     @else
                                         <div class="m-widget4__item">
-                                            <div class="m-widget4__img m-widget4__img--pic">
-                                                <img src="{{asset('images/user')}}/{{$data->hasuser->profile_pic}}" alt="">
-                                            </div>
-                                            <div class="m-widget4__info">
-                                                <span class="m-widget4__title">
-                                                    {{$data->hasuser->name}} 
-                                                </span><br>
-                                                <span class="m-widget4__sub">
-                                                    {{DATE_FORMAT($data->created_at,'d-M-Y H-i A')}}
-                                                </span>
-                                            </div>
-                                            <div class="m-widget4__ext">
-                                                <a href="JavaScript::void(0);"
-                                                    class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Follow</a>
-                                            </div>
+                                            Store not created  yet
                                         </div>
                                     @endif
-                                    @endforeach
                                     <!--end::Widget 14 Item-->
                                 </div>
                                 <!--end::Widget 14-->
@@ -230,6 +237,7 @@
 
                                 <!--begin::m-widget5-->
                                 <div class="m-widget5">
+                                    @if(!empty($recent_promotions))
                                     @foreach($recent_promotions->take(5) as $pro)
                                     <div class="m-widget5__item">
                                         <div class="m-widget5__content">
@@ -274,6 +282,14 @@
                                         </div>
                                     </div>
                                     @endforeach
+                                    <div class="m-widget5__item">
+                                        <div class="m-widget5__content">
+                                            <div class="m-widget5__section">
+                                            No  promotions created yet
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                     <!-- <div class="m-widget5__item">
                                         <div class="m-widget5__content">
                                             <div class="m-widget5__pic">

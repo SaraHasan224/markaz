@@ -106,32 +106,44 @@ class LoginController extends Controller
         if($user_role == "Store Admin")
         {
             $stores = Store::where('user_id',$user_id)->get();
-            $store_id = []; $store_views = [];
-            foreach($stores as  $store){array_push($store_id,$store->id);array_push($store_views,$store->views);}
-
-            $followed = Follower::whereIn('store_id',$store_id)->where('status',1)->with('hasuser')->get();
-            $users = User::where('role_id',4)->get();
-            $data['follow_stats'] = count($followed)/count($users)*100;
-
-            $promotion =  Promotion::orderBy('id','DESC')->whereIn('store_id',$store_id)->get();
-            $promotion_id = [];
-            foreach($promotion as $pro){
-                array_push($promotion_id,$pro->id);   
+            if(!empty($store))
+            {
+                $store_id = []; $store_views = [];
+                foreach($stores as  $store){array_push($store_id,$store->id);array_push($store_views,$store->views);}
+    
+                $followed = Follower::whereIn('store_id',$store_id)->where('status',1)->with('hasuser')->get();
+                $users = User::where('role_id',4)->get();
+                $data['follow_stats'] = count($followed)/count($users)*100;
+    
+                $promotion =  Promotion::orderBy('id','DESC')->whereIn('store_id',$store_id)->get();
+                $promotion_id = [];
+                foreach($promotion as $pro){
+                    array_push($promotion_id,$pro->id);   
+                }
+                //Promotion Ratings
+                $pro_rate = DB::table('promotion_rating')->whereIn('promotion_id',$promotion_id)->get();
+                $promotion_id = []; $rating = [];
+                foreach($pro_rate as $rate){ 
+                    array_push($promotion_id,$rate->promotion_id); 
+                    array_push($rating,$rate->rating); 
+                }
+                $average_rating = array_sum($rating)/count($rating);
+                $data['promotion_stats'] = $average_rating/count($promotion_id);
+                $data['follow_stats'] = count($users);
+                $data['follow_statistics'] = count($followed)/count($users)*100;
+                $data['recent_promotions'] = $promotion;
+                $data['follower_data'] = $followed;
+                $data['store_views'] = array_sum($store_views);
+            }else{
+                $data['promotion_stats'] = 0
+                ;
+                $data['follow_stats'] = 0;
+                $data['follow_statistics'] = 0;
+                $data['recent_promotions'] = [];
+                $data['follower_data'] = [];
+                $data['store_views'] = 0;
             }
-            //Promotion Ratings
-            $pro_rate = DB::table('promotion_rating')->whereIn('promotion_id',$promotion_id)->get();
-            $promotion_id = []; $rating = [];
-            foreach($pro_rate as $rate){ 
-                array_push($promotion_id,$rate->promotion_id); 
-                array_push($rating,$rate->rating); 
-            }
-            $average_rating = array_sum($rating)/count($rating);
-            $data['promotion_stats'] = $average_rating/count($promotion_id);
-            $data['follow_stats'] = count($followed)/count($users);
-            $data['follow_statistics'] = count($followed)/count($users)*100;
-            $data['recent_promotions'] = $promotion;
-            $data['follower_data'] = $followed;
-            $data['store_views'] = array_sum($store_views);
+            
         }
         else if($user_role == 'Admin')
         {
@@ -150,12 +162,12 @@ class LoginController extends Controller
             }
             $average_rating = array_sum($rating)/count($rating);
             $data['promotion_stats'] = $average_rating/count($promotion_id);
-            $data['follow_stats'] = count($followed)/count($users);
+            $data['follow_stats'] = count($users);
             $data['follow_statistics'] = count($followed)/count($users)*100;
             $data['recent_promotions']  =  Promotion::orderBy('id','DESC')->limit(10)->get();
 
-            $store = Store::orderBy('id','DESC')->get();
-            $data['follower_data'] = $store;
+            $stores = Store::orderBy('id','DESC')->get();
+            $data['follower_data'] = $stores;
 
             $store_views = [];
             foreach($stores as  $store){array_push($store_views,$store->views);}

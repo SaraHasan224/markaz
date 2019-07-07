@@ -55,7 +55,14 @@
                     <div class="m-stack__item m-brand  m-brand--skin-dark ">
                         <div class="m-stack m-stack--ver m-stack--general">
                             <div class="m-stack__item m-stack__item--middle m-brand__logo">
-                                <a href="index.html" class="m-brand__logo-wrapper">
+                            <?php
+                            if($logged_user->role_id == 1) {
+                                $url = '/admin/dashboard';
+                            }else{
+                                $url= '/dashboard'.'/'.$logged_user->id;
+                            }
+                            ?>
+                                <a href="{{$url}}" class="m-brand__logo-wrapper">
                                     <img alt="" src="{{ asset('assets/demo/demo12/media/img/logo/logo.png') }}" />
                                 </a>
                             </div>

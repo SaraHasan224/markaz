@@ -345,7 +345,7 @@
 								i(l, "success", "Logged In Successfully.")
 							}, 2e3)
 							setTimeout(function(){
-								window.location.href = base_url+'/dashboard';
+								window.location.href = base_url+'/dashboard/'+response.user.id;
 							}, 5000);
 						}
 					},
