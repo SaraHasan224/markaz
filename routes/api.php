@@ -96,6 +96,28 @@ use Illuminate\Http\Request;
       'middleware'=>'auth.jwt'
     ]);
 
+    //  Manage Promotion Ratings by Sara  //
+
+    Route::post('/add-promotion-rating',[
+      'uses'=>'PromotionRatingController@addRatingToPromotion',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/get-promotion-rating',[
+      'uses'=>'PromotionRatingController@getRatingsByPromotionId',
+      'middleware'=>'auth.jwt'
+    ]);
+
+    //  Manage Store Ratings by Sara  //
+
+    Route::post('/add-store-rating',[
+      'uses'=>'StoreRatingController@addRatingToStore',
+      'middleware'=>'auth.jwt'
+    ]);
+    Route::get('/get-store-rating',[
+      'uses'=>'StoreRatingController@getRatingsByStoreId',
+      'middleware'=>'auth.jwt'
+    ]);
+
     // Get all Categories //
 
     Route::get('/get-all-categories',[

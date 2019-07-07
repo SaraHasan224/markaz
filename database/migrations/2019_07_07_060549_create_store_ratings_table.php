@@ -15,14 +15,14 @@ class CreateStoreRatingsTable extends Migration
     {
         Schema::create('store_rating', function (Blueprint $table) {
             $table->increments('id');
-			$table->integer('rating');
+			$table->float('rating');
             $table->integer('user_id')->unsigned()->index('user_user_id_foreign');
             $table->integer('store_id')->unsigned()->index('user_store_id_foreign');
             $table->timestamps();
         });
         Schema::create('promotion_rating', function (Blueprint $table) {
             $table->increments('id');
-			$table->integer('rating');
+			$table->float('rating');
             $table->integer('user_id')->unsigned()->index('user_user_id_foreign');
             $table->integer('promotion_id')->unsigned()->index('user_promotion_id_foreign');
             $table->timestamps();
