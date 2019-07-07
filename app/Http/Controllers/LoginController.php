@@ -40,12 +40,17 @@ class LoginController extends Controller
             $output = ['error' => [ 'code' => $code, 'messages' => $validator->messages()->all() ] ];
         }else{
             $user = $this->_repository->login($input);
-        if($user->role_id == 4){
-                $code = 200;
-                $output = ['code' => $code,'user'=>$user];
-                //event(new UserWasCreated($user->id));
+            if($user)
+            {
+                if($user->role_id == 4){
+                    $code = 200;
+                    $output = ['code' => $code,'user'=>$user];
+                    //event(new UserWasCreated($user->id));
+                }else{
+                    $code = 400;
+                    $output = ['error'=>['code' => $code,'message' => ['Invalid role']]];
+                }
             }else{
-                
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['Invalid email or password']]];
             }
