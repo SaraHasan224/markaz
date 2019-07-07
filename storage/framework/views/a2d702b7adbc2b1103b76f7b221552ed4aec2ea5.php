@@ -1,5 +1,4 @@
-@extends('layouts.header')
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
       #title {
         color: #fff;
@@ -90,15 +89,15 @@
         width: 345px;
       }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -107,20 +106,20 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('store')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('store')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Stores</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -141,7 +140,8 @@
                                     <i class="la la-gear"></i>
                                 </span>
                                 <h3 class="m-portlet__head-text">
-                                    {{$title}}
+                                    <?php echo e($title); ?>
+
                                 </h3>
                             </div>
                         </div>
@@ -150,43 +150,41 @@
                     <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="stores" method="POST">
                         <div class="m-portlet__body">
                             <div id="delete_result" style="padding: 10px;"></div>
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
-                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name" value="{{ !empty($store) ? $store->name : ''  }}">
+                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name">
                                     <span class="m-form__help">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Category:</label>
                                     <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id">
-                                        @foreach($categories as $category)
-											<option value="{{$category->id}}" @if($category->id == $store->category_id) selected="selected" @endif>{{$category->title}}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<option value="<?php echo e($category->id); ?>"><?php echo e($category->title); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 									</select>
-                                    <span class="m-form__help">Select your store category</span>
+                                    <span class="m-form__help">Enter your store name</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
-                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ !empty($store) ? $store->website : '' }}">
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Tagline:</label>
-                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website link" value="{{ !empty($store) ? $store->tagline : '' }}">
+                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline">
                                     <span class="m-form__help">Enter your store tagline</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('image') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Logo:</label>
                                     <div class="m-input-icon m-input-icon--right">
                                         <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
-                                        <input type="hidden" name="p_image" class="form-control m-input" value="{{$store->image}}">
                                     </div>
                                     <span class="m-form__help">Select a logo</span>
-                                    <img src="{{asset('images/store/logo')}}/{{$store->image}}" style="margin-left:200px; width:250px; height:120px"/>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Cover:</label>
@@ -194,55 +192,53 @@
                                         <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
                                     <span class="m-form__help">Select a cover</span>
-                                    <img src="{{asset('images/store/cover')}}/{{$store->cover}}" style="margin-left:200px; width:250px; height:120px"/>
-                                        <input type="hidden" name="p_cover" class="form-control m-input" value="{{$store->cover}}">
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('description') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50">{{ !empty($store) ? $store->description : '' }}</textarea>
+                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
                                     <span class="m-form__help">Enter your store description</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
-                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5">{{ !empty($store) ? $store->emailaddress : '' }}</textarea>
+                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('contact_number') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="10"> {{ !empty($store) ? $store->telephone : '' }}</textarea>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
                                     <span class="m-form__help">Enter your store contact number</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
-                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link" value="{{ !empty($store->hassocialmedia) ? $store->hassocialmedia->facebook_link : '' }}">
+                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('insta_link') ? ' has-error' : '' }} m-form__group row">
+
+                                    <input type="hidden" name="longitude" id="longitude" />
+                                    <input type="hidden" name="latitude" id="latitude" />
+                            <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
-                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link" value="{{ !empty($store->hassocialmedia) ? $store->hassocialmedia->insta_link : '' }}">
+                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
-                                    <input type="text" name="tw_link" class="form-control m-input" placeholder="Enter store  twitter link" value="{{ !empty($store->hassocialmedia) ? $store->hassocialmedia->twitter_link : '' }}">
+                                    <input type="text" name="tw_link" class="form-control m-input"
+                                        placeholder="Enter store  twitter link">
                                     <span class="m-form__help">Enter your store twitter link</span>
                                 </div>
                             </div>
-
-                            <input type="hidden" name="user_id" value="{{$user_id}}"/>
-                                    <input type="hidden" name="longitude" id="longitude" value="{{ !empty($store) ? $store->longitude : '' }}" />
-                                    <input type="hidden" name="latitude" id="latitude" value="{{ !empty($store) ? $store->latitude : '' }}"/>
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="store_address" class="form-control m-input" placeholder="Enter address" disabled value="{{ !empty($store) ? $store->address : '' }}"/>
+                                        <input type="text" id="store_address" class="form-control m-input" placeholder="Enter address" disabled/>
                                         <span class="m-input-icon__icon m-input-icon__icon--right">
                                             <span>
                                                 <i class="la la-map-marker"></i>
@@ -254,23 +250,23 @@
                                 <div class="col-lg-6">
                                     <!-- <label>Store Adress:</label> -->
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address" value="{{ !empty($store) ? $store->address : '' }}">
+                                        <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
                                         
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group m-form__group row">
                                 <div class="col-lg-12" id="map">
                                         <label class="">Store Location:</label>
-                                        <!-- <div class="m-input-icon m-input-icon--right">
+                                        <div class="m-input-icon m-input-icon--right">
                                             <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
                                                 <span><i class="la la-location-arrow"></i><span>Location</span></span>
                                             </button>
-                                        </div> -->
+                                        </div>
                                         <span class="m-form__help" id="demo"></span>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>">
+                                        
                         <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                             <div class="m-form__actions m-form__actions--solid">
                                 <div class="row">
@@ -293,112 +289,118 @@
         </div>
     </div>
 </div>
-@endsection
-@section('scripts') 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?> 
+
 <script>
-      var marker;
-      var lat = parseFloat($('#latitude').val());
-      var lng = parseFloat($('#longitude').val());
-        //   var lat = 24.9324222;
-        //   var lng = 67.0849771;
-        console.log(lat,lng);
-      function toggleBounce() {
-        if (marker.getAnimation() !== null) {
-          marker.setAnimation(null);
-        } else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
-      }
-    
-        function initAutocomplete() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: lat, lng: lng},
-                zoom: 16,
-                mapTypeId: 'roadmap'
-            });
-            marker = new google.maps.Marker({
-                map: map,
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-                position: {lat: lat, lng: lng}
-            });
-                marker.addListener('click', toggleBounce);
-            // Create the search box and link it to the UI element.
-            var input = document.getElementById('pac-input');
-            var searchBox = new google.maps.places.SearchBox(input);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+/**
+ * A radius widget that add a circle to a map and centers on a marker.
+ *
+ * @constructor
+ */
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
 
-            // Bias the SearchBox results towards current map's viewport.
-            map.addListener('bounds_changed', function() {
-            searchBox.setBounds(map.getBounds());
-            });
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-            var markers = [];
-            // Listen for the event fired when the user selects a prediction and retrieve
-            // more details for that place.
-            searchBox.addListener('places_changed', function() {
-            var places = searchBox.getPlaces();
-            if (places.length == 0) {
-                return;
+      function initAutocomplete() {
+        var static_position = new google.maps.LatLng(-34.397, 150.644);
+        var the_circle = null;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: static_position,
+          zoom: 13,
+          draggable: false,
+          draggableCursor:'pointer',
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            formatted_address = place.formatted_address;
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
             }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
 
-            // Clear out the old markers.
-            //   markers.forEach(function(marker) {
-            //     marker.setMap(null);
-            //   });
-            markers = [];
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
 
-            // For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function(place) {
-                // console.log(place);
-            // console.log(place.geometry.location);
-                formatted_address = place.formatted_address;
-                if (!place.geometry) {
-                console.log("Returned place contains no geometry");
-                return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
+            // var sunCircle = {
+            //     strokeColor: "#c3fc49",
+            //     strokeOpacity: 0.8,
+            //     strokeWeight: 2,
+            //     fillColor: "#c3fc49",
+            //     fillOpacity: 0.35,
+            //     map: map,
+            //     center: place.geometry.location,
+            //     radius: 15000 // in meters
+            // };
+            // cityCircle = new google.maps.Circle(sunCircle)
+            // cityCircle.bindTo('center', markers, 'position');
+             
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+            // console.log("marker = "+place.geometry.viewport);
+            console.log(formatted_address,bounds.na.l,bounds.ga.l);
+            document.getElementById("store_address").value = formatted_address;
+            document.getElementById("latitude").value = bounds.na.l;
+            document.getElementById("longitude").value = bounds.ga.l;
+          });
+          map.fitBounds(bounds);
+        });
+      } 
 
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-                marker.addListener('click', toggleBounce);
-
-                if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-                // console.log("marker = "+place.geometry.viewport);
-                // console.log(formatted_address,bounds.ga.l,bounds.ia.l);
-                document.getElementById("store_address").value = formatted_address;
-                document.getElementById("latitude").value = bounds.na.l;
-                document.getElementById("longitude").value = bounds.ga.l;
-            });
-            map.fitBounds(bounds);
-            });
-        }
-      
-    // function initialize() {
-    // }
 </script>
-<script  async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQVVrKIOLfXUXP56ql3JrlU8hdlxEzqBA&libraries=places&callback=initAutocomplete" type="text/javascript"></script>
+
 
 <script>
     var base_url = "<?php url() ?>";
-    var id = "{{ json_decode($store->id) }}";
     $('#stores').submit(function(event){	
         event.preventDefault();
         var formData = new FormData($('#stores')[0]);
@@ -407,13 +409,13 @@
             enctype: 'multipart/form-data',
             contentType: false,
             processData:false,
-            cache:false,
+            cache:false, 
     		headers: 
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     		},
-    		url: base_url+'/edit-store/'+id, 
-    		data: formData,
+    		url: base_url+'/poststore',
+    	    data: formData,
     		success: function (response) {
                 // console.log(response);
                 document.getElementById("stores").reset();
@@ -431,4 +433,5 @@
     	});
     })
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -89,6 +89,7 @@ class LoginController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
         $data['role'] = session()->get('role_name');
+        $data['store_id'] = '';
         return view('index',$data);
     } 
     

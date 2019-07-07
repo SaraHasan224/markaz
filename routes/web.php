@@ -21,6 +21,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::group(['middleware' => ['customauth']], function () {
         Route::match(['get','post'],'dashboard', 'LoginController@loggedIn');
         Route::match(['get','post'],'dashboard/{user_id}', 'LoginController@dashboard');
+        Route::match(['get','post'],'dashboard-data', 'DashboardController@dashView');
+        Route::match(['get','post'],'dashboard-data/{store_id}', 'DashboardController@dashView');
         
         /* Promotion routes starts here*/
 

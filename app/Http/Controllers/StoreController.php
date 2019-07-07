@@ -156,7 +156,7 @@ class StoreController extends Controller
         return view('store.create-store',$data);
     }
     public function poststore(Request $request){
-        $input = $request->only('name','cover','image','category_id','address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+        $input = $request->only('name','cover','image','category_id','tagline','address','user_id','website','contact_email','description','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
         $rules = [  
             'name' => 'required|unique:stores,name',
             'cover' => 'required',
@@ -166,6 +166,7 @@ class StoreController extends Controller
             'website' => 'required',
             'contact_email' => 'required',
             'description' => 'required',
+            'tagline' => 'required',
             'address' => 'required',
             'contact_number' => 'required',
             'category_id' => 'required'
@@ -206,7 +207,8 @@ class StoreController extends Controller
             $store->user_id = $request->user_id;
             $store->website = $request->website;
             $store->emailaddress = $request->contact_email;
-            $store->tagline = $request->description;
+            $store->description = $request->description;
+            $store->tagline = $request->tagline;
             $store->longitude = $request->longitude;
             $store->latitude = $request->latitude;
             $store->telephone = $request->contact_number;
@@ -245,6 +247,7 @@ class StoreController extends Controller
                 'website' => 'required',
                 'contact_email' => 'required',
                 'tagline' => 'required',
+                'description' => 'required',
                 'category_id' => 'required',
                 'contact_number' => 'required'
             ];
@@ -285,6 +288,7 @@ class StoreController extends Controller
                     'website' => $request->website,
                     'emailaddress' => $request->contact_email,
                     'tagline' => $request->tagline,
+                    'description' => $request->description,
                     'category_id' => $request->category_id,
                     'cover' => $cover,
                     'image' => $image,

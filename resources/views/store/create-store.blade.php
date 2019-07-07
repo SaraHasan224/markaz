@@ -173,14 +173,19 @@
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
                                 <div class="col-lg-6">
+                                    <label>Store Tagline:</label>
+                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline">
+                                    <span class="m-form__help">Enter your store tagline</span>
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
                                     <label>Store Logo:</label>
                                     <div class="m-input-icon m-input-icon--right">
                                         <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
                                     <span class="m-form__help">Select a logo</span>
                                 </div>
-                            </div>
-                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Cover:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -188,34 +193,29 @@
                                     </div>
                                     <span class="m-form__help">Select a cover</span>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
-                                    <span class="m-form__help">Enter your store contact number</span>
-                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('fb_link') ? ' has-error' : '' }} m-form__group row">
-                                <div class="col-lg-6">
-                                    <label class="">Store Contact Email:</label>
-                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
-                                    <span class="m-form__help">Enter your store contact email</span>
-                                </div>
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
                                     <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
                                     <span class="m-form__help">Enter your store description</span>
                                 </div>
+                                <div class="col-lg-6">
+                                    <label class="">Store Contact Email:</label>
+                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
+                                    <span class="m-form__help">Enter your store contact email</span>
+                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label class="">Store Contact Number:</label>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
+                                    <span class="m-form__help">Enter your store contact number</span>
+                                </div>
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
                                     <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
                                     <span class="m-form__help">Enter your facebook link</span>
-                                </div>
-                                <div class="col-lg-6">
-                                    <label>Store Instagram Link:</label>
-                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
-                                    <span class="m-form__help">Enter your instagram link</span>
                                 </div>
                             </div>
 
@@ -223,11 +223,18 @@
                                     <input type="hidden" name="latitude" id="latitude" />
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
+                                    <label>Store Instagram Link:</label>
+                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
+                                    <span class="m-form__help">Enter your instagram link</span>
+                                </div>
+                                <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input"
                                         placeholder="Enter store  twitter link">
                                     <span class="m-form__help">Enter your store twitter link</span>
                                 </div>
+                            </div>
+                            <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Address Selected:</label>
                                     <div class="m-input-icon m-input-icon--right">
@@ -247,8 +254,6 @@
                                         
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group m-form__group row">
                                 <div class="col-lg-12" id="map">
                                         <label class="">Store Location:</label>
                                         <div class="m-input-icon m-input-icon--right">
@@ -288,6 +293,11 @@
 @section('scripts') 
 
 <script>
+/**
+ * A radius widget that add a circle to a map and centers on a marker.
+ *
+ * @constructor
+ */
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
       // pick list containing a mix of places and predicted search terms.
@@ -297,9 +307,13 @@
       // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
       function initAutocomplete() {
+        var static_position = new google.maps.LatLng(-34.397, 150.644);
+        var the_circle = null;
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -33.8688, lng: 151.2195},
+          center: static_position,
           zoom: 13,
+          draggable: false,
+          draggableCursor:'pointer',
           mapTypeId: 'roadmap'
         });
 
@@ -352,6 +366,19 @@
               position: place.geometry.location
             }));
 
+            // var sunCircle = {
+            //     strokeColor: "#c3fc49",
+            //     strokeOpacity: 0.8,
+            //     strokeWeight: 2,
+            //     fillColor: "#c3fc49",
+            //     fillOpacity: 0.35,
+            //     map: map,
+            //     center: place.geometry.location,
+            //     radius: 15000 // in meters
+            // };
+            // cityCircle = new google.maps.Circle(sunCircle)
+            // cityCircle.bindTo('center', markers, 'position');
+             
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
