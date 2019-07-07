@@ -19,10 +19,16 @@ use App\Data\Repositories\PromotionRepository;
 use App\Data\Repositories\PromotionMediaRepository;
 use Illuminate\Support\Facades\Input;
 use Validator,Illuminate\Validation\Rule, Image, Storage, Carbon\Carbon;
+use App\Data\Repositories\CategoryRepository;
 
 class CategoryController extends Controller
 {
      
+
+    public function __construct(CategoryRepository $category) {
+        $this->_repository = $category;
+    }
+
     //      Promotion Categories Starts //
 
     public function getCategories(){
@@ -121,5 +127,29 @@ class CategoryController extends Controller
     
 
     //      Promotion Categories Ends   //
+
+    /**
+     * Usman work for app
+    */
+
+    /**
+      * Get All Cateogry
+    */
+
+      public function all(Request $request) {
+        $input = $request->only('pagination','keyword','limit');
+           $pagination = false;
+            if($input['pagination']) {
+                $pagination = true;
+            }
+            $limit = 10;
+            if(!empty($input['limit'])){
+              $limit = $input['limit'];
+            }
+            $code = 200;
+        	$output = $this->_repository->findByAll($pagination, $limit, $input,false,true,true);
+        // all good so return the token
+        return response()->json($output, $code);
+    }
 
 }

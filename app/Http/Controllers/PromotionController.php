@@ -271,4 +271,11 @@ class PromotionController extends Controller
     }
 
     /* Sara's work ends here */
+    
+    /**
+     * Usman Work for API
+    */
+    public function getNewpPromotions(){
+        return $promotion = Promotion::orderBy('id', 'desc')->take(1)->get();
+   }
 }

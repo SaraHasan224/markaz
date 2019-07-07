@@ -14,11 +14,20 @@ class FaqController extends Controller
         $data['logged_user'] = $getuser;
         if($store_id != null)
         {
+            $data['store_id'] = $store_id;
+            $data['role'] = session()->get('role_name');
             $data['store'] = Store::where('id',$store_id)->first();
+            $data['stores'] = Store::where('user_id',$user_id)->get();
             $data['questions'] = Faq::where('store_id',$store_id)->get();
             return view('faq.view',$data);
         }else{
-            return view('faq.error',$data);
+            $data['questions'] = [];
+            $data['store'] = [];
+            $data['role'] = session()->get('role_name');
+            $data['store_id'] = '';
+            $data['stores'] = Store::where('user_id',$user_id)->get();
+            return view('faq.view',$data);
+            // return view('faq.error',$data);
         }
     }
     
@@ -39,9 +48,17 @@ class FaqController extends Controller
         $data['title'] = 'Frequently Asked Questions';
         if($store_id == null)
         {
-            return view('faq.error');
+            // return view('faq.error');
+            $data['store'] = [];
+            $data['role'] = session()->get('role_name');
+            $data['store_id'] = '';
+            $data['stores'] = Store::where('user_id',$user_id)->get();
+            return view('faq.view-all',$data);
         }else{
             $data['store'] = Store::where('id',$store_id)->first();
+            $data['role'] = session()->get('role_name');
+            $data['store_id'] = $store_id;
+            $data['stores'] = Store::where('user_id',$user_id)->get();
             return view('faq.view-all',$data);
         }
     }
@@ -63,7 +80,6 @@ class FaqController extends Controller
             $faq->title = $request->title;
             $faq->description = $request->description;
             $faq->store_id = $request->store_id;
-            $faq->user_id = $request->user_id;
             $faq->save();
             if($faq){
                 $code = 200;

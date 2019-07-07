@@ -123,13 +123,12 @@
                         </div> -->
                     </div>
                 </div>
-                <input type="hidden" name="user_id" value="{{ $logged_user->id }}"/>
                 <input type="hidden" name="store_id" value="{{ $store->id }}"/>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
                             <div class="col-lg-6">
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <a  href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
                             </div>
                             <div class="col-lg-6 m--align-right">
                                 <button type="submit" class="btn btn-primary">Save</button>

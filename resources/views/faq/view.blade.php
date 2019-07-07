@@ -26,9 +26,12 @@
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$store->name}}</span>
+                            @if(!empty($store))
+                                {{ $store->name }}
+                            @else
+                                Select Store  first
+                            @endif
                         </a>
-                    </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript::void(0);" class="m-nav__link">
@@ -49,7 +52,11 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h1 class="m-portlet__head-text">
-                            {{ $store->name }}
+                            @if(!empty($store))
+                                {{ $store->name }}
+                            @else
+                                Select Store  first
+                            @endif
                         </h1>
                     </div>
                 </div>
@@ -97,5 +104,110 @@
     </div>
 </div>
 
+<!-- Modal for Get Store Id-->
+<div class="modal fade" id="store_id_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="store_form" mathod="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control m-input m-input--square" id="store_id" name="store_id">
+                        @foreach($stores as $st)   
+                            <option value="{{$st->id}}">{{$st->name}}</option>
+                        @endforeach
+                    </select> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- end:: Body -->
+@endsection 
+
+@section('scripts')
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+        $(document).ready(function (e) {
+            
+            var role = '{{$role}}';
+            var id = '{{$store_id}}';
+            id = id != '' ? id : 0;
+            var base_url = "<?php url() ?>";
+            $('#store_form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    headers: 
+                    {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    url: base_url+'/select-store',
+                    data: $("#store_form").serialize(),
+                    success: function(response){
+                        $('#store_id_modal').modal('hide');
+                        id = response.id; 
+                        window.location.href = base_url+"/faq/"+id;
+                    }
+                });
+            });
+            if(role == 'Store Admin')
+            {
+                if(id != 0){
+                    $(function () {
+                        $('#view_stores').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax"      : '{{ url("get-support") }}/'+id,
+                            "columns"   : [
+                                { data: 'id',searchable: false, orderable: true  },
+                                { data: 'store_id' },
+                                { data: 'first_name' },  
+                                { data: 'email' },  
+                                { data: 'subject' },
+                                { data: 'description' },
+                                { data: 'status' },
+                                { data: 'created_at' },
+                                // { data: 'actions', searchable: false, orderable: false },
+                            ]
+                        });
+                    });
+                }else{
+                    $('#store_id_modal').modal('show');
+                }
+            }else{                
+                $(function () {
+                        $('#view_stores').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax"      : '{{ url("get-support") }}',
+                            "columns"   : [
+                                { data: 'id',searchable: false, orderable: true  },
+                                { data: 'store_id' },
+                                { data: 'first_name' },  
+                                { data: 'email' },  
+                                { data: 'subject' },
+                                { data: 'description' },
+                                { data: 'status' },
+                                { data: 'created_at' },
+                                // { data: 'actions', searchable: false, orderable: false },
+                            ]
+                        });
+                });
+            }     
+
+            
+        });
+    </script>
 @endsection

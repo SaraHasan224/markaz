@@ -259,15 +259,15 @@ class UserController extends Controller
 
 
     //      Manage User Profile Starts Here    //
-    public function getUserProfile(Request $request)
+    public function getUserProfile(Request $request,$store_id = '')
     {
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-        $role = DB::table('roles')->whereId($getuser->role_id)->first();
-        $data['role'] = $role;
+        $data['role'] = session()->get('role_name');
         $stores = Store::where('user_id',$getuser->id)->get();
         $ids = [];
         foreach($stores as $store){ array_push($ids,$store->id);}
+        $logs = EventLog::where('store_id',$ids)->get();
         $media = DB::table('promotions')
                 ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                 ->whereIn('promotions.store_id',$ids)
@@ -275,31 +275,65 @@ class UserController extends Controller
                 ->get();
         $data['stores'] = !empty($stores) ? $stores : '';
         $data['media'] = !empty($media) ? $media : '';
+        $data['logs'] = !empty($logs) ? $logs : '';
         $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
         return view('user.client_profile',$data);
     }
-    public function getMedia(Request $request)
+    public function getMedia(Request $request,$store_id = '')
     {
         $user_id = $request->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
-        $role = DB::table('roles')->whereId($getuser->role_id)->first();
-        $data['role'] = $role;
+        $data['role'] = session()->get('role_name');
         $stores = Store::where('user_id',$getuser->id)->get();
         $ids = [];
-        foreach($stores as $store){ array_push($ids,$store->id);}
-        $medias = DB::table('promotions')
-                ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
-                ->whereIn('promotions.store_id',$ids)
-                ->select('promotion_media.media_id')
-                ->get();
-        $media_id = [];
-        foreach($medias as  $media){array_push($media_id,$media->media_id);}
-        $pro_media = MediaImage::whereIn('id',$media_id)->get();
+        if($store_id != '')
+        {
+            $logs = EventLog::where('store_id',$store_id)->get();
+            $medias = DB::table('promotions')
+                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                    ->where('promotions.store_id',$store_id)
+                    ->select('promotion_media.media_id')
+                    ->get();
+            $media_id = [];
+            foreach($medias as  $media){array_push($media_id,$media->media_id);}
+            $pro_media = MediaImage::whereIn('id',$media_id)->get();
+        }
         // dd($pro_media);
         $data['stores'] = !empty($stores) ? $stores : '';
         $data['media'] = !empty($media) ? $pro_media : '';
+        $data['logs'] = !empty($logs) ? $logs : '';
         $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
         return view('user.media',$data);
+    }
+    public function getLogs(Request $request,$store_id = '')
+    {
+        $user_id = $request->session()->get('user_id');
+        $getuser = User::where('id',$user_id)->first();
+        $stores = Store::where('user_id',$user_id)->get();
+        $ids = [];
+        if($store_id != '')
+        {
+            $logs = EventLog::where('store_id',$store_id)->get();
+            $medias = DB::table('promotions')
+                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
+                    ->where('promotions.store_id',$store_id)
+                    ->select('promotion_media.media_id')
+                    ->get();
+            $media_id = [];
+            foreach($medias as  $media){array_push($media_id,$media->media_id);}
+            $pro_media = MediaImage::whereIn('id',$media_id)->get();
+            // dd($pro_media);
+        }
+        
+        $data['stores'] = !empty($stores) ? $stores : [];
+        $data['media'] = !empty($media) ? $pro_media : [];
+        $data['logs'] = !empty($logs) ? $logs : [];
+        $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
+        $data['role'] = session()->get('role_name');
+        return view('user.system_logs',$data);
     }
     public function postUserProfile(Request $request)
     {
@@ -324,23 +358,6 @@ class UserController extends Controller
                 'phone_number' => $request->phone_number,
                 'profile_pic' =>  $user_image
             ]);
-            $store_updated = Store::where('user_id',$request->user_id)->first();
-            if($store_updated != '')
-            {
-                $store_updated->update([
-                    'name' => $request->company,
-                    'address' => $request->company_address,
-                    'telephone' => $request->company_telephone,
-                    'website' => $request->company_website, 
-                    'emailaddress' => $request->company_email,
-                    'tagline' => $request->company_info, 
-                ]); 
-                StoreSocialMedia::where('store_id',$store_updated)->update([
-                    'facebook_link' => $request->fb_link,
-                    'twitter_link' => $request->tw_link,
-                    'insta_link' => $request->insta_link
-                ]);
-            }
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Profile Updated Successfully.']];
             return response()->json($output, $code);
@@ -377,6 +394,7 @@ class UserController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
+        $data['stores'] = Store::where('user_id',$user_id)->get();
         $data['role'] = session()->get('role_name');
         $data['store_id'] = '';
         return view('home.support',$data); 
@@ -408,7 +426,9 @@ class UserController extends Controller
         $data['title'] = "Customer Support";
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
+        $data['stores'] = Store::where('user_id',$user_id)->get();
         $data['logged_user'] = $getuser;
+        $data['store_id'] = $store_id;
         $data['role'] = session()->get('role_name');
         return view('home.support',$data); 
     }
@@ -444,7 +464,7 @@ class UserController extends Controller
 
     // Manage Store Timeline Starts Here //
 
-    public function getTimeline()
+    public function getTimeline($store_id = '')
     {
         $data['title'] = 'Timeline';
         $user_id = request()->session()->get('user_id');
@@ -452,22 +472,23 @@ class UserController extends Controller
         $data['logged_user'] = $getuser;
         $data['role'] = session()->get('role_name');
         $stores = Store::where('user_id',$user_id)->get();
-        $store_id = [];
-        foreach($stores as $store){ array_push($store_id,$store->id);}
+        $data['stores'] = $stores;
+        $data['store_id'] = $store_id;
+        // foreach($stores as $store){ array_push($store_id,$store->id);}
         // dd($store_id);
+        $data['store'] = Store::where('user_id',$user_id)->first();
         if($store_id != '')
         {
             $now = Carbon::now();
             // dd($now->subWeek()->toDateTimeString());
-            $data['stores'] = Store::whereIn('id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
-            $data['follower'] = Follower::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
-            $data['promotions'] = Promotion::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('comments')->get();
-            $data['support'] = Support::whereIn('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
+            $data['store'] = Store::where('id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->first();
+            $data['follower'] = Follower::where('store_id',$store_id)->where('status',1)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('hasuser')->get();
+            $data['blocked'] = Follower::where('store_id',$store_id)->where('status',0)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('hasuser')->get();
+            $data['promotions'] = Promotion::where('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('comments')->get();
+            $data['support'] = Support::where('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
             // dd($data);
-            return view('user.timeline',$data); 
-        }else{
-            return view('faq.error');
         }
+        return view('user.timeline',$data); 
     }
     
      

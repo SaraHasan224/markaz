@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <div class="col-10 ml-auto">
-                                            <h3 class="m-form__section">1. Company Information</h3>
+                                            <h3 class="m-form__section">1. Admin Profile</h3>
                                         </div>
                                         <div class="col-md-12">
                                             <div id="result"></div>
@@ -61,7 +61,7 @@
                                     <div class="form-group m-form__group row">
                                         <label for="example-text-input" class="col-2 col-form-label">Role</label>
                                         <div class="col-7">
-                                            <input class="form-control m-input m-input--solid" type="text" value="{{$role->name}}" readonly>
+                                            <input class="form-control m-input m-input--solid" type="text" value="{{$role}}" readonly>
                                         </div>
                                     </div>
                                 </div>

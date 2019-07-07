@@ -95,3 +95,21 @@ use Illuminate\Http\Request;
       'uses'=>'CommentController@getCommentsByPromotionId',
       'middleware'=>'auth.jwt'
     ]);
+
+    // Get all Categories //
+
+    Route::get('/get-all-categories',[
+     'uses'=>'CategoryController@all',
+     'middleware'=>'auth.jwt'
+
+    ]);
+
+    Route::get('/get-new-store',[
+      'uses'=>'StoreController@getNewStores',
+      'middleware'=>'auth.jwt'
+    ]);
+
+    Route::get('/get-new-promotions',[
+      'uses'=>'PromotionController@getNewPromotions',
+      'middleware'=>'auth.jwt'
+    ]);

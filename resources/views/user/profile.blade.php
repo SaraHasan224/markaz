@@ -108,13 +108,13 @@
                                 </a>
                             </li>
                             <li class="m-nav__item">
-                                <a href="{{url('media')}}" class="m-nav__link">
+                                <a href="{{url('logs')}}" class="m-nav__link">
                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                     <span class="m-nav__link-title">
                                         <span class="m-nav__link-wrap">
-                                            <span class="m-nav__link-text">System Logs</span>
+                                            <span class="m-nav__link-text">Recent Activities</span>
                                             <span class="m-nav__link-badge">
-                                                <span class="m-badge m-badge--success">{{count($media)}}</span>
+                                                <span class="m-badge m-badge--success">{{count($logs)}}</span>
                                             </span>
                                         </span>
                                     </span>
@@ -129,11 +129,70 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for Get Store Id-->
+<div class="modal fade" id="store_id_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="store_form" mathod="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control m-input m-input--square" name="store_id">
+                        @foreach($stores as $st)   
+                            <option value="{{$st->id}}">{{$st->name}}</option>
+                        @endforeach
+                    </select> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="role" value="{{$role}}"/>
+<input type="hidden" id="store_id" value="{{$store_id}}"/>
+<!-- end:: Body -->
 @endsection
 @section('scripts')
 <script>
-    var base_url = "<?php url(); ?>";
-    
+    $(document).ready(function (e) {
+        var role = $('#role').val();
+        var store_id = $('#store_id').val();
+        console.log(role);
+        var base_url = "<?php url() ?>";
+        $('#store_form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    headers: 
+                    {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    url: base_url+'/select-store',
+                    data: $("#store_form").serialize(),
+                    success: function(response){
+                        $('#store_id_modal').modal('hide');
+                        id = response.id; 
+                        window.location.href = "{{url()->current()}}"+'/'+id;
+                    }
+                });
+        });
+        if(role == 'Store Admin' && store_id == '')
+        {
+            $('#store_id_modal').modal('show');
+        }     
+    });
+</script>
+<script>
     $('#profile').submit(function(event){	
             event.preventDefault();
             var formData = new FormData($('#profile')[0]);

@@ -124,7 +124,7 @@
 </div>
 
 
-<!-- Modal for Update status-->
+<!-- Modal for Get Store-->
 <div class="modal fade" id="m_status_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -149,6 +149,33 @@
     </div>
 </div>
 
+<!-- Modal for Get Store Id-->
+<div class="modal fade" id="store_id_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="store_form" mathod="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control m-input m-input--square" id="store_id" name="store_id">
+                        @foreach($stores as $store)   
+                            <option value="{{$store->id}}">{{$store->name}}</option>
+                        @endforeach
+                    </select> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Image loader -->
 <div id='loader' style='display: none;'>
   <img src='https://cdn-images-1.medium.com/max/640/1*9EBHIOzhE1XfMYoKz1JcsQ.gif' width='32px' height='32px'>
@@ -158,28 +185,75 @@
 <script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
     <script>
-        $(function () {
-            $('#view_stores').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax"      : '{{ url("get-support") }}/{{$store_id}}',
-                "columns"   : [
-                    { data: 'id',searchable: false, orderable: true  },
-                    { data: 'store_id' },
-                    { data: 'first_name' },  
-                    { data: 'email' },  
-                    { data: 'subject' },
-                    { data: 'description' },
-                    { data: 'status' },
-                    { data: 'created_at' },
-                    // { data: 'actions', searchable: false, orderable: false },
-                ]
-            });
-        });
-    </script>
-    <script>
         $(document).ready(function (e) {
+            
+            var role = '{{$role}}';
+            var id = '{{$store_id}}';
+            id = id != '' ? id : 0;
             var base_url = "<?php url() ?>";
+            $('#store_form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    headers: 
+                    {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    url: base_url+'/select-store',
+                    data: $("#store_form").serialize(),
+                    success: function(response){
+                        $('#store_id_modal').modal('hide');
+                        id = response.id; 
+                        window.location.href = base_url+"/support/"+id;
+                    }
+                });
+            });
+            if(role == 'Store Admin')
+            {
+                if(id != 0){
+                    $(function () {
+                        $('#view_stores').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax"      : '{{ url("get-support") }}/'+id,
+                            "columns"   : [
+                                { data: 'id',searchable: false, orderable: true  },
+                                { data: 'store_id' },
+                                { data: 'first_name' },  
+                                { data: 'email' },  
+                                { data: 'subject' },
+                                { data: 'description' },
+                                { data: 'status' },
+                                { data: 'created_at' },
+                                // { data: 'actions', searchable: false, orderable: false },
+                            ]
+                        });
+                    });
+                }else{
+                    $('#store_id_modal').modal('show');
+                }
+            }else{                
+                $(function () {
+                        $('#view_stores').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax"      : '{{ url("get-support") }}',
+                            "columns"   : [
+                                { data: 'id',searchable: false, orderable: true  },
+                                { data: 'store_id' },
+                                { data: 'first_name' },  
+                                { data: 'email' },  
+                                { data: 'subject' },
+                                { data: 'description' },
+                                { data: 'status' },
+                                { data: 'created_at' },
+                                // { data: 'actions', searchable: false, orderable: false },
+                            ]
+                        });
+                });
+            }                                                                                             
+            //Response
             $(document).on("click", '.response', function (e) {
                 var id = $(this).data('id');
                 var response = $(this).attr("data-response");
@@ -240,6 +314,7 @@
                     });
                 }
             });
+
         });
     </script>
 @endsection

@@ -168,17 +168,37 @@
                             </div>
                             <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
-                                    <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"> {{ !empty($store) ? $store->telephone : '' }}</textarea>
-                                    <span class="m-form__help">Enter your store contact number</span>
-                                </div>
-                                <div class="col-lg-6">
                                     <label>Store Website Link:</label>
                                     <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ !empty($store) ? $store->website : '' }}">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
+                                <div class="col-lg-6">
+                                    <label>Store Logo:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
+                                        <input type="hidden" name="p_image" class="form-control m-input" value="{{$store->image}}">
+                                    </div>
+                                    <span class="m-form__help">Select a logo</span>
+                                    <img src="{{asset('images/store/logo')}}/{{$store->image}}" style="margin-left:200px; width:250px; height:120px"/>
+                                </div>
                             </div>
-                            <div class="form-group{{ $errors->has('fb_link') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }} m-form__group row">
+                                <div class="col-lg-6">
+                                    <label>Store Cover:</label>
+                                    <div class="m-input-icon m-input-icon--right">
+                                        <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
+                                    </div>
+                                    <span class="m-form__help">Select a cover</span>
+                                    <img src="{{asset('images/store/cover')}}/{{$store->cover}}" style="margin-left:200px; width:250px; height:120px"/>
+                                        <input type="hidden" name="p_cover" class="form-control m-input" value="{{$store->cover}}">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="">Store Contact Number:</label>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="10"> {{ !empty($store) ? $store->telephone : '' }}</textarea>
+                                    <span class="m-form__help">Enter your store contact number</span>
+                                </div>
+                            </div>
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
                                     <textarea name="contact_email" class="form-control m-input" cols="50" rows="5">{{ !empty($store) ? $store->emailaddress : '' }}</textarea>
@@ -373,15 +393,20 @@
     var base_url = "<?php url() ?>";
     var id = "{{ json_decode($store->id) }}";
     $('#stores').submit(function(event){	
-            event.preventDefault();
+        event.preventDefault();
+        var formData = new FormData($('#stores')[0]);
     	$.ajax({
     		type: "POST",
+            enctype: 'multipart/form-data',
+            contentType: false,
+            processData:false,
+            cache:false,
     		headers: 
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     		},
-    		url: base_url+'/edit-store/'+id,
-    		data: $("#stores").serialize(),
+    		url: base_url+'/edit-store/'+id, 
+    		data: formData,
     		success: function (response) {
                 // console.log(response);
                 document.getElementById("stores").reset();

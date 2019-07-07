@@ -95,7 +95,7 @@
                         </h3>
                     </div>
                 </div> 
-                @if($role == 'Admin' || $role == 'Store Admin')
+                @if($role == 'Admin')
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
@@ -245,8 +245,8 @@
                 paging:         true,       
                 columnDefs: [    
                 { "width": "70px", "targets": [0] },
-                { "width": "200px", "targets": [1,2,3] },       
-                { "width": "70px", "targets": [4] }
+                { "width": "100px", "targets": [1,2,3] },       
+                { "width": "100px", "targets": [4] }
             ], 
                 "ajax"      : '{{ url("get-categories") }}', 
                 "columns"   : [

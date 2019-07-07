@@ -24,17 +24,33 @@ class StoreController extends Controller
     // API work starts here
 
     public function create(Request $request){
-        $input = $request->only('name', 'address','latitude', 'longitude');
+        $input = $request->only('name', 'address','latitude', 'longitude','website','emailaddress','description','telephone','tagline','user_id','category_id','cover','image');
         $rules = [
             'name' => 'required',
             'address' => 'required',
+            'emailaddress'=>'required',
+            'tagline'=>'required',
+            'telephone'=>'required',
+            'latitude'=>'required',
+            'longitude'=>'required',
+            'image'     =>  'required',
+             'image' => 'mimes:jpeg,jpeg,png',
+             'cover'     =>  'required',
+             'cover' => 'mimes:jpeg,jpeg,png',
+             'user_id'=>'required',
+             'category_id'=>'required'
 
+             
         ];
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
+            $input['image']->store(config('app.files.store.folder_name'));
+            $input['cover']->store(config('app.files.store.folder_name'));
+            $input['image'] = $input['image']->hashName();
+            $input['cover'] = $input['cover']->hashName();
            $repsonse = $this->_repository->createStore($input);
             if($repsonse){
                 $code = 200;
@@ -47,7 +63,7 @@ class StoreController extends Controller
         return response()->json($output, $code);
     }
     public function all(Request $request) {
-        $input = $request->only('pagination','keyword','limit','user_id');
+        $input = $request->only('pagination','keyword','limit','user_id','category_id');
            $pagination = false;
             if($input['pagination']) {
                 $pagination = true;
@@ -112,7 +128,14 @@ class StoreController extends Controller
     /* Sara's work starts here */
     
     // Manage stores starts here 
-
+    public function getstoreid(Request $request){
+        if($request->isMethod('post'))
+        {
+            $data = $request->all();
+            $store = Store::where('id',$request->store_id)->first();
+            return response()->json($store);
+        }
+    }
     public function getstore(){
         $data['title'] = "Manage Stores";
         $user_id = session()->get('user_id');
@@ -212,10 +235,10 @@ class StoreController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $data['categories'] = Categories::all();
         $data['logged_user'] = $getuser;
-        $data['user_id'] = $user_id;
+        $data['user_id'] = $user_id; 
         if($request->isMethod('post'))
         {
-            $input = $request->only('name','category_id', 'address','website','contact_email','tagline','latitude', 'longitude','contact_number','fb_link','tw_link','insta_link');
+            $input = $request->all();
             $rules = [  
                 'name' => 'required',
                 'address' => 'required',
@@ -230,6 +253,31 @@ class StoreController extends Controller
                 $code = 406;
                 $output = ['code' => $code, 'messages' => $validator->messages()->all()];
             }else{
+                
+                if($request->hasFile('image'))
+                {
+                    $img_tmp = Input::file('image');
+                    if($img_tmp->isValid())
+                    {
+                        $extension = $img_tmp->getClientOriginalExtension();
+                        $image = rand(111,99999).".".$extension;
+                        $image_path = public_path('/images/store/logo').'/'.$image;
+                        Image::make($img_tmp)->save($image_path);          
+                    }         
+                }
+                $image = !empty($image) ? $image : $request->p_image;
+                if($request->hasFile('cover'))
+                {
+                    $img_tmp = Input::file('cover');
+                    if($img_tmp->isValid())
+                    {
+                        $extension = $img_tmp->getClientOriginalExtension();
+                        $cover = rand(111,99999).".".$extension;
+                        $image_path = public_path('/images/store/cover').'/'.$cover;
+                        Image::make($img_tmp)->save($image_path);          
+                    }         
+                }
+                $cover = !empty($cover) ? $cover : $request->p_cover;
                 Store::whereId($id)->update([
                     'name' => $request->name,
                     'address' => $request->address,
@@ -238,6 +286,8 @@ class StoreController extends Controller
                     'emailaddress' => $request->contact_email,
                     'tagline' => $request->tagline,
                     'category_id' => $request->category_id,
+                    'cover' => $cover,
+                    'image' => $image,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
                 ]);
@@ -326,4 +376,11 @@ class StoreController extends Controller
     // Manage stores ends here 
 
     /* Sara's work ends here */
+
+    /**
+     * Usman work for Api
+     */
+    public function getNewStores(){
+        return $stores = Store::orderBy('id', 'desc')->take(10)->get();
+   }
 }

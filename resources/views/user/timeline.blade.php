@@ -60,7 +60,7 @@
                                     Last Week
                                 </a>
                             </li>
-                            <li class="nav-item m-tabs__item">
+                            <!-- <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget2_tab2_content"
                                     role="tab" aria-expanded="false">
                                     Month
@@ -71,7 +71,7 @@
                                     role="tab" aria-expanded="false">
                                     All Week
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -82,14 +82,36 @@
                             <!--begin:Timeline 1-->
                             <div class="m-timeline-1 m-timeline-1--fixed">
                                 <div class="m-timeline-1__items">
-                                    <div class="m-timeline-1__marker"></div>
-                                    @foreach($promotions as $pkey => $promotion)                                    
-                                        @if($pkey == 0)
-                                        <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
-                                        @elseif($pkey %2  == 0) 
-                                        <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        @else
+                                    <div class="m-timeline-1__marker"></div>                                 
+                                    <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first">
+                                        <div class="m-timeline-1__item-circle">
+                                            <div class="m--bg-danger"></div>
+                                        </div>
+                                        <div class="m-timeline-1__item-arrow"></div>
+
+                                        <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($store->created_at,'d-M-Y')}} / {{DATE_FORMAT($store->created_at,'H:i A')}}</span>
+                                        <div class="m-timeline-1__item-content">
+                                            <div class="media">
+                                                <img class="m--margin-right-20"
+                                                    src="{{asset('images/store/logo/')}}/{{$store->image}}" title="">
+                                                <div class="media-body">
+                                                    <p style="font-weight:450;">Store Created<p> 
+                                                    <div class="m-timeline-1__item-title m--margin-top-10  ">{{$store->name}}</div>
+                                                    <div class="m-timeline-1__item-body">{{str_limit($store->tagline,100)}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    @if(!empty($promotions))
+                                    @foreach($promotions as $pkey => $promotion)   
+                                        @if($pkey %2  == 0) 
                                         <div class="m-timeline-1__item m-timeline-1__item--right">
+                                        @else
+                                        <div class="m-timeline-1__item m-timeline-1__item--left">
                                         @endif
                                         <div class="m-timeline-1__item-circle">
                                             <div class="m--bg-danger"></div>
@@ -101,6 +123,7 @@
                                                 <img class="m--margin-right-20"
                                                     src="{{asset('images/promotion')}}/{{$promotion->image}}" title="">
                                                 <div class="media-body">
+                                                    <p style="font-weight:450;">Promotion created against store {{$store->name}}<p> 
                                                     <div class="m-timeline-1__item-title m--margin-top-10  ">{{$promotion->title}}</div>
                                                     <div class="m-timeline-1__item-body">{{str_limit($promotion->description,100)}}</div>
                                                 </div>
@@ -108,30 +131,12 @@
                                         </div>
                                     </div>
                                     @endforeach
-                                    @foreach($stores as $skey => $store)
-                                        @if($skey %2  == 0) 
-                                        <div class="m-timeline-1__item m-timeline-1__item--right">
-                                        @else
-                                        <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        @endif
-                                        <div class="m-timeline-1__item-circle">
-                                            <div class="m--bg-danger"></div>
-                                        </div>
-                                        <div class="m-timeline-1__item-arrow"></div>
-
-                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($store->created_at,'d-M-Y')}} / {{DATE_FORMAT($store->created_at,'H:i A')}}</span>
-                                        <div class="m-timeline-1__item-content">
-                                            <div class="media">
-                                                <img class="m--margin-right-20"
-                                                    src="{{asset('images/store/logo/')}}/{{$store->image}}" title="">
-                                                <div class="media-body">
-                                                    <div class="m-timeline-1__item-title m--margin-top-10  ">{{$store->title}}</div>
-                                                    <div class="m-timeline-1__item-body">{{str_limit($promotion->store,100)}}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
+                                    @endif
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    @if(!empty($support))
                                     @foreach($support as $key => $s)
                                         @if($key %2  == 0) 
                                         <div class="m-timeline-1__item m-timeline-1__item--left">
@@ -161,74 +166,57 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        <div class="m-timeline-1__item-circle">
-                                            <div class="m--bg-danger"></div>
-                                        </div>
-                                        <div class="m-timeline-1__item-arrow"></div>
-                                        <!-- <span class="m-timeline-1__item-time m--font-brand">04:10
-                                            <span>PM</span>
-                                        </span> -->
-                                        <div class="m-timeline-1__item-content">
-                                            <div class="m-timeline-1__item-title">
-                                                My ToDo
+                                    @endif
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    @if(!empty($follower))
+                                        @foreach($follower as $fkey => $followed)
+                                        <div class="m-timeline-1__item m-timeline-1__item--left">
+                                            <div class="m-timeline-1__item-circle">
+                                                <div class="m--bg-danger"></div>
                                             </div>
-                                            <div class="m-list-badge m--margin-top-15">
-                                                <div class="m-list-badge__label m--font-success">12:00</div>
-                                                <div class="m-list-badge__items">
-                                                    <a href="#" class="m-list-badge__item">Hiking</a>
-                                                    <a href="#" class="m-list-badge__item">Lunch</a>
-                                                    <a href="#" class="m-list-badge__item">Meet John</a>
+                                            <div class="m-timeline-1__item-arrow"></div>
+                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($followed->created_at,'d-M-Y')}} / {{DATE_FORMAT($followed->created_at,'H:i A')}}</span>
+                                            <div class="m-timeline-1__item-content">
+                                                <div class="m-timeline-1__item-title">
+                                                    Users Followed Today
                                                 </div>
-                                            </div>
-                                            <div class="m-list-badge m--margin-top-15">
-                                                <div class="m-list-badge__label m--font-success">13:00</div>
-                                                <div class="m-list-badge__items">
-                                                    <span class="m-list-badge__item">Setup AOL</span>
-                                                    <span class="m-list-badge__item">Write Code</span>
-                                                </div>
-                                            </div>
-                                            <div class="m-list-badge m--margin-top-15">
-                                                <div class="m-list-badge__label m--font-success">14:00</div>
-                                                <div class="m-list-badge__items">
-                                                    <a href="#" class="m-list-badge__item">Just Keep Doing Something</a>
+                                                <div class="m-timeline-1__item-body">
+                                                    <div class="m-list-pics">
+                                                            <img src="{{asset('images/user')}}/{{$followed->hasuser->profile_pic}}" title="{{$followed->hasuser->name}}" class="img-circle">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        <div class="m-timeline-1__item-circle">
-                                            <div class="m--bg-danger"></div>
-                                        </div>
-                                        <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">11:35
-                                            <span>AM</span>
-                                        </span>
-                                        <div class="m-timeline-1__item-content">
-                                            <div class="m-timeline-1__item-title">
-                                                Users Joined Today
+                                        @endforeach
+                                    @endif
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    @if(!empty($blocked))
+                                        @foreach($blocked as $fkey => $block)
+                                        <div class="m-timeline-1__item m-timeline-1__item--right">
+                                            <div class="m-timeline-1__item-circle">
+                                                <div class="m--bg-danger"></div>
                                             </div>
-                                            <div class="m-timeline-1__item-body">
-                                                <div class="m-list-pics">
-                                                    @foreach($logged_user as $user)
-                                                    <a href="../../#">
-                                                        <img src="assets/app/media/img/users/100_4.jpg" title="">
-                                                    </a>
-                                                    @endforeach
+                                            <div class="m-timeline-1__item-arrow"></div>
+                                            <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($block->created_at,'d-M-Y')}} / {{DATE_FORMAT($block->created_at,'H:i A')}}</span>
+                                            <div class="m-timeline-1__item-content">
+                                                <div class="m-timeline-1__item-title">
+                                                    Users Unfollowed
                                                 </div>
-                                                <div class="m-timeline-1__item-body m--margin-top-15">
-                                                    Lorem ipsum dolor sit amit,consectetur eiusmdd
-                                                    <br> tempors labore et dolore.
+                                                <div class="m-timeline-1__item-body">
+                                                    <div class="m-list-pics">
+                                                            <img src="{{asset('images/user')}}/{{$block->hasuser->profile_pic}}" title="{{$block->hasuser->name}}" class="img-circle">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col m--align-center">
-                                    <button type="button" class="btn btn-sm m-btn--custom m-btn--pill  btn-danger">Load
-                                        More</button>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
 
@@ -414,4 +402,68 @@
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>
 </div>
+
+
+<!-- Modal for Get Store Id-->
+<div class="modal fade" id="store_id_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="store_form" mathod="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control m-input m-input--square" name="store_id">
+                        @foreach($stores as $st)   
+                            <option value="{{$st->id}}">{{$st->name}}</option>
+                        @endforeach
+                    </select> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="role" value="{{$role}}"/>
+<input type="hidden" id="store_id" value="{{$store_id}}"/>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function (e) {
+        var role = $('#role').val();
+        var store_id = $('#store_id').val();
+        console.log(role);
+        var base_url = "<?php url() ?>";
+        $('#store_form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    headers: 
+                    {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    url: base_url+'/select-store',
+                    data: $("#store_form").serialize(),
+                    success: function(response){
+                        $('#store_id_modal').modal('hide');
+                        id = response.id; 
+                        window.location.href = "{{url()->current()}}"+'/'+id;
+                    }
+                });
+        });
+        if(role == 'Store Admin' && store_id == '')
+        {
+            $('#store_id_modal').modal('show');
+        }     
+    });
+</script>
 @endsection

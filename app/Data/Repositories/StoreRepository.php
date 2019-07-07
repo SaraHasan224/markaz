@@ -57,6 +57,12 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
             }
         }
 
+        if(isset($input['category_id'])){
+            if (!empty($input['category_id'])) {
+                $this->builder = $this->builder->where('category_id','=',$input['category_id']);
+            }
+        }
+
         if (!empty($input['keyword']) && is_string($input['keyword'])) {
             $this->builder->where('name', 'like', "%{$input['keyword']}%");
             $this->builder->orWhere('email', 'like', "%{$input['keyword']}%");
@@ -71,8 +77,26 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
         $input['address']  = $data['address'];
         $input['latitude']        = $data['latitude'];
         $input['longitude']      = $data['longitude'];
+        $input['tagline'] = $data['tagline'];
+        $input['telephone'] = $data['telephone'];
+        $input['emailaddress'] = $data['emailaddress'];
+        $input['user_id'] = $data['user_id'];
+        $input['category_id'] = $data['category_id'];
+        $input['website'] = $data['website'];
+        $input['image'] = $data['image']; 
+        $input['cover'] = $data['cover']; 
+
+    
        
         if($store = parent::create($input)){
+            if($store){
+                $store->image  = ($store->image===NULL)? $store->image 
+                            : Storage::url(config('app.files.store.public_relative').$store->image);
+
+                            $store->cover  = ($store->cover===NULL)? $store->cover 
+                            : Storage::url(config('app.files.store.public_relative').$store->cover);
+                            
+                 }
                 return $store;
         }
         return false;
@@ -80,4 +104,3 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
   
 
 }
-

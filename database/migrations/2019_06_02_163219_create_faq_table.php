@@ -15,7 +15,6 @@ class CreateFaqTable extends Migration
             $table->increments('id');
 			$table->string('title');
 			$table->text('description');
-			$table->bigInteger('user_id')->unsigned()->index('faq_user_id_foreign');
             $table->bigInteger('store_id')->unsigned()->index('faq_store_id_foreign');
 			$table->tinyInteger('status')->default(1);
 			$table->timestamps();

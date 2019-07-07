@@ -107,7 +107,7 @@
 
                             <div class="m-stack__item m-topbar__nav-wrapper">
                                 <ul class="m-topbar__nav m-nav m-nav--inline">
-                                    <li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
+                                    <!-- <li class="m-nav__item m-dropdown m-dropdown--large m-dropdown--arrow m-dropdown--align-center m-dropdown--mobile-full-width m-dropdown--skin-light	m-list-search m-list-search--skin-light"
                                         m-dropdown-toggle="click" id="m_quicksearch" m-quicksearch-mode="dropdown"
                                         m-dropdown-persistent="1">
 
@@ -353,7 +353,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> -->
                                     <li class="m-nav__item m-topbar__user-profile  m-dropdown m-dropdown--medium m-dropdown--arrow  m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
                                         m-dropdown-toggle="click">
                                         <a href="#" class="m-nav__link m-dropdown__toggle">
@@ -391,7 +391,7 @@
                                                                 <span class="m-nav__section-text">Section</span>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{url('profile')}}/{{Session::get('store_id')}}" class="m-nav__link">
+                                                                <a href="{{url('profile')}}" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                                     <span class="m-nav__link-title">
                                                                         <span class="m-nav__link-wrap">
@@ -404,7 +404,7 @@
                                                                 </a>
                                                             </li>
                                                             <li class="m-nav__item">
-                                                                <a href="{{url('faq')}}/{{Session::get('store_id')}}" class="m-nav__link">
+                                                                <a href="{{url('faq')}}" class="m-nav__link">
                                                                     <i class="m-nav__link-icon flaticon-info"></i>
                                                                     <span class="m-nav__link-text">FAQ</span>
                                                                 </a>
@@ -459,7 +459,7 @@
                         </li>  
                         @endif           
                         @if(Session::get('role_name') == 'Store Admin')           
-                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{url('/dashboard')}}/{{Session::get('store_id')}}"
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true"><a href="{{url('/dashboard')}}/{{Session::get('user_id')}}"
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-line-graph"></i><span
                                     class="m-menu__link-text">Company Dashboard</span></a>
@@ -485,13 +485,13 @@
                             <h4 class="m-menu__section-text">Manage Categories and Tags</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>   
-                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('categories')}}/{{Session::get('store_id')}}" 
+                         <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('categories')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-list-2"></i><span
                                     class="m-menu__link-text">Categories</span></a>
                         </li>
 
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('tags')}}/{{Session::get('store_id')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('tags')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-signs-1"></i><span
                                     class="m-menu__link-text">Tags</span></a>
@@ -511,12 +511,12 @@
                                     class="m-menu__link-text">Manage Stores</span></a>
                         </li>
                                                 
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotions')}}/{{Session::get('store_id')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotions')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">Manage Promotions</span></a>
                         </li> 
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}/{{Session::get('store_id')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('support')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-suitcase"></i><span
                                     class="m-menu__link-text">Support</span></a>
@@ -525,6 +525,31 @@
                             <h4 class="m-menu__section-text">Manage Account</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('profile')}}"
+                                class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-network"></i><span
+                                    class="m-menu__link-text">Profile</span></a>
+                        </li>
+                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"
+                            m-menu-submenu-toggle="hover" m-menu-link-redirect="1"><a href="javascript:;"
+                                class="m-menu__link m-menu__toggle"><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-settings"></i><span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap"> <span class="m-menu__link-text">Manage FAQs</span>
+                                    </span></span><i
+                                    class="m-menu__ver-arrow la la-angle-right"></i></a>
+                            <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="{{url('faq')}}" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">View All</span></a></li>
+                                    <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
+                                            href="{{url('manage-faq')}}" class="m-menu__link "><i
+                                                class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
+                                                class="m-menu__link-text">Manage FAQ</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
                         @endif
                         
                         @if(Session::get('role_name') == 'Store Admin')  
@@ -532,8 +557,13 @@
                         <li class="m-menu__section ">
                             <h4 class="m-menu__section-text">Manage Categories and Tags</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
-                        </li>   
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('tags')}}/{{Session::get('store_id')}}" 
+                        </li>     
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('categories')}}" 
+                                    class="m-menu__link "><span class="m-menu__item-here"></span><i
+                                    class="m-menu__link-icon flaticon-list-2"></i><span
+                                    class="m-menu__link-text">Categories</span></a>
+                        </li>
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('tags')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-signs-1"></i><span
                                     class="m-menu__link-text">Tags</span></a>
@@ -542,12 +572,12 @@
                             <h4 class="m-menu__section-text">Manage Store and Promotions</h4>
                             <i class="m-menu__section-icon flaticon-more-v3"></i>
                         </li>   
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('store')}}/{{Session::get('store_id')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('store')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">My Store</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotions')}}/{{Session::get('store_id')}}" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="{{url('promotions')}}" 
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">Manage Promotions</span></a>
@@ -581,11 +611,11 @@
                             <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
                                 <ul class="m-menu__subnav">
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('faq')}}/{{Session::get('store_id')}}" class="m-menu__link "><i
+                                            href="{{url('faq')}}" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">View All</span></a></li>
                                     <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a
-                                            href="{{url('manage-faq')}}/{{Session::get('store_id')}}" class="m-menu__link "><i
+                                            href="{{url('manage-faq')}}" class="m-menu__link "><i
                                                 class="m-menu__link-bullet m-menu__link-bullet--line"><span></span></i><span
                                                 class="m-menu__link-text">Manage FAQ</span></a></li>
                                 </ul>

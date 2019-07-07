@@ -249,6 +249,12 @@ return [
             'full_path' => storage_path('app/public/files/promotion'),
         ],
 
+        'store' => [
+            'folder_name' => 'public/store',
+            'public_relative' => 'public/store/',
+            'full_path' => storage_path('app/public/files/store'),
+        ],
+
         
  
         

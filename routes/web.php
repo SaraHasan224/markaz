@@ -20,7 +20,7 @@ Route::group(['middleware' => ['web']], function () {
 });
     Route::group(['middleware' => ['customauth']], function () {
         Route::match(['get','post'],'dashboard', 'LoginController@loggedIn');
-        Route::match(['get','post'],'dashboard/{store_id}', 'LoginController@dashboard');
+        Route::match(['get','post'],'dashboard/{user_id}', 'LoginController@dashboard');
         
         /* Promotion routes starts here*/
 
@@ -62,6 +62,8 @@ Route::group(['middleware' => ['web']], function () {
         /* Store routes starts here*/
         
         //Store Rouutes
+        Route::post('select-store','StoreController@getstoreid');
+
         Route::get('get-store', 'DatatablesController@getstore');
         Route::get('get-store/{user_id}', 'DatatablesController@getstore');
         Route::get('store', 'StoreController@getstore');
@@ -110,13 +112,18 @@ Route::group(['middleware' => ['web']], function () {
         Route::match(['get','post'],'support', 'UserController@support');
         Route::match(['get','post'],'support/{store_id}', 'UserController@storeSupport');
         Route::get('get-support', 'DatatablesController@getsupport');
+        Route::get('get-support/{store_id}', 'DatatablesController@getsupport');
         
         /* Support routes ends here*/
 
         /*  Profile routes starts here  */
  
         Route::get('profile','UserController@getUserProfile');
+        Route::get('profile/{store_id}','UserController@getUserProfile');
         Route::get('media','UserController@getMedia');
+        Route::get('media/{store_id}','UserController@getMedia');
+        Route::get('logs','UserController@getLogs');
+        Route::get('logs/{store_id}','UserController@getLogs');
         Route::post('user_profile','UserController@postUserProfile');        
         /*  Profile routes ends here  */
 

@@ -24,7 +24,7 @@ class DatatablesController extends Controller
             return("<img src=".asset('images/category')."/".$cat->image." style='width:60px; height:60px;'/>");
         })->editColumn('actions', function ($categories)  use($role)   {
             $actions = '';
-            if($role == 'Admin' || $role == 'Store Admin')
+            if($role == 'Admin')
             {
                 $actions = ' 
                 <a  id="delete" data-id="'.$categories->id.'" 
@@ -35,6 +35,8 @@ class DatatablesController extends Controller
                     class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
                     <i class="la la-edit"></i>
                 </a>';
+            }else{
+                $actions = 'You don\'t have permissions to perform any action';
             }
             return($actions);
         })->rawColumns(['actions','image'])->make();
@@ -185,7 +187,7 @@ class DatatablesController extends Controller
             return($actions);
         })->rawColumns(['actions','profile_pic','role_id'])->make();
     }
-    public function getsupport()
+    public function getsupport($store_id = '')
     {
         $role =  session()->get('role_name');
         if($role == 'Admin')
@@ -281,11 +283,9 @@ class DatatablesController extends Controller
     public function getQuestions($id = null)
     {
         $role =  session()->get('role_name');
-        
         $getQuestions = DB::table('faq')
-        ->leftJoin('users', 'faq.user_id', '=', 'users.id')
         ->where('faq.store_id',$id)
-        ->select('faq.id as id','users.name as user_id','faq.description as description','faq.status as status','faq.title as title');
+        ->select('faq.id as id','faq.description as description','faq.status as status','faq.title as title');
         return Datatables::of($getQuestions)
         ->editColumn('description', function ($question) {
             return(str_limit($question->description, 150));
@@ -319,6 +319,6 @@ class DatatablesController extends Controller
                 </a>';
             }
             return($actions);
-        })->rawColumns(['status','user_id','description','actions'])->make();
+        })->rawColumns(['status','description','actions'])->make();
     }
 }

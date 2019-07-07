@@ -79,13 +79,11 @@ class LoginController extends Controller
             return view('index',$data);
     } 
     
-    public function dashboard(Request $request,$store_id = ''){
-        
+    public function dashboard(Request $request,$user_id = ''){
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
         $data['role'] = session()->get('role_name');
-
         return view('index',$data);
     } 
     

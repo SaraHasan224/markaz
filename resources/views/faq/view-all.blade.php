@@ -70,7 +70,12 @@
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$store->name}}</span>
+                            <span class="m-nav__link-text">
+                            @if(!empty($store))
+                                {{ $store->name }}
+                            @else
+                                Select Store  first
+                            @endif</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
@@ -98,11 +103,11 @@
                         </h3>
                     </div>
                 </div>
-                @if(Session::get('role_name') == 'Admin' || Session::get('role_name') == 'Store Admin')
+                @if($role == 'Admin' || $role == 'Store Admin')
                 <div class="m-portlet__head-tools">
                     <ul class="m-portlet__nav">
                         <li class="m-portlet__nav-item">
-                            <a href="{{url('add-faq')}}/1" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                            <a href="{{url('add-faq')}}/{{$store_id}}" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
                                 <span>
                                     <i class="la la-plus"></i>
                                     <span>New Question</span>
@@ -122,7 +127,6 @@
                             <th>QuestionID</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Created By</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr> 
@@ -178,36 +182,124 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for Get Store Id-->
+<div class="modal fade" id="store_id_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form id="store_form" mathod="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control m-input m-input--square" name="store_id">
+                        @foreach($stores as $st)   
+                            <option value="{{$st->id}}">{{$st->name}}</option>
+                        @endforeach
+                    </select> 
+                    @if(!empty($store))
+                    <input type="hidden" name="id"  id="store_id" value="{{$store->id}}"/>
+                    @else
+                    <input type="hidden" name="id"  id="store_id" value="0"/>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @section('scripts')
-<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
     <script>
-        $(function () {
-            $('#view_questions').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax"      : '{{ url("get-questions/1") }}',
-                columnDefs: [    
-                    { "width": "250px", "targets": [1,2] },
-                    { "width": "100px", "targets": [3] }
-                ],
-                "columns"   : [
-                    { data: 'id',searchable: false, orderable: true  },
-                    { data: 'title' },
-                    { data: 'description' },
-                    { data: 'user_id' },
-                    { data: 'status', searchable: false, orderable: false },
-                    { data: 'actions', searchable: false, orderable: false },
-                ]
+        $(document).ready(function (e) {
+            
+            var role = '{{$role}}';
+            var id = $('#store_id').val();
+            id = id != '' ? id : 0;
+            var base_url = "<?php url() ?>";
+            $('#store_form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    processData: false,
+                    headers: 
+                    {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    url: base_url+'/select-store',
+                    data: $("#store_form").serialize(),
+                    success: function(response){
+                        $('#store_id_modal').modal('hide');
+                        id = response.id; 
+                        window.location.href = base_url+"/manage-faq/"+id;
+                    }
+                });
             });
+            if(role == 'Store Admin')
+            {
+                if(id != 0){
+                    $(function () {
+                        $('#view_questions').DataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax"      : '{{ url("get-questions") }}'+'/'+id,
+                            columnDefs: [    
+                                { "width": "250px", "targets": [1,2] },
+                                { "width": "100px", "targets": [3] }
+                            ],
+                            "columns"   : [
+                                { data: 'id',searchable: false, orderable: true  },
+                                { data: 'title' },
+                                { data: 'description' },
+                                { data: 'status', searchable: false, orderable: false },
+                                { data: 'actions', searchable: false, orderable: false },
+                            ]
+                        });
+                    });
+                }else{
+                    $('#store_id_modal').modal('show');
+                }
+            }else{                
+                $(function () {
+                    $('#view_questions').DataTable({
+                        "processing": true,
+                        "serverSide": true,
+                        "ajax"      : '{{ url("get-questions") }}',
+                        columnDefs: [    
+                            { "width": "250px", "targets": [1,2] },
+                            { "width": "100px", "targets": [3] }
+                        ],
+                        "columns"   : [
+                            { data: 'id',searchable: false, orderable: true  },
+                            { data: 'title' },
+                            { data: 'description' },
+                            { data: 'status', searchable: false, orderable: false },
+                            { data: 'actions', searchable: false, orderable: false },
+                        ]
+                    });
+                });
+            }     
+
+            
         });
+    </script>
+    <script>
+
     </script>
     
     <script>
         $(document).ready(function (e) {
             var base_url = "<?php url() ?>";
-            var store_id = "{{ json_decode($store->id) }}";
+            var store_id = $('#store_id').val();
             $(document).on("click", '#edit_faq', function (e) {
                 var id = $(this).data('id');
                 $.ajax({
@@ -304,7 +396,7 @@
             $(document).on("click", '#status', function (e) {
                         var id = $(this).data('id');
                         var status = $(this).data('status');
-                        var store_id = "{{ json_decode($store->id) }}";
+                        var store_id = $('#store_id').val();
                         console.log(id,status);
                         var base_url = "<?php url() ?>";
                         e.preventDefault();
