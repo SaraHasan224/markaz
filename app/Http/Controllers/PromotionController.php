@@ -68,8 +68,8 @@ class PromotionController extends Controller
                 if(!empty($input['limit'])){
                   $limit = $input['limit'];
                 }
-                $code = 200;
-                $output = $this->_repository->findByAll($pagination, $limit, $input,false,true,true);
+                $code = 200;$output = 
+                $this->_repository->getAllPromotion( $input);
             // all good so return the token
             return response()->json($output, $code);
     }
@@ -251,7 +251,12 @@ class PromotionController extends Controller
     /**
      * Usman Work for API
     */
-    public function getNewpPromotions(){
-        return $promotion = Promotion::orderBy('id', 'desc')->take(1)->get();
+    public function getNewPromotions(){
+
+        $code = 200;
+        $output = $this->_repository->getNewPromotion();
+        return response()->json($output, $code);
+
+        
    }
 }

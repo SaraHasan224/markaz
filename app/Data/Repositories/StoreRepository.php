@@ -101,6 +101,10 @@ class StoreRepository extends AbstractRepository implements RepositoryContract {
         }
         return false;
     }
+    
+    public function getNewStores(){
+        return $stores = Store::orderBy('id', 'desc')->take(10)->get();
+    }
   
 
 }

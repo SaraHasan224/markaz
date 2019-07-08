@@ -385,6 +385,10 @@ class StoreController extends Controller
      * Usman work for Api
      */
     public function getNewStores(){
-        return $stores = Store::orderBy('id', 'desc')->take(10)->get();
+
+        $code = 200;
+        $output = $this->_repository->getNewStores();
+        return response()->json($outout,$code);
+        // return $stores = Store::orderBy('id', 'desc')->take(10)->get();
    }
 }

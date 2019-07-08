@@ -64,6 +64,7 @@
                                     <div class="progress-bar m--bg-info" id="follow_progress_bar" role="progressbar" style="width: {{$follow_statistics}}%;"
                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
+                                
                                 <span class="m-widget24__change">
                                     Change
                                 </span>
