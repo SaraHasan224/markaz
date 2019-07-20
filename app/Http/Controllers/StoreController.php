@@ -30,6 +30,7 @@ class StoreController extends Controller
             'address' => 'required',
             'emailaddress'=>'required',
             'tagline'=>'required',
+            'description'=>'required',
             'telephone'=>'required',
             'latitude'=>'required',
             'longitude'=>'required',
@@ -73,10 +74,19 @@ class StoreController extends Controller
               $limit = $input['limit'];
             }
             $code = 200;
-        	$output = $this->_repository->findByAll($pagination, $limit, $input,false,true,true);
+            $output = $this->_repository->findAllStore($input);
         // all good so return the token
         return response()->json($output, $code);
     }
+
+
+    public function getNewStores(Request $request){
+        $input = $request->only('user_id');
+        $code = 200;
+        $output = $this->_repository->getNewStores($input);
+        return response()->json($output,$code);
+   }
+
     public function addSupport(Request $request){
         $input = $request->only('first_name', 'last_name','store_id','subject', 'email','description');
         $rules = [
@@ -381,14 +391,5 @@ class StoreController extends Controller
 
     /* Sara's work ends here */
 
-    /**
-     * Usman work for Api
-     */
-    public function getNewStores(){
-
-        $code = 200;
-        $output = $this->_repository->getNewStores();
-        return response()->json($outout,$code);
-        // return $stores = Store::orderBy('id', 'desc')->take(10)->get();
-   }
+   
 }

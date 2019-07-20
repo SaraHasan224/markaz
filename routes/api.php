@@ -37,6 +37,11 @@ use Illuminate\Http\Request;
       'middleware'=>'auth.jwt'
     ]);
 
+    Route::post('update/profile',[
+    'uses'=> 'UserController@updateProfile',
+    'middleware'=>'auth.jwt'
+    ]);
+
     //  Manage Store  //
 
     Route::post('/create-store',[
@@ -60,6 +65,11 @@ use Illuminate\Http\Request;
     ]);
     Route::get('/followers-user',[
       'uses'=>'FollowerController@findFollowerOfUser',
+      'middleware'=>'auth.jwt'
+    ]);
+
+    Route::post('/unfollow',[
+      'uses'=>'FollowerController@unFollow',
       'middleware'=>'auth.jwt'
     ]);
 

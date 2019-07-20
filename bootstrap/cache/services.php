@@ -33,9 +33,10 @@
     29 => 'App\\Providers\\UserRepositoryServiceProvider',
     30 => 'App\\Providers\\StoreRepositoryServiceProvider',
     31 => 'App\\Providers\\PromotionRepositoryServiceProvider',
-    32 => 'App\\Providers\\EventServiceProvider',
-    33 => 'App\\Providers\\RouteServiceProvider',
-    34 => 'LaravelFCM\\FCMServiceProvider',
+    32 => 'App\\Providers\\FollowerRepositoryServiceProvider',
+    33 => 'App\\Providers\\EventServiceProvider',
+    34 => 'App\\Providers\\RouteServiceProvider',
+    35 => 'LaravelFCM\\FCMServiceProvider',
   ),
   'eager' => 
   array (
@@ -58,8 +59,9 @@
     16 => 'App\\Providers\\UserRepositoryServiceProvider',
     17 => 'App\\Providers\\StoreRepositoryServiceProvider',
     18 => 'App\\Providers\\PromotionRepositoryServiceProvider',
-    19 => 'App\\Providers\\EventServiceProvider',
-    20 => 'App\\Providers\\RouteServiceProvider',
+    19 => 'App\\Providers\\FollowerRepositoryServiceProvider',
+    20 => 'App\\Providers\\EventServiceProvider',
+    21 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (

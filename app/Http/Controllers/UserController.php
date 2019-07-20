@@ -44,6 +44,22 @@ class UserController extends Controller
         return response()->json(['user'=>$user]);
     }
 
+    public function updateProfile(Request $request){
+        $user = JWTAuth::parseToken()->ToUser();
+        $input = $request->only('name','phone_number','profile_pic','latitude','longitude');
+            $response = $this->_repository->updateUser($input,$user);
+            if($response){
+                $code = 200;
+                $output = ['code' => $code,'user'=>$response];
+            }else{
+                $code = 400;
+                $output = ['error'=>['code' => $code,'message' => ['An error occurred while Updating.']]];
+             }
+       
+        return response()->json($output, $code);
+
+    }
+
     /* Sara's work starts here */
 
     /* Web Panel User CRUD */

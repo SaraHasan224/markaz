@@ -174,4 +174,27 @@ class UserRepository extends AbstractRepository implements RepositoryContract {
             ]);
             return $update;
     }
+
+    public function updateUser(array $data = [],User $user){
+        $input['name']          = $data['name'];
+        $input['phone_number']  = $data['phone_number'];
+        $input['profile_pic']   = $data['profile_pic'];
+        $input['latitude']      = $data['latitude'];
+        $input['longitude']     = $data['longitude'];
+    
+         $update = $this->update([
+                'id' =>$user->id,
+                'latitude' => $input['latitude'],
+                'longitude'=> $input['longitude']  
+            ]);
+
+          if($update){
+              return $update;;
+            }else{
+                return false;
+            }
+           
+        
+       
+    }
 }

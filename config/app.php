@@ -180,6 +180,7 @@ return [
         App\Providers\UserRepositoryServiceProvider::class,
         App\Providers\StoreRepositoryServiceProvider::class,
         App\Providers\PromotionRepositoryServiceProvider::class,
+        App\Providers\FollowerRepositoryServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

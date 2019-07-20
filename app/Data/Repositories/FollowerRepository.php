@@ -39,9 +39,6 @@ class FollowerRepository extends AbstractRepository implements RepositoryContrac
 
     public function __construct(Follower $follower) {
         $this->model = $follower;
-
-        $this->user_repo  = app()->make('UserRepository');
-        $this->store_repo = app()->make('StoreRepository');
      
 }
 
@@ -64,7 +61,7 @@ class FollowerRepository extends AbstractRepository implements RepositoryContrac
                 $this->builder = $this->builder->where('user_id','=',$input['user_id']);
             }
         }
- if (!empty($input['keyword']) && is_string($input['keyword'])) {
+      if (!empty($input['keyword']) && is_string($input['keyword'])) {
             $this->builder->where('name', 'like', "%{$input['keyword']}%");
             $this->builder->orWhere('email', 'like', "%{$input['keyword']}%");
         }
@@ -84,12 +81,32 @@ class FollowerRepository extends AbstractRepository implements RepositoryContrac
   return false;
     }
 
+    public function unFollow(array $data=[]){
+        $input['user_id']   = $data['user_id'];
+        $input['store_id']  = $data['store_id'];
+
+        $data1 = Follower::where('store_id','=', $input['store_id'])->where('user_id','=', $input['user_id'])->first();
+        if($follower=parent::deleteById($data1['id'])){
+            return $follower;
+        }
+        return false;
+    }
+
+
+    public function isFollowed($user_id,$store_id){
+        $data = Follower::where('store_id','=', $store_id)->where('user_id','=', $user_id)->first();
+        if($data!=NULL){
+            return true;
+        }  
+        
+        return false;
+    }
     public function getFollowerOfStore(array $data = []){
         $input['store_id']   = $data['store_id'];
         $data2 = ['data'=>[]];
          $data1 = $this->findByAll(false,10,$input);
          foreach($data1['data'] as $singleObject){
-            $data2['data'][] = $this->user_repo->findById($singleObject->user_id, false);
+            $data2['data'][] = app()->make('UserRepository')->findById($singleObject->user_id, false);
          }
          return $data2;
        
@@ -102,7 +119,15 @@ class FollowerRepository extends AbstractRepository implements RepositoryContrac
         $data2 = ['data'=>[]];
          $data1 = $this->findByAll(false,10,$input);
          foreach($data1['data'] as $singleObject){
-            $data2['data'][] = $this->store_repo->findById($singleObject->store_id, false);
+
+            $input1['store_id'] = $singleObject->store_id;
+            $data3 = $this->findByAll(false,10,$input1);
+            $store = app()->make('StoreRepository')->findById($singleObject->store_id, false);
+            $store->isFollowed = true;
+            $store->followers = sizeof($data3['data']);
+
+
+            $data2['data'][] = $store;
          }
          return $data2;
        

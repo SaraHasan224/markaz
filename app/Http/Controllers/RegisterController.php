@@ -19,7 +19,6 @@ use App\Data\Repositories\UserRepository;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
-
 use Authenticatable, Authorizable, CanResetPassword, HasRoles;
 
 class RegisterController extends Controller
@@ -52,6 +51,7 @@ class RegisterController extends Controller
             if($repsonse){
                 $code = 200;
                 $output = ['code' => $code,'user'=>$repsonse];
+        
             }else{
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['An error occurred while Registration.']]];

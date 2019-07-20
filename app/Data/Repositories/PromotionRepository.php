@@ -40,6 +40,7 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
     public function __construct(Promotion $promotion) {
         $this->model = $promotion;
         $this->store_repo  = app()->make('StoreRepository');
+    
      
 }
 
@@ -110,10 +111,9 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         $input['store_id']   = $data['store_id'];
         $data1 =  $this->findByAll(false,10,$input);
         foreach($data1['data'] as $singleObject){
-       $singleObject->store = $this->store_repo->findById($singleObject->store_id, false);
-       $data2['data'][]= $singleObject;
+        $singleObject->store = $this->store_repo->findById($singleObject->store_id, false);
                 }
-      return $data2;
+      return $data1;
 
     }
 

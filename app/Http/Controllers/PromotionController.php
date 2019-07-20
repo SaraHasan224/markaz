@@ -256,7 +256,5 @@ class PromotionController extends Controller
         $code = 200;
         $output = $this->_repository->getNewPromotion();
         return response()->json($output, $code);
-
-        
-   }
+}
 }
