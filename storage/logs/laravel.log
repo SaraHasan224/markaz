@@ -3732,3 +3732,11 @@ Stack trace:
 {
     "user": 4
 }  
+[2019-07-24 09:29:26] local.INFO: Broadcasting [created] on channels [] with payload:
+{
+    "user": 4
+}  
+[2019-07-24 09:35:33] local.INFO: Broadcasting [created] on channels [] with payload:
+{
+    "user": 4
+}  
