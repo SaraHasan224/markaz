@@ -97,13 +97,13 @@
       array (
         'folder_name' => 'public/promotion',
         'public_relative' => 'public/promotion/',
-        'full_path' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\app/public/files/promotion',
+        'full_path' => 'D:\\xampp\\htdocs\\markaz\\storage\\app/public/files/promotion',
       ),
       'store' => 
       array (
         'folder_name' => 'public/store',
         'public_relative' => 'public/store/',
-        'full_path' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\app/public/files/store',
+        'full_path' => 'D:\\xampp\\htdocs\\markaz\\storage\\app/public/files/store',
       ),
     ),
   ),
@@ -197,7 +197,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\framework/cache/data',
+        'path' => 'D:\\xampp\\htdocs\\markaz\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -237,7 +237,7 @@
       'sqlite' => 
       array (
         'driver' => 'sqlite',
-        'database' => 'markaz3',
+        'database' => 'markaz',
         'prefix' => '',
       ),
       'mysql' => 
@@ -245,7 +245,7 @@
         'driver' => 'mysql',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'markaz3',
+        'database' => 'markaz',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -260,7 +260,7 @@
         'driver' => 'pgsql',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'markaz3',
+        'database' => 'markaz',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -273,7 +273,7 @@
         'driver' => 'sqlsrv',
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'markaz3',
+        'database' => 'markaz',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -299,8 +299,8 @@
     'log_enabled' => false,
     'http' => 
     array (
-      'server_key' => 'AAAAmAZZv8Q:APA91bGma1qVzs6q_Ox7INlqFgGe2XQrIWXhq8NnSu3HuneYbYUfHQ2INoyoncRHAyVoFYGqTvvjrILc811lASjAd1fOmh2h8dqRqZsE8Uy5m746z2Eeee-HjPe9VWVd--JjIIDrtU37',
-      'sender_id' => '652941574084',
+      'server_key' => 'AAAAXXm1yBE:APA91bE27kvWCldNxBdCD2XXfT00T6v9EOM4nnGi2ehpv0uv1xeHXKMEjlM6xn9uCihPUh08TOVsCD1QpnuNsDT3s1ZPJpErbPXrvMRxziPpGl-gYlBElkvmYDv-tsjinSTgXHMZje-E',
+      'sender_id' => '401473914897',
       'server_send_url' => 'https://fcm.googleapis.com/fcm/send',
       'server_group_url' => 'https://android.googleapis.com/gcm/notification',
       'timeout' => 30.0,
@@ -315,12 +315,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\app',
+        'root' => 'D:\\xampp\\htdocs\\markaz\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\app/public',
+        'root' => 'D:\\xampp\\htdocs\\markaz\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -379,7 +379,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\markaz1\\markaz\\resources\\views/vendor/mail',
+        0 => 'D:\\xampp\\htdocs\\markaz\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -459,7 +459,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\framework/sessions',
+    'files' => 'D:\\xampp\\htdocs\\markaz\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -487,9 +487,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\markaz1\\markaz\\resources\\views',
+      0 => 'D:\\xampp\\htdocs\\markaz\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\markaz1\\markaz\\storage\\framework\\views',
+    'compiled' => 'D:\\xampp\\htdocs\\markaz\\storage\\framework\\views',
   ),
   'datatables' => 
   array (

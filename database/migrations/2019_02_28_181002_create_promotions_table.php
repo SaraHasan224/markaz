@@ -19,10 +19,12 @@ class CreatePromotionsTable extends Migration
 			$table->string('description');
 			$table->timestamp('start_time');
 			$table->timestamp('end_time');
+            $table->Integer('radius');  //In meters
 			$table->text('location');
 			$table->double('longitude');
 			$table->double('latitude');
-			$table->string('image');
+            $table->string('image');
+            $table->Integer('payment_status')->default(0);
             $table->bigInteger('store_id')->unsigned()->index('promotions_store_id_foreign');
             $table->bigInteger('tag_id')->unsigned()->index('promotions_tag_id_foreign');
 			$table->timestamps();

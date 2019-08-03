@@ -1,6 +1,4 @@
-@extends('layouts.header')
-
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
       #title {
         color: #fff;
@@ -104,15 +102,15 @@
         width: 345px;
       }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -121,14 +119,14 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript::void(0)" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -148,7 +146,8 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            {{$title}}
+                            <?php echo e($title); ?>
+
                         </h3>
                     </div>
                 </div>
@@ -241,9 +240,9 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label">* Select Store</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <select class="form-control m-input m-input--square" id="store_id" name="store_id">
-                                                            @foreach($stores as $store)   
-                                                                <option value="{{$store->id}}">{{$store->name}}</option>
-                                                            @endforeach
+                                                            <?php $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>   
+                                                                <option value="<?php echo e($store->id); ?>"><?php echo e($store->name); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -280,9 +279,9 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label">* Promotion Tags</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                     <select class="form-control m-input m-input--square" id="tags" name="tags">
-                                                        @foreach($tags as $tag)   
-                                                            <option value="{{$tag->id}}">{{$tag->title}}</option>
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $tags; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tag): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>   
+                                                            <option value="<?php echo e($tag->id); ?>"><?php echo e($tag->title); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                         </div>
                                                 </div>
@@ -595,9 +594,9 @@
         <!--End::Main Portlet-->
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
@@ -819,4 +818,6 @@
 
     );
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
