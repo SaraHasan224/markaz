@@ -1,5 +1,19 @@
 <?php $__env->startSection('styles'); ?>
 <style>
+    .m-pricing-table-1__description{
+        text-align: left;
+        padding: 10px 40px;
+    }
+    .pack_detail{
+        margin-left:5px;
+        font-weight:500;
+    }
+    .package_title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 50px;
+        text-align: center;
+    }
       #title {
         color: #fff;
         background-color: #4d90fe;
@@ -203,6 +217,36 @@
                                                     </span>
                                                 </a>
                                                 <div class="m-wizard__step-label">
+                                                    Media Setup
+                                                </div>
+                                                <div class="m-wizard__step-icon">
+                                                    <i class="la la-check"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_4">
+                                            <div class="m-wizard__step-info">
+                                                <a href="#" class="m-wizard__step-number">
+                                                    <span>
+                                                        <span>4</span>
+                                                    </span>
+                                                </a>
+                                                <div class="m-wizard__step-label">
+                                                    Select Package
+                                                </div>
+                                                <div class="m-wizard__step-icon">
+                                                    <i class="la la-check"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="m-wizard__step m-wizard__step--done" m-wizard-target="m_wizard_form_step_5">
+                                            <div class="m-wizard__step-info">
+                                                <a href="#" class="m-wizard__step-number">
+                                                    <span>
+                                                        <span>5</span>
+                                                    </span>
+                                                </a>
+                                                <div class="m-wizard__step-label">
                                                     Location Setup
                                                 </div>
                                                 <div class="m-wizard__step-icon">
@@ -303,8 +347,9 @@
                                             </div>
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                         </div>
+                                        <!--end: Form Wizard Step 2-->
 
-                                        <!--begin: Form Wizard Step 2-->
+                                        <!--begin: Form Wizard Step 3-->
                                         <div class="m-wizard__form-step" id="m_wizard_form_step_3">
                                             <div class="m-form__section">
                                                 <div class="m-form__heading">
@@ -333,8 +378,165 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <!--end: Form Wizard Step 3-->
+
+                                        <!--begin: Form Wizard Step 4-->
+                                        <div class="m-wizard__form-step" id="m_wizard_form_step_4">
+                                            <div class="m-form__section m-form__section--first">
+                                                <div class="m-form__heading">
+                                                    <h3 class="m-form__heading-title">Select Promotion Package</h3>
+                                                </div>
+                                                <div class="m-pricing-table-1">
+                                                    <div class="m-pricing-table-1__items row">
+                                                        <div class="m-pricing-table-1__item col-lg-4">
+                                                            <div class="m-pricing-table-1__visual">
+                                                                <div class="m-pricing-table-1__hexagon1"></div>
+                                                                <div class="m-pricing-table-1__hexagon2"></div>
+                                                                <span class="m-pricing-table-1__icon m--font-brand">
+                                                                    <i class="fa flaticon-piggy-bank"></i>
+                                                                </span>
+                                                            </div>
+                                                            <span class="m-pricing-table-1__price">0
+                                                            <span class="m-pricing-table-1__label">Rs.</span>
+                                                            </span>
+                                                            <h2 class="m-pricing-table-1__subtitle">Free Kit</h2>
+                                                            <span class="m-pricing-table-1__description">
+                                                                <span class="package_title">Try MARKAZ for free.</span>
+                                                                <br/><br/><br/><br/>
+                                                                <i class="fa fa-dot-circle"></i><span class="pack_detail">Radius Coverage 2 kilometers</span>
+                                                                <br/><i class="flaticon flaticon-refresh "></i><span class="pack_detail">Daily Updates</span>
+                                                                <br/><i class="fa fa-user-friends"></i><span class="pack_detail">Limited Support</span>
+                                                                <br/><i class="flaticon flaticon-coins"></i><span class="pack_detail">1,000 Message Requests / promotion</span>
+                                                            </span>
+                                                            <div class="m-pricing-table-1__btn">
+                                                                <a id="free_package" class="btn btn-brand m-btn m-btn--custom m-btn--pill m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="m-pricing-table-1__item col-lg-4">
+                                                            <div class="m-pricing-table-1__visual">
+                                                                <div class="m-pricing-table-1__hexagon1"></div>
+                                                                <div class="m-pricing-table-1__hexagon2"></div>
+                                                                <span class="m-pricing-table-1__icon m--font-accent">
+                                                                    <i class="fa flaticon-confetti"></i>
+                                                                </span>
+                                                            </div>
+                                                            <span class="m-pricing-table-1__price">5,000
+                                                            <span class="m-pricing-table-1__label">Rs</span>
+                                                            </span>
+                                                            <h2 class="m-pricing-table-1__subtitle">Standard Kit</h2>
+                                                            <span class="m-pricing-table-1__description">
+                                                                <span class="package_title">Standard Kit — includes core features and higher volume.</span>
+                                                                <br/><br/><br/><br/>
+                                                                <i class="fa fa-dot-circle"></i><span class="pack_detail">Radius Coverage 10 kilometers</span>
+                                                                <br/><i class="flaticon flaticon-refresh "></i><span class="pack_detail">Hourly Updates</span>
+                                                                <br/><i class="fa fa-user-friends"></i><span class="pack_detail">Basic Support</span>
+                                                                <br/><i class="flaticon flaticon-coins"></i><span class="pack_detail">10,000 Message Requests / promotion</span>
+                                                            </span>
+                                                            <div class="m-pricing-table-1__btn">
+                                                                <a id="standard_package" class="btn m-btn--pill  btn-accent m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="m-pricing-table-1__item col-lg-4">
+                                                            <div class="m-pricing-table-1__visual">
+                                                                <div class="m-pricing-table-1__hexagon1"></div>
+                                                                <div class="m-pricing-table-1__hexagon2"></div>
+                                                                <span class="m-pricing-table-1__icon m--font-primary">
+                                                                    <i class="fa flaticon-gift"></i>
+                                                                </span>
+                                                            </div>
+                                                            <span class="m-pricing-table-1__price">10,000
+                                                            <span class="m-pricing-table-1__label">Rs.</span>
+                                                            </span>
+                                                            <h2 class="m-pricing-table-1__subtitle">Professional Kit</h2>
+                                                            <span class="m-pricing-table-1__description">
+                                                                <span class="package_title">Most Popular — advanced functionality and up to 10,000 message requests for a promotion.</span>
+                                                                <br/><br/><br/><br/>
+                                                                <i class="fa fa-dot-circle"></i><span class="pack_detail">Radius Coverage 50 kilometers</span>
+                                                                <br/><i class="flaticon flaticon-refresh "></i><span class="pack_detail">Hourly Updates</span>
+                                                                <br/><i class="fa fa-user-friends"></i><span class="pack_detail">Basic Support</span>
+                                                                <br/><i class="flaticon flaticon-coins"></i><span class="pack_detail">100,000 Message Requests / promotion</span>
+
+                                                            </span>
+                                                            <div class="m-pricing-table-1__btn">
+                                                                <a id="prof_package" class="btn m-btn--pill  btn-primary m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                            <div class="m-form__section">
+                                            <!--<div class="m-form__section">
+                                                <div class="m-form__heading">
+                                                    <h3 class="m-form__heading-title">Billing Information</h3>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-lg-12">
+                                                        <label class="form-control-label">* Cardholder Name:</label>
+                                                        <input type="text" name="billing_card_name"
+                                                               class="form-control m-input" placeholder=""
+                                                               value="Nick Stone">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-lg-12">
+                                                        <label class="form-control-label">* Card Number:</label>
+                                                        <input type="text" name="billing_card_number"
+                                                               class="form-control m-input" placeholder=""
+                                                               value="372955886840581">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <div class="col-lg-4 m-form__group-sub">
+                                                        <label class="form-control-label">* Exp Month:</label>
+                                                        <select class="form-control m-input"
+                                                                name="billing_card_exp_month">
+                                                            <option value="">Select</option>
+                                                            <option value="01">01</option>
+                                                            <option value="02">02</option>
+                                                            <option value="03">03</option>
+                                                            <option value="04" selected>04</option>
+                                                            <option value="05">05</option>
+                                                            <option value="06">06</option>
+                                                            <option value="07">07</option>
+                                                            <option value="08">08</option>
+                                                            <option value="09">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-4 m-form__group-sub">
+                                                        <label class="form-control-label">* Exp Year:</label>
+                                                        <select class="form-control m-input"
+                                                                name="billing_card_exp_year">
+                                                            <option value="">Select</option>
+                                                            <option value="2018">2018</option>
+                                                            <option value="2019">2019</option>
+                                                            <option value="2020">2020</option>
+                                                            <option value="2021" selected>2021</option>
+                                                            <option value="2022">2022</option>
+                                                            <option value="2023">2023</option>
+                                                            <option value="2024">2024</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-4 m-form__group-sub">
+                                                        <label class="form-control-label">* CVV:</label>
+                                                        <input type="number" class="form-control m-input"
+                                                               name="billing_card_cvv" placeholder="" value="450">
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
+                                        </div>
+
+                                        <!--end: Form Wizard Step 4-->
+
+                                        <!--begin: Form Wizard Step 5-->
+                                        <div class="m-wizard__form-step" id="m_wizard_form_step_5">
+                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
+
+                                            <div class="m-form__section m-form__section--first">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">* Location Setup</h3>
                                                 </div>
@@ -355,20 +557,21 @@
                                                             </div>
                                                             <div class="m-portlet__body">
                                                                 <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
-                                                                <input type="text" id="pac-input2" name="radius" class="controls store_address form-control m-input" placeholder="Enter your radius in meters" style="z-index: 1;position: absolute;left: 233px;top: 139px;">
+                                                                <input type="text" id="pac-input2" class="controls store_address form-control m-input" placeholder="Enter your radius in meters" style="z-index: 1;position: absolute;left: 233px;top: 139px;" disabled="disabled">
                                                                 <div class="col-lg-12" id="map">
-                                                                        <label class="">* Store Location:</label>
-                                                                        <div class="m-input-icon m-input-icon--right">
-                                                                            <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
-                                                                                <span><i class="la la-location-arrow"></i><span>Location</span></span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <span class="m-form__help" id="demo"></span>
+                                                                    <label class="">* Store Location:</label>
+                                                                    <div class="m-input-icon m-input-icon--right">
+                                                                        <button type="button" class="btn btn-outline-metal m-btn m-btn--custom m-btn--icon m-btn--pill m-btn--air">
+                                                                            <span><i class="la la-location-arrow"></i><span>Location</span></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <span class="m-form__help" id="demo"></span>
                                                                 </div>
+                                                                <input type="hidden" class="form-control m-input" name="radius" id="radius_val" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="location" id="location" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="longitude" id="longitude" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="latitude" id="latitude" placeholder="">
-                                     
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -376,167 +579,7 @@
                                             </div>
                                         </div>
 
-                                        <!--end: Form Wizard Step 2-->
-
-                                        <!--begin: Form Wizard Step 3-->
-                                        <!-- <div class="m-wizard__form-step" id="m_wizard_form_step_3">
-                                            <div class="m-form__section m-form__section--first">
-                                                <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">* Pricing Table </h3>
-                                                </div>
-                                                <div class="m-pricing-table-1">
-                                                    <div class="m-pricing-table-1__items row">
-                                                        <div class="m-pricing-table-1__item col-lg-3">
-                                                            <div class="m-pricing-table-1__visual">
-                                                                <div class="m-pricing-table-1__hexagon1"></div>
-                                                                <div class="m-pricing-table-1__hexagon2"></div>
-                                                                <span class="m-pricing-table-1__icon m--font-brand">
-                                                                    <i class="fa flaticon-piggy-bank"></i>
-                                                                </span>
-                                                            </div>
-                                                            <span class="m-pricing-table-1__price">Free</span>
-                                                            <h2 class="m-pricing-table-1__subtitle">1 End Product License</h2>
-                                                            <span class="m-pricing-table-1__description">
-                                                                Lorem ipsum aret
-                                                                <br> sed do eiusmod
-                                                                <br> magna siad ali
-                                                            </span>
-                                                            <div class="m-pricing-table-1__btn">
-                                                                <button type="button" class="btn btn-brand m-btn m-btn--custom m-btn--pill m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="m-pricing-table-1__item col-lg-3">
-                                                            <div class="m-pricing-table-1__visual">
-                                                                <div class="m-pricing-table-1__hexagon1"></div>
-                                                                <div class="m-pricing-table-1__hexagon2"></div>
-                                                                <span class="m-pricing-table-1__icon m--font-accent">
-                                                                    <i class="fa flaticon-confetti"></i>
-                                                                </span>
-                                                            </div>
-                                                            <span class="m-pricing-table-1__price">69
-                                                                <span class="m-pricing-table-1__label">$</span>
-                                                            </span>
-                                                            <h2 class="m-pricing-table-1__subtitle">Business License</h2>
-                                                            <span class="m-pricing-table-1__description">
-                                                                Lorem ipsum
-                                                                <br> sed do eiusmod
-                                                                <br> magna siad enim aliqua
-                                                            </span>
-                                                            <div class="m-pricing-table-1__btn">
-                                                                <button type="button" class="btn m-btn--pill  btn-accent m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="m-pricing-table-1__item col-lg-3">
-                                                            <div class="m-pricing-table-1__visual">
-                                                                <div class="m-pricing-table-1__hexagon1"></div>
-                                                                <div class="m-pricing-table-1__hexagon2"></div>
-                                                                <span class="m-pricing-table-1__icon m--font-focus">
-                                                                    <i class="fa flaticon-rocket"></i>
-                                                                </span>
-                                                            </div>
-                                                            <span class="m-pricing-table-1__price">548
-                                                                <span class="m-pricing-table-1__label">$</span>
-                                                            </span>
-                                                            <h2 class="m-pricing-table-1__subtitle">Enterprice License</h2>
-                                                            <span class="m-pricing-table-1__description">
-                                                                Lorem ipsum dolor
-                                                                <br> sed do eiusmod
-                                                                <br> magna siad enim
-                                                            </span>
-                                                            <div class="m-pricing-table-1__btn">
-                                                                <button type="button" class="btn m-btn--pill  btn-focus m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="m-pricing-table-1__item col-lg-3">
-                                                            <div class="m-pricing-table-1__visual">
-                                                                <div class="m-pricing-table-1__hexagon1"></div>
-                                                                <div class="m-pricing-table-1__hexagon2"></div>
-                                                                <span class="m-pricing-table-1__icon m--font-primary">
-                                                                    <i class="fa flaticon-gift"></i>
-                                                                </span>
-                                                            </div>
-                                                            <span class="m-pricing-table-1__price">899
-                                                                <span class="m-pricing-table-1__label">$</span>
-                                                            </span>
-                                                            <h2 class="m-pricing-table-1__subtitle">Custom License</h2>
-                                                            <span class="m-pricing-table-1__description">
-                                                                Lorem ipsum
-                                                                <br> sed do eiusmod tem
-                                                                <br> magna siad enim
-                                                            </span>
-                                                            <div class="m-pricing-table-1__btn">
-                                                                <button type="button" class="btn m-btn--pill  btn-primary m-btn--wide m-btn--uppercase m-btn--bolder m-btn--sm">Purchase</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                            <div class="m-form__section">
-                                                <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title">Billing Information</h3>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-lg-12">
-                                                        <label class="form-control-label">* Cardholder Name:</label>
-                                                        <input type="text" name="billing_card_name"
-                                                            class="form-control m-input" placeholder=""
-                                                            value="Nick Stone">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-lg-12">
-                                                        <label class="form-control-label">* Card Number:</label>
-                                                        <input type="text" name="billing_card_number"
-                                                            class="form-control m-input" placeholder=""
-                                                            value="372955886840581">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group m-form__group row">
-                                                    <div class="col-lg-4 m-form__group-sub">
-                                                        <label class="form-control-label">* Exp Month:</label>
-                                                        <select class="form-control m-input"
-                                                            name="billing_card_exp_month">
-                                                            <option value="">Select</option>
-                                                            <option value="01">01</option>
-                                                            <option value="02">02</option>
-                                                            <option value="03">03</option>
-                                                            <option value="04" selected>04</option>
-                                                            <option value="05">05</option>
-                                                            <option value="06">06</option>
-                                                            <option value="07">07</option>
-                                                            <option value="08">08</option>
-                                                            <option value="09">09</option>
-                                                            <option value="10">10</option>
-                                                            <option value="11">11</option>
-                                                            <option value="12">12</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-4 m-form__group-sub">
-                                                        <label class="form-control-label">* Exp Year:</label>
-                                                        <select class="form-control m-input"
-                                                            name="billing_card_exp_year">
-                                                            <option value="">Select</option>
-                                                            <option value="2018">2018</option>
-                                                            <option value="2019">2019</option>
-                                                            <option value="2020">2020</option>
-                                                            <option value="2021" selected>2021</option>
-                                                            <option value="2022">2022</option>
-                                                            <option value="2023">2023</option>
-                                                            <option value="2024">2024</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-lg-4 m-form__group-sub">
-                                                        <label class="form-control-label">* CVV:</label>
-                                                        <input type="number" class="form-control m-input"
-                                                            name="billing_card_cvv" placeholder="" value="450">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="m-separator m-separator--dashed m-separator--lg"></div>
-                                        </div> -->
-
-                                        <!--end: Form Wizard Step 3-->
+                                        <!--end: Form Wizard Step 5-->
                                         <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
                                             <div class="m-form__actions">
                                                 <div class="row">
@@ -597,6 +640,26 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scripts'); ?>
+    <script>
+			$( "#free_package" ).click(function() {
+				var radius = 2000; //2km
+				$('#pac-input2').val(2000);
+				$('#radius_val').val(2000);
+				console.log(radius);
+			});
+			$( "#standard_package" ).click(function() {
+				var radius = 10000; //10km
+				$('#pac-input2').val(10000);
+				$('#radius_val').val(10000);
+				console.log(radius);
+			});
+			$( "#prof_package" ).click(function() {
+				var radius = 50000; //50km
+				$('#pac-input2').val(50000);
+				$('#radius_val').val(50000);
+				console.log(radius);
+			});
+    </script>
 <script>
       // This example adds a search box to a map, using the Google Place Autocomplete
       // feature. People can enter geographical searches. The search box will return a
@@ -615,7 +678,7 @@
 
         // Create the search box and link it to the UI element.
 		  var input = document.getElementById('pac-input');
-		  var radius = document.getElementById('pac-input2');
+//		  var radius = $('#pac-input2').val();
         var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -663,6 +726,10 @@
               title: place.name,
               position: place.geometry.location
             }));
+            var radius_val = $('#pac-input2').val();
+			  //console.log(radius_val);
+			  //console.log(typeof(radius_val));
+			  //console.log(parseInt(radius_val));
 			  var sunCircle = {
 				  strokeColor: "#c3fc49",
 				  strokeOpacity: 0.8,
@@ -671,7 +738,7 @@
 				  fillOpacity: 0.35,
 				  map: map,
 				  center: place.geometry.location,
-				  radius: radius // in meters
+				  radius: parseInt(radius_val) // in meters
 			  };
 			  cityCircle = new google.maps.Circle(sunCircle);
 			  map.addListener('center', markers, 'position', function() {
@@ -729,10 +796,15 @@
                         }
                         , description: {
                             required: !0
-                        }
-                        , time: {
-                            required: !0
-                        }
+                        },time: {
+						    required: !0
+						}, radius: {
+							required: !0
+						}, images: {
+							required: !0
+						}, address: {
+							required: !0
+						}
                         , "account_communication[]": {
                             required: !0
                         }

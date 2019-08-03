@@ -172,9 +172,7 @@ class StoreController extends Controller
             'cover' => 'required',
             'image' => 'required',
             'address' => 'required',
-            'user_id' => 'required', 
-            'website' => 'required',
-            'contact_email' => 'required',
+            'user_id' => 'required',
             'description' => 'required',
             'tagline' => 'required',
             'address' => 'required',
@@ -215,8 +213,8 @@ class StoreController extends Controller
             $store->cover = $cover;
             $store->address = $request->address;
             $store->user_id = $request->user_id;
-            $store->website = $request->website;
-            $store->emailaddress = $request->contact_email;
+            $store->website = !empty($request->website) ? $request->website : "No website provided";
+            $store->emailaddress = !empty($request->contact_email) ? $request->contact_email : "No contact email provided";
             $store->description = $request->description;
             $store->tagline = $request->tagline;
             $store->longitude = $request->longitude;

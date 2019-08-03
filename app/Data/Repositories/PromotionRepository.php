@@ -71,7 +71,8 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         // dd(date('Y-m-d H:i:s',$time[0]));
         $input['title']       = $data['title'];
         $input['description'] = $data['description'];
-        $input['start_time']  = Carbon::parse($time[0])->format('Y-m-d  H:i:s'); 
+        $input['radius'] = $data['radius'];
+        $input['start_time']  = Carbon::parse($time[0])->format('Y-m-d  H:i:s');
         $input['end_time']    = Carbon::parse($time[1])->format('Y-m-d  H:i:s');
         $input['location']    = $data['location'];
         $input['longitude']   = $data['longitude'];

@@ -99,7 +99,6 @@ class PromotionController extends Controller
         if($request->isMethod('post'))
         { 
             $input = $request->all();
-            // dd($input);
             $media_ids = [];
             if($request->hasFile('image'))
             {

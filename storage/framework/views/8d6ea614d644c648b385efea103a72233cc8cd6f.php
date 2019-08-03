@@ -1,5 +1,4 @@
-@extends('layouts.header')
-@section('styles')
+<?php $__env->startSection('styles'); ?>
 <style>
       #title {
         color: #fff;
@@ -90,15 +89,15 @@
         width: 345px;
       }
     </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <!-- END: Left Aside -->
 <div class="m-grid__item m-grid__item--fluid m-wrapper">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <h3 class="m-subheader__title m-subheader__title--separator">{{$title}}</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator"><?php echo e($title); ?></h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="#" class="m-nav__link m-nav__link--icon">
@@ -107,20 +106,20 @@
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('/')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('/')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Home</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('store')}}" class="m-nav__link">
+                        <a href="<?php echo e(url('store')); ?>" class="m-nav__link">
                             <span class="m-nav__link-text">Stores</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$title}}</span>
+                            <span class="m-nav__link-text"><?php echo e($title); ?></span>
                         </a>
                     </li>
                 </ul>
@@ -141,7 +140,8 @@
                                     <i class="la la-gear"></i>
                                 </span>
                                 <h3 class="m-portlet__head-text">
-                                    {{$title}}
+                                    <?php echo e($title); ?>
+
                                 </h3>
                             </div>
                         </div>
@@ -150,71 +150,71 @@
                     <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" id="stores" method="POST">
                         <div class="m-portlet__body">
                             <div id="delete_result" style="padding: 10px;"></div>
-                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('name') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
-                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name" value="{{ old('name') }}">
+                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name" value="<?php echo e(old('name')); ?>">
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red"> Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Category:</label>
                                     <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id" >
-                                        @foreach($categories as $category)
-											<option value="{{$category->id}}">{{$category->title}}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+											<option value="<?php echo e($category->id); ?>"><?php echo e($category->title); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 									</select>
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store category</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('website') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
-                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ old('website') }}">
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="<?php echo e(old('website')); ?>">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Tagline:</label>
-                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline" value="{{ old('tagline') }}">
+                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline" value="<?php echo e(old('tagline')); ?>">
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store tagline</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('image') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Logo:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg" value="{{ old('image') }}">
+                                        <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg" value="<?php echo e(old('image')); ?>">
                                     </div>
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Select a logo</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Cover:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg" value="{{ old('cover') }}">
+                                        <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg" value="<?php echo e(old('cover')); ?>">
                                     </div>
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Select a cover</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('description') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50" value="{{ old('description') }}"></textarea>
+                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50" value="<?php echo e(old('description')); ?>"></textarea>
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store description</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
-                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5" value="{{ old('contact_email') }}"></textarea>
+                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5" value="<?php echo e(old('contact_email')); ?>"></textarea>
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }} m-form__group row">
+                            <div class="form-group<?php echo e($errors->has('contact_number') ? ' has-error' : ''); ?> m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5" value="{{ old('contact_number') }}"></textarea>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5" value="<?php echo e(old('contact_number')); ?>"></textarea>
                                     <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store contact number</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
-                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link" value="{{ old('fb_link') }}">
+                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link" value="<?php echo e(old('fb_link')); ?>">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
                             </div>
@@ -224,13 +224,13 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
-                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link" value="{{ old('insta_link') }}">
+                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link" value="<?php echo e(old('insta_link')); ?>">
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input"
-                                        placeholder="Enter store  twitter link" value="{{ old('tw_link') }}">
+                                        placeholder="Enter store  twitter link" value="<?php echo e(old('tw_link')); ?>">
                                     <span class="m-form__help">Enter your store twitter link</span>
                                 </div>
                             </div>
@@ -250,7 +250,7 @@
                                 <div class="col-lg-6">
                                     <!-- <label>Store Adress:</label> -->
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="pac-input"  value="{{ old('address') }}" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
+                                        <input type="text" id="pac-input"  value="<?php echo e(old('address')); ?>" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
                                         
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="user_id" value="{{$user_id}}">
+                        <input type="hidden" name="user_id" value="<?php echo e($user_id); ?>">
                                         
                         <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                             <div class="m-form__actions m-form__actions--solid">
@@ -289,8 +289,8 @@
         </div>
     </div>
 </div>
-@endsection
-@section('scripts') 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?> 
 
 <script>
 /**
@@ -437,4 +437,5 @@
     	});
     })
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

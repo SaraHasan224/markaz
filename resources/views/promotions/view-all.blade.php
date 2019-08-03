@@ -117,7 +117,7 @@
                             <th>PromotionID</th>
                             <th>Title</th>
                             <th>Start & End Time</th>
-                            <th>Radius</th>
+                            <th>Radius (in meters)</th>
                             <th>Store</th>
                             <th>Image</th>
                             <th>Payment Status</th>
