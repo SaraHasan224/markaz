@@ -133,18 +133,22 @@ class DatatablesController extends Controller
         $role =  session()->get('role_name');
         if($store_id == '')
         {
-            $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','longitude','latitude','image','store_id','created_at')->with('hasstore');
+            $getPromotions = Promotion::select('id','title','start_time','end_time','location','longitude','latitude','image','store_id','radius','payment_status','created_at')->with('hasstore');
         }else{
-            $getPromotions = Promotion::where('store_id',$store_id)->select('id','title','description','start_time','end_time','location','longitude','latitude','image','store_id','created_at')->with('hasstore');
+            $getPromotions = Promotion::where('store_id',$store_id)->select('id','title','start_time','end_time','location','longitude','latitude','image','store_id','radius','payment_status','created_at')->with('hasstore');
         }
 
         return Datatables::of($getPromotions)
         ->editColumn('store_id', function ($promotion) {
             return(empty($promotion->hasstore) ? '' : $promotion->hasstore->name);
+        })->editColumn('start_time', function ($promotion) {
+            return(date('d-M-Y H:i A', strtotime($promotion->start_time)).' to '.date('d-M-Y H:i A', strtotime($promotion->end_time)));
         })->editColumn('location', function ($promotion) {
             return($promotion->location.' longitude = '.$promotion->longitude.' latitude = '.$promotion->latitude);
         })->editColumn('image', function ($users) {
             return("<img src=".asset('images/promotion')."/".$users->image." style='width:60px; height:60px;'/>");
+        })->editColumn('created_at', function ($promotion)    {
+             return(date('d-M-Y H:i A', strtotime($promotion->created_at)));
         })->editColumn('actions', function ($promotion)  use($role)   {
             $actions = '';
             if($role == 'Admin' || $role == 'Store Admin')

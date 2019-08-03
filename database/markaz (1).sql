@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jul 07, 2019 at 07:07 PM
--- Server version: 5.7.19
--- PHP Version: 7.1.20
+-- Host: 127.0.0.1
+-- Generation Time: Aug 03, 2019 at 10:04 AM
+-- Server version: 5.7.24
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -51,7 +51,8 @@ INSERT INTO `categories` (`id`, `title`, `image`, `created_at`, `updated_at`, `d
 (7, 'Health', '31296.jpg', '2019-07-05 22:08:04', '2019-07-05 22:08:04', NULL),
 (8, 'Home Decor', '10414.png', '2019-07-05 22:08:57', '2019-07-05 22:08:57', NULL),
 (9, 'Electronics', '30231.jpg', '2019-07-05 22:09:59', '2019-07-05 22:09:59', NULL),
-(10, 'Self Care', '28555.jpg', '2019-07-05 22:11:10', '2019-07-05 22:11:10', NULL);
+(10, 'Self Care', '28555.jpg', '2019-07-05 22:11:10', '2019-07-05 22:11:10', NULL),
+(11, 'Pret', '23964.jpg', '2019-07-20 22:24:59', '2019-07-20 22:24:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -189,7 +190,12 @@ INSERT INTO `event_logs` (`id`, `component`, `component_name`, `component_image`
 (93, 'Users', 'Talha Nadeem', '69935.jpg', 'Added', 1, NULL, '2019-07-07 13:17:55', '2019-07-07 13:17:55', NULL),
 (94, 'Users', 'Kashaf Nazir', 'user_default.png', 'Logged In', 36, NULL, '2019-07-07 13:38:48', '2019-07-07 13:38:48', NULL),
 (95, 'Store', 'Rochester Cafe & Grill', NULL, 'Added', 39, NULL, '2019-07-07 14:01:11', '2019-07-07 14:01:11', NULL),
-(96, 'Users', 'Sara Hasan', '68281.jpg', 'Logged In', 1, NULL, '2019-07-07 14:03:09', '2019-07-07 14:03:09', NULL);
+(96, 'Users', 'Sara Hasan', '68281.jpg', 'Logged In', 1, NULL, '2019-07-07 14:03:09', '2019-07-07 14:03:09', NULL),
+(97, 'Users', 'Sara Hasan', '68281.jpg', 'Logged In', 1, NULL, '2019-07-20 04:51:54', '2019-07-20 04:51:54', NULL),
+(98, 'Users', 'Sara Hasan', '68281.jpg', 'Logged In', 1, NULL, '2019-07-20 09:54:00', '2019-07-20 09:54:00', NULL),
+(99, 'Users', 'Sara Hasan', '68281.jpg', 'Logged In', 1, NULL, '2019-07-20 22:22:59', '2019-07-20 22:22:59', NULL),
+(100, 'Users', 'Sara Hasan', '68281.jpg', 'Logged In', 1, NULL, '2019-08-03 01:57:42', '2019-08-03 01:57:42', NULL),
+(101, 'Users', 'Usman Siddiqui', '21385.jpg', 'Logged In', 4, NULL, '2019-08-03 02:28:05', '2019-08-03 02:28:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -815,10 +821,12 @@ CREATE TABLE `promotions` (
   `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `start_time` timestamp NOT NULL,
   `end_time` timestamp NOT NULL,
+  `radius` int(11) NOT NULL,
   `location` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `longitude` double NOT NULL,
   `latitude` double NOT NULL,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_status` int(11) NOT NULL DEFAULT '0',
   `store_id` bigint(20) UNSIGNED NOT NULL,
   `tag_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -830,10 +838,10 @@ CREATE TABLE `promotions` (
 -- Dumping data for table `promotions`
 --
 
-INSERT INTO `promotions` (`id`, `title`, `description`, `start_time`, `end_time`, `location`, `longitude`, `latitude`, `image`, `store_id`, `tag_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Clearance Sale (10% Off)', 'Unstitched Lawn Suits Collection 2019 Online in Pakistan', '2019-07-05 19:00:00', '2019-07-12 18:00:00', 'FB Indus-Area Block 21 Block 21 Gulberg Town, Karachi, Karachi City, Sindh, Pakistan', 67.08807753029146, 24.9338977802915, '2953.jpg', 2, 1, '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL),
-(2, 'Electronics & Appliances 10% Off on selected items', 'From your living room, your kitchen to your office/business, METRO provides you best-value solutions tailored according to your personal and professional needs.', '2019-06-28 19:30:00', '2019-06-29 21:00:00', 'NA-Class 190-219, OKEWARI near، Safari Park، University Rd, Gulshan-e-Iqbal, Karachi, Karachi City, Sindh 73500, Pakistan', 67.10634183029151, 24.9229225802915, '27126.jpg', 1, 1, '2019-07-06 11:31:31', '2019-07-06 11:31:31', NULL),
-(3, 'Mid Season Sale Up to 30% Off', 'On entire bill', '2019-06-22 19:00:00', '2019-07-05 19:00:00', 'Zamzama Blvd, Phase V Zamzama Commercial Area Phase 5 Karachi, Karachi City, Sindh 75500, Pakistan', 67.04230543029144, 24.8183283302915, '43284.jpg', 2, 1, '2019-07-06 11:37:01', '2019-07-06 11:37:01', NULL);
+INSERT INTO `promotions` (`id`, `title`, `description`, `start_time`, `end_time`, `radius`, `location`, `longitude`, `latitude`, `image`, `payment_status`, `store_id`, `tag_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Clearance Sale (10% Off)', 'Unstitched Lawn Suits Collection 2019 Online in Pakistan', '2019-07-05 19:00:00', '2019-07-12 18:00:00', 0, 'FB Indus-Area Block 21 Block 21 Gulberg Town, Karachi, Karachi City, Sindh, Pakistan', 67.08807753029146, 24.9338977802915, '2953.jpg', 0, 2, 1, '2019-07-06 03:42:58', '2019-07-06 03:42:58', NULL),
+(2, 'Electronics & Appliances 10% Off on selected items', 'From your living room, your kitchen to your office/business, METRO provides you best-value solutions tailored according to your personal and professional needs.', '2019-06-28 19:30:00', '2019-06-29 21:00:00', 0, 'NA-Class 190-219, OKEWARI near، Safari Park، University Rd, Gulshan-e-Iqbal, Karachi, Karachi City, Sindh 73500, Pakistan', 67.10634183029151, 24.9229225802915, '27126.jpg', 0, 1, 1, '2019-07-06 11:31:31', '2019-07-06 11:31:31', NULL),
+(3, 'Mid Season Sale Up to 30% Off', 'On entire bill', '2019-06-22 19:00:00', '2019-07-05 19:00:00', 0, 'Zamzama Blvd, Phase V Zamzama Commercial Area Phase 5 Karachi, Karachi City, Sindh 75500, Pakistan', 67.04230543029144, 24.8183283302915, '43284.jpg', 0, 2, 1, '2019-07-06 11:37:01', '2019-07-06 11:37:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -1196,8 +1204,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `name`, `role_id`, `phone_number`, `profile_pic`, `remember_token`, `access_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'sarahasan224@gmail.com', '$2y$10$AGlcLD1fNxbYFups1EL9..JsJHm7IRfVytCfmzbmab5v.PdmqKUj2', 'Sara Hasan', 1, '03452099689', '68281.jpg', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC91c2VyL3NpZ25pbndlYiIsImlhdCI6MTU2MjUyNjE4OSwiZXhwIjoxNTYyNTI5Nzg5LCJuYmYiOjE1NjI1MjYxODksImp0aSI6Ilh1MFg2bWozM3h1QmZvZVkifQ.MWGK2h7r4iGSr1C4TXcdV-ADuoq992YjrUc2UYDlzhg', '2019-06-29 12:20:48', '2019-07-07 14:03:09', NULL),
-(4, 'usmaan.siddiqui@gmail.com', '$2y$10$zDcSnc8frOHhc8pEoRwLxOQodz1kDW1NNsc7yu7jKYeXv4c6d3v22', 'Usman Siddiqui', 2, '900770', '21385.jpg', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC91c2VyL3NpZ25pbndlYiIsImlhdCI6MTU2MjUxODg4MiwiZXhwIjoxNTYyNTIyNDgyLCJuYmYiOjE1NjI1MTg4ODIsImp0aSI6IjlzZkNOZGtFRWpjdDY0cFcifQ.txusekNn9P__L-3fvDMyebmoR2IlmVoSih4Z1YWlHKY', '2019-06-29 12:34:06', '2019-07-07 12:01:22', NULL),
+(1, 'sarahasan224@gmail.com', '$2y$10$AGlcLD1fNxbYFups1EL9..JsJHm7IRfVytCfmzbmab5v.PdmqKUj2', 'Sara Hasan', 1, '03452099689', '68281.jpg', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC91c2VyL3NpZ25pbndlYiIsImlhdCI6MTU2NDgxNTQ2MiwiZXhwIjoxNTY0ODE5MDYyLCJuYmYiOjE1NjQ4MTU0NjIsImp0aSI6IkZTeGE5R3ZxbXRtZXVxSGMifQ.JdPYwe_RHQYZzChfj3GECqe5Xt60mLDPTg3DmH33tq4', '2019-06-29 12:20:48', '2019-08-03 01:57:42', NULL),
+(4, 'usmaan.siddiqui@gmail.com', '$2y$10$zDcSnc8frOHhc8pEoRwLxOQodz1kDW1NNsc7yu7jKYeXv4c6d3v22', 'Usman Siddiqui', 2, '900770', '21385.jpg', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC91c2VyL3NpZ25pbndlYiIsImlhdCI6MTU2NDgxNzI4NSwiZXhwIjoxNTY0ODIwODg1LCJuYmYiOjE1NjQ4MTcyODUsImp0aSI6Im42MXNhaEFtdjNVNU03YTcifQ.6VM2YSkayGT6QRLCaVAUmJiMPIot3DJcOn-_Z-VKIuk', '2019-06-29 12:34:06', '2019-08-03 02:28:05', NULL),
 (5, 'sara@clickysoft.com', '$2y$10$Z74xXYL.IN3eRNW9DrPxV.YxEjCSv01A1pwuHWQx6CWHwb2Xs2.z.', 'Sara Lawrence', 4, '090078601', 'user_default.png', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC9hcGkvdXNlci9zaWduaW4iLCJpYXQiOjE1NjI0OTEzMTEsImV4cCI6MTU2MjQ5NDkxMSwibmJmIjoxNTYyNDkxMzExLCJqdGkiOiJCeWlvSFhKUWFxTmw5aUZrIn0.Wlw5Q9NB3XvUsOkQtpriwyxp01QMFp1cQMFk1701-vM', '2019-07-07 02:50:06', '2019-07-07 04:21:51', NULL),
 (6, 'hamza@gmail.com', '$2y$10$xbx.zq1LQKWc7nHH7DYSyuxtmXMNypsXH5EwUWFGxMeYvqnmcJ/iC', 'Hamza Khan', 4, '03009263363', '20243.jpg', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjYsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC9hZGQtdXNlciIsImlhdCI6MTU2MjUyMjU0MSwiZXhwIjoxNTYyNTI2MTQxLCJuYmYiOjE1NjI1MjI1NDEsImp0aSI6InBJV25WQ2ppVUlJV0Vwa3gifQ.F7-RWmjWOuqX6hJ_5Xa-akQCZ8Ys9qip59a2Y94U8Qg', '2019-07-07 13:02:21', '2019-07-07 13:02:21', NULL),
 (7, 'seerat@gmail.com', '$2y$10$oY2n3HSIjY8GbzwefuQqyusXy.duB91Qp.bKVCc92OOYM17OIvyKm', 'Seerat Khan', 4, '0330017726', '93100.jpg', NULL, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjcsImlzcyI6Imh0dHA6Ly9tYXJrYXoudGVzdC9hZGQtdXNlciIsImlhdCI6MTU2MjUyMjYxMywiZXhwIjoxNTYyNTI2MjEzLCJuYmYiOjE1NjI1MjI2MTMsImp0aSI6IkZpeXkyZVcxaUoxOXdqejEifQ.BfpEU1kZA6i1GOlQPoWARvTTknUuRxpHXizKsHP9gzU', '2019-07-07 13:03:33', '2019-07-07 13:03:33', NULL),
@@ -1386,7 +1394,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `device_tokens`
@@ -1398,7 +1406,7 @@ ALTER TABLE `device_tokens`
 -- AUTO_INCREMENT for table `event_logs`
 --
 ALTER TABLE `event_logs`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `faq`
