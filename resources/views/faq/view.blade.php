@@ -29,7 +29,7 @@
                             @if(!empty($store))
                                 {{ $store->name }}
                             @else
-                                Select Store  first
+                                Markaz
                             @endif
                         </a>
                     <li class="m-nav__separator">-</li>
@@ -55,7 +55,7 @@
                             @if(!empty($store))
                                 {{ $store->name }}
                             @else
-                                Select Store  first
+                                Markaz
                             @endif
                         </h1>
                     </div>

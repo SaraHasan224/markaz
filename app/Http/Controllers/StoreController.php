@@ -30,7 +30,6 @@ class StoreController extends Controller
             'address' => 'required',
             'emailaddress'=>'required',
             'tagline'=>'required',
-            'description'=>'required',
             'telephone'=>'required',
             'latitude'=>'required',
             'longitude'=>'required',
@@ -74,19 +73,10 @@ class StoreController extends Controller
               $limit = $input['limit'];
             }
             $code = 200;
-            $output = $this->_repository->findAllStore($input);
+        	$output = $this->_repository->findByAll($pagination, $limit, $input,false,true,true);
         // all good so return the token
         return response()->json($output, $code);
     }
-
-
-    public function getNewStores(Request $request){
-        $input = $request->only('user_id');
-        $code = 200;
-        $output = $this->_repository->getNewStores($input);
-        return response()->json($output,$code);
-   }
-
     public function addSupport(Request $request){
         $input = $request->only('first_name', 'last_name','store_id','subject', 'email','description');
         $rules = [
@@ -172,7 +162,9 @@ class StoreController extends Controller
             'cover' => 'required',
             'image' => 'required',
             'address' => 'required',
-            'user_id' => 'required',
+            'user_id' => 'required', 
+            'website' => 'required',
+            'contact_email' => 'required',
             'description' => 'required',
             'tagline' => 'required',
             'address' => 'required',
@@ -213,8 +205,8 @@ class StoreController extends Controller
             $store->cover = $cover;
             $store->address = $request->address;
             $store->user_id = $request->user_id;
-            $store->website = !empty($request->website) ? $request->website : "No website provided";
-            $store->emailaddress = !empty($request->contact_email) ? $request->contact_email : "No contact email provided";
+            $store->website = $request->website;
+            $store->emailaddress = $request->contact_email;
             $store->description = $request->description;
             $store->tagline = $request->tagline;
             $store->longitude = $request->longitude;
@@ -227,11 +219,13 @@ class StoreController extends Controller
             $social->twitter_link = $request->tw_link;
             $social->insta_link = $request->insta_link;
             $social->save();
+
             EventLog::create([
-                'component' => 'Store',
-                'component_name' => $request->name,
-                'operation' => 'Added',
-                'user_id'   => session()->get('user_id')
+                'component' => 'Store : '.$request->name,
+//                    'component_name' => ,
+                'component_image' => $image,
+                'operation' => 'added',
+                'user_id'   =>session()->get('user_id'),
             ]);
             $output = "Store created successfully";
             $code = 200;
@@ -289,7 +283,16 @@ class StoreController extends Controller
                     }         
                 }
                 $cover = !empty($cover) ? $cover : $request->p_cover;
-                Store::whereId($id)->update([
+                $store = Store::whereId($id)->first();
+
+                EventLog::create([
+                    'component' => 'Store : '.$store->name,
+//                    'component_name' => ,
+                    'component_image' => $store->image,
+                    'operation' => 'edited',
+                    'user_id'   =>session()->get('user_id'),
+                ]);
+                $store->update([
                     'name' => $request->name,
                     'address' => $request->address,
                     'telephone' => $request->contact_number,
@@ -303,12 +306,14 @@ class StoreController extends Controller
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
                 ]);
+
+
                 EventLog::create([
-                    'component' => 'Store',
-                    'component_name' => $request->name,
-                    'operation' => 'Updated',
-                    'user_id'   => session()->get('user_id'),
-                    'store_id'  => $id
+                    'component' => 'Store : '.$request->name,
+//                    'component_name' => ,
+                    'component_image' => $image,
+                    'operation' => 'edited successfully',
+                    'user_id'   =>session()->get('user_id'),
                 ]);
                 $output = "Store updated successfully";
                 $code = 200;
@@ -342,11 +347,14 @@ class StoreController extends Controller
             }else{
                 $code = 200;
                 $store = Store::where('id',$request->id)->first();
+
+
                 EventLog::create([
-                    'component' => 'Store',
-                    'component_name' => $store->name,
-                    'operation' => 'Status Updated',
-                    'user_id'   => session()->get('user_id'),
+                    'component' => 'Store : '.$store->name,
+//                    'component_name' => ,
+                    'component_image' => $store->image,
+                    'operation' => 'status updated',
+                    'user_id'   =>session()->get('user_id'),
                 ]);
                 $storecode = 200;
                 $status = ($store->status == 1) ? 0 : 1;
@@ -372,11 +380,13 @@ class StoreController extends Controller
             }else{
                 $code = 200;
                 $store = Store::where('id',$request->id)->first();
+
                 EventLog::create([
-                    'component' => 'Store',
-                    'component_name' => $store->name,
-                    'operation' => 'Deleted',
-                    'user_id'   => session()->get('user_id'),
+                    'component' => 'Store : '.$store->name,
+//                    'component_name' => ,
+                    'component_image' => $store->image,
+                    'operation' => 'deleted',
+                    'user_id'   =>session()->get('user_id'),
                 ]);
                 $storecode = 200;
                 $store->delete();
@@ -389,5 +399,14 @@ class StoreController extends Controller
 
     /* Sara's work ends here */
 
-   
+    /**
+     * Usman work for Api
+     */
+    public function getNewStores(){
+
+        $code = 200;
+        $output = $this->_repository->getNewStores();
+        return response()->json($outout,$code);
+        // return $stores = Store::orderBy('id', 'desc')->take(10)->get();
+   }
 }

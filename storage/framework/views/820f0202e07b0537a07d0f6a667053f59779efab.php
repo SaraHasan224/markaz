@@ -4,14 +4,12 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-tools">
                 <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
-                    <?php if(Session::get('role_name') == 'Store Admin'): ?>
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_3"
                             role="tab">
                             Recent Activites
                         </a>
                     </li>
-                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -39,12 +37,12 @@
                                     endif;
                                     ?> 
                                     <div class="m-timeline-2__item" style=" margin-left:20px;">
-                                        <span class="m-timeline-2__item-time"><?php echo e(DATE_FORMAT($time->created_at,'H:i A')); ?></span>
+                                        <span class="m-timeline-2__item-time"><?php echo e(DATE_FORMAT($time->created_at,'h : i A')); ?></span>
                                         <div class="m-timeline-2__item-cricle" style=" margin-left:40px;">
                                             <i class="fa fa-genderless <?php echo e($class); ?>"></i>
                                         </div>
                                         <div class="m-timeline-2__item-text  m--padding-top-5">
-                                            <?php echo e($time->component); ?> was <?php echo e($time->operation); ?>  by <?php echo e($time->component_name); ?>
+                                            <?php echo e($time->component); ?> was <?php echo e($time->operation); ?>
 
                                         </div>
                                     </div>

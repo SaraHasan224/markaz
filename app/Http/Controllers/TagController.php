@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categories,
+    App\EventLog,
     App\Promotion,
     App\Tags,
     App\PromotionCategories,
@@ -45,6 +46,13 @@ class TagController extends Controller
                 $code = 406;
                 $output = $validator->messages()->all();
             }else{
+
+                EventLog::create([
+                    'component' => 'Tag : '.$request->tag,
+//                    'component_name' => ,
+                    'operation' => 'added',
+                    'user_id' => session()->get('user_id')
+                ]);
                 $tag = new Tags;
                 $tag->title = $request->tag;
                 $tag->save();
@@ -66,8 +74,19 @@ class TagController extends Controller
                 $code = 406;
                 $output = ['code' => $code, 'error' => $validator->messages()->all()];
             }else{
-                Tags::where('id',$request->id)->update([
+                $tag = Tags::where('id',$request->id)->first();
+                EventLog::create([
+                    'component' => 'Tag : '.$tag->title,
+                    'operation' => 'edited',
+                    'user_id' => session()->get('user_id')
+                ]);
+                $tag->update([
                     'title' => $request->tag,
+                ]);
+                EventLog::create([
+                    'component' => 'Tag : '.$request->tag,
+                    'operation' => 'edited successfully',
+                    'user_id' => session()->get('user_id')
                 ]);
                 $code = 200;
                 $output = ['code' => $code, 'success' => 'Tags Edited Successfully'];
@@ -85,7 +104,13 @@ class TagController extends Controller
                ];
             $validator = Validator::make($input, $rules);
 
-            Tags::where('id',$request->id)->delete();
+            $tag = Tags::where('id',$request->id)->first();
+            EventLog::create([
+                'component' => 'Tag : '.$tag->title,
+                'operation' => 'deleted',
+                'user_id' => session()->get('user_id')
+            ]);
+            $tag->delete();
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Tags Deleted Successfully.']];
             return response()->json($output, $code);

@@ -136,6 +136,13 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('manage-faq', 'FaqController@manage');
 
 
+        Route::get('get-questions', 'DatatablesController@getQuestions');
+        Route::get('add-faq', 'FaqController@add');
+        Route::post('add-faq', 'FaqController@createFaq');
+        Route::post('edit-faq', 'FaqController@updateFaq');
+        Route::post('faq/delete', 'FaqController@deleteFaq');
+        Route::post('faq/status', 'FaqController@FAQStatusUpdate');
+
         Route::get('get-questions/{id}', 'DatatablesController@getQuestions');
         Route::get('faq/{store_id}','FaqController@view');
         Route::get('add-faq/{store_id}', 'FaqController@add');
@@ -143,7 +150,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('manage-faq/{store_id}', 'FaqController@manage');
         Route::post('view-faq/{id}', 'FaqController@getSpecificQuestion');
         Route::post('edit-faq/{store_id}', 'FaqController@updateFaq');
-        Route::post('faq/delete/{store_id}', 'FaqController@deleteFAQ');
+        Route::post('faq/delete/{store_id}', 'FaqController@deleteFaq');
         Route::post('faq/status/{store_id}', 'FaqController@FAQStatusUpdate');
         
         /*  Frequently Asked Questions routes ends here  */

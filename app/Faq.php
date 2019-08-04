@@ -8,5 +8,8 @@ class Faq extends Model
     //Primary key
     public $primaryKey = 'id';
     //Timestamps
-    public $timestamps = true; 
+    public $timestamps = true;
+    protected $fillable = [
+        'status'
+    ];
 }

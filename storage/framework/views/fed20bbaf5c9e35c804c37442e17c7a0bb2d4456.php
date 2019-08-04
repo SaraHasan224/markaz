@@ -102,7 +102,7 @@
                                 <th>SupportID</th>
                                 <th>Store Name</th>
                                 <th>Customer Name</th>
-                                <th>Email</th>
+                                
                                 <th>Subject</th>
                                 <th>Description</th>
                                 <th>Status</th>
@@ -208,6 +208,7 @@
                     }
                 });
             });
+//            console.log(role);
             if(role == 'Store Admin')
             {
                 if(id != 0){
@@ -220,7 +221,6 @@
                                 { data: 'id',searchable: false, orderable: true  },
                                 { data: 'store_id' },
                                 { data: 'first_name' },  
-                                { data: 'email' },  
                                 { data: 'subject' },
                                 { data: 'description' },
                                 { data: 'status' },
@@ -242,7 +242,6 @@
                                 { data: 'id',searchable: false, orderable: true  },
                                 { data: 'store_id' },
                                 { data: 'first_name' },  
-                                { data: 'email' },  
                                 { data: 'subject' },
                                 { data: 'description' },
                                 { data: 'status' },

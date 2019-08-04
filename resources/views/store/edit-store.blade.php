@@ -415,13 +415,12 @@
     		url: base_url+'/edit-store/'+id, 
     		data: formData,
     		success: function (response) {
-                // console.log(response);
 				$("html, body").animate({ scrollTop: 0 }, "slow");
 				$(window).scrollTop(0);
-                document.getElementById("stores").reset();
-                $('#delete_result').empty();
-                $('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
+				document.getElementById("stores").reset();
+				$('#delete_result').empty();
+				$('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>');
 				setTimeout(function() {
 					window.location.reload(true);
 				}, 3000);
@@ -429,10 +428,10 @@
             error: function (response){
 				$("html, body").animate({ scrollTop: 0 }, "slow");
 				$(window).scrollTop(0);
-                response.responseJSON.messages.forEach(function (msg) {
-                // console.log(msg);
-                $('#delete_result').empty();
-                    $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
+				response.responseJSON.messages.forEach(function (msg) {
+					// console.log(msg);
+					$('#delete_result').empty();
+					$('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
 				});
             }
     	});

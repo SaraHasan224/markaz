@@ -115,9 +115,10 @@
                             <th>PromotionID</th>
                             <th>Title</th>
                             <th>Start & End Time</th>
-                            <th>Radius</th>
+                            <th>Radius (in meters)</th>
                             <th>Store</th>
                             <th>Image</th>
+                            <th>Promotion Ratings</th>
                             <th>Payment Status</th>
                             <th>Created At</th>
                             <th>Actions</th>
@@ -150,6 +151,7 @@
                    // { data: 'location' },
                     { data: 'store_id' },
                     { data: 'image' },
+					{ data: 'ratings' },
 					{ data: 'payment_status' },
 					{ data: 'created_at' },
                     { data: 'actions', searchable: false, orderable: false },
@@ -174,7 +176,7 @@
                 cancelButtonText: "No, cancel!",
                 reverseButtons: !0
             }).then(function(e) {
-                e.value ? swal("Deleted!", "Promotion has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "User not deleted", "error");
+                e.value ? swal("Deleted!", "Promotion has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "Promotion is not deleted", "error");
                 if(e.value == true)
                 {
                     $.ajax({

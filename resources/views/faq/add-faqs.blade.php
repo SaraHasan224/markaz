@@ -26,12 +26,12 @@
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
                         <a href="JavaScript:void(0);" class="m-nav__link">
-                            <span class="m-nav__link-text">{{$store->name}}</span>
+                            <span class="m-nav__link-text">{{ (!empty($store)) ? $store->name : 'MARKAZ' }}</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">-</li>
                     <li class="m-nav__item">
-                        <a href="{{url('faq')}}/{{$store->id}}" class="m-nav__link">
+                        <a href="{{url('faq')}}/@if (!empty($store))  {{  $store->id }} @endif" class="m-nav__link">
                             <span class="m-nav__link-text">Frequently Asked Questions</span>
                         </a>
                     </li>
@@ -57,7 +57,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            Frequently Asked Questions of {{$store->name}}
+                            Frequently Asked Questions of @if(!empty($store)) {{$store->name}} @else MARKAZ @endif
                         </h3>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                         </div> -->
                     </div>
                 </div>
-                <input type="hidden" name="store_id" value="{{ $store->id }}"/>
+                <input type="hidden" name="store_id" value="@if($store) {{ $store->id }} @else 0 @endif"/>
                 <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
                     <div class="m-form__actions m-form__actions--solid">
                         <div class="row">
@@ -149,8 +149,14 @@
 <script src="{{asset('assets/demo/default/custom/crud/forms/widgets/form-repeater.js')}}" type="text/javascript"></script>
 <script>
     var base_url = "<?php url() ?>";
-    var id = "{{ json_decode($store->id) }}";
-    $('#faq').submit(function(event){	
+    var id = "<?php if(!empty($store)) {json_decode($store->id); } ?>";
+    if(id.length > 0 )
+    {
+    	var url = base_url+'/add-faq/'+id;
+    }else{
+    	var url = base_url+'/add-faq';
+    }
+    $('#faq').submit(function(event){
             event.preventDefault();
     	$.ajax({
     		type: "POST",
@@ -158,7 +164,7 @@
     		{
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     		},
-    		url: base_url+'/add-faq/'+id,
+    		url: url,
     		data: $("#faq").serialize(),
     		success: function (response) {
                 // console.log(response);

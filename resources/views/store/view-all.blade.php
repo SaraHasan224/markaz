@@ -117,10 +117,7 @@
                             <th>Category</th>
                             <th>Name</th>
                             <th>Address</th>
-                            <th>Telephone</th>
-                            <th>Website Link</th>
-                            <th>Email Address</th>
-                            <th>Description</th>
+                            <th>Ratings</th>
                             <th>Created At</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -179,18 +176,12 @@
                     "processing": true,
                     "serverSide": true,
                     "ajax"      : '{{ url("get-store") }}'+'/'+user_id,
-                    columnDefs: [    
-                        { "width": "100px", "targets": [10] }
-                    ],
                     "columns"   : [
                         { data: 'id',searchable: false, orderable: true  },
                         { data: 'category_id' },
                         { data: 'name' },
                         { data: 'address' },
-                        { data: 'telephone' },
-                        { data: 'website' },
-                        { data: 'emailaddress'},
-                        { data: 'tagline' },  
+                        { data: 'ratings'},
                         { data: 'created_at' },  
                         { data: 'status' },
                         { data: 'actions', searchable: false, orderable: false },
@@ -203,19 +194,13 @@
                     "processing": true,
                     "serverSide": true,
                     "ajax"      : '{{ url("get-store") }}',
-                    columnDefs: [    
-                        { "width": "100px", "targets": [10] }
-                    ],
                     "columns"   : [
                         { data: 'id',searchable: false, orderable: true  },
                         { data: 'category_id' },
                         { data: 'name' },
                         { data: 'address' },
-                        { data: 'telephone' },
-                        { data: 'website' },
-                        { data: 'emailaddress'},
-                        { data: 'tagline' },  
-                        { data: 'created_at' },  
+						{ data: 'ratings'},
+						{ data: 'created_at' },
                         { data: 'status' },
                         { data: 'actions', searchable: false, orderable: false },
                     ]

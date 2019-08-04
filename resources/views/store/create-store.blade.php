@@ -153,68 +153,68 @@
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
-                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name" value="{{ old('name') }}">
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red"> Enter your store name</span>
+                                    <input type="text" name="name" class="form-control m-input" placeholder="Enter store name">
+                                    <span class="m-form__help">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Category:</label>
-                                    <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id" >
+                                    <select class="form-control m-input m-input--square" id="exampleSelect1" name="category_id">
                                         @foreach($categories as $category)
 											<option value="{{$category->id}}">{{$category->title}}</option>
                                         @endforeach
 									</select>
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store category</span>
+                                    <span class="m-form__help">Enter your store name</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
-                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link" value="{{ old('website') }}">
+                                    <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
                                     <span class="m-form__help">Enter your website</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Tagline:</label>
-                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline" value="{{ old('tagline') }}">
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store tagline</span>
+                                    <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline">
+                                    <span class="m-form__help">Enter your store tagline</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Logo:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg" value="{{ old('image') }}">
+                                        <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Select a logo</span>
+                                    <span class="m-form__help">Select a logo</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Cover:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg" value="{{ old('cover') }}">
+                                        <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Select a cover</span>
+                                    <span class="m-form__help">Select a cover</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
-                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50" value="{{ old('description') }}"></textarea>
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store description</span>
+                                    <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
+                                    <span class="m-form__help">Enter your store description</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
-                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5" value="{{ old('contact_email') }}"></textarea>
+                                    <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
                                     <span class="m-form__help">Enter your store contact email</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
-                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5" value="{{ old('contact_number') }}"></textarea>
-                                    <span style="color: red">* </span><span class="m-form__help" style="font-style: italic; color: red">Enter your store contact number</span>
+                                    <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
+                                    <span class="m-form__help">Enter your store contact number</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
-                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link" value="{{ old('fb_link') }}">
+                                    <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
                                     <span class="m-form__help">Enter your facebook link</span>
                                 </div>
                             </div>
@@ -224,13 +224,13 @@
                             <div class="form-group m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
-                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link" value="{{ old('insta_link') }}">
+                                    <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
                                     <span class="m-form__help">Enter your instagram link</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input"
-                                        placeholder="Enter store  twitter link" value="{{ old('tw_link') }}">
+                                        placeholder="Enter store  twitter link">
                                     <span class="m-form__help">Enter your store twitter link</span>
                                 </div>
                             </div>
@@ -250,7 +250,7 @@
                                 <div class="col-lg-6">
                                     <!-- <label>Store Adress:</label> -->
                                     <div class="m-input-icon m-input-icon--right">
-                                        <input type="text" id="pac-input"  value="{{ old('address') }}" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
+                                        <input type="text" id="pac-input" name="address" class="controls store_address form-control m-input" placeholder="Enter your store address">
                                         
                                     </div>
                                 </div>
@@ -426,7 +426,7 @@
                         '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response+'</div>'); 
             },
             error: function (response){
-				$("html, body").animate({ scrollTop: 0 }, "slow");
+    			$("html, body").animate({ scrollTop: 0 }, "slow");
 				$(window).scrollTop(0);
                 response.responseJSON.messages.forEach(function (msg) {
                 // console.log(msg);

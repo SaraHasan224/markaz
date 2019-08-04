@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Faq,
+use App\EventLog,
+    App\Faq,
     App\Store,
     App\User;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
@@ -26,6 +27,7 @@ class FaqController extends Controller
             $data['role'] = session()->get('role_name');
             $data['store_id'] = '';
             $data['stores'] = Store::where('user_id',$user_id)->get();
+            $data['questions'] = Faq::where('store_id',0)->get();
             return view('faq.view',$data);
             // return view('faq.error',$data);
         }
@@ -36,7 +38,12 @@ class FaqController extends Controller
         $user_id = request()->session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['logged_user'] = $getuser;
-        $data['store'] = Store::where('id',1)->first();
+        if($store_id == null)
+        {
+            $data['store'] = '';
+        }else{
+            $data['store'] = Store::where('id',$store_id)->first();
+        }
         return view('faq.add-faqs',$data);
     }
     
@@ -64,12 +71,11 @@ class FaqController extends Controller
     }
     
     public function createFaq(Request $request){
-        $input = $request->only('title', 'description','store_id','user_id');
+        $input = $request->only('title', 'description','store_id');
         $rules = [
             'title' => 'required',
             'description' => 'required',
             'store_id' => 'required',
-            'user_id' => 'required',
         ];
         $validator = Validator::make($input, $rules);
         if ($validator->fails()) {
@@ -79,8 +85,16 @@ class FaqController extends Controller
             $faq = new Faq;
             $faq->title = $request->title;
             $faq->description = $request->description;
-            $faq->store_id = $request->store_id;
+            $faq->store_id = ($request->store_id == '') ? 0 : $request->store_id;
             $faq->save();
+
+
+            EventLog::create([
+                'component' => 'FAQ : '.$request->title,
+//                    'component_name' => ,
+                'operation' => 'added',
+                'user_id'   =>session()->get('user_id'),
+            ]);
             if($faq){
                 $code = 200;
                 $output = ['code' => $code,'faq'=>"Faq has been saved!!"];
@@ -114,7 +128,13 @@ class FaqController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $faq = Faq::find($request->input('id'));
-            
+
+
+            EventLog::create([
+                'component' => 'FAQ : '.$faq->title,
+                'operation' => 'edited',
+                'user_id'   =>session()->get('user_id'),
+            ]);
             if($faq){
                 $faq->title = $request->input('title');
                 $faq->description = $request->input('description');
@@ -123,6 +143,12 @@ class FaqController extends Controller
             }
             if($faq){
                 $code = 200;
+
+                EventLog::create([
+                    'component' => 'FAQ : '.$request->input('title'),
+                    'operation' => 'edited successfully',
+                    'user_id'   =>session()->get('user_id'),
+                ]);
                 $output = ['code' => $code,'message'=>"Faq has been updated!!"];
             }else{
                 $code = 400;
@@ -143,8 +169,14 @@ class FaqController extends Controller
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
             $status = ($request->status == 1)  ? 0 : 1;
-            $faq = Faq::where('id',$request->id)->update(['status' => $status]);
+            $faq = Faq::where('id',$request->id)->first();
             if($faq){
+                EventLog::create([
+                    'component' => 'FAQ : '.$faq->title,
+                    'operation' => 'status updated',
+                    'user_id'   =>session()->get('user_id'),
+                ]);
+                $faq->update(['status' => $status]);
                 $code = 200;
                 $output = ['code' => $code,'faq'=>"Faq status Updated!!"];
             }else{
@@ -164,7 +196,14 @@ class FaqController extends Controller
             $code = 406;
             $output = ['code' => $code, 'messages' => $validator->messages()->all()];
         }else{
-            $faq = Faq::find($request->id)->delete();
+            $faq = Faq::find($request->id)->first();
+            EventLog::create([
+                'component' => 'FAQ : '.$faq->title,
+//                    'component_name' => ,
+                'operation' => 'deleted',
+                'user_id'   =>session()->get('user_id'),
+            ]);
+            $faq->delete();
             if($faq){
                 $code = 200;
                 $output = ['code' => $code,'faq'=>"Faq has been deleted!!"];

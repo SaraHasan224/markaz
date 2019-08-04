@@ -569,6 +569,7 @@
                                                                     <span class="m-form__help" id="demo"></span>
                                                                 </div>
                                                                 <input type="hidden" class="form-control m-input" name="radius" id="radius_val" placeholder="">
+                                                                <input type="hidden" class="form-control m-input" name="total" id="total" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="location" id="location" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="longitude" id="longitude" placeholder="">
                                                                 <input type="hidden" class="form-control m-input" name="latitude" id="latitude" placeholder="">
@@ -646,19 +647,22 @@
 				var radius = 2000; //2km
 				$('#pac-input2').val(2000);
 				$('#radius_val').val(2000);
-				console.log(radius);
+				$('#total').val(0);
+//				console.log(radius);
 			});
 			$( "#standard_package" ).click(function() {
 				var radius = 10000; //10km
 				$('#pac-input2').val(10000);
 				$('#radius_val').val(10000);
-				console.log(radius);
+				$('#total').val(5000);
+//				console.log(radius);
 			});
 			$( "#prof_package" ).click(function() {
 				var radius = 50000; //50km
 				$('#pac-input2').val(50000);
 				$('#radius_val').val(50000);
-				console.log(radius);
+				$('#total').val(10000);
+//				console.log(radius);
 			});
     </script>
 <script>
@@ -865,12 +869,19 @@
                         data: formData,
                         success: function (response) {
                             // console.log(response);
+							$("html, body").animate({ scrollTop: 0 }, "slow");
+							$(window).scrollTop(0);
                             document.getElementById("m_form").reset();
                             mApp.unprogress(n), swal( {
                                         title: "", text: "The application has been successfully submitted!", type: "success", confirmButtonClass: "btn btn-secondary m-btn m-btn--wide"
                             })
+							setTimeout(function() {
+								window.location.reload(true);
+							}, 2000);
                         },
                         error: function (response){
+							$("html, body").animate({ scrollTop: 0 }, "slow");
+							$(window).scrollTop(0);
                             response.responseJSON.messages.forEach(function (msg) {
                                 console.log(msg);
                                 mApp.unprogress(n), swal( {

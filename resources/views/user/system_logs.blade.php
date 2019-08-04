@@ -5,14 +5,12 @@
         <div class="m-portlet__head">
             <div class="m-portlet__head-tools">
                 <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
-                    @if(Session::get('role_name') == 'Store Admin')
                     <li class="nav-item m-tabs__item">
                         <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_3"
                             role="tab">
                             Recent Activites
                         </a>
                     </li>
-                    @endif
                 </ul>
             </div>
         </div>
@@ -40,12 +38,12 @@
                                     endif;
                                     ?> 
                                     <div class="m-timeline-2__item" style=" margin-left:20px;">
-                                        <span class="m-timeline-2__item-time">{{DATE_FORMAT($time->created_at,'H:i A')}}</span>
+                                        <span class="m-timeline-2__item-time">{{DATE_FORMAT($time->created_at,'h : i A')}}</span>
                                         <div class="m-timeline-2__item-cricle" style=" margin-left:40px;">
                                             <i class="fa fa-genderless {{$class}}"></i>
                                         </div>
                                         <div class="m-timeline-2__item-text  m--padding-top-5">
-                                            {{$time->component}} was {{$time->operation}}  by {{$time->component_name}}
+                                            {{$time->component}} was {{$time->operation}}
                                         </div>
                                     </div>
                                     <br/>

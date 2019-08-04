@@ -94,11 +94,17 @@ class PromotionController extends Controller
         $user_id = session()->get('user_id');
         $getuser = User::where('id',$user_id)->first();
         $data['tags'] = Tags::get();
-        $data['stores'] = Store::where('user_id',$user_id)->get();
+        $role = session()->get('role_name');
+        if($role == 'Admin'){
+            $data['stores'] = Store::get();
+        }else{
+            $data['stores'] = Store::where('user_id',$user_id)->get();
+        }
         $data['logged_user'] = $getuser;
         if($request->isMethod('post'))
         { 
             $input = $request->all();
+            // dd($input);
             $media_ids = [];
             if($request->hasFile('image'))
             {
@@ -131,12 +137,12 @@ class PromotionController extends Controller
             $input['images'] = $image;
             $repsonse = $this->_repository->createPromotion($input);
             if($repsonse){
+
                 EventLog::create([
-                    'component' => 'Promotions',
-                    'component_name' => $repsonse->title,
-                    'operation' => 'Added',
-                    'user_id'   => session()->get('user_id'),
-                    'store_id'  => $request->store_id,
+                    'component' => 'Promotion : '.$request->title,
+                    'component_image' => $image,
+                    'operation' => 'added',
+                    'user_id'   =>session()->get('user_id'),
                 ]);
                 $input['promotion_id'] = $repsonse->id;
                 $input['media_ids'] = $media_ids;
@@ -163,12 +169,12 @@ class PromotionController extends Controller
                ];
             $validator = Validator::make($input, $rules);
             $promotion = Promotion::where('id',$request->id)->first();
+
             EventLog::create([
-                'component' => 'Promotions',
-                'component_name' => $promotion->title,
-                'operation' => 'Deleted',
-                'user_id'   => session()->get('user_id'),
-                'store_id'  => session()->get('store_id'),
+                'component' => 'Promotion : '.$promotion->title,
+//                    'component_name' => ,
+                'operation' => 'deleted',
+                'user_id'   =>session()->get('user_id'),
             ]);
             $promotion->delete();
             $code = 200;
@@ -212,12 +218,12 @@ class PromotionController extends Controller
                     'start_time'  => Carbon::parse($time[0])->format('Y-m-d  H:i:s'), 
                     'end_time'    => Carbon::parse($time[1])->format('Y-m-d  H:i:s'),
                 ]);
+
                 EventLog::create([
-                    'component' => 'Promotions',
-                    'component_name' => $request->title,
-                    'operation' => 'Updated',
-                    'user_id'   => session()->get('user_id'),
-                    'store_id'  => session()->get('store_id'),
+                    'component' => 'Promotion : '.$request->title,
+//                    'component_name' => ,
+                    'operation' => 'eddited',
+                    'user_id'   =>session()->get('user_id'),
                 ]);
             }
             if(!empty($request->location))
@@ -255,5 +261,7 @@ class PromotionController extends Controller
         $code = 200;
         $output = $this->_repository->getNewPromotion();
         return response()->json($output, $code);
-}
+
+        
+   }
 }

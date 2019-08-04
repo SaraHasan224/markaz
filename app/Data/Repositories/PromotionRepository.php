@@ -40,7 +40,6 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
     public function __construct(Promotion $promotion) {
         $this->model = $promotion;
         $this->store_repo  = app()->make('StoreRepository');
-    
      
 }
 
@@ -71,10 +70,11 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         // dd(date('Y-m-d H:i:s',$time[0]));
         $input['title']       = $data['title'];
         $input['description'] = $data['description'];
-        $input['radius'] = $data['radius'];
-        $input['start_time']  = Carbon::parse($time[0])->format('Y-m-d  H:i:s');
+        $input['start_time']  = Carbon::parse($time[0])->format('Y-m-d  H:i:s'); 
         $input['end_time']    = Carbon::parse($time[1])->format('Y-m-d  H:i:s');
         $input['location']    = $data['location'];
+        $input['radius']    = $data['radius'];
+        $input['total']    = $data['total'];
         $input['longitude']   = $data['longitude'];
         $input['latitude']    = $data['latitude'];
         $input['store_id']    = $data['store_id']; 
@@ -112,9 +112,10 @@ class PromotionRepository extends AbstractRepository implements RepositoryContra
         $input['store_id']   = $data['store_id'];
         $data1 =  $this->findByAll(false,10,$input);
         foreach($data1['data'] as $singleObject){
-        $singleObject->store = $this->store_repo->findById($singleObject->store_id, false);
+       $singleObject->store = $this->store_repo->findById($singleObject->store_id, false);
+       $data2['data'][]= $singleObject;
                 }
-      return $data1;
+      return $data2;
 
     }
 

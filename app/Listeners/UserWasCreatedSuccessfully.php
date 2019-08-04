@@ -60,11 +60,9 @@ class UserWasCreatedSuccessfully implements ShouldQueue
         $notification = $notificationBuilder->build();
 
         $data = $dataBuilder->build();
-        $deviceTokens="dE6KPBrurgU:APA91bHF5FIs-TEtRTyF8a7sQ4yU5g6wH4PebGt24a21Qe7xtdZTFR43MzA4q9Kb4PBxKvJ7Fzb5UQtz9ZvwumMSxiCjbESplfUk92E98xZbBWPgeYjMqHLD8GBIG1Ag1OAWw2zyx26R";
+        $deviceTokens="cKX8V9IDzss:APA91bGwVeE2hSMYnDPMevkRzMmoy3ziU_boCOuVtmBmal5wVa7Eon0QhHLMzwcZqFaYKUjbK66G4MthljUoj1hnHxfqppyWEMqHf7VWSxOODPOX7CS-LMQyyl-Hhr_JMNPw4qWdMIBi";
         $downstreamResponse = FCM::sendTo($deviceTokens, $option, $notification, $data);
         $success = $downstreamResponse->numberSuccess();
-        $failure = $downstreamResponse->numberFailure();
-        
     
     }
 }

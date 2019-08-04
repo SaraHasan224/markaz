@@ -28,7 +28,7 @@
                                 <?php echo e($store->name); ?>
 
                             <?php else: ?>
-                                Select Store  first
+                                Markaz
                             <?php endif; ?>
                         </a>
                     <li class="m-nav__separator">-</li>
@@ -55,7 +55,7 @@
                                 <?php echo e($store->name); ?>
 
                             <?php else: ?>
-                                Select Store  first
+                                Markaz
                             <?php endif; ?>
                         </h1>
                     </div>

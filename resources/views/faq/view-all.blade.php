@@ -74,7 +74,7 @@
                             @if(!empty($store))
                                 {{ $store->name }}
                             @else
-                                Select Store  first
+                                Markaz
                             @endif</span>
                         </a>
                     </li>
@@ -125,315 +125,329 @@
                     <thead>
                         <tr>
                             <th>QuestionID</th>
+                            @if($role == 'Admin' )<th>Store Name</th> @endif
                             <th>Title</th>
                             <th>Description</th>
                             <th>Status</th>
                             <th>Actions</th>
-                        </tr> 
+                        </tr>
                     </thead>
-                    <tbody>
+    <tbody>
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    </tbody>
+</table>
+</div>
+</div>
 
-        <!-- END EXAMPLE TABLE PORTLET-->
-    </div>
+<!-- END EXAMPLE TABLE PORTLET-->
+</div>
 </div>
 
 
 <!-- Modal for Update status-->
 <div class="modal fade" id="edit_store_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit User</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="exampleModalLongTitle">Edit User</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<form id="edit_faq_form" method="POST">
+<div class="modal-body">
+    <div id="result" style="padding: 10px;"></div>
+    <div class="form-group m-form__group row">
+        <div class="col-lg-12">
+            <label>Title:</label>
+            <div class="m-input-icon m-input-icon--right">
+                <input type="text" name="title" id="edit_title" class="form-control m-input" placeholder="Enter title" >
             </div>
-            <form id="edit_faq_form" method="POST">
-                <div class="modal-body">
-                    <div id="result" style="padding: 10px;"></div>
-                    <div class="form-group m-form__group row">
-                        <div class="col-lg-12">
-                            <label>Title:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <input type="text" name="title" id="edit_title" class="form-control m-input" placeholder="Enter title" >
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <label>Description:</label>
-                            <div class="m-input-icon m-input-icon--right">
-                                <textarea name="description" id="edit_des" class="form-control m-input" rows="10"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" name="id" id="edit_id" />
-                    <input type="hidden" name="store_id" id="edit_store_id" />
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
+        </div>
+        <div class="col-lg-12">
+            <label>Description:</label>
+            <div class="m-input-icon m-input-icon--right">
+                <textarea name="description" id="edit_des" class="form-control m-input" rows="10"></textarea>
+            </div>
         </div>
     </div>
+    <input type="hidden" name="id" id="edit_id" />
+    <input type="hidden" name="store_id" id="edit_store_id" />
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+</div>
+</form>
+</div>
+</div>
 </div>
 
 <!-- Modal for Get Store Id-->
 <div class="modal fade" id="store_id_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form id="store_form" mathod="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <select class="form-control m-input m-input--square" name="store_id">
-                        @foreach($stores as $st)   
-                            <option value="{{$st->id}}">{{$st->name}}</option>
-                        @endforeach
-                    </select> 
-                    @if(!empty($store))
-                    <input type="hidden" name="id"  id="store_id" value="{{$store->id}}"/>
-                    @else
-                    <input type="hidden" name="id"  id="store_id" value="0"/>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<form id="store_form" mathod="POST">
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLongTitle">Select Store: </h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <select class="form-control m-input m-input--square" name="store_id">
+        @foreach($stores as $st)
+            <option value="{{$st->id}}">{{$st->name}}</option>
+        @endforeach
+    </select>
+    @if(!empty($store))
+    <input type="hidden" name="id"  id="store_id" value="{{$store->id}}"/>
+    @else
+    <input type="hidden" name="id"  id="store_id" value="0"/>
+    @endif
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <button type="submit" id="store_submit" class="btn btn-primary">Save changes</button>
+</div>
+</form>
+</div>
+</div>
 </div>
 @endsection
 @section('scripts')
-    <script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
-    <script>
-        $(document).ready(function (e) {
-            
-            var role = '{{$role}}';
-            var id = $('#store_id').val();
-            id = id != '' ? id : 0;
-            var base_url = "<?php url() ?>";
-            $('#store_form').submit(function (e) {
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    processData: false,
-                    headers: 
-                    {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    },
-                    url: base_url+'/select-store',
-                    data: $("#store_form").serialize(),
-                    success: function(response){
-                        $('#store_id_modal').modal('hide');
-                        id = response.id; 
-                        window.location.href = base_url+"/manage-faq/"+id;
-                    }
-                });
-            });
-            if(role == 'Store Admin')
-            {
-                if(id != 0){
-                    $(function () {
-                        $('#view_questions').DataTable({
-                            "processing": true,
-                            "serverSide": true,
-                            "ajax"      : '{{ url("get-questions") }}'+'/'+id,
-                            columnDefs: [    
-                                { "width": "250px", "targets": [1,2] },
-                                { "width": "100px", "targets": [3] }
-                            ],
-                            "columns"   : [
-                                { data: 'id',searchable: false, orderable: true  },
-                                { data: 'title' },
-                                { data: 'description' },
-                                { data: 'status', searchable: false, orderable: false },
-                                { data: 'actions', searchable: false, orderable: false },
-                            ]
-                        });
-                    });
-                }else{
-                    $('#store_id_modal').modal('show');
-                }
-            }else{                
-                $(function () {
-                    $('#view_questions').DataTable({
-                        "processing": true,
-                        "serverSide": true,
-                        "ajax"      : '{{ url("get-questions") }}',
-                        columnDefs: [    
-                            { "width": "250px", "targets": [1,2] },
-                            { "width": "100px", "targets": [3] }
-                        ],
-                        "columns"   : [
-                            { data: 'id',searchable: false, orderable: true  },
-                            { data: 'title' },
-                            { data: 'description' },
-                            { data: 'status', searchable: false, orderable: false },
-                            { data: 'actions', searchable: false, orderable: false },
-                        ]
-                    });
-                });
-            }     
+<script src="{{ asset('assets/admin/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/admin/js/dataTables.bootstrap.min.js') }}"></script>
+<script>
+$(document).ready(function (e) {
 
-            
+var role = '{{$role}}';
+console.log(role);
+var id = $('#store_id').val();
+id = id != '' ? id : 0;
+var base_url = "<?php url() ?>";
+$('#store_form').submit(function (e) {
+e.preventDefault();
+$.ajax({
+    type: "POST",
+    processData: false,
+    headers:
+    {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+    },
+    url: base_url+'/select-store',
+    data: $("#store_form").serialize(),
+    success: function(response){
+        $('#store_id_modal').modal('hide');
+        id = response.id;
+        window.location.href = base_url+"/manage-faq/"+id;
+    }
+});
+});
+if(role == 'Store Admin')
+{
+if(id != 0){
+    $(function () {
+        $('#view_questions').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax"      : '{{ url("get-questions") }}'+'/'+id,
+            columnDefs: [
+                { "width": "250px", "targets": [1,2] },
+                { "width": "100px", "targets": [3] }
+            ],
+            "columns"   : [
+                { data: 'id',searchable: false, orderable: true  },
+                { data: 'title' },
+                { data: 'description' },
+                { data: 'status', searchable: false, orderable: false },
+                { data: 'actions', searchable: false, orderable: false },
+            ]
         });
-    </script>
-    <script>
+    });
+}else{
+    $('#store_id_modal').modal('show');
+}
+}else{
+$(function () {
+    $('#view_questions').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax"      : '{{ url("get-questions") }}',
+        columnDefs: [
+            { "width": "250px", "targets": [1,2] },
+            { "width": "100px", "targets": [2,4] }
+        ],
+        "columns"   : [
+            { data: 'id',searchable: false, orderable: true  },
+			{ data: 'store_id' },
+            { data: 'title' },
+            { data: 'description' },
+            { data: 'status', searchable: false, orderable: false },
+            { data: 'actions', searchable: false, orderable: false },
+        ]
+    });
+});
+}
 
-    </script>
-    
-    <script>
-        $(document).ready(function (e) {
-            var base_url = "<?php url() ?>";
-            var store_id = $('#store_id').val();
-            $(document).on("click", '#edit_faq', function (e) {
-                var id = $(this).data('id');
-                $.ajax({
-					type: "POST",
-					headers: 
-					{
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-					},
-                    url: base_url+'/view-faq/'+id,
-    		        data: {id: id},
-					success: function (response) {
-						if(response.success.code == 200)
-						{
-                            $('#edit_id').val(response.success.message.id);
-                            $('#edit_title').val(response.success.message.title);
-                            $('#edit_des').text(response.success.message.description);
-                            $('#edit_store_id').val(response.success.message.store_id);
-                            $('#edit_store_modal').modal('show');
-						}
-					}
-				});
-            });
 
-            
-            $(document).on("submit", '#edit_faq_form', function (e) {
-                e.preventDefault();
-                $.ajax({
-					type: "POST",
-					headers: 
-					{
-						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-					},
-                    url: base_url+'/edit-faq/'+store_id,
-    		        data: $("#edit_faq_form").serialize(),
-					success: function (response) {
-						if(response.code == 200)
-						{
-                            $('#result').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.message+'</div>');
-                            setTimeout(function() {
-                                $('#edit_store_modal').modal('hide'); 
-                                $('#result').empty(); 
+});
+</script>
+<script>
+
+</script>
+
+<script>
+$(document).ready(function (e) {
+var base_url = "<?php url() ?>";
+var store_id = $('#store_id').val();
+$(document).on("click", '#edit_faq', function (e) {
+var id = $(this).data('id');
+$.ajax({
+    type: "POST",
+    headers:
+    {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+    },
+    url: base_url+'/view-faq/'+id,
+    data: {id: id},
+    success: function (response) {
+        if(response.success.code == 200)
+        {
+            $('#edit_id').val(response.success.message.id);
+            $('#edit_title').val(response.success.message.title);
+            $('#edit_des').text(response.success.message.description);
+            $('#edit_store_id').val(response.success.message.store_id);
+            $('#edit_store_modal').modal('show');
+        }
+    }
+});
+});
+
+
+$(document).on("submit", '#edit_faq_form', function (e) {
+	var edit_url = "";
+	if(store_id == '')
+		edit_url = base_url+'/edit-faq/';
+	else
+		edit_url = base_url+'/edit-faq/'+store_id;
+e.preventDefault();
+$.ajax({
+    type: "POST",
+    headers:
+    {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+    },
+    url: edit_url,
+    data: $("#edit_faq_form").serialize(),
+    success: function (response) {
+        if(response.code == 200)
+        {
+            $('#result').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.message+'</div>');
+            setTimeout(function() {
+                $('#edit_store_modal').modal('hide');
+                $('#result').empty();
+                var table = $('#view_questions').DataTable();
+                table.ajax.reload();
+
+			}, 2000);
+        }
+    }
+});
+});
+
+
+// Delete Question
+$(document).on("click", '#delete', function (e) {
+        var id = $(this).data('id');
+	var del_url = "";
+	if(store_id == '' || store_id == 0)
+		del_url = base_url+'/faq/delete';
+	else
+		del_url = base_url+'/faq/delete/'+store_id;
+        e.preventDefault();
+        swal({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: !0
+        }).then(function(e) {
+            e.value ? swal("Deleted!", "FAQ has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "FAQ not deleted", "error");
+            if(e.value == true)
+            {
+                    $.ajax({
+                        type: "POST",
+                        headers:
+                        {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        url: del_url,
+                        data: {id: id},
+                        success: function (response) {
+                            console.log(response.code);
+                            if(response.code == 200)
+                            {
+                                swal.close();
+                                $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.faq+'</div>');
                                 var table = $('#view_questions').DataTable();
                                 table.ajax.reload();
-    						}, 2000);
-						}
-					}
-				});
-            });
+                            }
+                        }
+                    });
+            }
+        })
+});
+});
 
-            
-            // Delete Question
-            $(document).on("click", '#delete', function (e) {
-                        var id = $(this).data('id');
-                        e.preventDefault();
-                        swal({
-                            title: "Are you sure?",
-                            text: "You won't be able to revert this!",
-                            type: "warning",
-                            showCancelButton: !0,
-                            confirmButtonText: "Yes, delete it!",
-                            cancelButtonText: "No, cancel!",
-                            reverseButtons: !0
-                        }).then(function(e) {
-                            e.value ? swal("Deleted!", "FAQ has been deleted.", "success") : "cancel" === e.dismiss && swal("Cancelled", "FAQ not deleted", "error");
-                            if(e.value == true)
+// Delete Question
+$(document).on("click", '#status', function (e) {
+        var id = $(this).data('id');
+        var status = $(this).data('status');
+        var store_id = $('#store_id').val();
+        console.log(id,status);
+        var base_url = "<?php url() ?>";
+        e.preventDefault();
+        swal({
+            title: "Are you sure?",
+            text: "You wan't to update status",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "Yes, update it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: !0
+        }).then(function(e) {
+            e.value ? swal("Updated!", "Status Updated Successfully.", "success") : "cancel" === e.dismiss && swal("Cancelled", "Cancel Status Update", "error");
+            if(e.value == true)
+            {
+                    $.ajax({
+                        type: "POST",
+                        headers:
+                        {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        url: base_url+'/faq/status/'+store_id,
+                        data: {id: id, status:status},
+                        success: function (response) {
+                            console.log(response.code);
+                            if(response.code == 200)
                             {
-                                    $.ajax({
-                                        type: "POST",
-                                        headers: 
-                                        {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                        },
-                                        url: base_url+'/faq/delete/'+store_id,
-                                        data: {id: id},
-                                        success: function (response) {
-                                            console.log(response.code);
-                                            if(response.code == 200)
-                                            {
-                                                swal.close();
-                                                $('#delete_result').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
-                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.faq+'</div>');
-                                                var table = $('#view_questions').DataTable();
-                                                table.ajax.reload();
-                                            }
-                                        }
-                                    });
+                                swal.close();
+                                $('#delete_result').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.faq+'</div>');
+                                var table = $('#view_questions').DataTable();
+                                table.ajax.reload();
                             }
-                        })
-                });
-            });
-            
-            // Delete Question
-            $(document).on("click", '#status', function (e) {
-                        var id = $(this).data('id');
-                        var status = $(this).data('status');
-                        var store_id = $('#store_id').val();
-                        console.log(id,status);
-                        var base_url = "<?php url() ?>";
-                        e.preventDefault();
-                        swal({
-                            title: "Are you sure?",
-                            text: "You wan't to update status",
-                            type: "warning",
-                            showCancelButton: !0,
-                            confirmButtonText: "Yes, update it!",
-                            cancelButtonText: "No, cancel!",
-                            reverseButtons: !0
-                        }).then(function(e) {
-                            e.value ? swal("Updated!", "Status Updated Successfully.", "success") : "cancel" === e.dismiss && swal("Cancelled", "Cancel Status Update", "error");
-                            if(e.value == true)
-                            {
-                                    $.ajax({
-                                        type: "POST",
-                                        headers: 
-                                        {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                        },
-                                        url: base_url+'/faq/status/'+store_id,
-                                        data: {id: id, status:status},
-                                        success: function (response) {
-                                            console.log(response.code);
-                                            if(response.code == 200)
-                                            {
-                                                swal.close();
-                                                $('#delete_result').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.faq+'</div>');
-                                                var table = $('#view_questions').DataTable();
-                                                table.ajax.reload();
-                                            }
-                                        }
-                                    });
-                            }
-                        })
-            });
-    </script>
+                        }
+                    });
+            }
+        })
+});
+</script>
 @endsection

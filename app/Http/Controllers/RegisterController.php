@@ -19,6 +19,7 @@ use App\Data\Repositories\UserRepository;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Validator,Illuminate\Validation\Rule, Session,Image, Storage, Carbon\Carbon;
+
 use Authenticatable, Authorizable, CanResetPassword, HasRoles;
 
 class RegisterController extends Controller
@@ -49,9 +50,15 @@ class RegisterController extends Controller
             $input['role_id'] = 4;
            $repsonse = $this->_repository->registerUser($input);
             if($repsonse){
+                EventLog::create([
+                    'component' => 'User : '.$repsonse->name,
+//                    'component_name' => ,
+                    'component_image' => $repsonse->profile_pic,
+                    'operation' => 'registered',
+                    'user_id'   =>$repsonse->id,
+                ]);
                 $code = 200;
                 $output = ['code' => $code,'user'=>$repsonse];
-        
             }else{
                 $code = 400;
                 $output = ['error'=>['code' => $code,'message' => ['An error occurred while Registration.']]];
@@ -79,6 +86,13 @@ class RegisterController extends Controller
             $input['role_id'] = 2;
             $repsonse = $this->_repository->registerStore($input);
             if($repsonse){
+                EventLog::create([
+                    'component' => 'User : '.$repsonse->name,
+//                    'component_name' => ,
+                    'component_image' => $repsonse->profile_pic,
+                    'operation' => 'registered',
+                    'user_id'   =>$repsonse->id,
+                ]);
                 //Assign role to user
                 $user = User::find($repsonse->id); 
                 if($repsonse->role_id == 1)

@@ -198,6 +198,8 @@
 						if(response.code == 200)
 						{
                             a.removeClass("m-loader m-loader--right m-loader--light");
+							$("html, body").animate({ scrollTop: 0 }, "slow");
+							$(window).scrollTop(0);
                             document.getElementById("create_user").reset();
                             $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>User Created Successfully.</div>')
                             setTimeout(function() {
@@ -208,6 +210,8 @@
 					error: function (response) {
                         // console.log(response.responseJSON.messages);
                         a.removeClass("m-loader m-loader--right m-loader--light");
+						$("html, body").animate({ scrollTop: 0 }, "slow");
+						$(window).scrollTop(0);
                         response.responseJSON.messages.forEach(function (msg) {
                             $('#result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
 							});

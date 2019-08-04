@@ -45,33 +45,6 @@ class FollowerController extends Controller
         return response()->json($output, $code);
     }
 
-    public function unFollow(Request $request){
-        $input = $request->only('store_id', 'user_id');
-        $rules = [
-            'store_id' => 'required',
-            'user_id' => 'required',
-        ];
-
-        $validator = Validator::make($input, $rules);
-
-        if ($validator->fails()) {
-            $code = 406;
-            $output = ['code' => $code, 'messages' => $validator->messages()->all()];
-        }else{
-           $repsonse = $this->_repository->unFollow($input);
-            if($repsonse){
-                $code = 200;
-                $output = ['code' => $code,'response'=>'You have unfollowed this store'];
-                
-            }else{
-                $code = 400;
-                $output = ['error'=>['code' => $code,'message' => ['An error occurred while unfollowing.']]];
-            }
-            
-         }
-        return response()->json($output, $code);
-    }
-
 
     public function findFollowerOfStore(Request $request){
         $input = $request->only('store_id');

@@ -15,6 +15,9 @@ use DB,
     App\Promotion,
     App\PromotionComment,
     App\PromotionMedia;
+
+use App\Mail\SupportEmail;
+use Illuminate\Support\Facades\Mail;
 use App\TraitsFolder\CommonTrait;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -42,22 +45,6 @@ class UserController extends Controller
     public function getProfile(){
         $user = JWTAuth::parseToken()->ToUser();
         return response()->json(['user'=>$user]);
-    }
-
-    public function updateProfile(Request $request){
-        $user = JWTAuth::parseToken()->ToUser();
-        $input = $request->only('name','phone_number','profile_pic','latitude','longitude');
-            $response = $this->_repository->updateUser($input,$user);
-            if($response){
-                $code = 200;
-                $output = ['code' => $code,'user'=>$response];
-            }else{
-                $code = 400;
-                $output = ['error'=>['code' => $code,'message' => ['An error occurred while Updating.']]];
-             }
-       
-        return response()->json($output, $code);
-
     }
 
     /* Sara's work starts here */
@@ -127,11 +114,11 @@ class UserController extends Controller
             }
             $repsonse = $this->_repository->addUserProfile($input);
             EventLog::create([
-                'component' => 'Users',
-                'component_name' => $repsonse->name,
+                'component' => 'User : '.$repsonse->name,
+//                    'component_name' => ,
                 'component_image' => $repsonse->profile_pic,
-                'operation' => 'Added',
-                'user_id'   => session()->get('user_id')
+                'operation' => 'added by',
+                'user_id'   =>session()->get('user_id'),
             ]);
             if($repsonse){
                 $code = 200;
@@ -198,13 +185,13 @@ class UserController extends Controller
                                 "profile_pic" =>  $user_image,
                                 'role_id' => $request->edit_role_id
                             ]);
-                    EventLog::create([
-                        'component' => 'Users',
-                        'component_name' => $request->name,
-                        'component_image' => $user_image,
-                        'operation' => 'Updated',
-                        'user_id'   => session()->get('user_id')
-                    ]);
+                   EventLog::create([
+                       'component' => 'User : '.$request->name,
+//                    'component_name' => ,
+                       'component_image' => $user_image,
+                       'operation' => 'edited',
+                       'user_id'   =>session()->get('user_id'),
+                   ]);
                     // $user = User::find($repsonse->id);
                     
                     //Ask kashaf to tell how to update permissions assigned to a user
@@ -256,12 +243,13 @@ class UserController extends Controller
                 $output = ['code' => $code, 'messages' => $validator->messages()->all()];
             }else{
                 $user = User::where('id',$request->id)->first();
+
                 EventLog::create([
-                    'component' => 'Users',
-                    'component_name' => $user->name,
+                    'component' => 'User : '.$user->name,
+//                    'component_name' => ,
                     'component_image' => $user->profile_pic,
-                    'operation' => 'Deleted',
-                    'user_id'   => session()->get('user_id'),
+                    'operation' => 'deleted',
+                    'user_id'   =>session()->get('user_id'),
                 ]);
                 $code = 200;
                 $user->delete();
@@ -314,12 +302,12 @@ class UserController extends Controller
             $stores = Store::get();
             $ids = [];
         }else{
-            $stores = Store::where('user_id',$getuser->id)->get();
+            $stores = Store::where('user_id',$user_id)->where('id',$store_id)->first();
             $ids = [];
         }
         if($store_id != '')
         {
-            $logs = EventLog::where('store_id',$store_id)->get();
+//            $logs = EventLog::where('store_id',$store_id)->get();
             $medias = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
                     ->where('promotions.store_id',$store_id)
@@ -344,6 +332,7 @@ class UserController extends Controller
         $data['logs'] = !empty($logs) ? $logs : '';
         $data['logged_user'] = $getuser;
         $data['store_id'] = $store_id;
+//        dd($data);
         return view('user.media',$data);
     }
     public function getLogs(Request $request,$store_id = '')
@@ -352,19 +341,6 @@ class UserController extends Controller
         $getuser = User::where('id',$user_id)->first();
         $stores = Store::where('user_id',$user_id)->get();
         $ids = [];
-        if($store_id != '')
-        {
-            $logs = EventLog::where('store_id',$store_id)->get();
-            $medias = DB::table('promotions')
-                    ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
-                    ->where('promotions.store_id',$store_id)
-                    ->select('promotion_media.media_id')
-                    ->get();
-            $media_id = [];
-            foreach($medias as  $media){array_push($media_id,$media->media_id);}
-            $pro_media = MediaImage::whereIn('id',$media_id)->get();
-            // dd($pro_media);
-        }else{
             $logs = EventLog::get();
             $medias = DB::table('promotions')
                     ->leftJoin('promotion_media', 'promotions.id', '=', 'promotion_media.promotion_id')
@@ -373,8 +349,7 @@ class UserController extends Controller
             $media_id = [];
             foreach($medias as  $media){array_push($media_id,$media->media_id);}
             $pro_media = MediaImage::whereIn('id',$media_id)->get();
-        }
-        
+
         $data['stores'] = !empty($stores) ? $stores : [];
         $data['media'] = !empty($media) ? $pro_media : [];
         $data['logs'] = !empty($logs) ? $logs : [];
@@ -388,26 +363,43 @@ class UserController extends Controller
         if($request->isMethod('post'))
         {
             $input = $request->all();
-            if($request->hasFile('profile_picture'))
-            { 
-                $img_tmp = Input::file('profile_picture');
-                if($img_tmp->isValid())
+            $rules = [
+                'email' => 'required|unique:users,email',
+            ];
+            $validator = Validator::make($input, $rules);
+            if ($validator->fails()) {
+                $code = 200;
+                $output = ['success'=>['code' => $code,'message' => $validator->messages()->all()]];
+            }else {
+                if($request->hasFile('profile_picture'))
                 {
-                    $extension = $img_tmp->getClientOriginalExtension();
-                    $user_image = rand(111,99999).".".$extension;
-                    $image_path = public_path('/images/user').'/'.$user_image;
-                    Image::make($img_tmp)->save($image_path);          
-                }         
+                    $img_tmp = Input::file('profile_picture');
+                    if($img_tmp->isValid())
+                    {
+                        $extension = $img_tmp->getClientOriginalExtension();
+                        $user_image = rand(111,99999).".".$extension;
+                        $image_path = public_path('/images/user').'/'.$user_image;
+                        Image::make($img_tmp)->save($image_path);
+                    }
+                }
+                $user_image = !empty($user_image) ? $user_image : $request->profile_pic;
+                $user =  User::where('id',$request->user_id)->first();
+                EventLog::create([
+                    'component' => 'User : '.$user->name,
+//                    'component_name' => ,
+                    'component_image' => $user->profile_pic,
+                    'operation' => 'updated',
+                    'user_id'   =>session()->get('user_id'),
+                ]);
+                $user->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'phone_number' => $request->phone_number,
+                    'profile_pic' =>  $user_image
+                ]);
+                $code = 200;
+                $output = ['success'=>['code' => $code,'message' => 'Profile Updated Successfully.']];
             }
-            $user_image = !empty($user_image) ? $user_image : $request->profile_pic;
-            User::where('id',$request->user_id)->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'profile_pic' =>  $user_image
-            ]);
-            $code = 200;
-            $output = ['success'=>['code' => $code,'message' => 'Profile Updated Successfully.']];
             return response()->json($output, $code);
         }
     }
@@ -429,12 +421,12 @@ class UserController extends Controller
             if ($validator->fails()) {
                 return response()->json(['error'=>$validator->messages()->all()]);
             }else{
+                $support = Support::where('id',$request->id)->first();
+                Mail::to($support->email)->send(new SupportEmail($support->response));
                 Support::where('id',$request->id)->update([
                     "status" => 1,
                     "response" => $request->response
                 ]);
-                $support = Support::where('id',$request->id)->first();
-                Mail::to($support->email)->send(new SupportEmail($support->response)); 
                 return response()->json(['success'=>'Response submitted.']);
             }
         }
@@ -523,19 +515,19 @@ class UserController extends Controller
         $data['stores'] = $stores;
         $data['store_id'] = $store_id;
         // foreach($stores as $store){ array_push($store_id,$store->id);}
-        // dd($store_id);
         $data['store'] = Store::where('user_id',$user_id)->first();
         if($store_id != '')
         {
             $now = Carbon::now();
-            // dd($now->subWeek()->toDateTimeString());
-            $data['store'] = Store::where('id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->first();
-            $data['follower'] = Follower::where('store_id',$store_id)->where('status',1)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('hasuser')->get();
-            $data['blocked'] = Follower::where('store_id',$store_id)->where('status',0)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('hasuser')->get();
-            $data['promotions'] = Promotion::where('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->with('comments')->get();
-            $data['support'] = Support::where('store_id',$store_id)->where('created_at','>' ,$now->subWeek()->toDateTimeString())->get();
-            // dd($data);
+//            $data['store'] = Store::where('user_id',$user_id)->first();
+            $data['store'] = Store::where('id',$store_id)->where('created_at','>' ,$now->subMonth()->toDateTimeString())->first();
+            $data['follower'] = Follower::where('store_id',$store_id)->where('status',1)->where('created_at','>' ,$now->subMonth()->toDateTimeString())->with('hasuser')->get();
+            $data['blocked'] = Follower::where('store_id',$store_id)->where('status',0)->where('created_at','>' ,$now->subMonth()->toDateTimeString())->with('hasuser')->get();
+            $data['promotions'] = Promotion::where('store_id',$store_id)->where('created_at','>' ,$now->subMonth()->toDateTimeString())->with('comments')->get();
+            $data['support'] = Support::where('store_id',$store_id)->where('created_at','>' ,$now->subMonth()->toDateTimeString())->get();
+//             dd($data);
         }
+//         dd($data);
         return view('user.timeline',$data); 
     }
     

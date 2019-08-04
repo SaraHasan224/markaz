@@ -87,7 +87,9 @@
                                         <span class="m-nav__link-wrap">
                                             <span class="m-nav__link-text">My Profile</span>
                                             <span class="m-nav__link-badge">
-                                                <span class="m-badge m-badge--success"><?php echo e(count($stores)); ?></span>
+                                                <?php if($role == 'Store Admin'): ?>
+                                                    <span class="m-badge m-badge--success"><?php echo e(empty($stores) ? 0 : count($stores)); ?></span>
+                                                <?php endif; ?>
                                             </span>
                                         </span>
                                     </span>
@@ -100,12 +102,13 @@
                                         <span class="m-nav__link-wrap">
                                             <span class="m-nav__link-text">My Media</span>
                                             <span class="m-nav__link-badge">
-                                                <span class="m-badge m-badge--success"><?php echo e(count($media)); ?></span>
+                                                <span class="m-badge m-badge--success"><?php echo e(empty($media) ? 0 : count($media)); ?></span>
                                             </span>
                                         </span>
                                     </span>
                                 </a>
                             </li>
+                            <?php if($role == 'Admin'): ?>
                             <li class="m-nav__item">
                                 <a href="<?php echo e(url('logs')); ?>" class="m-nav__link">
                                     <i class="m-nav__link-icon flaticon-profile-1"></i>
@@ -113,12 +116,13 @@
                                         <span class="m-nav__link-wrap">
                                             <span class="m-nav__link-text">Recent Activities</span>
                                             <span class="m-nav__link-badge">
-                                                <span class="m-badge m-badge--success"><?php echo e(count($logs)); ?></span>
+                                                <span class="m-badge m-badge--success"><?php echo e(empty($logs) ? 0 : count($logs)); ?></span>
                                             </span>
                                         </span>
                                     </span>
                                 </a>
                             </li>
+                                <?php endif; ?>
                         </ul>
                         <div class="m-portlet__body-separator"></div>
                     </div>
@@ -190,8 +194,6 @@
             $('#store_id_modal').modal('show');
         }     
     });
-</script>
-<script>
     $('#profile').submit(function(event){	
             event.preventDefault();
             var formData = new FormData($('#profile')[0]);
@@ -205,15 +207,35 @@
                 {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: base_url+'/user_profile',
+                url: '<?php url('/') ?> '+'/user_profile',
     		    data: formData,
                 success: function (response) {
-                    $('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
-                    setTimeout(function() {
-                        window.location.reload(true);
-    			    }, 2000);
+					console.log(response);
+					if(response.success.code == 200)
+                    {
+						$('#result').append('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.success.message+'</div>');
+                    }else{
+						response.success.message.forEach(function (msg) {
+							// console.log(msg);
+							$('#delete_result').empty();
+							$('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
+						});
+                    }
+//                    setTimeout(function() {
+//                        window.location.reload(true);
+//    			    }, 2000);
                 },
+				error: function (response){
+                	console.log(response);
+                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                    $(window).scrollTop(0);
+                    response.responseJSON.messages.forEach(function (msg) {
+                        // console.log(msg);
+                        $('#delete_result').empty();
+                        $('#delete_result').append('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+msg+'.</div>')
+                    });
+                }
             });
         }); 
 </script>

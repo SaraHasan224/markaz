@@ -88,8 +88,7 @@
                                             <div class="m--bg-danger"></div>
                                         </div>
                                         <div class="m-timeline-1__item-arrow"></div>
-
-                                        <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($store->created_at,'d-M-Y')}} / {{DATE_FORMAT($store->created_at,'H:i A')}}</span>
+                                        <span class="m-timeline-1__item-time m--font-brand">@if(!empty($store) || $store != []) {{DATE_FORMAT($store->created_at,'d-M-Y')}} / {{DATE_FORMAT($store->created_at,'H:i A')}} @endif</span>
                                         <div class="m-timeline-1__item-content">
                                             <div class="media">
                                                 <img class="m--margin-right-20"
@@ -117,18 +116,21 @@
                                             <div class="m--bg-danger"></div>
                                         </div>
                                         <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">{{DATE_FORMAT($promotion->created_at,'d-M-Y')}} / {{DATE_FORMAT($promotion->created_at,'H:i A')}}</span>
+                                        span class="m-timeline-1__item-time m--font-brand">@if(!empty($promotion) || $promotion != []) {{ DATE_FORMAT($promotion->created_at,'d-M-Y')}} / {{DATE_FORMAT($promotion->created_at,'H:i A')}} @endif</span>
+                                        @if($promotion != [] || !empty($promotion))
                                         <div class="m-timeline-1__item-content">
                                             <div class="media">
                                                 <img class="m--margin-right-20"
                                                     src="{{asset('images/promotion')}}/{{$promotion->image}}" title="">
                                                 <div class="media-body">
-                                                    <p style="font-weight:450;">Promotion created against store {{$store->name}}<p> 
+                                                    <p style="font-weight:450;">Promotion created against store {{$store->name}}<p>
                                                     <div class="m-timeline-1__item-title m--margin-top-10  ">{{$promotion->title}}</div>
                                                     <div class="m-timeline-1__item-body">{{str_limit($promotion->description,100)}}</div>
                                                 </div>
+
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                     @endforeach
                                     @endif
@@ -185,7 +187,7 @@
                                                 </div>
                                                 <div class="m-timeline-1__item-body">
                                                     <div class="m-list-pics">
-                                                            <img src="{{asset('images/user')}}/{{$followed->hasuser->profile_pic}}" title="{{$followed->hasuser->name}}" class="img-circle">
+                                                            <img src="{{asset('images/user')}}/{{$followed->hasuser->profile_pic}}" title="{{$followed->hasuser->name}}" class="img-circle" style="width: 35px; border-radius: 100px;">
                                                     </div>
                                                 </div>
                                             </div>

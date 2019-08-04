@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categories,
+    App\EventLog,
     App\Promotion,
     App\Tags,
     App\PromotionCategories,
@@ -63,6 +64,13 @@ class CategoryController extends Controller
                         Image::make($img_tmp)->save($image_path);          
                     }         
                 }
+                EventLog::create([
+                    'component' => 'Category : '.$request->category,
+//                    'component_name' => ,
+                    'component_image' => $cat_image,
+                    'operation' => 'added',
+                    'user_id' => session()->get('user_id'),
+                ]);
                 $category = new Categories;
                 $category->title = $request->category;
                 $category->image = $cat_image;
@@ -79,14 +87,15 @@ class CategoryController extends Controller
             $input = $request->only('category','id','category_image','cat_image');
             $rules = [ 
                 'category' => 'required',
-                'category_image' => 'required'
             ];
             $validator = Validator::make($input, $rules);
             if ($validator->fails()) {
                 $code = 406;
                 $output = ['code' => $code, 'error' => $validator->messages()->all()];
-            }else{
+            }
+            else{
                 $image_path = '';
+                $cat_image = '';
                 if($request->hasFile('category_image'))
                 { 
                     $img_tmp = Input::file('category_image');
@@ -98,13 +107,26 @@ class CategoryController extends Controller
                         Image::make($img_tmp)->save($image_path);          
                     }         
                 }
-                Categories::where('id',$request->id)->update([
+                $category = Categories::where('id',$request->id)->first();
+                EventLog::create([
+                    'component' => 'Category : '.$category->title,
+                    'component_image' =>$category->image,
+                    'operation' => 'edited',
+                    'user_id' => session()->get('user_id'),
+                ]);
+                $category->update([
                     'title' => $request->category,
                     'image' => ($cat_image != '') ? $cat_image : $request->cat_image
                 ]);
+                EventLog::create([
+                    'component' => 'Category : '.$request->category,
+                    'component_image' => ($cat_image != '') ? $cat_image : $request->cat_image,
+                    'operation' => 'edited successfully',
+                    'user_id' => session()->get('user_id'),
+                ]);
+            }
                 $code = 200;
                 $output = ['code' => $code, 'success' => 'Category Edited Successfully'];
-            }
             return response()->json($output, $code);
         }
     }
@@ -118,7 +140,15 @@ class CategoryController extends Controller
                ];
             $validator = Validator::make($input, $rules);
 
-            Categories::where('id',$request->id)->delete();
+            $category = Categories::where('id',$request->id)->first();
+            EventLog::create([
+                'component' => 'Category : '.$category->title,
+//                    'component_name' => ,
+                'component_image' => $category->image,
+                'operation' => 'deleted',
+                'user_id' => session()->get('user_id'),
+            ]);
+            $category->delete();
             $code = 200;
             $output = ['success'=>['code' => $code,'message' => 'Category Deleted Successfully.']];
             return response()->json($output, $code);

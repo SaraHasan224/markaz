@@ -5,7 +5,7 @@
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Karachi',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'key' => 'base64:LdKVadZJAgoxQSlcDRD6lUzYyNidXYZQ9dZcQwRGLOY=',
@@ -367,12 +367,12 @@
     'port' => '2525',
     'from' => 
     array (
-      'address' => 'hello@example.com',
-      'name' => 'Example',
+      'address' => 'sarahasan224@gmail.com',
+      'name' => 'Markaz',
     ),
-    'encryption' => NULL,
-    'username' => NULL,
-    'password' => NULL,
+    'encryption' => '',
+    'username' => '0df399d869fd01',
+    'password' => '5002d5447a2bed',
     'sendmail' => '/usr/sbin/sendmail -bs',
     'markdown' => 
     array (
@@ -380,6 +380,15 @@
       'paths' => 
       array (
         0 => 'D:\\xampp\\htdocs\\markaz\\resources\\views/vendor/mail',
+      ),
+    ),
+    'stream' => 
+    array (
+      'ssl' => 
+      array (
+        'allow_self_signed' => true,
+        'verify_peer' => false,
+        'verify_peer_name' => false,
       ),
     ),
   ),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Event;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use DB,
@@ -10,6 +11,7 @@ use DB,
     App\Promotion,
     App\PromotionRating,
     App\Store,
+    App\Support,
     App\User;
 use App\TraitsFolder\CommonTrait;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
@@ -49,7 +51,7 @@ class LoginController extends Controller
                 if($user->role_id == 4){
                     $code = 200;
                     $output = ['code' => $code,'user'=>$user];
-                    event(new UserWasCreated($user->id));
+                    //event(new UserWasCreated($user->id));
                 }else{
                     $code = 400;
                     $output = ['error'=>['code' => $code,'message' => ['Invalid role']]];
@@ -98,19 +100,36 @@ class LoginController extends Controller
 
         $data['role'] = $user_role;
         $data['store_id'] = '';
-        
-        $data['follow_title'] = "Follower Statistics";
-        $data['views_heading'] = ($user_role == 'Admin') ? "Appication Downloads" : "Store Views";
-        $data['rate_heading'] = ($user_role == 'Admin') ? "System" : "Store";
-        $data['follower_head'] = ($user_role == 'Admin') ? "Stores" : "Followers";
+
+        $data['user_heading'] = "User Registrations";
+        $data['reports_heading'] = "Issue Reports";
+        $data['stores_heading'] = ($user_role == 'Admin') ? "Stores Registered" : "Follower Statistics";
+        $data['promotions_heading'] = "Promotions Posted";
+        $data['activity_heading'] =  ($user_role == 'Admin') ? "System Activities" : "Stores Views";
+        $data['revenue_head'] = "Revenue";
+
+        $data['user_tag'] = "User Registerations on portal";
+        $data['reports_tag'] = "Customer Support and issues";
+        $data['stores_tag'] = ($user_role == 'Admin') ? "Stores registered on portal" : "Users followed your stores on portal";
+        $data['promotions_tag'] = ($user_role == 'Admin') ?  "Overall promotions posted on portal" : "Promotions posted on portal";
+        $data['activity_tag'] = ($user_role == 'Admin') ? "Summarized system logs" : "Statistics of user views on your stores";
+        $data['revenue_tag'] = "Overall Revenue Earned";
+        $data['head'] = ($user_role == 'Admin') ? "New Stores" : "New Followers";
+        $data['user_stats'] =  User::where('role_id',4)->count();
         if($user_role == "Store Admin")
         {
             $stores = Store::where('user_id',$user_id)->get();
-            if(!empty($store))
-            {
+//            if(!empty($store))
+//            {
                 $store_id = []; $store_views = [];
                 foreach($stores as  $store){array_push($store_id,$store->id);array_push($store_views,$store->views);}
-    
+                $data['stores_stats'] = Follower::whereIn('store_id',$store_id)->count();
+                $data['promotions_stats'] =  Promotion::whereIn('store_id',$store_id)->count();
+                $report = Support::whereIn('store_id',$store_id)->count();
+                $data['reports_stats'] =  (empty($report)) ? 0 : $report;
+                $data['revenue_stats'] = Promotion::whereIn('store_id',$store_id)->sum('total');
+                $data['activity_stats'] = array_sum($store_views);
+
                 $followed = Follower::whereIn('store_id',$store_id)->where('status',1)->with('hasuser')->get();
                 $users = User::where('role_id',4)->get();
                 $data['follow_stats'] = count($followed)/count($users)*100;
@@ -127,51 +146,57 @@ class LoginController extends Controller
                     array_push($promotion_id,$rate->promotion_id); 
                     array_push($rating,$rate->rating); 
                 }
-                $average_rating = array_sum($rating)/count($rating);
-                $data['promotion_stats'] = $average_rating/count($promotion_id);
-                $data['follow_stats'] = count($users);
-                $data['follow_statistics'] = count($followed)/count($users)*100;
-                $data['recent_promotions'] = $promotion;
-                $data['follower_data'] = $followed;
-                $data['store_views'] = array_sum($store_views);
-            }else{
-                $data['promotion_stats'] = 0
-                ;
-                $data['follow_stats'] = 0;
-                $data['follow_statistics'] = 0;
-                $data['recent_promotions'] = [];
-                $data['follower_data'] = [];
-                $data['store_views'] = 0;
-            }
+//                $average_rating = array_sum($rating)/count($rating);
+//                $data['promotion_stats'] = $average_rating/count($promotion_id);
+//                $data['follow_statistics'] = count($followed)/count($users)*100;
+//                $data['recent_promotions'] = $promotion;
+//                $data['follower_data'] = $followed;
+//            }
+//            else{
+//                $data['promotion_stats'] = 0;
+//                $data['follow_stats'] = 0;
+//                $data['follow_statistics'] = 0;
+//                $data['recent_promotions'] = [];
+//                $data['follower_data'] = [];
+//                $data['store_views'] = 0;
+//
+//
+//                $data['reports_stats'] =  (empty($report)) ? 0 : $report;
+//            }
+
             
         }
         else if($user_role == 'Admin')
         {
-            $followed = Follower::where('status',1)->get();
-            $users = User::where('role_id',4)->get();
-            $data['follow_stats'] = count($followed)/count($users)*100;
-
-            //Promotion Ratings
-            $pro_rate = DB::table('promotion_rating')->groupBy('promotion_id')
-                        ->selectRaw('avg(rating) as rating, promotion_id')
-                        ->get();
-            $promotion_id = []; $rating = [];
-            foreach($pro_rate as $rate){ 
-                array_push($promotion_id,$rate->promotion_id); 
-                array_push($rating,$rate->rating); 
-            }
-            $average_rating = array_sum($rating)/count($rating);
-            $data['promotion_stats'] = $average_rating/count($promotion_id);
-            $data['follow_stats'] = count($users);
-            $data['follow_statistics'] = count($followed)/count($users)*100;
+            $data['stores_stats'] =  Store::count();
+            $data['promotions_stats'] =  Promotion::count();
+            $data['reports_stats'] =  Support::count();
+            $data['revenue_stats'] = Promotion::sum('total');
+            $data['activity_stats'] = EventLog::count();
             $data['recent_promotions']  =  Promotion::orderBy('id','DESC')->limit(10)->get();
-
             $stores = Store::orderBy('id','DESC')->get();
             $data['follower_data'] = $stores;
 
-            $store_views = [];
-            foreach($stores as  $store){array_push($store_views,$store->views);}
-            $data['store_views'] = array_sum($store_views);
+//            $followed = Follower::where('status',1)->get();
+//            $users = User::where('role_id',4)->get();
+//            $data['follow_stats'] = count($followed)/count($users)*100;
+//
+//            //Promotion Ratings
+//            $pro_rate = DB::table('promotion_rating')->groupBy('promotion_id')
+//                        ->selectRaw('avg(rating) as rating, promotion_id')
+//                        ->get();
+//            $promotion_id = []; $rating = [];
+//            foreach($pro_rate as $rate){
+//                array_push($promotion_id,$rate->promotion_id);
+//                array_push($rating,$rate->rating);
+//            }
+//            $average_rating = array_sum($rating)/count($rating);
+//            $data['promotion_stats'] = $average_rating/count($promotion_id);
+//            $data['follow_stats'] = count($users);
+//            $data['follow_statistics'] = count($followed)/count($users)*100;
+//            $store_views = [];
+//            foreach($stores as  $store){array_push($store_views,$store->views);}
+//            $data['store_views'] = array_sum($store_views);
         }
         return view('index',$data);
     } 
@@ -195,10 +220,10 @@ class LoginController extends Controller
                 $request->session()->put('user_id', $user->id);
                 $request->session()->save();
                 EventLog::create([
-                    'component' => 'Users',
-                    'component_name' => $user->name,
+                    'component' => 'User : '.$user->name,
+//                    'component_name' => ,
                     'component_image' => $user->profile_pic,
-                    'operation' => 'Logged In',
+                    'operation' => 'logged in',
                     'user_id'   =>$user->id,
                 ]);
                 $output = ['code' => $code,'user'=>$user];
