@@ -145,3 +145,8 @@ use Illuminate\Http\Request;
       'uses'=>'PromotionController@getNewPromotions',
       'middleware'=>'auth.jwt'
     ]);
+
+    Route::post('/notify-users',[
+         'uses'=> 'PromotionController@sendNotification',
+         'middleware'=>'auth.jwt'
+    ]);

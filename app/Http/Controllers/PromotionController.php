@@ -22,6 +22,7 @@ use App\Data\Repositories\PromotionMediaRepository;
 use Illuminate\Support\Facades\Input;
 use Validator,Illuminate\Validation\Rule, DB,Image, Storage, Carbon\Carbon;
 use App\Events\PromotionWasCreated;
+use App\Events\UserWasNotified;
 
 class PromotionController extends Controller
 {
@@ -257,4 +258,36 @@ class PromotionController extends Controller
         $output = $this->_repository->getNewPromotion();
         return response()->json($output, $code);
 }
+
+    public function sendNotification(Request $request){
+        $input = $request->only('lat', 'long','user_id');
+        // $promotions = Promotion::all();
+        // foreach($promotions as $promotion){
+           $send =  DB::select('SELECT
+            id as id_l,location,latitude, longitude, ((
+                6371 * acos (
+                cos ( radians(latitude) )
+                * cos( radians('.$input['lat'].') )
+                * cos( radians( '.$input['long'].') - radians(longitude) )
+                + sin ( radians(latitude) )
+                * sin( radians( '.$input['lat'].'  ) )
+              )
+            ) * 1000) AS distance
+          FROM promotions
+          HAVING distance < (SELECT radius from promotions WHERE promotions.id = id_l)
+          ORDER BY distance');
+
+          if(count($send)>0){
+            $user = User::where('id',$input['user_id'])->first();
+            $notification_data['user'] = $user ;
+            $notification_data['promotion']=$send;
+            event(new UserWasNotified($notification_data));
+          }
+
+        
+          dump($send);
+     
+    
+        return response()->json(200);
+    }
 }
