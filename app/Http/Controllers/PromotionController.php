@@ -13,6 +13,7 @@ use App\Categories,
     App\PromotionMedia,
     App\PromotionTags,
     App\Store,
+    App\DeviceToken,
     App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -22,6 +23,7 @@ use App\Data\Repositories\PromotionMediaRepository;
 use Illuminate\Support\Facades\Input;
 use Validator,Illuminate\Validation\Rule, DB,Image, Storage, Carbon\Carbon;
 use App\Events\PromotionWasCreated;
+use App\Events\UserWasNotified;
 
 class PromotionController extends Controller
 {
@@ -262,6 +264,45 @@ class PromotionController extends Controller
         $output = $this->_repository->getNewPromotion();
         return response()->json($output, $code);
 
+
         
-   }
+
+}
+
+    public function sendNotification(Request $request){
+        $input = $request->only('lat', 'long','user_id');
+        $send =  DB::select('SELECT
+            id as id_l,location,latitude, longitude,store_id, ((
+                6371 * acos (
+                cos ( radians(latitude) )
+                * cos( radians('.$input['lat'].') )
+                * cos( radians( '.$input['long'].') - radians(longitude) )
+                + sin ( radians(latitude) )
+                * sin( radians( '.$input['lat'].'  ) )
+              )
+            ) * 1000) AS distance
+          FROM promotions
+          HAVING distance < (SELECT radius from promotions WHERE promotions.id = id_l)
+          ORDER BY distance');
+
+          if(count($send)>0){
+              foreach($send as $promotion){
+                $user = User::where('id',$input['user_id'])->first();
+                $token = DeviceToken::where('user_id',$user->id)->first();
+                $store = Store::where('id',$promotion->store_id)->first();
+                $promotion_data = Promotion::where('id',$promotion->id_l)->first();
+                $notification_data['user'] = $user ;
+                $notification_data['promotion']=$promotion_data;
+                $notification_data['access_token']= $token;
+                $notification_data['store'] = $store;
+                event(new UserWasNotified($notification_data));
+              }
+        
+          }
+
+        
+         
+        return response()->json(200);
+    }
+
 }

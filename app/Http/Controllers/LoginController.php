@@ -51,7 +51,6 @@ class LoginController extends Controller
                 if($user->role_id == 4){
                     $code = 200;
                     $output = ['code' => $code,'user'=>$user];
-                    //event(new UserWasCreated($user->id));
                 }else{
                     $code = 400;
                     $output = ['error'=>['code' => $code,'message' => ['Invalid role']]];

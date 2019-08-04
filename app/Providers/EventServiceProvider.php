@@ -24,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PromotionWasCreated' => [
             'App\Listeners\PromotionWasCreatedSuccessfully',
         ],
+
+        'App\Events\UserWasNotified' => [
+            'App\Listeners\UserWasNotifiedSuccessfully',
+        ],
     ];
 
     /**
