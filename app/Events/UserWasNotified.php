@@ -17,6 +17,8 @@ class UserWasNotified extends Event implements ShouldBroadcast
 
     public $user;
     public $promotion;
+    public $access_token;
+    public $store;
 
     /**
      * Create a new event instance.
@@ -27,6 +29,8 @@ class UserWasNotified extends Event implements ShouldBroadcast
     {
          $this->user = $data['user'];
          $this->promotion = $data['promotion'];
+         $this->access_token = $data['access_token'];
+         $this->store = $data['store'];
         
     }
 

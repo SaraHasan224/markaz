@@ -13,6 +13,7 @@ use App\Categories,
     App\PromotionMedia,
     App\PromotionTags,
     App\Store,
+    App\DeviceToken,
     App\User;
 use Tymon\JWTAuth\Exceptions\JWTExceptions;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -261,10 +262,8 @@ class PromotionController extends Controller
 
     public function sendNotification(Request $request){
         $input = $request->only('lat', 'long','user_id');
-        // $promotions = Promotion::all();
-        // foreach($promotions as $promotion){
-           $send =  DB::select('SELECT
-            id as id_l,location,latitude, longitude, ((
+        $send =  DB::select('SELECT
+            id as id_l,location,latitude, longitude,store_id, ((
                 6371 * acos (
                 cos ( radians(latitude) )
                 * cos( radians('.$input['lat'].') )
@@ -278,16 +277,22 @@ class PromotionController extends Controller
           ORDER BY distance');
 
           if(count($send)>0){
-            $user = User::where('id',$input['user_id'])->first();
-            $notification_data['user'] = $user ;
-            $notification_data['promotion']=$send;
-            event(new UserWasNotified($notification_data));
+              foreach($send as $promotion){
+                $user = User::where('id',$input['user_id'])->first();
+                $token = DeviceToken::where('user_id',$user->id)->first();
+                $store = Store::where('id',$promotion->store_id)->first();
+                $promotion_data = Promotion::where('id',$promotion->id_l)->first();
+                $notification_data['user'] = $user ;
+                $notification_data['promotion']=$promotion_data;
+                $notification_data['access_token']= $token;
+                $notification_data['store'] = $store;
+                event(new UserWasNotified($notification_data));
+              }
+        
           }
 
         
-          dump($send);
-     
-    
+         
         return response()->json(200);
     }
 }
