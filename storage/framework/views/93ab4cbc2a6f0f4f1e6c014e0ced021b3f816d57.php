@@ -138,26 +138,53 @@
 <script src="<?php echo e(asset('assets/admin/js/jquery.dataTables.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/admin/js/dataTables.bootstrap.min.js')); ?>"></script>
     <script>
-        $(function () {
-            $('#view_promotions').DataTable({
-                "processing":     true,
-                "serverSide":     true,
-				"ajax"      : '<?php echo e(url("get-promotions")); ?>/<?php echo e($store_id); ?>',
-                "columns"   : [
-                    { data: 'id',searchable: false, orderable: true  },
-                    { data: 'title' },
-                    { data: 'start_time' },
-                    { data: 'radius' },
-                   // { data: 'location' },
-                    { data: 'store_id' },
-                    { data: 'image' },
-					{ data: 'ratings' },
-					{ data: 'payment_status' },
-					{ data: 'created_at' },
-                    { data: 'actions', searchable: false, orderable: false },
-                ]
-            });
-        });
+		var role = '<?php echo e($role); ?>';
+		console.log(role);
+		if(role == 'Store Admin')
+		{
+				$(function () {
+					$('#view_promotions').DataTable({
+						"processing":     true,
+						"serverSide":     true,
+						"ajax"      : '<?php echo e(url("get-promotions")); ?>/<?php echo e($logged_user->id); ?>',
+						"columns"   : [
+							{ data: 'id',searchable: false, orderable: true  },
+							{ data: 'title' },
+							{ data: 'start_time' },
+							{ data: 'radius' },
+							// { data: 'location' },
+							{ data: 'store_id' },
+							{ data: 'image' },
+							{ data: 'ratings' },
+							{ data: 'payment_status' },
+							{ data: 'created_at' },
+							{ data: 'actions', searchable: false, orderable: false },
+						]
+					});
+				});
+		}else{
+
+			$(function () {
+				$('#view_promotions').DataTable({
+					"processing":     true,
+					"serverSide":     true,
+					"ajax"      : '<?php echo e(url("get-promotions")); ?>',
+					"columns"   : [
+						{ data: 'id',searchable: false, orderable: true  },
+						{ data: 'title' },
+						{ data: 'start_time' },
+						{ data: 'radius' },
+						// { data: 'location' },
+						{ data: 'store_id' },
+						{ data: 'image' },
+						{ data: 'ratings' },
+						{ data: 'payment_status' },
+						{ data: 'created_at' },
+						{ data: 'actions', searchable: false, orderable: false },
+					]
+				});
+			});
+		}
     </script>
     
     <script>

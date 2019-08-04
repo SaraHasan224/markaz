@@ -585,7 +585,7 @@
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">My Store</span></a>
                         </li>
-                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('promotions')); ?>" 
+                        <li class="m-menu__item " aria-haspopup="true" m-menu-link-redirect="1"><a href="<?php echo e(url('promotions')); ?>/<?php echo e($logged_user->id); ?>"
                                     class="m-menu__link "><span class="m-menu__item-here"></span><i
                                     class="m-menu__link-icon flaticon-open-box"></i><span
                                     class="m-menu__link-text">Manage Promotions</span></a>

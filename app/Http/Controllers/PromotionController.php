@@ -245,11 +245,10 @@ class PromotionController extends Controller
 
 
     public function viewpromotions($id = ''){
-        $promotion_categories = PromotionCategories::where('promotion_id',$id)->get();
-        $promotion_tags = PromotionTags::where('promotion_id',$id)->get();
         $promotion = Promotion::where('id',$id)->first();
+        $promotion_tags = Tags::where('id',$promotion->tag_id)->first();
         $code = 200;
-        $output = ['success'=>['code' => $code,'promotion_categories' => $promotion_categories,'promotion_tags' => $promotion_tags,'promotion'=>$promotion ]];
+        $output = ['success'=>['code' => $code,'promotion_tags' => $promotion_tags,'promotion'=>$promotion ]];
         return response()->json($output, $code);
     }
 

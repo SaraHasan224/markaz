@@ -154,7 +154,7 @@
                                 <div class="col-lg-6">
                                     <label>Store Name:</label>
                                     <input type="text" name="name" class="form-control m-input" placeholder="Enter store name">
-                                    <span class="m-form__help">Enter your store name</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Enter your store name</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Category:</label>
@@ -163,19 +163,19 @@
 											<option value="{{$category->id}}">{{$category->title}}</option>
                                         @endforeach
 									</select>
-                                    <span class="m-form__help">Enter your store name</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Enter your store category</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('website') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Website Link:</label>
                                     <input type="text" name="website" class="form-control m-input" placeholder="Enter website link">
-                                    <span class="m-form__help">Enter your website</span>
+                                    <span class="m-form__help" style=" font-style: italic">Enter your website</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Tagline:</label>
                                     <input type="text" name="tagline" class="form-control m-input" placeholder="Enter website tagline">
-                                    <span class="m-form__help">Enter your store tagline</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Enter your store tagline</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }} m-form__group row">
@@ -184,38 +184,38 @@
                                     <div class="m-input-icon m-input-icon--right">
                                         <input type="file" name="image" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
-                                    <span class="m-form__help">Select a logo</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Select a logo</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Cover:</label>
                                     <div class="m-input-icon m-input-icon--right">
                                         <input type="file" name="cover" class="form-control m-input" accept="image/png, image/jpeg, image/jpg, image/pneg">
                                     </div>
-                                    <span class="m-form__help">Select a cover</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Select a cover</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label>Store Description:</label>
                                     <textarea name="description" class="form-control m-input" placeholder="Enter description" rows="4" cols="50"></textarea>
-                                    <span class="m-form__help">Enter your store description</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Enter your store description</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Email:</label>
                                     <textarea name="contact_email" class="form-control m-input" cols="50" rows="5"></textarea>
-                                    <span class="m-form__help">Enter your store contact email</span>
+                                    <span class="m-form__help" style="font-style: italic">Enter your store contact email</span>
                                 </div>
                             </div>
                             <div class="form-group{{ $errors->has('contact_number') ? ' has-error' : '' }} m-form__group row">
                                 <div class="col-lg-6">
                                     <label class="">Store Contact Number:</label>
                                     <textarea name="contact_number" class="form-control m-input" cols="50" rows="5"></textarea>
-                                    <span class="m-form__help">Enter your store contact number</span>
+                                    <span style="color: red">* </span><span class="m-form__help" style="color: red; font-style: italic">Enter your store contact number</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Store Facebook Link:</label>
                                     <input type="text" name="fb_link" class="form-control m-input" placeholder="Enter facebook link">
-                                    <span class="m-form__help">Enter your facebook link</span>
+                                    <span class="m-form__help" style="font-style: italic">Enter your facebook link</span>
                                 </div>
                             </div>
 
@@ -225,13 +225,13 @@
                                 <div class="col-lg-6">
                                     <label>Store Instagram Link:</label>
                                     <input type="text" name="insta_link" class="form-control m-input" placeholder="Enter instagram link">
-                                    <span class="m-form__help">Enter your instagram link</span>
+                                    <span class="m-form__help" style="font-style: italic">Enter your instagram link</span>
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="">Store Twitter Link:</label>
                                     <input type="text" name="tw_link" class="form-control m-input"
                                         placeholder="Enter store  twitter link">
-                                    <span class="m-form__help">Enter your store twitter link</span>
+                                    <span class="m-form__help" style="font-style: italic">Enter your store twitter link</span>
                                 </div>
                             </div>
                             <div class="form-group m-form__group row">

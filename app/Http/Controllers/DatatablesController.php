@@ -90,7 +90,7 @@ class DatatablesController extends Controller
         })->editColumn('ratings', function ($store) {
             $rating = DB::table('store_rating')->where('store_id',$store->id)->avg('rating');
                 $rating = (!empty($rating)) ? $rating : 0;
-            return($rating." / 5 stars");
+            return(number_format($rating,2)." / 5 stars");
         })->editColumn('status', function ($store) {
             if($store->status == 1)
             {
@@ -139,13 +139,15 @@ class DatatablesController extends Controller
         })->rawColumns(['tagline','created_at','ratings','actions','status'])->make();
     }
     public function getpromotions($store_id = '')
-    { 
+    {
         $role =  session()->get('role_name');
-        if($store_id == '')
+        if($role == 'Admin')
         {
             $getPromotions = Promotion::select('id','title','description','start_time','end_time','location','radius','payment_status','longitude','latitude','image','store_id','created_at')->with('hasstore');
         }else{
-            $getPromotions = Promotion::where('store_id',$store_id)->select('id','title','radius','payment_status','description','start_time','end_time','location','longitude','latitude','image','store_id','created_at')->with('hasstore');
+            $stores = Store::where('user_id',$store_id)->get();$store_id = [];
+            foreach($stores as  $store){array_push($store_id,$store->id);}
+            $getPromotions = Promotion::whereIn('store_id',$store_id)->select('id','title','radius','payment_status','description','start_time','end_time','location','longitude','latitude','image','store_id','created_at')->with('hasstore');
         }
 
         return Datatables::of($getPromotions)

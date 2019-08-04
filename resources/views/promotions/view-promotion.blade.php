@@ -192,11 +192,11 @@
 								<!--end:: Widgets/Support Tickets -->
                             @endif
                             <!--begin::Form-->
-                            <form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" method="POST">
+                            <!--<form class="m-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed" method="POST">
                                 <div class="m-portlet__body">
-                                    <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }} m-form__group row">
-                                       
-                                        
+                                    <div class="form-group m-form__group row">
+
+
                                         <div class="col-lg-12">
                                             <label class="">Promotion Media:</label>
                                             <div class="col-lg-12">
@@ -225,7 +225,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form>-->
 
                             <!--end::Form-->
                         </div>
@@ -235,7 +235,7 @@
                                 id="promotion_details" method="POST">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group row">
-                                        <div class="col-lg-12" id="delete_result"></div>  
+                                        <div class="col-lg-12 delete_result"></div>
                                     </div> 
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-6">
@@ -280,6 +280,9 @@
                                             <div class="col-xl-9 col-lg-9">
                                                 <input type="file" name="images"/>
                                             </div>
+                                            <div class="col-xl-9 col-lg-9" style="margin-top: 50px">
+                                                <img id="pro_image" src=""/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -305,7 +308,7 @@
                                 id="promotion_location" action="{{url('poststore')}}" method="POST">
                                 <div class="m-portlet__body">
                                     <div class="form-group m-form__group row">
-                                        <div class="col-lg-12" id="delete_result"></div>  
+                                        <div class="col-lg-12 delete_result"></div>
                                     </div>    
                                     <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-form__group row">
                                         <div class="col-lg-12"> 
@@ -437,26 +440,14 @@
     		success: function (response) {
                 // console.log(response.success.promotion.start_time);
                 $('#m_daterangepicker_4 input').val(response.success.promotion.start_time+' / '+response.success.promotion.end_time);
-                $('#description').text(response.success.promotion.description);
+				$('#description').text(response.success.promotion.description);
+				$('#pro_image').attr("src","<?php url() ?>/images/promotion/"+response.success.promotion.image);
 
-                var cat_name = new Array();
-                response.success.promotion_categories.forEach(function (cat) {
-                    cat_name.push(cat.title);
-                });
-                if(cat_name.length > 0)
-                {
-                        // console.log(cat_name);          
-                    $('#category').nextAll('button').first().html(cat_name); 
-                    $('#category').nextAll('button').first().attr('style','vertical-align:left; display: grid;'); 
-                    $('#category').nextAll('button').first().attr('title',cat_name);   
-                    // $("#category option[value='"+cat_name+"]'").attr('selected','selected');
-                    $('#category').val(cat_name); 
-                }
 
                 var tag_name = new Array();
-                response.success.promotion_tags.forEach(function (cat) {
-                    tag_name.push(cat.title);
-                });
+//                response.success.promotion_tags.forEach(function (cat) {
+                    tag_name.push(response.success.promotion_tags.title);
+//                });
                 if(tag_name.length > 0)
                 {
                     $('#tags').nextAll('button').first().html(tag_name); 
@@ -584,8 +575,11 @@
     		url: base_url+'/promotion/edit/'+id,
     		data: $("#promotion_location").serialize(),
     		success: function (response) {
-                    console.log(response);
-                    $(this).find('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.promotion+'.</div>')
+//                    console.log(response);
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+				$(window).scrollTop(0);
+//				 alert(response.promotion);
+                    $('.delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.promotion+'.</div>')
             }
     	});
     });
@@ -601,8 +595,10 @@
     		url: base_url+'/promotion/edit/'+id,
     		data: $("#promotion_details").serialize(),
     		success: function (response) {
-                    console.log(response);
-                    $(this).find('#delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.promotion+'.</div>')
+//                    console.log(response);
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+				$(window).scrollTop(0);
+                    $('.delete_result').append('<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="flaticon-danger"></i><button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>'+response.promotion+'.</div>')
             }
     	});
     });
