@@ -30,4 +30,9 @@ class Promotion extends Model
     {
         return $this->hasOne(PromotionComment::class, 'promotion_id');
     }
+    //  Comments
+    public function ratings()
+    {
+        return $this->hasMany(PromotionRating::class, 'promotion_id');
+    }
 }

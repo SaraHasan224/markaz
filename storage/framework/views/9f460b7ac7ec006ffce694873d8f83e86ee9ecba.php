@@ -271,8 +271,17 @@
                                                 <br>
                                                 <span class="m-widget5__sales">views</span>
                                             </div> -->
+                                            <?php 
+                                                   $rating = 0;
+                                                   $count = 0;
+                                                    foreach($pro->ratings as $rate){
+                                                        $rating += $rate->rating;
+                                                        $count++;
+                                                    }
+                                                    $rate = $rating/$count;
+                                             ?>
                                             <div class="m-widget5__stats2">
-                                                <span class="m-widget5__number">4.5</span>
+                                                <span class="m-widget5__number"><?php echo e(number_format($rate,2)); ?></span>
                                                 <br>
                                                 <span class="m-widget5__votes">ratings</span>
                                             </div>

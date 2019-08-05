@@ -120,6 +120,7 @@ class LoginController extends Controller
             $stores = Store::where('user_id',$user_id)->get();
 //            if(!empty($store))
 //            {
+//            dd($stores);
                 $store_id = []; $store_views = [];
                 foreach($stores as  $store){array_push($store_id,$store->id);array_push($store_views,$store->views);}
                 $data['stores_stats'] = Follower::whereIn('store_id',$store_id)->count();
@@ -133,7 +134,7 @@ class LoginController extends Controller
                 $users = User::where('role_id',4)->get();
                 $data['follow_stats'] = count($followed)/count($users)*100;
     
-                $promotion =  Promotion::orderBy('id','DESC')->whereIn('store_id',$store_id)->get();
+                $promotion =  Promotion::orderBy('id','DESC')->whereIn('store_id',$store_id)->with('ratings')->get();
                 $promotion_id = [];
                 foreach($promotion as $pro){
                     array_push($promotion_id,$pro->id);   
@@ -148,8 +149,8 @@ class LoginController extends Controller
 //                $average_rating = array_sum($rating)/count($rating);
 //                $data['promotion_stats'] = $average_rating/count($promotion_id);
 //                $data['follow_statistics'] = count($followed)/count($users)*100;
-//                $data['recent_promotions'] = $promotion;
-//                $data['follower_data'] = $followed;
+                $data['recent_promotions'] = $promotion;
+                $data['follower_data'] = $followed;
 //            }
 //            else{
 //                $data['promotion_stats'] = 0;
